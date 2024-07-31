@@ -100,9 +100,12 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         let training_load = []
                         let microcycle_goal = ""
                         let objectives = []
+                        let objective_1 = ''
+                        let objective_2 = ''
                         let hasVideo = false
                         let isCurrentDate = false
                         let isFilled = true
+                        let exercise_shorts = ''
 
                         if(moment().startOf('day').isSame(only_date)) isCurrentDate = true
                         newMicrocycle.forEach(function(microcycle, i) {
@@ -135,9 +138,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             if(('exercises_info' in event.training && event.training.exercises_info.length == 0) || ('protocol_info' in event.training && event.training.protocol_info.length == 0)) isFilled = false
 
                             hasVideo = event.training.video_href != '' && event.training.video_href != null
-                            for (const block of event.training.blocks){
-                                training_block.push(block.block.id)
-                            }
+                            // for (const block of event.training.blocks){
+                            //     training_block.push(block.block.id)
+                            // }
                             if (event.training.load){
                                 training_load.push(event.training.load)
                             }
@@ -178,6 +181,11 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 `
                                 for (const objective of merged_event.training.objectives) {
                                     objectives.push(objective.objective.id)
+                                }
+                                if(('exercises_info' in merged_event.training && merged_event.training.exercises_info.length != 0)){
+                                    for (const exercises_info of merged_event.training.exercises_info) {
+                                        exercise_shorts += exercises_info.exercise_data.folder.id + ','
+                                    }
                                 }
 
                                 let duration = 0
@@ -306,7 +314,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             td_html += `
                                 
                                 <td>${event['only_date']}</td>
-                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-warning" : "btn-warning"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
+                                <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-warning" : "btn-success"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
                                 <td colspan="5" class="bg-light text-dark" >${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
                         } else {
@@ -320,7 +328,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
 
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${training_block}" data-goal="${microcycle_goal}" data-load="${training_load}" data-objective_1="${objectives}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${exercise_shorts}" data-load="${training_load}" data-objective_1="${objectives}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
 

@@ -11,21 +11,27 @@ from video.models import Video
 
 
 class AdminFolderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = AdminFolder
         fields = '__all__'
 
 
 class UserFolderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = UserFolder
-        fields = ['short_name', 'name']
+        fields = ['id', 'short_name', 'name']
 
 
 class ClubFolderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = ClubFolder
-        fields = ['short_name', 'name']
+        fields = ['id', 'short_name', 'name']
 
 
 class AdminExerciseSerializer(serializers.ModelSerializer):

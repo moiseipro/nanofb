@@ -193,3 +193,16 @@ button.event-select.selected{
     border-color: #b1cde1;
     color: black;
 }
+
+.rescalendar-blocks-cells td:hover {
+    cursor: pointer;
+}
+
+.rescalendar-blocks-cells .block_cell:hover {
+    background-color: rgb(233, 243, 255);
+}
+
+.rescalendar-blocks-cells .block_cell.selected {
+    background-color: lightblue;
+    border: 2px solid black;
+}

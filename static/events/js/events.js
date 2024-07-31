@@ -822,6 +822,16 @@ $(window).on('load', function (){
     $('.select-filter-events').on('change', function () {
         local_filters_events()
     })
+    $('#blocks-folder-row').on('click', '.block_cell', function () {
+        if ($(this).hasClass('selected')) $(this).removeClass('selected')
+        else $(this).addClass('selected')
+        local_filters_events()
+    })
+    //Сброс фильтрации блоков
+    $('#blocks-folder-row').on('click', '.block-filter-clear', function () {
+        $('#blocks-folder-row .block_cell.selected').removeClass('selected')
+        local_filters_events()
+    })
     //Сброс всей фильтрации
     $('#clear-events-filters').on('click', function () {
         clear_filters_events()
@@ -971,6 +981,7 @@ $(window).on('load', function (){
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
     create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#training-mcd-filter'), gettext('Type of training'), '/trainings/amd_list', $(document.body), false, true, -1)
 
 
     //create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
@@ -1012,7 +1023,7 @@ function clear_microcycle_form(){
 
 function local_filters_events() {
     let name_val = $('#microcycle-name-filter').val() ? $('#microcycle-name-filter').val() : ''
-    let block_val = $('#training-block-filter').val() ? $('#training-block-filter').val() : ''
+    //let block_val = $('#training-block-filter').val() ? $('#training-block-filter').val() : ''
     let days_val = $('#microcycle-days-filter').val() ? $('#microcycle-days-filter').val() : ''
     let day_val = $('#microcycle-day-filter').val() ? $('#microcycle-day-filter').val() : ''
     let filled_val = $('#filled-event-filter').attr('data-filter') ? $('#filled-event-filter').attr('data-filter') : 0
@@ -1020,6 +1031,11 @@ function local_filters_events() {
     let video_val = $('#video-event-filter').attr('data-filter') ? $('#video-event-filter').attr('data-filter') : 0
     let objective_1_val = $('#objective_1-event-view').val() ? $('#objective_1-event-view').val() : ''
     let load_val = $('#training-load-filter').val() ? $('#training-load-filter').val() : ''
+    let block_arr = []
+    $('#blocks-folder-row .block_cell.selected').each(function (index ) {
+        block_arr.push($(this).attr('data-id'))
+    })
+
     // let objective_2_val = $('#objective_2-event-view').val() ? $('#objective_2-event-view').val() : ''
     // let objective_3_val = $('#objective_3-event-view').val() ? $('#objective_3-event-view').val() : ''
     //let objective_block = $('#objective_1-block-filter').val() ? $('#objective_1-block-filter').val(): ''
@@ -1031,7 +1047,7 @@ function local_filters_events() {
     let send_data = []
     send_data.push({name: 'mc', value: name_val})
     send_data.push({name: 'load', value: load_val})
-    send_data.push({name: 'block', value: block_val})
+    //send_data.push({name: 'block', value: block_val})
     send_data.push({name: 'objective', value: objective_1_val})
     ajax_event_request("GET", send_data, 'filter', '', '/events/filter_counter').then(function( data ) {
         console.log(data)
@@ -1051,8 +1067,9 @@ function local_filters_events() {
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)
         let data_block = this_obj.attr('data-block').split(',')
-        //console.log(block_val + " : " + data_block)
-        return block_val!='' && !contains(data_block, block_val);
+        console.log(block_arr)
+        console.log(data_block)
+        return block_arr.length != 0 && !contains(data_block, block_arr);
     }).hide()
     $('#events tbody tr').filter(function( index ) {
         let this_obj = $(this)

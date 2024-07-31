@@ -118,6 +118,13 @@
                             </tbody>
                         </table>
                     </div>
+                    <div id="blocks-folder-row" class="row mt-2">
+                        <table class="table table-sm text-center calendar-part" style="width: auto">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                     {% include 'trainings/training_card.html' %}
                     <div id="filters-row" class="row pt-1 d-none">
                         <div class="col-12 pb-1" style="border-bottom: 2px solid black">
@@ -178,15 +185,19 @@
                     <div id="events-content" class="row border-top mt-1">
                         <div class="col-4">
                             <div id="table-row-filters" class="row mc-function">
-                                <div class="col-4 mt-1 pl-0 pr-1">
-                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
+                                <div class="col-6 mt-1 pl-0 pr-1">
+                                    <select id="training-mcd-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Training type' %}"></select>
                                 </div>
-                                <div class="col-4 mt-1 px-1">
-                                    <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
-                                </div>
-                                <div class="col-4 mt-1 px-1">
+                                <div class="col-6 mt-1 pl-0 pr-1">
                                     <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>
                                 </div>
+                                <div class="col-6 mt-1 pl-0 pr-1">
+                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
+                                </div>
+                                <div class="col-6 mt-1 pl-0 pr-1">
+                                    <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
+                                </div>
+
 
                             </div>
                             <div class="row">
@@ -270,6 +281,7 @@
     <script src="{% static 'trainings/js/action_training.js' %}"></script>
     <script src="{% static 'trainings/js/training_card.js' %}"></script>
     <script src="{% static 'trainings/js/print_training.js' %}"></script>
+    <script src="{% static 'events/js/blocks_folder_filter.js' %}"></script>
     <script src="{% static 'events/ResCalendar/rescalendar.js' %}"></script>
     <script src="{% static 'events/js/microcycle_update.js' %}"></script>
     <script src="{% static 'events/js/generate_table.js' %}"></script>
