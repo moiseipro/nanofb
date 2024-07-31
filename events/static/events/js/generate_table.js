@@ -458,8 +458,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 }
 
 function resize_events_table(){
-    let css = "calc(90vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px - "+Math.round($('#table-row-filters').height())+"px)"
-    let css_2 = "calc(90vh - "+Math.round($('#calendar-row').height())+"px - "+Math.round($('#filters-row').height())+"px - "+Math.round($('.header').height())+"px - "+Math.round($('.card-header').height())+"px - "+Math.round($('#table-row-filters-2').height())+"px)"
+    let css = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('#filters-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
+    let css_2 = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('#filters-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters-2').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
     //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
