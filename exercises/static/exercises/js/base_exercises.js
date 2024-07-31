@@ -34,10 +34,9 @@ function ToggleFolderTypeUI(fType="") {
 }
 
 function ToggleUpFilter(id, state) {
-    let currentList = null;
-    let activeElem = null;
-    let graphicsWidth = '';
     let folderType = "";
+    let activeBlockElem = null;
+    let activeBlockElemNext = null;
     switch(id) {
         case "toggle_side_filter":
             $('.up-tabs-elem[data-id="toggle_tags_filter"]').removeClass('selected3');
@@ -498,20 +497,40 @@ function ToggleUpFilter(id, state) {
             }
             ToggleMarkersInExs();
             break;
-        case "toggle_visual_block_scroll":
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll"]').attr('data-state', 0);
+        case "toggle_visual_block_scroll_down":
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_down"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_down"]').attr('data-state', 0);
 
-            let activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
+            activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
             if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
-            if ($(activeBlockElem).height() < 100) {activeBlockElem = $(activeBlockElem).next();}
-            let activeBlockElemNext = $(activeBlockElem).next();
+            activeBlockElemNext = $(activeBlockElem).next();
             if (activeBlockElemNext.length > 0) {
-                $('.visual-block').animate({
-                    scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
-                }, 500);
-                $(activeBlockElem).removeClass('active');
-                $(activeBlockElemNext).addClass('active');
+                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
+                if (activeBlockElemNext.length > 0) {
+                    $('.visual-block').animate({
+                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+                    }, 500);
+                    $('.visual-block').find('.visual-block-elem').removeClass('active');
+                    $(activeBlockElemNext).addClass('active');
+                }
+            }
+            break;
+        case "toggle_visual_block_scroll_up":
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').attr('data-state', 0);
+
+            activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
+            if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
+            activeBlockElemNext = $(activeBlockElem).prev();
+            if (activeBlockElemNext.length > 0) {
+                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).prev();}
+                if (activeBlockElemNext.length > 0) {
+                    $('.visual-block').animate({
+                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+                    }, 500);
+                    $('.visual-block').find('.visual-block-elem').removeClass('active');
+                    $(activeBlockElemNext).addClass('active');
+                }
             }
             break;
         default:

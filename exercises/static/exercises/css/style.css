@@ -836,3 +836,9 @@ button.custom-disabled:hover {
     background-color: #d1d1d1 !important;
 }
 
+
+#splitCol_2 {
+    -ms-flex: 0 0 30vw;
+    flex: 0 0 30vw;
+}
+
