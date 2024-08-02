@@ -49,13 +49,13 @@ function ToggleEditFields(flag) {
         if (flag) {
             document.descriptionEditor2.disableReadOnlyMode('');
             document.descriptionEditor2Trainer.disableReadOnlyMode('');
-            $(document).find('.ck-editor__top').removeClass('d-none');
+            // $(document).find('.ck-editor__top').removeClass('d-none');
             $(document).find('.ck-editor__main').removeClass('read-mode');
             $(document).find('.ck-editor__main').addClass('edit-mode');
         } else {
             document.descriptionEditor2.enableReadOnlyMode('');
             document.descriptionEditor2Trainer.enableReadOnlyMode('');
-            $(document).find('.ck-editor__top').addClass('d-none');
+            // $(document).find('.ck-editor__top').addClass('d-none');
             $(document).find('.ck-editor__main').addClass('read-mode');
             $(document).find('.ck-editor__main').removeClass('edit-mode');
         }

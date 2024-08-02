@@ -59,6 +59,10 @@ def exercises(request):
     exs_features = v_api.get_exercises_features(request, cur_user[0], cur_team)
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
+
+    can_copy_exs_to_nf_folders = False
+    if "impersonate_id" in request.session:
+        can_copy_exs_to_nf_folders = True
     return render(request, 'exercises/base_exercises.html', {
         'folders': found_folders,
         'club_folders': found_club_folders,
@@ -68,6 +72,7 @@ def exercises(request):
         'is_exercises': True,
         'menu_exercises': 'active',
         'show_folders_button': True,
+        'can_copy_exs_to_nf_folders': can_copy_exs_to_nf_folders,
         'exercises_tags': exs_tags,
         'exercises_features': exs_features,
         'video_params': video_params,

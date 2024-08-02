@@ -2012,6 +2012,7 @@ $(function() {
         let isCopyToNFB = $('#exerciseCopyModal').find('input[name="nfb"]').val() == '1' && 
             $('.folders_div.selected').attr('data-id') != "nfb_folders" && 
             $('#exerciseCopyModal').find('[name="copy_mode"]').val() == '1';
+        isNfb = true;
         let htmlList = isNfb ? "folders_nfb_list" : "folders_list";
         let htmlElemInList = isNfb ? "folder-nfb-elem" : "folder-elem";
         if (!foldersLoadedForCopy) {
@@ -3099,6 +3100,37 @@ $(function() {
             return;
         }
         copyOrMoveStarting(e, "move");
+    });
+
+    $('#copyExsNF').on('click', (e) => {
+        $(e.currentTarget).toggleClass('selected3', false);
+        $(e.currentTarget).attr('data-state', '0');
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        if ($(activeExs).length == 0) {
+            swal("Внимание", "Выберите упражнение из списка.", "info");
+            return;
+        }
+        if ($('.folders_div.selected').attr('data-id') == "nfb_folders") {
+            swal("Внимание", "Выберите упражнение из папок <Команда>.", "info");
+            return;
+        }
+        $('#exerciseCopyModal').find('.modal-title').text("Скопировать упражнение в выбранную папку");
+        $('#exerciseCopyModal').find('[name="copy_mode"]').val('1');
+        $('#exerciseCopyModal').find('.move-show').addClass('d-none');
+        $('#exerciseCopyModal').find('.copy-show').removeClass('d-none');
+        $('#exerciseCopyModal').find('.toggle-mode').removeClass('active');
+        $('#exerciseCopyModal').find('.toggle-mode').addClass('d-none');
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise"]').addClass('active');
+        $('#exerciseCopyModal').find('.content-block').addClass('d-none');
+        $('#exerciseCopyModal').find('.content-block.copy-move-exercise').removeClass('d-none');
+        $('#exerciseCopyModal').find('.exs-applier').removeClass('d-none')
+        let visibledFavorExsCount = $('.exs-list-group').find('.list-group-item:visible').find('button.selected[data-type="marker"][data-id="favorite"]').length;
+        let visibledExsCount = $('.exs-list-group').find('.list-group-item:visible').length;
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-2"]').find('.counter').text(` (${visibledFavorExsCount}) `);
+        $('#exerciseCopyModal').find('.toggle-mode[data-id="copy-move-exercise-3"]').find('.counter').text(` (${visibledExsCount}) `);
+        let currentTeam = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();
+        $('#exerciseCopyModal').find('.btn-team').text(currentTeam);
+        $('#exerciseCopyModal').modal('show'); 
     });
 
     // CountTrainerExercises();
