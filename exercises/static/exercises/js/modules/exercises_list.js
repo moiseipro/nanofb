@@ -327,7 +327,6 @@ function RenderFolderExercises(id, tExs) {
     if (window.lastExercise && window.lastExercise.exs) {
         $('.exs-list-group').find(`.exs-elem[data-id="${window.lastExercise.exs}"]`).click();
     }
-
     window.currentExsHovered = -1;
 }
 
@@ -856,25 +855,25 @@ $(function() {
         }
     });
     window.currentExsHovered = -1;
-    $('.exercises-list').on('mouseover', '.exs-elem', (e) => {
-        if ($(e.currentTarget).hasClass('exs-blocked')) {
-            return;
-        }
-        if (!$(e.target).is('li')) {
-            return;
-        }
-        if ($(e.currentTarget).hasClass('active')) {
-            return;
-        }
-        let cId = parseInt($(e.currentTarget).attr('data-id'));
-        setTimeout(() => {
-            if ($(e.currentTarget).is(':hover') && window.currentExsHovered != cId) {
-                window.currentExsHovered = cId;
-                console.log(window.currentExsHovered)
-                LoadExerciseOneHandler(true);
-            }
-        }, 300);
-    });
+    // $('.exercises-list').on('mouseover', '.exs-elem', (e) => {
+    //     if ($(e.currentTarget).hasClass('exs-blocked')) {
+    //         return;
+    //     }
+    //     if (!$(e.target).is('li')) {
+    //         return;
+    //     }
+    //     if ($(e.currentTarget).hasClass('active')) {
+    //         return;
+    //     }
+    //     let cId = parseInt($(e.currentTarget).attr('data-id'));
+    //     setTimeout(() => {
+    //         if ($(e.currentTarget).is(':hover') && window.currentExsHovered != cId) {
+    //             window.currentExsHovered = cId;
+    //             console.log(window.currentExsHovered)
+    //             LoadExerciseOneHandler(true);
+    //         }
+    //     }, 300);
+    // });
     $('.exercises-list').on('click', '.delete-selected', (e) => {
         $('.selected-exercise-panel').html('');
         window.removeSelectedSlot = true;
