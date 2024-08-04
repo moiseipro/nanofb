@@ -512,5 +512,5 @@ function generate_exercises_module_data() {
     //
     // `
 
-    $('.visual-block').append(html_data)
+    $('.visual-block').prepend(html_data)
 }
