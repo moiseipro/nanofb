@@ -467,7 +467,7 @@ function generate_exercises_module_data() {
     let html_data = ``
 
     html_data += `
-    <div class="col-12">
+    <div class="col-12 mb-2">
         <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
             <div class="col-1 px-0 edit-button d-none">
                 <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
