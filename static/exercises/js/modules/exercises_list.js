@@ -125,7 +125,9 @@ function LoadFolderExercises() {
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
                 RenderFolderExercises(cFolderId, tExs);
-                HideCopiedNFExs();
+                try {
+                    HideCopiedNFExs();
+                } catch(e) {}
                 if (fType == "__is_trainer") {
                     CountAllExsInList();
                 } else {
