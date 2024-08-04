@@ -467,26 +467,27 @@ function generate_exercises_module_data() {
     let html_data = ``
 
     html_data += `
-    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
-        <div class="col-1 px-0 edit-button d-none">
-            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    <div class="col-12">
+        <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
+            <div class="col-1 px-0 edit-button d-none">
+                <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-1">
+                <span class="font-weight-bold group-count"></span>
+            </div>
+            <div class="col">
+                <span class="font-weight-bold group-button">${ gettext("Exercises") }</span>
+            </div>
+            <div class="col px-0">
+                <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
+            </div>
         </div>
-        <div class="col-1">
-            <span class="font-weight-bold group-count"></span>
-        </div>
-        <div class="col">
-            <span class="font-weight-bold group-button">${ gettext("Exercises") }</span>
-        </div>
-        <div class="col px-0">
-            <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
+        <div class="row group-exercises-row mx-0" data-group="1">
+            <div class="col">
+                <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
+            </div>
         </div>
     </div>
-    <div class="row group-exercises-row mx-0" data-group="1">
-        <div class="col">
-            <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
-        </div>
-    </div>
-    
     `
 
     // html_data += `
