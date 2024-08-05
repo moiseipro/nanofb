@@ -548,24 +548,26 @@ $(window).on('load', function (){
             //if(events_table) events_table.ajax.reload()
             console.log(data)
             let isLite = false
-            if('protocol_info' in data.training) isLite = false
-            else isLite = true
+            if (data.training != null) {
+                if('protocol_info' in data.training) isLite = false
+                else isLite = true
+            }
             let link = 'training' in data && data.training != null ? '/trainings'+(isLite?'/lite':'')+'/view/'+data.id : 'match' in data && data.match != null && !isLite ? '/matches/match?id='+data.id : ''
             $('#event-edit-link').html(`<a href="${link}" class="btn btn-warning btn-block">${gettext('Go to the created event')}</a>`)
-            if ('training' in data){
+            if (data.training != null){
                 let training_form = $('#form-event-edit-modal .event_type_block[data-type*="1"] form');
                 let training_data = getFormData(training_form)
                 console.log(training_data)
                 ajax_training_action('PUT', training_data, 'save', data.id).then(function (data_tr) {
                     generateData()
                 })
-            } else if('match' in data){
+            } else if(data.match != null){
                 let match_form = $('#form-event-edit-modal .event_type_block[data-type*="2"] form');
                 let match_data = getFormData(match_form)
                 console.log(match_data)
-                ajax_match_action('PUT', match_data, 'save', data.id).then(function (data_mch) {
-                    generateData()
-                })
+                // ajax_match_action('PUT', match_data, 'save', data.id).then(function (data_mch) {
+                //     generateData()
+                // })
             } else {
                 generateData()
             }
@@ -1327,8 +1329,20 @@ $(function() {
                         window.console && console.log(event_id);
                         $('#form-event-edit-modal .event_type_block').addClass('d-none')
                         if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('matchClass')){
-                            $('#matchEditModal').modal('show');
-                            RenderMatchEditModal(event_id)
+                            // $('#matchEditModal').modal('show');
+                            // RenderMatchEditModal(event_id)
+                            $('#form-event-edit-modal').modal('show');
+                            $('#form-event-edit-modal .event_type_block[data-type*="2"]').removeClass('d-none')
+                            ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
+                                cur_edit_data = data
+                                console.log(cur_edit_data);
+                                let date = moment(cur_edit_data['only_date'], 'DD/MM/YYYY').format('YYYY-MM-DD');
+                                console.log(date);
+                                $('#form-event-edit #id_short_name').val(cur_edit_data['short_name'])
+                                $('#form-event-edit #datetimepicker-event').val(date)
+                                $('#form-event-edit #timepicker-event').val(cur_edit_data['time'])
+                                $('#form-event-edit-modal #input_opponent').val(cur_edit_data.match.opponent)
+                            })
                         } else if ($('.hasEvent[data-value="'+event_id+'"]').hasClass('trainingClass')) {
                             $('#form-event-edit-modal').modal('show');
                             $('#form-event-edit-modal .event_type_block[data-type*="1"]').removeClass('d-none')
