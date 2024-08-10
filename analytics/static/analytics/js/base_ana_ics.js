@@ -740,6 +740,7 @@ $(function() {
         $('#analyticsShareModal').find('.link-text > a').text('-');
         $('#analyticsShareModal').find('.link-text > a').attr('href', '');
         $('#analyticsShareModal').find('button.btn-share').attr('data-link', "");
+        $('#analyticsShareModal').find('button.btn-copy').addClass('d-none');
         $('#analyticsShareModal').find('.link-qrcode').html('');
 
         let tableType = $('.analytics-table-container').find('table[id]:visible').attr('id');
@@ -755,6 +756,7 @@ $(function() {
                     $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
                     $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#analyticsShareModal').find('button.btn-copy').removeClass('d-none');
                     new QRCode($('#analyticsShareModal').find('.link-qrcode')[0], {
                         text: res.data.link,
                         width: 150,
@@ -792,7 +794,6 @@ $(function() {
             'season_type': season_type,
             'expire_date': expireDate
         };
-        console.log(dataToSend)
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -805,6 +806,7 @@ $(function() {
                     $('#analyticsShareModal').find('.link-text > a').text(res.data.link);
                     $('#analyticsShareModal').find('.link-text > a').attr('href', res.data.link);
                     $('#analyticsShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                    $('#analyticsShareModal').find('button.btn-copy').removeClass('d-none');
                     new QRCode($('#analyticsShareModal').find('.link-qrcode')[0], {
                         text: res.data.link,
                         width: 150,
@@ -831,6 +833,12 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+    $('#analyticsShareModal').on('click', '.btn-copy', (e) => {
+        let cLink = $('#analyticsShareModal').find('button.btn-share').attr('data-link');
+        try {
+            copyTextToClipboard(cLink);
+        } catch(e) {}
     });
 
     $(window).on('resize', () => {
