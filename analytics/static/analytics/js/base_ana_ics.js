@@ -19,6 +19,19 @@ let analytics_table_options = {
     select: true,
     drawCallback: function( settings ) {
     },
+    initComplete: (settings, json) => {
+        let storagedColumns = null;
+        try {
+            storagedColumns = JSON.parse(localStorage.getItem("analytics__table_cols_visible"));
+        } catch(e) {}
+        if (Array.isArray(storagedColumns)) {
+            setTimeout(() => {
+                $('#columnsDefaultTableVisibleSelect').selectpicker('val', storagedColumns);
+                $('#columnsDefaultTableVisibleSelect').selectpicker('refresh');
+                $('#columnsDefaultTableVisibleSelect').trigger('change');
+            }, 500);
+        }
+    },
     "columnDefs": [
         {"width": "25%", "targets": 1},
         {"className": "dt-vertical-center", "targets": "_all"}
@@ -626,6 +639,7 @@ $(function() {
                 let cIndex = columnsDefaultTableIndexes.indexOf(type);
                 analytics_table.column(cIndex).visible(true);
             });
+            localStorage.setItem("analytics__table_cols_visible", JSON.stringify(visibleList));
         }
     });
 

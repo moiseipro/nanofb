@@ -60,9 +60,9 @@ def exercises(request):
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
 
-    can_copy_exs_to_nf_folders = False
-    if "impersonate_id" in request.session:
-        can_copy_exs_to_nf_folders = True
+    impersonate_is_superuser = False
+    if "impersonate_is_superuser" in request.session:
+        impersonate_is_superuser = True
     return render(request, 'exercises/base_exercises.html', {
         'folders': found_folders,
         'club_folders': found_club_folders,
@@ -72,7 +72,7 @@ def exercises(request):
         'is_exercises': True,
         'menu_exercises': 'active',
         'show_folders_button': True,
-        'can_copy_exs_to_nf_folders': can_copy_exs_to_nf_folders,
+        'impersonate_is_superuser': impersonate_is_superuser,
         'exercises_tags': exs_tags,
         'exercises_features': exs_features,
         'video_params': video_params,

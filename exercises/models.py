@@ -13,8 +13,14 @@ from colorfield.fields import ColorField
 
 
 def upload_location_scheme(instance, filename):
+    user_id = "adm"
+    try:
+        user_id = instance.user.id
+    except:
+        pass
     filebase, extension = filename.rsplit('.', 1)
-    return f"exercises/img/uploads/{filebase}.{extension}"
+    f_name = f"{filebase}__usr_{user_id}"
+    return f"exercises/img/uploads/{f_name}.{extension}"
 
 
 class AbstractFolder(models.Model):

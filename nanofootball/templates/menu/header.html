@@ -109,7 +109,7 @@
     <!-- /App Lists -->
 
     <!-- Admin settings panel -->
-    {% if user.is_superuser %}
+    {% if user.is_superuser or impersonate_is_superuser %}
     <li class="nav-item dropdown admin-settings-dropdown" title="Открыть настройки раздела для администратора">
         <a class="nav-link dropdown-toggle" aria-expanded="false" role="button" data-toggle="collapse" data-target="#collapseAdminSectionSettings" href="#">
             <i class="fe fe-gear"></i>

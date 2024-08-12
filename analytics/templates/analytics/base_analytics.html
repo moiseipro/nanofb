@@ -32,11 +32,11 @@
                                         <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="foldersFullTable">
                                             Папки / по месяцам
                                         </button> -->
-                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="printTableData" title="Печать" style="max-width:32px;">
-                                            <i class="fa fa-print" aria-hidden="true"></i>
+                                        <button type="button" class="btn btn-light btn-sm mx-1 elem-flex-center" id="printTableData" title="Печать" style="max-width:32px;">
+                                            <i class="icon-custom icon--print" style="--i-w: 1.25em; --i-h: 1.25em;"></i>
                                         </button>
-                                        <button type="button" class="btn btn-secondary btn-sm mx-1" id="shareTableData" title="Поделиться" style="max-width:32px;">
-                                            <i class="fa fa-share" aria-hidden="true"></i>
+                                        <button type="button" class="btn btn-light btn-sm mx-1 elem-flex-center" id="shareTableData" title="Поделиться" style="max-width:32px;">
+                                            <span class="icon-custom icon--share" style="--i-w: 1.25em; --i-h: 1.25em;"></span>
                                         </button>
                                         <div class="columns-settings w-25" data-id="defaultTable">
                                             <select id="columnsDefaultTableVisibleSelect" class="form-control form-control-sm selectpicker" multiple data-selected-text-format="count" title="Колонки таблицы" data-count-selected-text="Колонки таблицы. Выбрано: {0}">
@@ -44,6 +44,7 @@
                                                 <option value="col_injury">Травмы</option>
                                                 <option value="col_skip">Пропуски</option>
                                                 <option value="col_au">В Сборной</option>
+                                                <option value="col_disqualification">Дисквалификация</option>
                                                 <option value="col_matches_count">Матчи. Количество</option>
                                                 <option value="col_matches_time">Матчи. Время</option>
                                                 <option value="col_matches_yellow_card">Матчи. Ж.К.</option>

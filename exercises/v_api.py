@@ -974,7 +974,7 @@ def POST_copy_exs(request, cur_user, cur_team):
             return JsonResponse({"errors": "Trainer's exercises limit. Max: 1500!", "code": "limit", "value": EXS_LIMIT}, status=400)
     else:
         if copy_to_nf == 1:
-            if cur_user.is_superuser or "impersonate_id" in request.session:
+            if cur_user.is_superuser or "impersonate_is_superuser" in request.session:
                 found_folder = AdminFolder.objects.filter(id=folder_id)
         else:
             if request.user.club_id is not None:
@@ -999,7 +999,7 @@ def POST_copy_exs(request, cur_user, cur_team):
                 c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
                 if c_exs.exists() and c_exs[0].id != None:
                     if copy_to_nf == 1:
-                        if cur_user.is_superuser or "impersonate_id" in request.session:
+                        if cur_user.is_superuser or "impersonate_is_superuser" in request.session:
                             new_exs = AdminExercise()
                     else:
                         if request.user.club_id is not None:
@@ -1055,7 +1055,7 @@ def POST_copy_exs(request, cur_user, cur_team):
                 if c_exs.exists() and c_exs[0].id != None:
                     new_exs = None
                     if copy_to_nf == 1:
-                        if cur_user.is_superuser or "impersonate_id" in request.session:
+                        if cur_user.is_superuser or "impersonate_is_superuser" in request.session:
                             new_exs = AdminExercise()
                     else:
                         if request.user.club_id is not None:
@@ -1182,7 +1182,7 @@ def POST_copy_exs(request, cur_user, cur_team):
                 for video in videos:
                     if video.type == 1 or video.type == 3:
                         if copy_to_nf == 1:
-                            if cur_user.is_superuser or "impersonate_id" in request.session:
+                            if cur_user.is_superuser or "impersonate_is_superuser" in request.session:
                                 new_exs.videos.through.objects.update_or_create(type=video.type, exercise_nfb=new_exs, defaults={"video": video.video})
                         elif is_to_trainer:
                             new_exs.videos.through.objects.update_or_create(type=video.type, exercise_trainer=new_exs, defaults={"video": video.video})
@@ -1193,6 +1193,11 @@ def POST_copy_exs(request, cur_user, cur_team):
                                 new_exs.videos.through.objects.update_or_create(type=video.type, exercise_user=new_exs, defaults={"video": video.video})
                 res_data['videos'].append("OK")
             except Exception as e:
+                res_data['err'].append(str(e))
+            try:
+                new_exs.scheme_img = None
+                new_exs.save()
+            except:
                 res_data['err'].append(str(e))
     return JsonResponse({"data": res_data, "success": success_status}, status=200)
     

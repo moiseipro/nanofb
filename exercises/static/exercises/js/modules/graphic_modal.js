@@ -255,7 +255,7 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         ` : data && data.video_links && data.video_links[1] && data.video_links[1]['link'] && data.video_links[1]['link'] != "" ? `
         ${data.video_links[1]['link'].includes("youtube") ? `
             <div class="carousel-item">
-                <video id="video-player-modal-0" class="video-js resize-block video-modal" poster="">
+                <video id="video-player-modal-2" class="video-js resize-block video-modal" poster="">
                     <source src="${data.video_links[1]['link']}" type="video/youtube" />
                 </video>
             </div>

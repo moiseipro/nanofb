@@ -11,9 +11,12 @@ class ImpersonateMiddleware:
             request.session['impersonate_id'] = int(request.GET["__impersonate"])
         elif "__unimpersonate" in request.GET:
             del request.session['impersonate_id']
+        if 'impersonate_is_superuser' in request.session:
+            del request.session['impersonate_is_superuser']
         if 'impersonate_id' in request.session:
             if request.user.is_superuser:
                 request.user = User.objects.get(id=request.session['impersonate_id'])
+                request.session['impersonate_is_superuser'] = True
             elif request.user.has_perm('clubs.club_admin'):
                 request.user = User.objects.get(id=request.session['impersonate_id'], club_id=request.user.club_id)
 
