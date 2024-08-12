@@ -94,3 +94,11 @@ LEFT JOIN `users_userpersonal` p ON u.`personal_id` = p.`id`
 WHERE u.`exs_requests_counter` > 0
 ORDER BY u.`exs_requests_counter` DESC
 
+// Получение списка ссылок на видео из youtube, с системным <id>
+SELECT
+	`id`,
+	replace(json_extract(`links`, '$.youtube'), '"', '') as link
+FROM `video_video`
+WHERE 1 = 1
+AND `links` LIKE '%"nftv": ""%'
+AND `links` NOT LIKE '%"youtube": ""%'
