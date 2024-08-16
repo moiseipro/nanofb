@@ -309,6 +309,13 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.note_status != 0 ? 'selected' : ''}" data-type="marker" data-id="note_status" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Заметки">
                         <i class="fa fa-lg fa-flag ${exElem.note_status == 1 ? 'text-danger' : `${exElem.note_status == 2 ? 'text-success' : ''}`}" aria-hidden="true"></i>
                     </button>
+                    ${exElem.video_id_as_duplicate ? `
+                        <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold">
+                            <a class="" href="/video?id=${exElem.video_id_as_duplicate}" target="_blank">
+                                video__${exElem.video_id_as_duplicate}
+                            </a>
+                        </button>
+                    ` : ''}
                 </div>
             </div>
         </li>

@@ -3133,6 +3133,30 @@ $(function() {
         $('#exerciseCopyModal').modal('show'); 
     });
 
+    $('#getExsDuplicates').on('click', (e) => {
+        let isSelected = $(e.currentTarget).hasClass('selected3');
+        let folder = $('.folders_div').find('.list-group-item.active');
+        if (folder.length == 0) {
+            swal("Внимание", "Выберите любую папку с упражнениями.", "info");
+            $(e.currentTarget).toggleClass('selected3', !isSelected);
+            $(e.currentTarget).attr('data-state', isSelected ? '0' : '1');
+            return;
+        }
+        if (isSelected) {
+            window.exercisesFilter['exs_duplicated'] = '1';
+            for (ind in window.count_exs_calls) {
+                window.count_exs_calls[ind]['call'].abort();
+            }
+            LoadFolderExercises();
+        } else {
+            delete window.exercisesFilter['exs_duplicated'];
+            for (ind in window.count_exs_calls) {
+                window.count_exs_calls[ind]['call'].abort();
+            }
+            LoadFolderExercises();
+        }
+    });
+
     // CountTrainerExercises();
     $('.exs-edit-block').on('click', '.btn-edit-e', (e) => {
         let cId = $(e.currentTarget).attr('data-id');

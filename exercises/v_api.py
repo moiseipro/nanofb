@@ -1,6 +1,6 @@
 import datetime
 from django.http import JsonResponse
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, Count, F
 from django.forms.models import model_to_dict
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
@@ -373,6 +373,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_video_isvideo = -1
     filter_video_isanimation = -1
     filter_note_status = -1
+    filter_exs_duplicated = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -500,6 +501,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_note_status = int(req.POST.get("filter[note_status]", -1))
     except:
         pass
+    try:
+        if req.method == "GET":
+            filter_exs_duplicated = int(req.GET.get("filter[exs_duplicated]", -1))
+        elif req.method == "POST":
+            filter_exs_duplicated = int(req.POST.get("filter[exs_duplicated]", -1))
+    except:
+        pass
     f_exercises = []
     c_folder = None
     child_folders = None
@@ -530,6 +538,20 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     f_exercises = ClubExercise.objects.filter(folder = c_folder[0], team=cur_team)
                 else:
                     f_exercises = UserExercise.objects.filter(folder = c_folder[0])
+            if filter_exs_duplicated != -1 and cur_user.is_superuser:
+                if req.user.club_id is not None:
+                    f_exercises = []
+                else:
+                    all_folders_ids = list(UserFolder.objects.filter(user=cur_user, team=cur_team).values_list('id', flat=True))
+                    all_child_folders = UserFolder.objects.filter(parent__in=all_folders_ids)
+                    videos_ids = list(UserExercise.objects.filter(folder__in=all_child_folders).values_list('videos__id', flat=True).distinct())
+                    f_exercises = UserExercise.objects.none()
+                    for video_id in videos_ids:
+                        if video_id is None:
+                            continue
+                        found_exs_with_same_video = UserExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(folder__in=all_child_folders, videos__id=video_id).distinct()
+                        if len(found_exs_with_same_video) > 1:
+                            f_exercises |= found_exs_with_same_video
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -547,6 +569,21 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
             else:
                 f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
+            
+            if filter_exs_duplicated != -1 and cur_user.is_superuser:
+                if req.user.club_id is not None:
+                    f_exercises = []
+                else:
+                    all_folders_ids = list(AdminFolder.objects.all().values_list('id', flat=True))
+                    all_child_folders = AdminFolder.objects.filter(parent__in=all_folders_ids)
+                    videos_ids = list(AdminExercise.objects.filter(folder__in=all_child_folders).values_list('videos__id', flat=True).distinct())
+                    f_exercises = AdminExercise.objects.none()
+                    for video_id in videos_ids:
+                        if video_id is None:
+                            continue
+                        found_exs_with_same_video = AdminExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(folder__in=all_child_folders, videos__id=video_id).distinct()
+                        if len(found_exs_with_same_video) > 1:
+                            f_exercises |= found_exs_with_same_video
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -3184,6 +3221,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'has_video_2': exercise['has_video_2'],
             'has_animation_1': exercise['has_animation_1'],
             'has_animation_2': exercise['has_animation_2'],
+            'video_id_as_duplicate': exercise['video_id_as_duplicate'] if 'video_id_as_duplicate' in exercise else None,
             'opt_has_video': exercise['opt_has_video'],
             'opt_has_animation': exercise['opt_has_animation'],
             'opt_has_description': exercise['opt_has_description'],
