@@ -542,16 +542,23 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    all_folders_ids = list(UserFolder.objects.filter(user=cur_user, team=cur_team).values_list('id', flat=True))
-                    all_child_folders = UserFolder.objects.filter(parent__in=all_folders_ids)
-                    videos_ids = list(UserExercise.objects.filter(folder__in=all_child_folders).values_list('videos__id', flat=True).distinct())
+                    all_child_folders = UserFolder.objects.filter(parent=c_folder[0].parent)
+                    videos_ids = []
                     f_exercises = UserExercise.objects.none()
-                    for video_id in videos_ids:
-                        if video_id is None:
-                            continue
-                        found_exs_with_same_video = UserExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(folder__in=all_child_folders, videos__id=video_id).distinct()
-                        if len(found_exs_with_same_video) > 1:
-                            f_exercises |= found_exs_with_same_video
+                    found_exs_in_folders = UserExercise.objects.filter(folder__in=all_child_folders)
+                    for _exs in found_exs_in_folders:
+                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs).values_list('video__id', flat=True).distinct())
+                        for _v in videos:
+                            if _v not in videos_ids and _v is not None:
+                                videos_ids.append(_v)
+                                exs_videos_tmp = ExerciseVideo.objects.filter(video__id=_v, exercise_user__folder__in=all_child_folders)
+                                exs_ids = []
+                                for _elem in exs_videos_tmp:
+                                    if not _elem.exercise_user.id in exs_ids:
+                                        exs_ids.append(_elem.exercise_user.id)
+                                if len(exs_ids) > 1:
+                                    f_exercises |= UserExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(id__in=exs_ids)
+                    f_exercises = f_exercises.distinct()
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -569,21 +576,27 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
             else:
                 f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
-            
             if filter_exs_duplicated != -1 and cur_user.is_superuser:
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    all_folders_ids = list(AdminFolder.objects.all().values_list('id', flat=True))
-                    all_child_folders = AdminFolder.objects.filter(parent__in=all_folders_ids)
-                    videos_ids = list(AdminExercise.objects.filter(folder__in=all_child_folders).values_list('videos__id', flat=True).distinct())
+                    all_child_folders = AdminFolder.objects.filter(parent=c_folder[0].parent)
+                    videos_ids = []
                     f_exercises = AdminExercise.objects.none()
-                    for video_id in videos_ids:
-                        if video_id is None:
-                            continue
-                        found_exs_with_same_video = AdminExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(folder__in=all_child_folders, videos__id=video_id).distinct()
-                        if len(found_exs_with_same_video) > 1:
-                            f_exercises |= found_exs_with_same_video
+                    found_exs_in_folders = AdminExercise.objects.filter(folder__in=all_child_folders)
+                    for _exs in found_exs_in_folders:
+                        videos = list(_exs.videos.through.objects.filter(exercise_nfb=_exs).values_list('video__id', flat=True).distinct())
+                        for _v in videos:
+                            if _v not in videos_ids and _v is not None:
+                                videos_ids.append(_v)
+                                exs_videos_tmp = ExerciseVideo.objects.filter(video__id=_v, exercise_nfb__folder__in=all_child_folders)
+                                exs_ids = []
+                                for _elem in exs_videos_tmp:
+                                    if not _elem.exercise_nfb.id in exs_ids:
+                                        exs_ids.append(_elem.exercise_nfb.id)
+                                if len(exs_ids) > 1:
+                                    f_exercises |= AdminExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(id__in=exs_ids)
+                    f_exercises = f_exercises.distinct()
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -609,7 +622,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
-    
     if filter_goal != -1:
         f_exercises = f_exercises.filter(
             Q(
@@ -707,7 +719,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             ).distinct()
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
-
     if not to_count:
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         f_exercises_list = [entry for entry in f_exercises.values()]
