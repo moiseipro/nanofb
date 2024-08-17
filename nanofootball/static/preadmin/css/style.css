@@ -4328,6 +4328,9 @@ table.table-inbox tbody tr.checked {
 .icon--trash {
 	content: url(../img/icons/image59.png);
 }
+.icon--block_filter {
+	content: url(../img/icons/block_filter.png);
+}
 
 .select2-container--bootstrap4 .select2-results>.select2-results__options {
     max-height: 30em !important;
