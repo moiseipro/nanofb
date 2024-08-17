@@ -546,7 +546,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     videos_ids = []
                     found_exs_in_folders = UserExercise.objects.filter(folder__in=all_child_folders)
                     for _exs in found_exs_in_folders:
-                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs).values_list('video__id', flat=True).distinct('id'))
+                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs).values_list('video__id', flat=True).distinct())
                         for _v in videos:
                             if _v not in videos_ids:
                                 videos_ids.append(_v)
@@ -582,7 +582,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     videos_ids = []
                     found_exs_in_folders = AdminExercise.objects.filter(folder__in=all_child_folders)
                     for _exs in found_exs_in_folders:
-                        videos = list(_exs.videos.through.objects.filter(exercise_nfb=_exs).values_list('video__id', flat=True).distinct('id'))
+                        videos = list(_exs.videos.through.objects.filter(exercise_nfb=_exs).values_list('video__id', flat=True).distinct())
                         for _v in videos:
                             if _v not in videos_ids:
                                 videos_ids.append(_v)
