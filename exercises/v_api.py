@@ -568,7 +568,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 f_exercises = AdminExercise.objects.filter(folder__in = child_folders)
             else:
                 f_exercises = AdminExercise.objects.filter(folder = c_folder[0])
-            
             if filter_exs_duplicated != -1 and cur_user.is_superuser:
                 if req.user.club_id is not None:
                     f_exercises = []
@@ -607,7 +606,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
-    
     if filter_goal != -1:
         f_exercises = f_exercises.filter(
             Q(
@@ -705,7 +703,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             ).distinct()
     if count_for_tag:
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
-
     if not to_count:
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         f_exercises_list = [entry for entry in f_exercises.values()]
