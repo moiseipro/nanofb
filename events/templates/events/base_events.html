@@ -29,8 +29,15 @@
 {#                                <div class="col px-1">#}
 {#                                    <button id="toggle-event-card" title="{% trans 'Show/Hide event card' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-file-text-o" aria-hidden="true"></i></button>#}
 {#                                </div>#}
+
                                 <div class="col px-1">
                                     <button id="favourites-event-filter" data-filter="0" title="{% trans 'Filter by favorites' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'T' %}</button>
+                                </div>
+                                <div class="col px-1">
+                                    <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'M' %}</button>
                                 </div>
 {#                                <div class="col px-1">#}
 {#                                    <button id="show-training-event-filter" data-filter="0" title="{% trans "Show/hide training filters" %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'F' %}.</button>#}
@@ -81,6 +88,11 @@
                                     </button>
                                 </div>
                                 <div class="col px-1">
+                                    <button id="block-filter-show-button" title="{% trans 'Blocks filter training' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold select-event-active pb-0">
+                                        <span class="icon-custom icon--block_filter" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                    </button>
+                                </div>
+                                <div class="col px-1">
                                     <button id="shared-modal-button" title="{% trans 'Share training' %}" data-training-type="{% if user.club_id %}club{% else %}user{% endif %}" data-toggle="modal" data-target="#trainingShareModal" class="btn btn-block btn-lightgray btn-md font-weight-bold select-event-active pb-0" disabled><span class="icon-custom icon--share" style="--i-w: 1.4em; --i-h: 1.4em;"></span></button>
                                 </div>
                                 <div class="col px-1">
@@ -118,7 +130,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="blocks-folder-row" class="row mt-2">
+                    <div id="blocks-folder-row" class="row mt-2 d-none">
                         <table class="table table-sm text-center calendar-part" style="width: auto">
                             <tbody>
 
@@ -126,19 +138,12 @@
                         </table>
                     </div>
                     {% include 'trainings/training_card.html' %}
-                    <div id="filters-row" class="row pt-1 d-none">
-                        <div class="col-12 pb-1" style="border-bottom: 2px solid black">
-                            <div class="tab-content pt-1" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="view-training-info" role="tabpanel" aria-labelledby="pills-home-tab">
-                                    <div class="row mc-function">
-                                        <div class="col-12 px-0" style="border-bottom: 2px solid black;">
-                                            <div id="training-block-view" type="text" class="border"></div>
-                                        </div>
-                                        <div class="col-12 px-0">
-                                            <div id="objective_1-training-view" type="text" class="border"></div>
-                                        </div>
-                                    </div>
-                                </div>
+{#                    <div id="filters-row" class="row pt-1 d-none">#}
+{#                        <div class="col-12 pb-1" style="border-bottom: 2px solid black">#}
+{#                            <div class="tab-content pt-1" id="pills-tabContent">#}
+{#                                <div class="tab-pane fade show active" id="view-training-info" role="tabpanel" aria-labelledby="pills-home-tab">#}
+{##}
+{#                                </div>#}
 {#                                <div class="tab-pane fade" id="filters-training-info" role="tabpanel" aria-labelledby="pills-profile-tab">#}
 {#                                    {% if perms.events.change_clubmicrocycles or perms.events.change_usermicrocycles %}#}
 {#                                        <div class="row">#}
@@ -179,25 +184,32 @@
 {##}
 {#                                    {% endif %}#}
 {#                                </div>#}
-                            </div>
-                        </div>
-                    </div>
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
                     <div id="events-content" class="row border-top mt-1">
                         <div class="col-4">
-                            <div id="table-row-filters" class="row mc-function">
+                            <div class="row mc-function">
+{#                                <div class="col-12 px-0" style="border-bottom: 2px solid black;">#}
+{#                                    <div id="training-block-view" type="text" class="border"></div>#}
+{#                                </div>#}
+                                <div class="col-12 px-0">
+                                    <div id="objective_1-training-view" type="text" class="border"></div>
+                                </div>
+                                <div class="col-12 px-0">
+                                    <div id="objective_2-training-view" type="text" class="border"></div>
+                                </div>
+                                <div class="col-12 px-0">
+                                    <div id="objective_3-training-view" type="text" class="border"></div>
+                                </div>
+                            </div>
+                            <div id="table-row-filters" class="row mc-function mb-1">
                                 <div class="col-6 mt-1 pl-0 pr-1">
                                     <select id="training-mcd-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Training type' %}"></select>
                                 </div>
                                 <div class="col-6 mt-1 pl-0 pr-1">
                                     <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>
                                 </div>
-                                <div class="col-6 mt-1 pl-0 pr-1">
-                                    <button id="filled-event-filter" data-filter="0" title="{% trans "Filtering of training events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Trainings' %}</button>
-                                </div>
-                                <div class="col-6 mt-1 pl-0 pr-1">
-                                    <button id="filled-match-filter" data-filter="0" title="{% trans "Filtering of match events" %}" class="btn btn-block btn-filter-events btn-sm font-weight-bold">{% trans 'Matches' %}</button>
-                                </div>
-
 
                             </div>
                             <div class="row">
@@ -214,14 +226,14 @@
 
                         </div>
                         <div class="col" id="block-event-info">
-                            <div id="table-row-filters-2" class="row mc-function">
-                                <div class="col-6 mt-1 pl-0 pr-1">
-                                    <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="{% trans 'Objective' %} 1">
-                                </div>
-                                <div class="col-6 mt-1 px-0">
-                                    <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="{% trans 'Objective' %} 2">
-                                </div>
-                            </div>
+{#                            <div id="table-row-filters-2" class="row mc-function">#}
+{#                                <div class="col-6 mt-1 pl-0 pr-1">#}
+{#                                    <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="{% trans 'Objective' %} 1">#}
+{#                                </div>#}
+{#                                <div class="col-6 mt-1 px-0">#}
+{#                                    <input type="text" class="form-control form-control-sm btn-filter-events" id="" placeholder="{% trans 'Objective' %} 2">#}
+{#                                </div>#}
+{#                            </div>#}
                             <div class="row event-info" style="overflow-y: auto; overflow-x: hidden">
                             </div>
                         </div>
