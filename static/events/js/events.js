@@ -175,11 +175,10 @@ $(window).on('load', function (){
             $('.select-event-active').prop('disabled', true)
             $('#block-event-info .event-info').html('')
             $('#training-video-modal input[name="video_href"]').val('')
-            $('#objective_1-event-view').val('')
-            $('#objective_2-event-view').val('')
-            $('#objective_3-event-view').val('')
+            $('#objective_1-training-view').text('').addClass('d-none')
+            $('#objective_2-training-view').text('').addClass('d-none')
+            $('#objective_3-training-view').text('').addClass('d-none')
             $('#load-event-view').val('')
-            $('#objective_1-training-view').parent().addClass('d-none')
             $('#training-block-view').parent().addClass('d-none')
             resize_events_table();
         } else {
@@ -223,16 +222,32 @@ $(window).on('load', function (){
                     $('.training-card-objective').removeClass('d-none')
                     $('#training-video-modal input[name="video_href"]').val(data.training.video_href)
                     $('#goal-event-view').val(data.training.goal)
-                    let objective_type = ''
-                    for (const objective of data.training.objectives) {
-                        objective_type += `<div class="border px-1">${objective.objective.name}</div>`;
-                        // else if(objective.type == 1){
-                        //     objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
-                        // }
+                    // let objective_type = ''
+                    // for (const objective of data.training.objectives) {
+                    //     objective_type += `<div class="border px-1">${objective.objective.name}</div>`;
+                    //     // else if(objective.type == 1){
+                    //     //     objective_type_2 += `<div class="font-weight-bold border px-1">${objective.objective.name}</div>`;
+                    //     // }
+                    // }
+                    if (data.training.objective_1 != '' && data.training.objective_1 != null){
+                        $('#objective_1-training-view').removeClass('d-none')
+                        $('#objective_1-training-view').html(data.training.objective_1)
+                    } else {
+                        $('#objective_1-training-view').addClass('d-none')
                     }
-                    $('#objective_1-training-view').html(objective_type)
-                    if (objective_type == '') $('#objective_1-training-view').parent().addClass('d-none')
-                    else $('#objective_1-training-view').parent().removeClass('d-none')
+                    if (data.training.objective_2 != '' && data.training.objective_2 != null){
+                        $('#objective_2-training-view').removeClass('d-none')
+                        $('#objective_2-training-view').html(data.training.objective_2)
+                    } else {
+                        $('#objective_2-training-view').addClass('d-none')
+                    }
+                    if (data.training.objective_3 != '' && data.training.objective_3 != null){
+                        $('#objective_3-training-view').removeClass('d-none')
+                        $('#objective_3-training-view').html(data.training.objective_3)
+                    } else {
+                        $('#objective_3-training-view').addClass('d-none')
+                    }
+
                     // $('#objective_2-training-view').html(objective_type_2)
                     // if (objective_type_2 == '') $('#objective_2-training-view').parent().addClass('d-none')
                     // else $('#objective_2-training-view').parent().removeClass('d-none')
@@ -337,11 +352,17 @@ $(window).on('load', function (){
                 }
                 resize_events_table();
             })
-            let offset = $('#events .hasEvent.selected').position().top - $('#filters-row').height() - $('#events-table').height()/2
+            let offset = $('#events .hasEvent.selected').position().top - $('#table-row-filters').height() - $('.mc-function').height() - $('#events-table').height()/2
             console.log(offset)
             $('#events-table').animate({scrollTop: offset},'slow');
         }
 
+    })
+
+    //Скрыть/показать фильтрацию по блокам
+    $('#block-filter-show-button').on('click', function () {
+        $('#blocks-folder-row').toggleClass('d-none')
+        $(this).toggleClass('active')
     })
 
     $('#microcycles-tab').on('click', '.create', function() {

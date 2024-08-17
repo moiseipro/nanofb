@@ -35,7 +35,7 @@ $(window).on('load', function (){
                     html_data += `</tr>`
                     console.log(html_data)
                     $('#blocks-folder-row table tbody').html(html_data)
-                    $('#blocks-folder-row').removeClass('d-none')
+                    //$('#blocks-folder-row').removeClass('d-none')
                 }
             } else {
                 console.log("Error")
