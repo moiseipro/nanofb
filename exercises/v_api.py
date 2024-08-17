@@ -557,7 +557,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                                     if not _elem.exercise_user.id in exs_ids:
                                         exs_ids.append(_elem.exercise_user.id)
                                 if len(exs_ids) > 1:
-                                    f_exercises |= UserExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(id__in=exs_ids)
+                                    f_exercises |= UserExercise.annotate(video_id_as_duplicate=_v).objects.filter(id__in=exs_ids)
                     f_exercises = f_exercises.distinct()
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
@@ -595,7 +595,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                                     if not _elem.exercise_nfb.id in exs_ids:
                                         exs_ids.append(_elem.exercise_nfb.id)
                                 if len(exs_ids) > 1:
-                                    f_exercises |= AdminExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(id__in=exs_ids)
+                                    f_exercises |= AdminExercise.objects.annotate(video_id_as_duplicate=_v).filter(id__in=exs_ids)
                     f_exercises = f_exercises.distinct()
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
