@@ -547,7 +547,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     f_exercises = UserExercise.objects.none()
                     found_exs_in_folders = UserExercise.objects.filter(folder__in=all_child_folders)
                     for _exs in found_exs_in_folders:
-                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs, video__isnull=False).values_list('video__id', flat=True).distinct())
+                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs).values_list('video__id', flat=True).distinct())
                         for _v in videos:
                             if _v not in videos_ids and _v is not None:
                                 videos_ids.append(_v)
@@ -558,6 +558,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                                         exs_ids.append(_elem.exercise_user.id)
                                 if len(exs_ids) > 1:
                                     f_exercises |= UserExercise.objects.annotate(video_id_as_duplicate=F('videos__id')).filter(id__in=exs_ids)
+                    f_exercises = f_exercises.distinct()
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
