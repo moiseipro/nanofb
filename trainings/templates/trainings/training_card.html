@@ -78,13 +78,13 @@
                             </div>
                         </div>
                         {% endif %}
-                        {% if perms.trainings.view_admintrainingmd%}
-                        <div class="row block-select2">
-                            <div class="col-12 my-1 px-0">
-                                <select id="select-training-md" name="md" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-maximumSelectionLength="1" disabled></select>
-                            </div>
-                        </div>
-                        {% endif %}
+{#                        {% if perms.trainings.view_admintrainingmd%}#}
+{#                        <div class="row block-select2">#}
+{#                            <div class="col-12 my-1 px-0">#}
+{#                                <select id="select-training-md" name="md" class="form-control form-control-sm rounded-0 training-filter-edit edit-input" data-maximumSelectionLength="1" disabled></select>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        {% endif %}#}
                         {% if perms.trainings.change_clubtrainingload or perms.trainings.change_usertrainingload %}
                         <div class="row block-select2">
                             <div class="col-12 my-1 px-0">

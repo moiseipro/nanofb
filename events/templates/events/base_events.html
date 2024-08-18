@@ -204,8 +204,11 @@
                                 </div>
                             </div>
                             <div id="table-row-filters" class="row mc-function mb-1">
+{#                                <div class="col-6 mt-1 pl-0 pr-1">#}
+{#                                    <select id="training-mcd-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Training type' %}"></select>#}
+{#                                </div>#}
                                 <div class="col-6 mt-1 pl-0 pr-1">
-                                    <select id="training-mcd-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Training type' %}"></select>
+                                    <input type="search" id="training-mcd-filter" class="form-control form-control-sm btn-filter-events text-filter-events" title="{% trans 'the ordinal day of the microcycle' %}" placeholder="{% trans 'MCD' %}">
                                 </div>
                                 <div class="col-6 mt-1 pl-0 pr-1">
                                     <select id="training-load-filter" class="form-control form-control-sm select-filter-events select2" placeholder="{% trans 'Load' %}"></select>

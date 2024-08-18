@@ -94,6 +94,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
+                        let mcd = 0
                         let microcycle_days = 0
                         let microcycle_name = ""
                         let training_block = []
@@ -116,6 +117,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 microcycle_goal = microcycle.goal
                                 microcycle_days = microcycle.days
                                 count_day = only_date.diff(date_with, "days")+1
+                                mcd = count_day;
                                 if(count_day < 3) count_day = '+'+count_day
                                 else{
                                     count_day = only_date.diff(date_by, "days")
@@ -328,7 +330,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
 
-                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${exercise_shorts}" data-load="${training_load}" data-objective_1="${objectives}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
+                        tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-mcd="${mcd}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${exercise_shorts}" data-load="${training_load}" data-objective_1="${objectives}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
 
@@ -458,8 +460,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 }
 
 function resize_events_table(){
-    let css = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
-    let css_2 = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters-2').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height())+Math.round($('.mc-function').height()))+"px)"
+    let css = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height())+Math.round($('.mc-function').height()))+"px)"
+    let css_2 = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters-2').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
     //console.log(css)
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
