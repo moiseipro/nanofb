@@ -83,11 +83,11 @@
                                 <a class="nav-link" id="training-loads-tab-button" data-toggle="pill" href="#training-loads-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'Training loads' %}</a>
                             </li>
                             {% endif %}
-                            {% if user.is_superuser or perms.trainings.change_admintrainingmd%}
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link bg-warning" id="training-md-tab-button" data-toggle="pill" href="#training-md-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'MCD' %}</a>
-                            </li>
-                            {% endif %}
+{#                            {% if user.is_superuser or perms.trainings.change_admintrainingmd%}#}
+{#                            <li class="nav-item" role="presentation">#}
+{#                                <a class="nav-link bg-warning" id="training-md-tab-button" data-toggle="pill" href="#training-md-admin-tab" role="tab" aria-controls="pills-contact" aria-selected="false">{% trans 'MCD' %}</a>#}
+{#                            </li>#}
+{#                            {% endif %}#}
                         </ul>
 
                         <div class="tab-content" id="pills-tabContent">
