@@ -460,9 +460,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 }
 
 function resize_events_table(){
-    let css = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height())+Math.round($('.mc-function').height()))+"px)"
-    let css_2 = "calc(92vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters-2').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
-    //console.log(css)
+    let css = "calc(94vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height())+Math.round($('#objective-view-from-training').height()))+"px)"
+    let css_2 = "calc(94vh - "+(Math.round($('#calendar-row').height())+Math.round($('.header').height())+Math.round($('.card-header').height())+Math.round($('#table-row-filters-2').height())+Math.round($('#blocks-folder-row').height())+Math.round($('#microcycle-row').height()))+"px)"
+    //console.log(Math.round($('.mc-function').height()));
     $('#events-table').css({"max-height": css})
     $('#events-table').css({"height": css})
     $('#block-event-info .event-info').css({"max-height": css_2})
