@@ -68,7 +68,7 @@
 .card-inside {
     height: 88vh !important;
 }
-.folders_list, .folders_nfb_list, .folders_club_list {
+.folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list {
     height: 72vh !important;
     overflow-y: auto;
 }
