@@ -1,6 +1,6 @@
 import datetime
 from django.http import JsonResponse
-from django.db.models import Q, CharField, Value
+from django.db.models import Q, CharField, Value, Count
 from django.forms.models import model_to_dict
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
@@ -241,6 +241,10 @@ def get_exs_video_data2(data, exs, folder_type, club_id):
         videos = exs.videos.through.objects.filter(exercise_club=exs)
     elif folder_type == utils.FOLDER_TRAINER:
         videos = exs.videos.through.objects.filter(exercise_trainer=exs)
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        videos = exs.videos.through.objects.filter(exercise_user=exs)
+        if videos.count() == 0:
+            videos = exs.videos.through.objects.filter(exercise_club=exs)
     for video in videos:
         t_key = ""
         if video.type == 1:
@@ -620,6 +624,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     elif folder_type == utils.FOLDER_TRAINER:
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         f_exercises = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        if cur_user.is_superuser:
+            f_exercises = UserExercise.objects.filter(user=folder_id, clone_nfb_id__isnull=True)
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
     if filter_goal != -1:
@@ -818,6 +825,18 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 video_2 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=2).first()
                 anim_1 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=3).first()
                 anim_2 = ExerciseVideo.objects.filter(exercise_trainer=exercise['id'], type=4).first()
+                exercise['trainings_count'] = -1
+            elif folder_type == utils.FOLDER_USERS_EXS:
+                exs_user = User.objects.filter(id=exercise['user_id']).first()
+                if exs_user.club_id is not None:
+                    user_params = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=exs_user)
+                    user_params_club = UserExerciseParam.objects.filter(exercise_club=exercise['id'], user=None)
+                else:
+                    user_params = UserExerciseParam.objects.filter(exercise_user=exercise['id'], user=exs_user)
+                video_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=1).first()
+                video_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=2).first()
+                anim_1 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=3).first()
+                anim_2 = ExerciseVideo.objects.filter(exercise_user=exercise['id'], type=4).first()
                 exercise['trainings_count'] = -1
             if video_1 and video_1.video:
                 if video_1.video.note and video_1.video.note['video']:
@@ -1183,6 +1202,42 @@ def POST_copy_exs(request, cur_user, cur_team):
                     except Exception as e:
                         res_data['ids'].append(new_exs.id)
                         res_data['err'].append(str(e))
+            elif folder_type == utils.FOLDER_USERS_EXS:
+                if not cur_user.is_superuser:
+                    return JsonResponse({"err": "Cant copy exercise. Access denied.", "success": False}, status=400)
+                user_id = -1
+                try:
+                    user_id = int(request.POST.get("user_id", -1))
+                except:
+                    pass
+                exs_user = User.objects.filter(id=user_id).first()
+                c_exs = None
+                if exs_user.club_id is not None:
+                    c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
+                else:
+                    c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
+                if c_exs.exists() and c_exs[0].id != None:
+                    new_exs = AdminExercise()
+                    for key in c_exs.values()[0]:
+                        if key != "id" and key != "date_creation":
+                            if key == "scheme_1" or key == "scheme_2":
+                                new_scheme_id = ""
+                                scheme_id = c_exs.values()[0][key]
+                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                r_json = response.json()
+                                if 'id' in r_json:
+                                    new_scheme_id = r_json['id']
+                                setattr(new_exs, key, new_scheme_id)
+                            else:
+                                setattr(new_exs, key, c_exs.values()[0][key])
+                    new_exs.folder = found_folder[0]
+                    try:
+                        new_exs.save()
+                        res_data['ids'].append(new_exs.id)
+                        success_status = True
+                    except Exception as e:
+                        res_data['ids'].append(new_exs.id)
+                        res_data['err'].append(str(e))
         elif is_to_trainer:
             c_exs = None
             if request.user.club_id is not None:
@@ -1227,6 +1282,17 @@ def POST_copy_exs(request, cur_user, cur_team):
                     videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
                 elif folder_type == utils.FOLDER_TRAINER:
                     videos = c_exs[0].videos.through.objects.filter(exercise_trainer=c_exs[0])
+                elif folder_type == utils.FOLDER_USERS_EXS:
+                    user_id = -1
+                    try:
+                        user_id = int(request.POST.get("user_id", -1))
+                    except:
+                        pass
+                    exs_user = User.objects.filter(id=user_id).first()
+                    if exs_user.club_id is not None:
+                        videos = c_exs[0].videos.through.objects.filter(exercise_club=c_exs[0])
+                    else:
+                        videos = c_exs[0].videos.through.objects.filter(exercise_user=c_exs[0])
                 for video in videos:
                     if video.type == 1 or video.type == 3:
                         if copy_to_nf == 1:
@@ -3501,6 +3567,58 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        if not request.user.is_superuser:
+            if is_as_object:
+                return None
+            else:
+                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        user_id = -1
+        try:
+            user_id = int(request.GET.get("user_id", -1))
+        except:
+            pass
+        exs_user = User.objects.filter(id=user_id).first()
+        if exs_user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+        if c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
+            res_exs['nfb'] = False
+            res_exs['folder_parent_id'] = c_exs[0].folder.parent
+            res_exs['copied_from_nfb'] = c_exs[0].clone_nfb_id != None
+        user_params = None
+        club_user_params = None
+        if request.user.club_id is not None:
+            user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=exs_user)
+            club_user_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0].id, user=None)
+        else:
+            user_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0].id, user=exs_user)
+        if user_params and user_params.exists() and user_params[0].id != None:
+            user_params = user_params.values()[0]
+            res_exs['favorite'] = user_params['favorite']
+            res_exs['video_1_watched'] = user_params['video_1_watched']
+            res_exs['video_2_watched'] = user_params['video_2_watched']
+            res_exs['animation_1_watched'] = user_params['animation_1_watched']
+            res_exs['animation_2_watched'] = user_params['animation_2_watched']
+            res_exs['note_trainer'] = user_params['note_trainer']
+            res_exs['note_club_admin'] = user_params['note_club_admin']
+            res_exs['note_status'] = user_params['note_status']
+        if club_user_params and club_user_params.exists() and club_user_params[0].id != None:
+            club_user_params = club_user_params.values()[0]
+            res_exs['note_trainer'] = club_user_params['note_trainer']
+            res_exs['note_club_admin'] = club_user_params['note_club_admin']
+            res_exs['note_status'] = user_params['note_status']
+        team_params = None
+        if team_params and team_params.exists() and team_params[0].id != None:
+            team_params = team_params.values()[0]
+            res_exs['additional_data'] = utils.get_by_language_code(team_params['additional_data'], request.LANGUAGE_CODE)
+            res_exs['keyword'] = utils.get_by_language_code(team_params['keyword'], request.LANGUAGE_CODE)
+            res_exs['stress_type'] = utils.get_by_language_code(team_params['stress_type'], request.LANGUAGE_CODE)
+            res_exs['purposes'] = utils.get_by_language_code(team_params['purpose'], request.LANGUAGE_CODE)
+            res_exs['coaching'] = utils.get_by_language_code(team_params['coaching'], request.LANGUAGE_CODE)
+            res_exs['notes'] = utils.get_by_language_code(team_params['note'], request.LANGUAGE_CODE)
     else:
         if is_as_object:
             return None
@@ -3525,7 +3643,8 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['field_age'] = utils.get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = utils.get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
     res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
-    # res_exs = get_exs_additional_params(res_exs, c_exs[0], folder_type, cur_user, request.user.club_id, request.LANGUAGE_CODE)
+    if folder_type == utils.FOLDER_USERS_EXS:
+         res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs
@@ -3600,6 +3719,21 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         c_exs = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday, id=exs_id)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        if not cur_user.is_superuser:
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        user_id = -1
+        try:
+            user_id = int(request.GET.get("user_id", -1))
+        except:
+            pass
+        exs_user = User.objects.filter(id=user_id).first()
+        if exs_user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=exs_user.club_id)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=exs_user)
+        if c_exs.exists() and c_exs[0].id != None:
+            res_exs = c_exs.values()[0]
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     if c_exs is not None and c_exs.exists() and c_exs[0].id != None:
@@ -3609,6 +3743,8 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
         res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
         res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
+        if folder_type == utils.FOLDER_USERS_EXS:
+            res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
@@ -3788,6 +3924,37 @@ def GET_check_copied_nf_exs(request, cur_user, cur_team):
         if c_exs:
             found_exs.append(exs_id)
     return JsonResponse({"data": found_exs, "success": True}, status=200)
+
+
+def GET_get_users_with_own_exs(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get users with own exercises".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_users = []
+    found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+    for elem in found_users_ids:
+        c_id = elem['user']
+        if c_id != cur_user.id:
+            f_user = User.objects.filter(id=c_id).first()
+            found_users.append({
+                'id': f_user.id,
+                'email': f_user.email,
+                'name': f_user.personal.full_name,
+                'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count()
+            })
+    return JsonResponse({"data": found_users, "success": True}, status=200)
 
 
 # --------------------------------------------------

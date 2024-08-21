@@ -122,6 +122,13 @@
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
+                {% if user.is_superuser %}
+                <button type="button" class="btn btn-sm btn-custom size-w-x mt-2 ml-2 d-none" data-id="users_exs_folders" style="--w-x:97%;">
+                    <div class="">
+                        <span class="text-center text-uppercase ml-2">Упражнения пользователей</span>
+                    </div>
+                </button>
+                {% endif %}
             </div>
             {% endif %}
             {% include 'exercises/folders_list.html' %}

@@ -7,6 +7,7 @@ FOLDER_TEAM = "team_folders"
 FOLDER_NFB = "nfb_folders"
 FOLDER_CLUB = "club_folders"
 FOLDER_TRAINER = "__is_trainer"
+FOLDER_USERS_EXS = "__is_user_exs"
 
 
 def get_by_language_code(value, code):

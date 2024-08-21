@@ -524,6 +524,7 @@ def exercises_api(request):
         get_exs_full_name_status = 0
         get_exs_all_features_status = 0
         check_copied_nf_exs_status = 0
+        get_users_with_own_exs_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -560,6 +561,10 @@ def exercises_api(request):
             check_copied_nf_exs_status = int(request.GET.get("check_copied_nf_exs", 0))
         except:
             pass
+        try:
+            get_users_with_own_exs_status = int(request.GET.get("get_users_with_own_exs", 0))
+        except:
+            pass
         if get_exs_all_status == 1:
             return v_api.GET_get_exs_all(request, cur_user[0], cur_team)
         elif get_exs_one_status == 1:
@@ -574,6 +579,8 @@ def exercises_api(request):
             return v_api.GET_get_exs_all_features(request, cur_user[0], cur_team)
         elif check_copied_nf_exs_status == 1:
             return v_api.GET_check_copied_nf_exs(request, cur_user[0], cur_team)
+        elif get_users_with_own_exs_status == 1:
+            return v_api.GET_get_users_with_own_exs(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

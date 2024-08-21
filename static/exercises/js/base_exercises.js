@@ -716,8 +716,8 @@ function ToggleLangsRowsInModal() {
     });
 }
 
-function LoadContentInCardModalForEdit(id = -1, f_type="team_folders") {
-    let data = {'get_exs_graphic_content': 1, 'exs': id, 'f_type': f_type};
+function LoadContentInCardModalForEdit(id = -1, f_type = "team_folders", user_id = "") {
+    let data = {'get_exs_graphic_content': 1, 'exs': id, 'f_type': f_type, 'user_id': user_id};
     let resData = null;
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2103,11 +2103,18 @@ $(function() {
                 });
             }
             let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+            let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
             let folderType = $('.folders_div.selected').attr('data-id');
             let copyToNF = $('#exerciseCopyModal').find('.list-group-item.active').parent().parent().attr('data-id') == "nfb_folders";
+            let userId = "";
             if (isTrainer) {folderType = "__is_trainer";}
+            if (isUsersExs) {
+                folderType = "__is_user_exs";
+                userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+                copyToNF = true;
+            }
             let data = {
                 'move_exs': modeVal == '2' ? 1 : 0,
                 'copy_exs': modeVal == '1' ? 1 : 0,
@@ -2116,7 +2123,8 @@ $(function() {
                 'nfb_folder': fromNfbFolder ? 1 : 0, 
                 'copy_to_nf': copyToNF ? 1 : 0, 
                 'folder': selectedFolder,
-                'type': folderType
+                'type': folderType,
+                'user_id': userId
             };
             $('.page-loader-wrapper').fadeIn();
             $.ajax({
@@ -2694,8 +2702,14 @@ $(function() {
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
         let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
         if (isTrainer) {folderType = "__is_trainer";}
+        let userId = "";
+        if (isUsersExs) {
+            folderType = "__is_user_exs";
+            userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+        }
         let id = -1;
         try {
             id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
@@ -2712,7 +2726,7 @@ $(function() {
             tempCounter += $('#splitCol_2').find('#carouselVideo').find('.carousel-item:not(.d-none)').length;
             activeNum = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         }
-        LoadGraphicsModal(id, folderType, activeNum);
+        LoadGraphicsModal(id, folderType, activeNum, userId);
     });
     $('#exerciseGraphicsModal').on('click', '.video-watched', (e) => {
         let activeExs = $('.exercises-list').find('.exs-elem.active');
@@ -3110,7 +3124,8 @@ $(function() {
             swal("Внимание", "Выберите упражнение из списка.", "info");
             return;
         }
-        if ($('.folders_div.selected').attr('data-id') == "nfb_folders") {
+        let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+        if ($('.folders_div.selected').attr('data-id') == "nfb_folders" && !isUsersExs) {
             swal("Внимание", "Выберите упражнение из папок <Команда>.", "info");
             return;
         }
@@ -3154,6 +3169,65 @@ $(function() {
                 window.count_exs_calls[ind]['call'].abort();
             }
             LoadFolderExercises();
+        }
+    });
+
+    $('#toggleUsersExs').on('click', (e) => {
+        let isSelected = $(e.currentTarget).hasClass('selected3');
+        $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', isSelected);
+        $('.btn[data-id="users_exs_folders"]').toggleClass('d-none', !isSelected);
+        $('.folders_div[data-id!="trainer_folders"]').toggleClass('c-hidden');
+        $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !isSelected);
+        $('.folders_div').find('.list-group-item').removeClass('active');
+        $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+        $('.btn-custom.tgl-off-usrs-exs').toggleClass('btn-disabled', isSelected);
+        if ($('.folders_div[data-id="users_exs_folders"]').find('li.list-group-item').length == 0) {
+            $('.page-loader-wrapper').fadeIn();
+            $.ajax({
+                headers:{"X-CSRFToken": csrftoken},
+                data: {'get_users_with_own_exs': 1},
+                type: 'GET', // GET или POST
+                dataType: 'json',
+                url: "exercises_api",
+                success: function (res) {
+                    if (res.success) {
+                        if (Array.isArray(res.data) && res.data.length > 0) {
+                            let htmlStr = "";
+                            for (let i = 0; i < res.data.length; i++) {
+                                let elem = res.data[i];
+                                htmlStr += `
+                                    <li class="list-group-item p-1">
+                                        <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                                            <div class="pull-left">
+                                                <span class="folder-point mr-2"></span>
+                                                <span class="folder-title">${elem['name']}</span>
+                                            </div>
+                                            <div class="pull-right border-left border-dark">
+                                                <div class="pull-right text-right" style="width: 45px;">
+                                                    <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                `;
+                            }
+                            $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
+                        } else {
+                            $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");
+                        }
+                    } else {
+                        swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
+                        console.log(res);
+                    }
+                },
+                error: function (res) {
+                    swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
+                    console.log(res);
+                },
+                complete: function (res) {
+                    $('.page-loader-wrapper').fadeOut();
+                }
+            });
         }
     });
 

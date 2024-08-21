@@ -19,26 +19,30 @@
                                 <div class="btns-tabs-first w-100 px-3">
                                     <div class="row">
                                         <div class="col-12 p-0 btn-group btn-group-custom collapse mb-2" id="collapseAdminSectionSettings">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:4%;">
                                                 <i class="fa fa-cog" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsID" title="Скрыть / Показать ID" style="--w-max-x:4%;">
                                                 ID
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:4%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:4%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExsNF" title="Скопировать упражнение в NF" style="--w-max-x:5%;">
                                                 <i class="fa fa-clone" aria-hidden="true"></i>
                                                 NF
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="getExsDuplicates" title="Получить список дублированных упражнений по видео/анимации" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="getExsDuplicates" title="Получить список дублированных упражнений по видео/анимации" style="--w-max-x:5%;">
                                                 <i class="fa fa-video-camera" aria-hidden="true"></i>
                                                 |
                                                 <i class="fa fa-window-restore" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="toggleUsersExs" title="Скрыть / показать упражнения других пользователей" style="--w-max-x:5%;">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                EXS
                                             </button>
                                         </div>
 
@@ -46,28 +50,28 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x d-none" id="showOneExs" title="Просмотреть" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--magnifying-glass mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %}" id="createExercise" title="Добавить упражнение" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x {% if not user.is_superuser %}usr-dft{% endif %} tgl-off-usrs-exs" id="createExercise" title="Добавить упражнение" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--plus mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="toggleExsEditPanel" title="Редактировать упражнение" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="toggleExsEditPanel" title="Редактировать упражнение" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-pencil" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="changeColumnSize" title="Изменить размер колонки" style="--w-max-x:5%;" data-state="0">
                                                 <span class="icon-custom icon--sorting-arrows-horizontal mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem up-tab-custom size-max-w-x" id="toggleFoldersViews" title="Свернуть / Развернуть папки" style="--w-max-x:5%;" data-state="0">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem up-tab-custom size-max-w-x tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" style="--w-max-x:5%;" data-state="0">
                                                 <span class="icon-custom icon--folder-2" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_trainer" title="Архив упражнений" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-file-archive-o" aria-hidden="true" style="opacity: 1;"></i>
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-file-text-o" aria-hidden="true"></i>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-id-card-o" aria-hidden="true"></i>
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="moveExs" title="Переместить упражнение" style="--w-max-x:5%;">
@@ -76,25 +80,25 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="" title="" style="--w-max-x:5%;" data-state="0">
                                                 <span class="icon-custom icon--sorting-arrows mx-1" style="--i-w: 1.6em; --i-h: 1.6em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_favorite" title="Избранное" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--favorite mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched" title="Просмотренные видео" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_watched" title="Просмотренные видео" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--eye-2" style="--i-w: 1.6em; --i-h: 1.8em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_watched_not" title="Не просмотренные видео" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_watched_not" title="Не просмотренные видео" style="--w-max-x:5%;">
                                                 <span class="icon-custom icon--eye-2-not" style="--i-w: 1.6em; --i-h: 1.8em;"></span>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_video" title="" style="--w-max-x:5%; font-size: 1.1rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_video" title="" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 V.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="toggle_animation" title="" style="--w-max-x:5%; font-size: 1.1rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_animation" title="" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 A.
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_new_folder" title="Новые упражнения (30 дн.)" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_new_folder" title="Новые упражнения (30 дн.)" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-bell-o" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="clear_filter" title="Очистить фильтры" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: balck;"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:5%; font-size: 1.1rem;">
@@ -109,7 +113,7 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_pro" title="" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 PRO
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_note_status" title="Примечания к упражнению (статус)" style="--w-max-x:5%; font-size: 1.1rem;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x tgl-off-usrs-exs" data-id="toggle_note_status" title="Примечания к упражнению (статус)" style="--w-max-x:5%; font-size: 1.1rem;">
                                                 <i class="fa fa-lg fa-flag" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_visual_block_scroll_down" title="Правый блок. Вниз" style="--w-max-x:5%; font-size: 1.1rem;">

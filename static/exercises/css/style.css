@@ -376,6 +376,11 @@
     border: none !important;
 }
 
+.btn-custom.btn-disabled {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
+}
+
 .bck-custom {
     color: #2d2d2d !important;
     border: 2px solid rgb(100, 100, 100) !important;
