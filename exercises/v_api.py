@@ -3965,13 +3965,14 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
         c_id = elem['user']
         if c_id != cur_user.id:
             f_user = User.objects.filter(id=c_id).first()
-            found_users.append({
-                'id': f_user.id,
-                'email': f_user.email,
-                'name': f_user.personal.full_name,
-                'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
-                'club': f_user.club_id.name
-            })
+            if f_user.club_id is not None:
+                found_users.append({
+                    'id': f_user.id,
+                    'email': f_user.email,
+                    'name': f_user.personal.full_name,
+                    'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+                    'club': f_user.club_id.name
+                })
     return JsonResponse({"data": found_users, "success": True}, status=200)
 
 
