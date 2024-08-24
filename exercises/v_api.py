@@ -3647,9 +3647,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['field_goalkeeper'] = utils.get_by_language_code(res_exs['field_goalkeeper'], request.LANGUAGE_CODE)
     res_exs['field_age'] = utils.get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = utils.get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
-    res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     if folder_type == utils.FOLDER_USERS_EXS:
          res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
+    else:
+        res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     res_exs['tags'] = get_tags_of_exercise(c_exs[0])
     if is_as_object:
         return res_exs
@@ -3747,9 +3748,10 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
         res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
         res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
         res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])
-        res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
         if folder_type == utils.FOLDER_USERS_EXS:
             res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
+        else:
+            res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
