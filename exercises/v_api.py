@@ -242,9 +242,10 @@ def get_exs_video_data2(data, exs, folder_type, club_id):
     elif folder_type == utils.FOLDER_TRAINER:
         videos = exs.videos.through.objects.filter(exercise_trainer=exs)
     elif folder_type == utils.FOLDER_USERS_EXS:
-        videos = exs.videos.through.objects.filter(exercise_user=exs)
-        if videos.count() == 0:
+        if club_id is not None:
             videos = exs.videos.through.objects.filter(exercise_club=exs)
+        else:
+            videos = exs.videos.through.objects.filter(exercise_user=exs)
     for video in videos:
         t_key = ""
         if video.type == 1:
