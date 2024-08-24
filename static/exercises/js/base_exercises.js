@@ -3200,7 +3200,7 @@ $(function() {
                                         <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                                             <div class="pull-left">
                                                 <span class="folder-point mr-2"></span>
-                                                <span class="folder-title">${elem['name']}</span>
+                                                <span class="folder-title">${elem['name']} ${elem['club'] ? `( ${elem['club']} )` : ``}</span>
                                             </div>
                                             <div class="pull-right border-left border-dark">
                                                 <div class="pull-right text-right" style="width: 45px;">

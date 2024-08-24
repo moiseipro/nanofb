@@ -626,7 +626,12 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
     elif folder_type == utils.FOLDER_USERS_EXS:
         if cur_user.is_superuser:
-            f_exercises = UserExercise.objects.filter(user=folder_id, clone_nfb_id__isnull=True)
+            user_id = folder_id
+            exs_user = User.objects.filter(id=user_id).first()
+            if exs_user.club_id is not None:
+                f_exercises = ClubExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
+            else:
+                f_exercises = UserExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
     if filter_goal != -1:
@@ -3580,9 +3585,9 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             pass
         exs_user = User.objects.filter(id=user_id).first()
         if exs_user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True)
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
         else:
-            c_exs = UserExercise.objects.filter(id=exs_id, visible=True)
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = False
@@ -3729,9 +3734,9 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
             pass
         exs_user = User.objects.filter(id=user_id).first()
         if exs_user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, visible=True, club=exs_user.club_id)
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
         else:
-            c_exs = UserExercise.objects.filter(id=exs_id, visible=True, user=exs_user)
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
     else:
@@ -3952,7 +3957,20 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                 'id': f_user.id,
                 'email': f_user.email,
                 'name': f_user.personal.full_name,
-                'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count()
+                'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+                'club': None
+            })
+    found_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+    for elem in found_users_ids:
+        c_id = elem['user']
+        if c_id != cur_user.id:
+            f_user = User.objects.filter(id=c_id).first()
+            found_users.append({
+                'id': f_user.id,
+                'email': f_user.email,
+                'name': f_user.personal.full_name,
+                'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+                'club': f_user.club_id.name
             })
     return JsonResponse({"data": found_users, "success": True}, status=200)
 
