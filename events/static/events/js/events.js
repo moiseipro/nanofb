@@ -516,9 +516,10 @@ $(window).on('load', function (){
         $('#event-link').html('');
         if (send_data['event_type'] == '5'){
             send_data['event_type'] = '1'
-            let training_form = $('#form-event-modal .event_type_block[data-type~="'+send_data['event_type']+'"] form');
+            let training_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
             let training_data = getFormData(training_form)
-            send_data = $.merge(send_data, training_data);
+            console.log(training_data)
+            send_data = $.extend(send_data, training_data);
             console.log(send_data)
             ajax_event_action(method, send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
@@ -795,6 +796,7 @@ $(window).on('load', function (){
             $('#filled-match-filter.active').click()
         }
         $(this).attr('data-filter', cur_state)
+        $('#table-row-filters').toggleClass('d-none', cur_state == 0)
         local_filters_events()
     })
     //Фильтрация матчей
@@ -1007,7 +1009,7 @@ $(window).on('load', function (){
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
     create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
-    create_ajax_select2($('#training-mcd-filter'), gettext('Type of training'), '/trainings/amd_list', $(document.body), false, true, -1)
+    //create_ajax_select2($('#training-mcd-filter'), gettext('Type of training'), '/trainings/amd_list', $(document.body), false, true, -1)
 
 
     //create_ajax_select2($('#objective_1-block-filter'), gettext('Objective block'), '/trainings/objective_block', $(document.body))
