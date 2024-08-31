@@ -26,7 +26,7 @@ from matches.models import UserMatch, ClubMatch, LiteMatch
 from references.models import UserTeam, UserSeason, ClubSeason, ClubTeam
 from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise, LiteTraining, \
     LiteTrainingExercise, ClubTrainingExerciseAdditional, UserTrainingExerciseAdditional, \
-    LiteTrainingExerciseAdditional, ClubTrainingObjectiveMany, UserTrainingObjectiveMany
+    LiteTrainingExerciseAdditional, ClubTrainingObjectiveMany, UserTrainingObjectiveMany, AdminTrainingLoad
 from system_icons.views import get_ui_elements
 from users.models import User
 
@@ -184,7 +184,7 @@ class FilterCounterApiView(APIView):
 
     def get(self, request, format=None):
         mc = request.GET.get('mc', '')
-        loads = request.GET.get('load', '')
+        loads = request.GET.get('aload', '')
         blocks = request.GET.get('block', '')
         objectives = request.GET.get('objective', '')
 
@@ -193,7 +193,7 @@ class FilterCounterApiView(APIView):
         if loads != '':
             ids_load = loads.split()
             print(ids_load)
-            all_filters &= Q(load__in=ids_load)
+            all_filters &= Q(aload__in=ids_load)
         else:
             ids_load = ''
 
@@ -252,7 +252,7 @@ class FilterCounterApiView(APIView):
             print(microcycles_queryset)
 
         microcycles_queryset = microcycles_queryset.annotate(count=Count('name'))
-        queryset = queryset.annotate(load_count=Count('load'), block_count=Count('blocks'), objective_count=Count('objectives'), count=Count('event_id'))
+        queryset = queryset.annotate(load_count=Count('aload'), block_count=Count('blocks'), objective_count=Count('objectives'), count=Count('event_id'))
         print(queryset)
         list_counts = []
         count_load = 0
@@ -709,20 +709,23 @@ class EventViewSet(viewsets.ModelViewSet):
                     user_id = User.objects.get(pk=self.request.data['trainer_user_id'])
                     goalkepeers = self.request.data['goalkepeers'] if 'goalkepeers' in self.request.data else 0
                     players = self.request.data['players'] if 'players' in self.request.data else 0
+                    load = AdminTrainingLoad.objects.get(id=self.request.data['aload']) if 'aload' in self.request.data else ''
                     if self.request.user.club_id is not None:
                         event = serializer.save(user_id=user, club_id=self.request.user.club_id)
                         new_training = ClubTraining.objects.create(team_id=team, event_id=event, group=group,
                                                                    trainer_user_id=user_id,
                                                                    goalkeepers_count=goalkepeers,
                                                                    players_count=players,
-                                                                   field_size=field_size)
+                                                                   field_size=field_size,
+                                                                   aload=load)
                     else:
                         event = serializer.save(user_id=user)
                         new_training = UserTraining.objects.create(team_id=team, event_id=event, group=group,
                                                                    trainer_user_id=user_id,
                                                                    goalkeepers_count=goalkepeers,
                                                                    players_count=players,
-                                                                   field_size=field_size)
+                                                                   field_size=field_size,
+                                                                   aload=load)
                     new_training.save()
                     return True
                 else:

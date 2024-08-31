@@ -326,14 +326,14 @@ function load_all_exercises_training(training_id = null, group = null) {
         $('#training-main-data [name="group"]').val(data.group);
         let newOption;
 
-        if (data.load){
-            ajax_loads_action('GET', {}, 'get load').then(function (datas) {
+        if (data.aload){
+            ajax_aloads_action('GET', {}, 'get load').then(function (datas) {
                 let loads = datas.results
                 console.log(loads)
                 for (const load of loads) {
-                    if (load.id == data.load){
+                    if (load.id == data.aload){
                         newOption = new Option(load.name, load.id, false, true);
-                        $('#training-main-data select[name="load"]').append(newOption).trigger('change');
+                        $('#training-main-data select[name="aload"]').append(newOption).trigger('change');
                     }
                 }
 

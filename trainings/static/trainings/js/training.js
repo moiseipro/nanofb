@@ -39,7 +39,7 @@ $(window).on('load', function (){
     })
 
     create_ajax_select2($('[name="md"]'), gettext('MCD'), '/trainings/amd_list/', $(document.body), false, true, 0, false)
-    create_ajax_select2($('[name="load"]'), gettext('Load'), '/trainings/loads_list/', $(document.body), false, true, 0, false)
+    create_ajax_select2($('[name="aload"]'), gettext('Load'), '/trainings/aloads_list/', $(document.body), false, true, 0, false)
     //create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
 
     //create_ajax_select2($('[name="objective_1"]'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 0})
@@ -178,7 +178,7 @@ $(window).on('load', function (){
         training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
         training_data['block'] = $('#training-main-data select[name="block"]').val()
-        training_data['load'] = $('#training-main-data select[name="load"]').val()
+        training_data['aload'] = $('#training-main-data select[name="aload"]').val()
         training_data['md'] = $('#training-main-data select[name="md"]').val()
         training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
         training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()

@@ -466,7 +466,7 @@ class LoadsViewSet(viewsets.ModelViewSet):
         return blocks
 
 
-class LoadListApiView(APIView):
+class AdminLoadListApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -481,35 +481,32 @@ class LoadListApiView(APIView):
             )
             query_obj_many = reduce(
                 lambda a, b: a & b,
-                (Q(load__name__icontains=term) for term in words),
+                (Q(aload__name__icontains=term) for term in words),
             )
             print(query_obj)
         else:
             query_obj = (Q(name__icontains=search))
-            query_obj_many = (Q(load__name__icontains=search))
+            query_obj_many = (Q(aload__name__icontains=search))
 
+        queryset = AdminTrainingLoad.objects. \
+            filter(Q(variant=0)).filter(query_obj). \
+            order_by('short_name', 'name')
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTrainingLoad.objects. \
-                filter(Q(club=request.user.club_id)).filter(query_obj). \
-                order_by('short_name', 'name')
             queryset_many = ClubTraining.objects. \
                 filter(Q(event_id__date__gte=season[0].date_with) &
                        Q(event_id__date__lte=season[0].date_by) &
                        Q(event_id__club_id=request.user.club_id) &
                        Q(team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('load')).order_by('load__name')
+                annotate(count=Count('aload')).order_by('aload__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTrainingLoad.objects. \
-                filter(Q(user=request.user)).filter(query_obj). \
-                order_by('short_name', 'name')
             queryset_many = UserTraining.objects. \
                 filter(Q(event_id__date__gte=season[0].date_with) &
                        Q(event_id__date__lte=season[0].date_by) &
                        Q(event_id__user_id=request.user) &
                        Q(team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('load')).order_by('load__name')
+                annotate(count=Count('aload')).order_by('aload__name')
 
         print(queryset_many.values())
         list_load = []
@@ -522,7 +519,7 @@ class LoadListApiView(APIView):
                 'count': load_count
             }
             for load_many in queryset_many:
-                if load_many.load.pk == load.pk:
+                if load_many.aload.pk == load.pk:
                     new_block['count'] += 1
             #if new_block['count'] > 0:
             list_load.append(new_block)
@@ -542,7 +539,7 @@ class LoadListApiView(APIView):
         #print(list2)
         return Response(list2)
 
-class LoadShortApiView(APIView):
+class AdminLoadShortApiView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -557,35 +554,32 @@ class LoadShortApiView(APIView):
             )
             query_obj_many = reduce(
                 lambda a, b: a & b,
-                (Q(load__name__icontains=term) for term in words),
+                (Q(aload__name__icontains=term) for term in words),
             )
             print(query_obj)
         else:
             query_obj = (Q(name__icontains=search))
-            query_obj_many = (Q(load__name__icontains=search))
+            query_obj_many = (Q(aload__name__icontains=search))
 
+        queryset = AdminTrainingLoad.objects. \
+            filter(Q(variant=0)).filter(query_obj). \
+            order_by('short_name', 'name')
         if request.user.club_id is not None:
             season = ClubSeason.objects.filter(id=self.request.session['season'], club_id=self.request.user.club_id)
-            queryset = ClubTrainingLoad.objects. \
-                filter(Q(club=request.user.club_id)).filter(query_obj). \
-                order_by('short_name', 'name')
             queryset_many = ClubTraining.objects. \
                 filter(Q(event_id__date__gte=season[0].date_with) &
                        Q(event_id__date__lte=season[0].date_by) &
                        Q(event_id__club_id=request.user.club_id) &
                        Q(team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('load')).order_by('load__name')
+                annotate(count=Count('aload')).order_by('aload__name')
         else:
             season = UserSeason.objects.filter(id=self.request.session['season'])
-            queryset = UserTrainingLoad.objects. \
-                filter(Q(user=request.user)).filter(query_obj). \
-                order_by('short_name', 'name')
             queryset_many = UserTraining.objects. \
                 filter(Q(event_id__date__gte=season[0].date_with) &
                        Q(event_id__date__lte=season[0].date_by) &
                        Q(event_id__user_id=request.user) &
                        Q(team_id=self.request.session['team'])).filter(query_obj_many). \
-                annotate(count=Count('load')).order_by('load__name')
+                annotate(count=Count('aload')).order_by('aload__name')
 
         print(queryset_many.values())
         list_load = []

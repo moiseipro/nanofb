@@ -39,7 +39,7 @@ $(window).on('load', function (){
     })
 
     create_ajax_select2($('[name="md"]'), gettext('MCD'), '/trainings/amd_list/', $(document.body), false, true, 0, false)
-    create_ajax_select2($('[name="load"]'), gettext('Load'), '/trainings/loads_list/', $(document.body), false, true, 0, false)
+    create_ajax_select2($('[name="aload"]'), gettext('Load'), '/trainings/aloads_list/', $(document.body), false, true, 0, false)
     //create_ajax_select2($('[name="blocks"]'), gettext('Type of training'), '/trainings/blocks_list/', $(document.body), false, true, 0, true, 1)
 
     //create_ajax_select2($('[name="objective_1"]'), gettext('Objectives'), '/trainings/objectives_list/', $(document.body), false, true, 0, true, 3, {'type': 0})
@@ -178,7 +178,7 @@ $(window).on('load', function (){
         training_data['inventory'] = JSON.stringify(inventory)
         training_data['additional'] = JSON.stringify(additionals)
         training_data['block'] = $('#training-main-data select[name="block"]').val()
-        training_data['load'] = $('#training-main-data select[name="load"]').val()
+        training_data['aload'] = $('#training-main-data select[name="aload"]').val()
         training_data['md'] = $('#training-main-data select[name="md"]').val()
         training_data['objective_1'] = $('#training-main-data input[name="objective_1"]').val()
         training_data['objective_2'] = $('#training-main-data input[name="objective_2"]').val()
@@ -467,27 +467,26 @@ function generate_exercises_module_data() {
     let html_data = ``
 
     html_data += `
-    <div class="col-12 mb-2">
-        <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
-            <div class="col-1 px-0 edit-button d-none">
-                <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
-            </div>
-            <div class="col-1">
-                <span class="font-weight-bold group-count"></span>
-            </div>
-            <div class="col">
-                <span class="font-weight-bold group-button">${ gettext("Exercises") }</span>
-            </div>
-            <div class="col px-0">
-                <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
-            </div>
+    <div class="row group-row mx-0 border border-dark bg-default-light font-weight-bold" data-group="1">
+        <div class="col-1 px-0 edit-button d-none">
+            <button class="btn btn-sm btn-block btn-warning font-weight-bold py-0 h-100 add-exercise"><i class="fa fa-plus" aria-hidden="true"></i></button>
         </div>
-        <div class="row group-exercises-row mx-0" data-group="1">
-            <div class="col">
-                <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
-            </div>
+        <div class="col-1">
+            <span class="font-weight-bold group-count"></span>
+        </div>
+        <div class="col">
+            <span class="font-weight-bold group-button">${ gettext("Exercises") }</span>
+        </div>
+        <div class="col px-0">
+            <span class="sum-duration-group btn btn-sm float-right rounded-0 py-0 h-100 font-weight-bold" style="width: 50px">00</span>
         </div>
     </div>
+    <div class="row group-exercises-row mx-0" data-group="1">
+        <div class="col">
+            <div class="group-block sortable-edit" id="group_A" aria-labelledby="group_A-tab">...2</div>
+        </div>
+    </div>
+    
     `
 
     // html_data += `
@@ -513,5 +512,5 @@ function generate_exercises_module_data() {
     //
     // `
 
-    $('.visual-block').prepend(html_data)
+    $('.visual-block').append(html_data)
 }

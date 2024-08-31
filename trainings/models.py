@@ -206,6 +206,12 @@ class AbstractTraining(models.Model):
         null=True,
         blank=True,
     )
+    aload = models.ForeignKey(
+        AdminTrainingLoad,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
     goalkeepers_count = models.SmallIntegerField(
         verbose_name=_('Goalkeepers count'),
         help_text=_('Goalkeepers count'),
@@ -269,12 +275,6 @@ class UserTraining(AbstractTraining):
         UserTeam,
         on_delete=models.CASCADE
     )
-    load = models.ForeignKey(
-        UserTrainingLoad,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL
-    )
     objectives = models.ManyToManyField(
         UserTrainingObjectives,
         verbose_name=_('objective'),
@@ -330,12 +330,6 @@ class ClubTraining(AbstractTraining):
     team_id = models.ForeignKey(
         ClubTeam,
         on_delete=models.CASCADE
-    )
-    load = models.ForeignKey(
-        ClubTrainingLoad,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL
     )
     objectives = models.ManyToManyField(
         ClubTrainingObjectives,

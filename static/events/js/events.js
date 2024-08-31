@@ -1008,7 +1008,9 @@ $(window).on('load', function (){
     create_ajax_select2($('#microcycle-days-filter'), gettext('MC days'), '/events/microcycle_days_list', $(document.body), false, true, -1)
     create_ajax_select2($('#microcycle-name-filter'), gettext('M.C.'), '/events/microcycle_name_list', $(document.body), false, true, -1)
     create_ajax_select2($('#training-block-filter'), gettext('Block'), '/trainings/blocks_list/', $(document.body), false, true, -1)
-    create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/loads_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#training-load-filter'), gettext('Load'), '/trainings/aloads_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#form-event-modal .select_load_for_create'), gettext('Load'), '/trainings/aloads_list', $(document.body), false, true, -1)
+    create_ajax_select2($('#form-event-edit-modal .select_load_for_create'), gettext('Load'), '/trainings/aloads_list', $(document.body), false, true, -1)
     //create_ajax_select2($('#training-mcd-filter'), gettext('Type of training'), '/trainings/amd_list', $(document.body), false, true, -1)
 
 
@@ -1034,6 +1036,24 @@ function clear_event_form(){
     $('#form-event #id_event_type').trigger('change');
     $('#form-event #datetimepicker-event').val(nowdate)
     $('#form-event #timepicker-event').val(nowtime)
+    $('#form-event-modal .select_load_for_create').val(null).trigger("change");
+    $('#form-event-modal #input_field_size').val('')
+    $('#form-event-modal #input_players').val('')
+    $('#form-event-modal #input_goalkepeers').val('')
+
+
+}
+function clear_event_edit_form(){
+    let nowdate = moment().format('YYYY-MM-DD');
+    let nowtime = moment().format('HH:mm')
+    $('#form-event-edit #id_short_name').val('')
+    $('#form-event-edit #datetimepicker-event').val(nowdate)
+    $('#form-event-edit #timepicker-event').val(nowtime)
+    $('#form-event-edit-modal .select_load_for_create').val(null).trigger("change");
+    $('#form-event-edit-modal #input_field_size').val('')
+    $('#form-event-edit-modal #input_players').val('')
+    $('#form-event-edit-modal #input_goalkepeers').val('')
+
 }
 
 function clear_microcycle_form(){
@@ -1296,8 +1316,11 @@ function generateMicrocyclesTable(){
             }}
         ],
     })
-    $('#microcycles-tab-button').on('shown.bs.tab', function () {
+    $('#microcycles-tab-button, #nav-user-references-tab').on('shown.bs.tab', function () {
         microcycles_table.columns.adjust()
+    })
+    $('#training-loads-tab-button, #nav-admin-references-tab').on('shown.bs.tab', function () {
+        aloads_table.columns.adjust()
     })
 
 }
@@ -1379,6 +1402,7 @@ $(function() {
                             $('#form-event-edit-modal').modal('show');
                             $('#form-event-edit-modal .event_type_block[data-type*="1"]').removeClass('d-none')
                             ajax_event_action('GET', null, 'get', event_id).then(function( data ) {
+                                clear_event_edit_form()
                                 cur_edit_data = data
                                 console.log(cur_edit_data);
                                 let date = moment(cur_edit_data['only_date'], 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -1390,6 +1414,18 @@ $(function() {
                                 $('#form-event-edit-modal [name="players"]').val(cur_edit_data.training.players_count)
                                 $('#form-event-edit-modal [name="goalkepeers"]').val(cur_edit_data.training.goalkeepers_count)
                                 $('#form-event-edit-modal [name="field_size"]').val(cur_edit_data.training.field_size)
+                                if (cur_edit_data.training.aload){
+                                    ajax_aloads_action('GET', {}, 'get load').then(function (datas) {
+                                        let loads = datas.results
+                                        console.log(loads)
+                                        for (const load of loads) {
+                                            if (load.id == cur_edit_data.training.aload){
+                                                newOption = new Option(load.name, load.id, false, true);
+                                                $('#form-event-edit-modal select[name="aload"]').append(newOption).trigger('change');
+                                            }
+                                        }
+                                    })
+                                }
                             })
                         }
 

@@ -36,7 +36,7 @@ urlpatterns = [
     path('blocks_list/', views.BlockListApiView.as_view(), name='block_list'),
     path('blocks_short/', views.BlockShortListApiView.as_view(), name='block_short_list'),
     path('ablocks_short/', views.AdminBlockShortListApiView.as_view(), name='ablock_short_list'),
-    path('loads_list/', views.LoadListApiView.as_view(), name='loads_list'),
-    path('loads_short/', views.LoadShortApiView.as_view(), name='loads_short'),
+    path('aloads_list/', views.AdminLoadListApiView.as_view(), name='aloads_list'),
+    path('aloads_short/', views.AdminLoadShortApiView.as_view(), name='aloads_short'),
     path('amd_list/', views.AdminMDListApiView.as_view(), name='amd_list'),
 ]
