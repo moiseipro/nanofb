@@ -55,7 +55,7 @@ $(window).on('load', function (){
     })
 
     // Добавление упражнения в тренировку
-    $('.visual-block').on('click', '.add-exercise', function (){
+    $('#splitCol_2').on('click', '.add-exercise', function (){
         let data = {}
         data.group = $(this).closest('.group-row').attr('data-group')
         data.duration = 0
@@ -78,15 +78,15 @@ $(window).on('load', function (){
             }
         })
     })
-    $('.visual-block').on('click', '.exercise-row', function (){
+    $('#splitCol_2').on('click', '.exercise-row', function (){
         let cId = $(this).attr('data-exercise')
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let folderType = $('.folders_div:not(.d-none)').attr('data-id');
-        $('.visual-block .exercise-row').removeClass('selected')
+        $('#splitCol_2 .exercise-row').removeClass('selected')
         $(this).addClass('selected')
         LoadExerciseOne(cId, fromNFB, folderType);
     })
-    $('.visual-block').on('change', '.exercise-row [name="duration"]', function (){
+    $('#splitCol_2').on('change', '.exercise-row [name="duration"]', function (){
         let cur_obj = $(this);
         let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
         let data = {}
@@ -99,7 +99,7 @@ $(window).on('load', function (){
 
     })
     // Удаление упражнения из тренировки
-    $('.visual-block').on('click', '.exercise-row .delete-exercise', function (){
+    $('#splitCol_2').on('click', '.exercise-row .delete-exercise', function (){
         let exercises_training_id = $(this).closest('.exercise-row').attr('data-id')
         let data = {}
         swal(gettext("Remove an exercise from a training?"), {
@@ -110,7 +110,7 @@ $(window).on('load', function (){
         }).then(function(isConfirm) {
             if (isConfirm) {
                 ajax_training_exercise_action('DELETE', data, 'delete', exercises_training_id, '').then(function (data) {
-                    $('.visual-block .exercise-row[data-id="'+exercises_training_id+'"]').remove()
+                    $('#splitCol_2 .exercise-row[data-id="'+exercises_training_id+'"]').remove()
                     $('.exercise-visual-block[data-id="'+exercises_training_id+'"]').remove()
                     set_count_exercises()
                 })
@@ -132,7 +132,7 @@ $(window).on('load', function (){
             } catch(e) {}
         }
     });
-    $('.visual-block').on('click', '.exercise-row', (e) => {
+    $('#splitCol_2').on('click', '.exercise-row', (e) => {
         let isActive = $(e.currentTarget).hasClass('selected');
         if (isActive) {
             try {
@@ -371,7 +371,7 @@ function render_exercises_training(training_id = null, group = null) {
         });
         //$('.visual-block .add-exercise').attr('data-group', send_data.group)
         for (let key in exs_html) {
-            $('.visual-block .group-exercises-row[data-group="'+(parseInt(key)+1)+'"] .group-block').html(exs_html[key]).sortable({
+            $('#splitCol_2 .group-exercises-row[data-group="'+(parseInt(key)+1)+'"] .group-block').html(exs_html[key]).sortable({
                 disabled: !edit_mode,
                 placeholder: "ui-state-highlight",
                 scroll: false,
@@ -512,5 +512,7 @@ function generate_exercises_module_data() {
     //
     // `
 
-    $('.visual-block').append(html_data)
+    $('#splitCol_2').prepend(html_data)
+    $('#splitCol_2').css("overflow-y","auto");
+    $('#splitCol_2').css("max-height","83vh");
 }
