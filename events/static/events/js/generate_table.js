@@ -143,8 +143,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             // for (const block of event.training.blocks){
                             //     training_block.push(block.block.id)
                             // }
-                            if (event.training.load){
-                                training_load.push(event.training.load)
+                            if (event.training.aload){
+                                training_load.push(event.training.aload)
                             }
 
                             event_name = 'tr'+num_tr

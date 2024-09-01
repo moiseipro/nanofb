@@ -796,7 +796,7 @@ $(window).on('load', function (){
             $('#filled-match-filter.active').click()
         }
         $(this).attr('data-filter', cur_state)
-        $('#table-row-filters').toggleClass('d-none', cur_state == 0)
+        //$('#table-row-filters').toggleClass('d-none', cur_state == 0)
         local_filters_events()
     })
     //Фильтрация матчей
