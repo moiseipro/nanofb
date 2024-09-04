@@ -3193,7 +3193,15 @@ $(function() {
                     if (res.success) {
                         if (Array.isArray(res.data) && res.data.length > 0) {
                             let htmlBlocksByClubs = {};
-                            let htmlNoClubsStr = "";
+                            let htmlNoClubsStr = `
+                                <li class="list-group-item p-1 club-title">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="">
+                                            <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
                             for (let i = 0; i < res.data.length; i++) {
                                 let elem = res.data[i];
                                 if (elem['club_id']) {
@@ -3207,7 +3215,6 @@ $(function() {
                                                 </div>
                                             </li>
                                         `;
-                                        console.log( htmlBlocksByClubs )
                                     }
                                     htmlBlocksByClubs[elem['club_id']] += `
                                         <li class="list-group-item p-1">
