@@ -295,8 +295,8 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.visible_demo == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="visible_demo" style="--w-x:24px; --h-x:24px;" title="Видно всем (для демо-режима версии)">
                         <input type="checkbox" value="" ${exElem.visible_demo == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="id" style="--w-x:24px; min-width: 24px; --h-x:24px;" disabled="" title="ID упражнения">
-                        ${exElem.id}
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="id" style="--w-x:50px; min-width: 50px; --h-x:24px;" disabled="" title="ID упражнения">
+                        ID: ${exElem.id}
                     </button>
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x mr-1 font-weight-bold" data-type="icons" data-id="lang" style="--w-x:24px; min-width: 24px; --h-x:24px;" title="">
                         <i class="fa fa-globe" aria-hidden="true"></i>
