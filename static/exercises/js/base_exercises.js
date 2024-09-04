@@ -3248,7 +3248,7 @@ $(function() {
                                 }
                             }
                             let htmlStr = "";
-                            for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
+                            for (let blockStr in htmlBlocksByClubs) {htmlStr += blockStr;}
                             htmlStr += htmlNoClubsStr;
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
                         } else {
