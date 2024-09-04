@@ -1,6 +1,6 @@
 import datetime
 from django.http import JsonResponse
-from django.db.models import Q, CharField, Value, Count
+from django.db.models import Q, CharField, Value, Count, Case, When
 from django.forms.models import model_to_dict
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
@@ -591,13 +591,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                         exercise_nfb_id__isnull=False
                     ).values('video_id', 'exercise_nfb_id').order_by('video_id').distinct()
                     f_exercises = AdminExercise.objects.none()
-                    for exs_video in exercise_videos:
-                        tmp_exs = AdminExercise.objects.filter(id=exs_video['exercise_nfb_id'])
-                        tmp_exs = tmp_exs.annotate(video_id_as_duplicate=Value(f"{exs_video['video_id']}", output_field=CharField()))
-                        if f_exercises.query.is_empty:
-                            f_exercises = tmp_exs
-                        else:
-                            f_exercises = f_exercises.union(tmp_exs, all=True)
+                    video_ids = {exs_video['exercise_nfb_id']: exs_video['video_id'] for exs_video in exercise_videos}
+                    f_exercises = AdminExercise.objects.filter(id__in=video_ids.keys()).annotate(
+                        video_id_as_duplicate=Case(
+                            *[When(id=key, then=Value(value)) for key, value in video_ids.items()],
+                            output_field=CharField()
+                        )
+                    )
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
