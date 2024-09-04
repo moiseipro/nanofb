@@ -594,7 +594,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     for exs_video in exercise_videos:
                         tmp_exs = AdminExercise.objects.filter(id=exs_video['exercise_nfb_id'])
                         tmp_exs = tmp_exs.annotate(video_id_as_duplicate=Value(f"{exs_video['video_id']}", output_field=CharField()))
-                        f_exercises |= tmp_exs
+                        if f_exercises.query.is_empty:
+                            f_exercises = tmp_exs
+                        else:
+                            f_exercises = f_exercises.union(tmp_exs, all=True)
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
