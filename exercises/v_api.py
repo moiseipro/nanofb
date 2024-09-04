@@ -3976,7 +3976,7 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                     'name': f_user.personal.full_name,
                     'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
                     'club': f_user.club_id.name,
-                    'club_id': f_user.club_id
+                    'club_id': f_user.club_id.id
                 })
     return JsonResponse({"data": found_users, "success": True}, status=200)
 
