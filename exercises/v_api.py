@@ -547,20 +547,22 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    f_exercises = []
-                    # exercise_videos = ExerciseVideo.objects.filter(
-                    #     video_id__in=ExerciseVideo.objects.filter(
-                    #         exercise_user_id__isnull=False
-                    #     ).values('video_id').annotate(
-                    #         count=Count('video_id')
-                    #     ).filter(count__gt=1).values('video_id'),
-                    #     exercise_user_id__isnull=False
-                    # ).values('video_id', 'exercise_user_id').order_by('video_id').distinct()
-                    # f_exercises = UserExercise.objects.none()
-                    # for exs_video in exercise_videos:
-                    #     tmp_exs = UserExercise.objects.filter(id=exs_video['exercise_user_id'], user=cur_user)
-                    #     tmp_exs = tmp_exs.annotate(video_id_as_duplicate=Value(f"{exs_video['video_id']}", output_field=CharField()))
-                    #     f_exercises |= tmp_exs
+                    user_exs_ids = UserExercise.objects.filter(user=cur_user).values_list('id', flat=True)
+                    exercise_videos = ExerciseVideo.objects.filter(
+                        video_id__in=ExerciseVideo.objects.filter(
+                            exercise_user_id__in=user_exs_ids
+                        ).values('video_id').annotate(
+                            count=Count('video_id')
+                        ).filter(count__gt=1).values('video_id'),
+                        exercise_user_id__in=user_exs_ids
+                    ).values('video_id', 'exercise_user_id').order_by('video_id').distinct()
+                    video_ids = {exs_video['exercise_user_id']: exs_video['video_id'] for exs_video in exercise_videos}
+                    f_exercises = UserExercise.objects.filter(id__in=video_ids.keys()).annotate(
+                        video_id_as_duplicate=Case(
+                            *[When(id=key, then=Value(value)) for key, value in video_ids.items()],
+                            output_field=IntegerField()
+                        )
+                    ).order_by('video_id_as_duplicate')
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -590,7 +592,6 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                         ).filter(count__gt=1).values('video_id'),
                         exercise_nfb_id__isnull=False
                     ).values('video_id', 'exercise_nfb_id').order_by('video_id').distinct()
-                    f_exercises = AdminExercise.objects.none()
                     video_ids = {exs_video['exercise_nfb_id']: exs_video['video_id'] for exs_video in exercise_videos}
                     f_exercises = AdminExercise.objects.filter(id__in=video_ids.keys()).annotate(
                         video_id_as_duplicate=Case(
@@ -3271,6 +3272,14 @@ def GET_get_exs_all(request, cur_user, cur_team):
         folder_type = request.GET.get("f_type", "")
     except:
         pass
+    filter_exs_duplicated = -1
+    try:
+        if request.method == "GET":
+            filter_exs_duplicated = int(request.GET.get("filter[exs_duplicated]", -1))
+        elif request.method == "POST":
+            filter_exs_duplicated = int(request.POST.get("filter[exs_duplicated]", -1))
+    except:
+        pass
     res_exs = []
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.view_userexercise"], 
@@ -3344,14 +3353,17 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
         exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode and exercise['nf_exs'] else False
         res_exs.append(exs_data)
-    # sorting list by title:
-    for elem in res_exs:
-        if isinstance(elem['title'], str):
-            elem['title_for_sort'] = elem['title'].replace(" ", "")
-        else:
-            elem['title'] = ""
-            elem['title_for_sort'] = ""
-    res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
+    if filter_exs_duplicated != -1 and cur_user.is_superuser:
+        pass
+    else:
+        # sorting list by title:
+        for elem in res_exs:
+            if isinstance(elem['title'], str):
+                elem['title_for_sort'] = elem['title'].replace(" ", "")
+            else:
+                elem['title'] = ""
+                elem['title_for_sort'] = ""
+        res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
