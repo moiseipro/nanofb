@@ -1,6 +1,6 @@
 import datetime
 from django.http import JsonResponse
-from django.db.models import Q, CharField, Value, Count, Case, When
+from django.db.models import Q, Value, Count, Case, When, IntegerField
 from django.forms.models import model_to_dict
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
@@ -595,9 +595,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                     f_exercises = AdminExercise.objects.filter(id__in=video_ids.keys()).annotate(
                         video_id_as_duplicate=Case(
                             *[When(id=key, then=Value(value)) for key, value in video_ids.items()],
-                            output_field=CharField()
+                            output_field=IntegerField()
                         )
-                    )
+                    ).order_by('video_id_as_duplicate')
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
