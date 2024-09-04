@@ -547,19 +547,20 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    exercise_videos = ExerciseVideo.objects.filter(
-                        video_id__in=ExerciseVideo.objects.filter(
-                            exercise_user_id__isnull=False
-                        ).values('video_id').annotate(
-                            count=Count('video_id')
-                        ).filter(count__gt=1).values('video_id'),
-                        exercise_user_id__isnull=False
-                    ).values('video_id', 'exercise_user_id').order_by('video_id').distinct()
-                    f_exercises = UserExercise.objects.none()
-                    for exs_video in exercise_videos:
-                        tmp_exs = UserExercise.objects.filter(id=exs_video['exercise_user_id'], user=cur_user)
-                        tmp_exs = tmp_exs.annotate(video_id_as_duplicate=Value(f"{exs_video['video_id']}", output_field=CharField()))
-                        f_exercises |= tmp_exs
+                    f_exercises = []
+                    # exercise_videos = ExerciseVideo.objects.filter(
+                    #     video_id__in=ExerciseVideo.objects.filter(
+                    #         exercise_user_id__isnull=False
+                    #     ).values('video_id').annotate(
+                    #         count=Count('video_id')
+                    #     ).filter(count__gt=1).values('video_id'),
+                    #     exercise_user_id__isnull=False
+                    # ).values('video_id', 'exercise_user_id').order_by('video_id').distinct()
+                    # f_exercises = UserExercise.objects.none()
+                    # for exs_video in exercise_videos:
+                    #     tmp_exs = UserExercise.objects.filter(id=exs_video['exercise_user_id'], user=cur_user)
+                    #     tmp_exs = tmp_exs.annotate(video_id_as_duplicate=Value(f"{exs_video['video_id']}", output_field=CharField()))
+                    #     f_exercises |= tmp_exs
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
