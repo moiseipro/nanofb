@@ -3192,25 +3192,64 @@ $(function() {
                 success: function (res) {
                     if (res.success) {
                         if (Array.isArray(res.data) && res.data.length > 0) {
-                            let htmlStr = "";
+                            let htmlBlocksByClubs = {};
+                            let htmlNoClubsStr = "";
                             for (let i = 0; i < res.data.length; i++) {
                                 let elem = res.data[i];
-                                htmlStr += `
-                                    <li class="list-group-item p-1">
-                                        <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
-                                            <div class="pull-left">
-                                                <span class="folder-point mr-2"></span>
-                                                <span class="folder-title">${elem['name']} ${elem['club'] ? `/ ${elem['club']}` : ``}</span>
-                                            </div>
-                                            <div class="pull-right border-left border-dark">
-                                                <div class="pull-right text-right" style="width: 45px;">
-                                                    <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                if (elem['club']) {
+                                    if (!elem['club'] in htmlBlocksByClubs) {
+                                        htmlBlocksByClubs[elem['club']] = `
+                                            <li class="list-group-item p-1 club-title">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="">
+                                                        <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        `;
+                                    }
+                                    htmlBlocksByClubs[elem['club']] += `
+                                        <li class="list-group-item p-1">
+                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                                                <div class="pull-left">
+                                                    <button type="button" class="btn btn-sm btn-empty">
+                                                        <input type="checkbox" value="">
+                                                    </button>
+                                                    <span class="folder-point mr-2"></span>
+                                                    <span class="folder-title">${elem['name']}</span>
+                                                </div>
+                                                <div class="pull-right border-left border-dark">
+                                                    <div class="pull-right text-right" style="width: 45px;">
+                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                `;
+                                        </li>
+                                    `;
+                                } else {
+                                    htmlNoClubsStr += `
+                                        <li class="list-group-item p-1">
+                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                                                <div class="pull-left">
+                                                    <button type="button" class="btn btn-sm btn-empty">
+                                                        <input type="checkbox" value="">
+                                                    </button>
+                                                    <span class="folder-point mr-2"></span>
+                                                    <span class="folder-title">${elem['name']}</span>
+                                                </div>
+                                                <div class="pull-right border-left border-dark">
+                                                    <div class="pull-right text-right" style="width: 45px;">
+                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+                                }
                             }
+                            let htmlStr = "";
+                            for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
+                            htmlStr += htmlNoClubsStr;
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
                         } else {
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");

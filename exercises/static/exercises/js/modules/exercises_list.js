@@ -719,6 +719,7 @@ $(function() {
         });
     });
     $('.folders_users_with_exs_list').on('click', '.list-group-item', (e) => {
+        if ($(e.currentTarget).hasClass('club-title')) {return;}
         let isActive = $(e.currentTarget).hasClass('active');
         $('.folders_users_with_exs_list').find('.list-group-item').removeClass('active');
         $(e.currentTarget).toggleClass('active', !isActive);
