@@ -3197,7 +3197,7 @@ $(function() {
                             for (let i = 0; i < res.data.length; i++) {
                                 let elem = res.data[i];
                                 if (elem['club_id']) {
-                                    if (!elem['club_id'] in htmlBlocksByClubs) {
+                                    if (!(elem['club_id'] in htmlBlocksByClubs)) {
                                         htmlBlocksByClubs[elem['club_id']] = `
                                             <li class="list-group-item p-1 club-title">
                                                 <div class="d-flex justify-content-center">
