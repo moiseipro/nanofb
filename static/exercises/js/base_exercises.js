@@ -3196,9 +3196,9 @@ $(function() {
                             let htmlNoClubsStr = "";
                             for (let i = 0; i < res.data.length; i++) {
                                 let elem = res.data[i];
-                                if (elem['club']) {
-                                    if (!elem['club'] in htmlBlocksByClubs) {
-                                        htmlBlocksByClubs[elem['club']] = `
+                                if (elem['club_id']) {
+                                    if (!elem['club_id'] in htmlBlocksByClubs) {
+                                        htmlBlocksByClubs[elem['club_id']] = `
                                             <li class="list-group-item p-1 club-title">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="">
@@ -3208,7 +3208,7 @@ $(function() {
                                             </li>
                                         `;
                                     }
-                                    htmlBlocksByClubs[elem['club']] += `
+                                    htmlBlocksByClubs[elem['club_id']] += `
                                         <li class="list-group-item p-1">
                                             <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                                                 <div class="pull-left">
@@ -3248,7 +3248,7 @@ $(function() {
                                 }
                             }
                             let htmlStr = "";
-                            for (let blockStr in htmlBlocksByClubs) {htmlStr += blockStr;}
+                            for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
                             htmlStr += htmlNoClubsStr;
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
                         } else {
