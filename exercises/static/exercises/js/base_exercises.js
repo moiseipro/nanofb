@@ -504,34 +504,34 @@ function ToggleUpFilter(id, state) {
             activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
             if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
             activeBlockElemNext = $(activeBlockElem).next();
+            if (activeBlockElemNext.length == 0) {
+                activeBlockElemNext = $('.visual-block').find('.visual-block-elem').first();
+            }
+            if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
             if (activeBlockElemNext.length > 0) {
-                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
-                if (activeBlockElemNext.length > 0) {
-                    $('.visual-block').animate({
-                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
-                    }, 500);
-                    $('.visual-block').find('.visual-block-elem').removeClass('active');
-                    $(activeBlockElemNext).addClass('active');
-                }
+                $('.visual-block').animate({
+                    scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+                }, 500);
+                $('.visual-block').find('.visual-block-elem').removeClass('active');
+                $(activeBlockElemNext).addClass('active');
             }
             break;
-        case "toggle_visual_block_scroll_up":
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').attr('data-state', 0);
-
-            activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
-            if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
-            activeBlockElemNext = $(activeBlockElem).prev();
-            if (activeBlockElemNext.length > 0) {
-                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).prev();}
-                if (activeBlockElemNext.length > 0) {
-                    $('.visual-block').animate({
-                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
-                    }, 500);
-                    $('.visual-block').find('.visual-block-elem').removeClass('active');
-                    $(activeBlockElemNext).addClass('active');
-                }
-            }
+        case "toggle_visual_block_overflow":
+            $('.visual-block').toggleClass('overflow-hidden');
+            
+            // activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
+            // if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
+            // activeBlockElemNext = $(activeBlockElem).prev();
+            // if (activeBlockElemNext.length > 0) {
+            //     if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).prev();}
+            //     if (activeBlockElemNext.length > 0) {
+            //         $('.visual-block').animate({
+            //             scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+            //         }, 500);
+            //         $('.visual-block').find('.visual-block-elem').removeClass('active');
+            //         $(activeBlockElemNext).addClass('active');
+            //     }
+            // }
             break;
         default:
             break;
