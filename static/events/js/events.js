@@ -518,6 +518,7 @@ $(window).on('load', function (){
             send_data['event_type'] = '1'
             let training_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
             let training_data = getFormData(training_form)
+            if(training_data.players == "" || training_data.goalkepeers == "" || !("aload" in training_data)) return false;
             console.log(training_data)
             send_data = $.extend(send_data, training_data);
             console.log(send_data)
@@ -540,6 +541,7 @@ $(window).on('load', function (){
             if (send_data['event_type'] == '1'){
                 let training_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
                 let training_data = getFormData(training_form)
+                if(training_data.players == "" || training_data.goalkepeers == "" || !("aload" in training_data)) return false;
                 console.log(training_data)
                 send_data = $.extend(send_data, training_data);
                 console.log(send_data)
@@ -582,6 +584,7 @@ $(window).on('load', function (){
             if (data.training != null){
                 let training_form = $('#form-event-edit-modal .event_type_block[data-type*="1"] form');
                 let training_data = getFormData(training_form)
+                if(training_data.players == "" || training_data.goalkepeers == "" || !("aload" in training_data)) return false;
                 console.log(training_data)
                 ajax_training_action('PUT', training_data, 'save', data.id).then(function (data_tr) {
                     generateData()

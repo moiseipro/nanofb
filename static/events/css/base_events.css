@@ -206,3 +206,10 @@ button.event-select.selected{
     background-color: lightblue;
     border: 2px solid black;
 }
+
+#training-form .select2-selection:has(.select2-selection__placeholder){
+    border-color: red;
+}
+#training-form input:required:placeholder-shown{
+    border-color: red;
+}
