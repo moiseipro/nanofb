@@ -504,34 +504,34 @@ function ToggleUpFilter(id, state) {
             activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
             if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
             activeBlockElemNext = $(activeBlockElem).next();
+            if (activeBlockElemNext.length == 0) {
+                activeBlockElemNext = $('.visual-block').find('.visual-block-elem').first();
+            }
+            if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
             if (activeBlockElemNext.length > 0) {
-                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
-                if (activeBlockElemNext.length > 0) {
-                    $('.visual-block').animate({
-                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
-                    }, 500);
-                    $('.visual-block').find('.visual-block-elem').removeClass('active');
-                    $(activeBlockElemNext).addClass('active');
-                }
+                $('.visual-block').animate({
+                    scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+                }, 500);
+                $('.visual-block').find('.visual-block-elem').removeClass('active');
+                $(activeBlockElemNext).addClass('active');
             }
             break;
-        case "toggle_visual_block_scroll_up":
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_visual_block_scroll_up"]').attr('data-state', 0);
-
-            activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
-            if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
-            activeBlockElemNext = $(activeBlockElem).prev();
-            if (activeBlockElemNext.length > 0) {
-                if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).prev();}
-                if (activeBlockElemNext.length > 0) {
-                    $('.visual-block').animate({
-                        scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
-                    }, 500);
-                    $('.visual-block').find('.visual-block-elem').removeClass('active');
-                    $(activeBlockElemNext).addClass('active');
-                }
-            }
+        case "toggle_visual_block_overflow":
+            $('.visual-block').toggleClass('overflow-hidden');
+            
+            // activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
+            // if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
+            // activeBlockElemNext = $(activeBlockElem).prev();
+            // if (activeBlockElemNext.length > 0) {
+            //     if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).prev();}
+            //     if (activeBlockElemNext.length > 0) {
+            //         $('.visual-block').animate({
+            //             scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
+            //         }, 500);
+            //         $('.visual-block').find('.visual-block-elem').removeClass('active');
+            //         $(activeBlockElemNext).addClass('active');
+            //     }
+            // }
             break;
         default:
             break;
@@ -3192,25 +3192,72 @@ $(function() {
                 success: function (res) {
                     if (res.success) {
                         if (Array.isArray(res.data) && res.data.length > 0) {
-                            let htmlStr = "";
+                            let htmlBlocksByClubs = {};
+                            let htmlNoClubsStr = `
+                                <li class="list-group-item p-1 club-title">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="">
+                                            <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
                             for (let i = 0; i < res.data.length; i++) {
                                 let elem = res.data[i];
-                                htmlStr += `
-                                    <li class="list-group-item p-1">
-                                        <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
-                                            <div class="pull-left">
-                                                <span class="folder-point mr-2"></span>
-                                                <span class="folder-title">${elem['name']} ${elem['club'] ? `/ ${elem['club']}` : ``}</span>
-                                            </div>
-                                            <div class="pull-right border-left border-dark">
-                                                <div class="pull-right text-right" style="width: 45px;">
-                                                    <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                if (elem['club_id']) {
+                                    if (!(elem['club_id'] in htmlBlocksByClubs)) {
+                                        htmlBlocksByClubs[elem['club_id']] = `
+                                            <li class="list-group-item p-1 club-title">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="">
+                                                        <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        `;
+                                    }
+                                    htmlBlocksByClubs[elem['club_id']] += `
+                                        <li class="list-group-item p-1">
+                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                                                <div class="pull-left">
+                                                    <button type="button" class="btn btn-sm btn-empty">
+                                                        <input type="checkbox" value="">
+                                                    </button>
+                                                    <span class="folder-point mr-2"></span>
+                                                    <span class="folder-title">${elem['name']}</span>
+                                                </div>
+                                                <div class="pull-right border-left border-dark">
+                                                    <div class="pull-right text-right" style="width: 45px;">
+                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                `;
+                                        </li>
+                                    `;
+                                } else {
+                                    htmlNoClubsStr += `
+                                        <li class="list-group-item p-1">
+                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                                                <div class="pull-left">
+                                                    <button type="button" class="btn btn-sm btn-empty">
+                                                        <input type="checkbox" value="">
+                                                    </button>
+                                                    <span class="folder-point mr-2"></span>
+                                                    <span class="folder-title">${elem['name']}</span>
+                                                </div>
+                                                <div class="pull-right border-left border-dark">
+                                                    <div class="pull-right text-right" style="width: 45px;">
+                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+                                }
                             }
+                            let htmlStr = "";
+                            for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
+                            htmlStr += htmlNoClubsStr;
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
                         } else {
                             $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");

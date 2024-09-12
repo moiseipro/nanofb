@@ -1070,7 +1070,9 @@ function DeleteExerciseOne(exsId=null, folderType=null, isMultiExs=false) {
                         swal("Готово", "Упражнение успешно удалено.", "success")
                         .then((value) => {
                             $('.page-loader-wrapper').fadeIn();
-                            window.location.href = "/exercises";
+                            try {
+                                LoadFolderExercises();
+                            } catch(e) {}
                         });
                     }
                 },

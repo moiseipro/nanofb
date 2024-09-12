@@ -1,6 +1,6 @@
 import datetime
 from django.http import JsonResponse
-from django.db.models import Q, CharField, Value, Count
+from django.db.models import Q, Value, Count, Case, When, IntegerField
 from django.forms.models import model_to_dict
 from users.models import User
 from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory
@@ -547,23 +547,22 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    all_child_folders = UserFolder.objects.filter(parent=c_folder[0].parent)
-                    videos_ids = []
-                    f_exercises = UserExercise.objects.none()
-                    found_exs_in_folders = UserExercise.objects.filter(folder__in=all_child_folders)
-                    for _exs in found_exs_in_folders:
-                        videos = list(_exs.videos.through.objects.filter(exercise_user=_exs).values_list('video__id', flat=True).distinct())
-                        for _v in videos:
-                            if _v not in videos_ids and _v is not None:
-                                videos_ids.append(_v)
-                                exs_videos_tmp = ExerciseVideo.objects.filter(video__id=_v, exercise_user__folder__in=all_child_folders)
-                                exs_ids = []
-                                for _elem in exs_videos_tmp:
-                                    if not _elem.exercise_user.id in exs_ids:
-                                        exs_ids.append(_elem.exercise_user.id)
-                                if len(exs_ids) > 1:
-                                    f_exercises |= UserExercise.annotate(video_id_as_duplicate=Value(f'{_v}', output_field=CharField())).objects.filter(id__in=exs_ids)
-                    f_exercises = f_exercises.distinct()
+                    user_exs_ids = UserExercise.objects.filter(user=cur_user).values_list('id', flat=True)
+                    exercise_videos = ExerciseVideo.objects.filter(
+                        video_id__in=ExerciseVideo.objects.filter(
+                            exercise_user_id__in=user_exs_ids
+                        ).values('video_id').annotate(
+                            count=Count('video_id')
+                        ).filter(count__gt=1).values('video_id'),
+                        exercise_user_id__in=user_exs_ids
+                    ).values('video_id', 'exercise_user_id').order_by('video_id').distinct()
+                    video_ids = {exs_video['exercise_user_id']: exs_video['video_id'] for exs_video in exercise_videos}
+                    f_exercises = UserExercise.objects.filter(id__in=video_ids.keys()).annotate(
+                        video_id_as_duplicate=Case(
+                            *[When(id=key, then=Value(value)) for key, value in video_ids.items()],
+                            output_field=IntegerField()
+                        )
+                    ).order_by('video_id_as_duplicate')
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -585,23 +584,21 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 if req.user.club_id is not None:
                     f_exercises = []
                 else:
-                    all_child_folders = AdminFolder.objects.filter(parent=c_folder[0].parent)
-                    videos_ids = []
-                    f_exercises = AdminExercise.objects.none()
-                    found_exs_in_folders = AdminExercise.objects.filter(folder__in=all_child_folders)
-                    for _exs in found_exs_in_folders:
-                        videos = list(_exs.videos.through.objects.filter(exercise_nfb=_exs).values_list('video__id', flat=True).distinct())
-                        for _v in videos:
-                            if _v not in videos_ids and _v is not None:
-                                videos_ids.append(_v)
-                                exs_videos_tmp = ExerciseVideo.objects.filter(video__id=_v, exercise_nfb__folder__in=all_child_folders)
-                                exs_ids = []
-                                for _elem in exs_videos_tmp:
-                                    if not _elem.exercise_nfb.id in exs_ids:
-                                        exs_ids.append(_elem.exercise_nfb.id)
-                                if len(exs_ids) > 1:
-                                    f_exercises |= AdminExercise.objects.annotate(video_id_as_duplicate=Value(f'{_v}', output_field=CharField())).filter(id__in=exs_ids)
-                    f_exercises = f_exercises.distinct()
+                    exercise_videos = ExerciseVideo.objects.filter(
+                        video_id__in=ExerciseVideo.objects.filter(
+                            exercise_nfb_id__isnull=False
+                        ).values('video_id').annotate(
+                            count=Count('video_id')
+                        ).filter(count__gt=1).values('video_id'),
+                        exercise_nfb_id__isnull=False
+                    ).values('video_id', 'exercise_nfb_id').order_by('video_id').distinct()
+                    video_ids = {exs_video['exercise_nfb_id']: exs_video['video_id'] for exs_video in exercise_videos}
+                    f_exercises = AdminExercise.objects.filter(id__in=video_ids.keys()).annotate(
+                        video_id_as_duplicate=Case(
+                            *[When(id=key, then=Value(value)) for key, value in video_ids.items()],
+                            output_field=IntegerField()
+                        )
+                    ).order_by('video_id_as_duplicate')
             if exercise_id != -1:
                 f_exercises = f_exercises.filter(id=exercise_id)
         else:
@@ -734,7 +731,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
     if not to_count:
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
-        f_exercises_list = [entry for entry in f_exercises.values()]
+        if isinstance(f_exercises, list):
+            f_exercises_list = []
+        else:
+            f_exercises_list = [entry for entry in f_exercises.values()]
         for exercise in f_exercises_list:
             exercise['search_title'] = utils.get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
             exercise['has_video_1'] = False
@@ -3272,6 +3272,14 @@ def GET_get_exs_all(request, cur_user, cur_team):
         folder_type = request.GET.get("f_type", "")
     except:
         pass
+    filter_exs_duplicated = -1
+    try:
+        if request.method == "GET":
+            filter_exs_duplicated = int(request.GET.get("filter[exs_duplicated]", -1))
+        elif request.method == "POST":
+            filter_exs_duplicated = int(request.POST.get("filter[exs_duplicated]", -1))
+    except:
+        pass
     res_exs = []
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.view_userexercise"], 
@@ -3345,14 +3353,17 @@ def GET_get_exs_all(request, cur_user, cur_team):
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
         exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode and exercise['nf_exs'] else False
         res_exs.append(exs_data)
-    # sorting list by title:
-    for elem in res_exs:
-        if isinstance(elem['title'], str):
-            elem['title_for_sort'] = elem['title'].replace(" ", "")
-        else:
-            elem['title'] = ""
-            elem['title_for_sort'] = ""
-    res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
+    if filter_exs_duplicated != -1 and cur_user.is_superuser:
+        pass
+    else:
+        # sorting list by title:
+        for elem in res_exs:
+            if isinstance(elem['title'], str):
+                elem['title_for_sort'] = elem['title'].replace(" ", "")
+            else:
+                elem['title'] = ""
+                elem['title_for_sort'] = ""
+        res_exs = sorted(res_exs, key=lambda d: d['title_for_sort'])
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
@@ -3961,7 +3972,8 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                 'email': f_user.email,
                 'name': f_user.personal.full_name,
                 'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
-                'club': None
+                'club': None,
+                'club_id': None
             })
     found_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
     for elem in found_users_ids:
@@ -3974,7 +3986,8 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                     'email': f_user.email,
                     'name': f_user.personal.full_name,
                     'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
-                    'club': f_user.club_id.name
+                    'club': f_user.club_id.name,
+                    'club_id': f_user.club_id.id
                 })
     return JsonResponse({"data": found_users, "success": True}, status=200)
 
