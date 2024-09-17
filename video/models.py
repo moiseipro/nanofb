@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.datetime_safe import datetime
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
+from users.models import User
+from clubs.models import Club
 from taggit.managers import TaggableManager
 
 from references.models import VideoSource
@@ -28,6 +30,8 @@ class Video(models.Model):
         verbose_name=_('title'),
         help_text=_('Imported video title'),
     )
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True, blank=True)
     videosource_id = models.ForeignKey(
         VideoSource,
         on_delete=models.SET_DEFAULT,

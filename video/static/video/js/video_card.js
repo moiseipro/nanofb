@@ -119,7 +119,10 @@ function ajax_video_action(method, data, action = '', id = '', func = '') {
                 console.log(jqXHR)
                 if('responseJSON' in jqXHR && 'empty_load' in jqXHR.responseJSON){
                     swal(gettext('Video '+action), gettext(jqXHR.responseJSON['empty_load']), "error");
-                } else {
+                } else if ('responseJSON' in jqXHR && 'access_error' in jqXHR.responseJSON) {
+                    swal(gettext('Video '+action), gettext(jqXHR.responseJSON['access_error']), "error");
+                }
+                else {
                     swal(gettext('Video '+action), gettext('Error when action "'+action+'" the video!'), "error");
                 }
             },

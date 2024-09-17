@@ -2312,6 +2312,14 @@ $(function() {
             }
         });
 
+        $('#video-card-modal-create').on('click', (e) => {
+            toggle_edit_mode(true)
+            cur_edit_data = null
+            clear_video_form()
+            $('#video-action-form').attr('method', 'POST')
+            $('#video-card-modal').modal('show')
+        });
+
     } catch(e) {}
 
     $('#exerciseCard').on('click', 'tr.add-params-container-after', (e) => {

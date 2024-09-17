@@ -71,6 +71,16 @@ class VideoViewSet(viewsets.ModelViewSet):
             language=data['language'],
             videosource_id=data['videosource_id']
         )
+        if request.user.is_superuser:
+            data_dict['user'] = None
+            data_dict['club'] = None
+        else:
+            if request.user.club_id is not None:
+                data_dict['user'] = request.user.id
+                data_dict['club'] = request.user.club_id.id
+            else:
+                data_dict['user'] = request.user.id
+                data_dict['club'] = None
         if 'note_animation' in data:
             note_animation = True
         if 'note_video' in data:
@@ -208,6 +218,16 @@ class VideoViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         data.links = instance.links
 
+        if request.user.is_superuser:
+            pass
+        else:
+            if request.user.club_id is not None:
+                if request.user.club_id != instance.club:
+                    return Response({'access_error': 'You can\'t edit this video.'}, status=status.HTTP_423_LOCKED)
+            else:
+                if request.user != instance.user:
+                    return Response({'access_error': 'You can\'t edit this video.'}, status=status.HTTP_423_LOCKED)
+        
         print(data)
         if 'file_video' in request.FILES:
             is_delete = False
@@ -307,6 +327,15 @@ class VideoViewSet(viewsets.ModelViewSet):
             instance = self.get_object()
             is_delete = True
             server_id = None
+            if request.user.is_superuser:
+                pass
+            else:
+                if request.user.club_id is not None:
+                    if request.user.club_id != instance.club:
+                        return Response({'access_error': 'You can\'t delete this video.'}, status=status.HTTP_423_LOCKED)
+                else:
+                    if request.user != instance.user:
+                        return Response({'access_error': 'You can\'t edit this video.'}, status=status.HTTP_423_LOCKED)
             print(instance.links)
             if 'nftv' in instance.links:
                 server_id = instance.links['nftv']
@@ -368,8 +397,21 @@ class VideoViewSet(viewsets.ModelViewSet):
         return VideoSerializer
 
     def get_queryset(self):
-
-        return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+        if self.request.user.is_superuser:
+            return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+        else:
+            if self.request.user.club_id is not None:
+                return Video.objects.filter(club=self.request.user.club_id)
+                return Video.objects.filter(
+                    Q(club=self.request.user.club_id) | 
+                    Q(Q(club__isnull=True) & Q(user__isnull=True))
+                )
+            else:
+                return Video.objects.filter(user=self.request.user)
+                return Video.objects.filter(
+                    Q(user=self.request.user) | 
+                    Q(Q(club__isnull=True) & Q(user__isnull=True))
+                )
 
 
 def delete_video_nf(video_id):

@@ -128,7 +128,7 @@ def exercise(request):
     found_exercise = None
     is_can_edit_exs = True
     is_can_edit_exs_full = True
-    is_can_edit_exs_video_admin = cur_user[0].is_superuser
+    is_can_edit_exs_video_admin = cur_user[0].is_superuser | True
     if folder_type == utils.FOLDER_TEAM:
         if cur_user.exists():
             if request.user.club_id is not None:
