@@ -2294,6 +2294,11 @@ $(function() {
                 }
             }
         });
+
+        if ($('.video-card-user-container').length > 0) {
+            $('.video-card-user-container').html($('#video-card-modal').html());
+        }
+
         $('.video-editor').on('click', '.video-link', (e) => {
             GoToVideoLink(window.currentVideoId);
         });

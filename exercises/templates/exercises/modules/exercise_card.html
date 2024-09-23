@@ -1228,18 +1228,9 @@
                         <div class="video-editor d-none">
                             {% if can_edit_exs_video_admin %}
                             <div class="row">
+                                {% if user.is_superuser %}
                                 <div class="col-12 video-filter-container mb-2">
                                     <div class="row">
-                                        <div class="col-md-1 col-lg-1">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <button id="video-card-modal-create" class="btn btn-success btn-block font-weight-bold" title="Добавить видео">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% if user.is_superuser %}
                                         <div class="col-md-1 col-lg-1">
                                             <div class="row">
                                                 <div class="col-12">
@@ -1278,7 +1269,6 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        {% endif %}
                                         <div class="col-md-2 col-lg-2 px-1 form-select-sm">
                                             <input type="search" class="form-control video-search" placeholder="Поиск" aria-controls="video">
                                         </div>
@@ -1293,11 +1283,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="col-8">
                                     <div class="row">
+                                        {% if user.is_superuser %}
                                         <div class="col-12 video-list-container">
                                             {% include 'video/modules/video_list.html' %}
                                         </div>
+                                        {% else %}
+                                        <div class="col-12 video-card-user-container">
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -1308,13 +1304,13 @@
                                                 </video>
                                             </div>
                                         </div>
+                                        {% if user.is_superuser %}
                                         <div class="col-12 mt-2 video-info text-center">
-        
                                         </div>
                                         <div class="col-12 mt-2">
                                             <button class="btn btn-primary btn-sm video-toggle" data-state="0">Прикрепить / Открепить</button>
-                                            <!-- <button class="btn btn-info btn-sm video-link">Карточка</button> -->
                                         </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
