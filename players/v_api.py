@@ -1521,7 +1521,8 @@ def GET_get_players_documents(request, cur_user, cur_team):
             else:
                 docs = UserPlayerDocument.objects.filter(player=player, user=cur_user)
             for doc in docs:
-                player_docs[doc.type.id] = doc.id
+                if doc.type is not None:
+                    player_docs[doc.type.id] = doc.id
             res_data.append({
                 'id': player.id,
                 'surname': player.surname,
