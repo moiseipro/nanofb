@@ -495,10 +495,10 @@ $(function() {
     });
     setTimeout(() => {
         $('#toggle_btn').click();
-        try {
-            setTimeout(() => {
+        setTimeout(() => {
+            try {
                 players_table.columns.adjust().draw();
-            }, 500);
-        } catch (e) {}
+            } catch(e) {}
+        }, 500);
     }, 500);
 });
