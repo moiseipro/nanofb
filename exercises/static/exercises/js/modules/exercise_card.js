@@ -284,8 +284,6 @@ function RenderExerciseOne(data) {
         $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
 
         try {
-            console.log( data.field_players_a, data.field_players_b )
-            console.log( data.field_age_a, data.field_age_b )
             window.exsCard_slider_players.set([data.field_players_a, data.field_players_b]);
             window.exsCard_slider_age.set([data.field_age_a, data.field_age_b]);
         } catch(e) {}
