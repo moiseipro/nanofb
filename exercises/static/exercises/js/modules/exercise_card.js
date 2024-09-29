@@ -80,6 +80,16 @@ function ToggleEditFields(flag) {
 
     $('#exerciseCard').find('.folder-container').toggleClass('d-none', !flag);
 
+    try {
+        if (flag) {
+            window.exsCard_slider_players.enable();
+            window.exsCard_slider_age.enable();
+        } else {
+            window.exsCard_slider_players.disable();
+            window.exsCard_slider_age.disable();
+        }
+    } catch(e) {}
+
     window.onlyViewMode = !flag;
 }
 
@@ -272,6 +282,14 @@ function RenderExerciseOne(data) {
         // $(exsCard).find('.exs_edit_field[name="field_keyword_b"]').val(data.field_keyword_b);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_a"]').val(data.field_exs_category_a);
         $(exsCard).find('.exs_edit_field[name="field_exs_category_b"]').val(data.field_exs_category_b);
+
+        try {
+            console.log( data.field_players_a, data.field_players_b )
+            console.log( data.field_age_a, data.field_age_b )
+            window.exsCard_slider_players.set([data.field_players_a, data.field_players_b]);
+            window.exsCard_slider_age.set([data.field_age_a, data.field_age_b]);
+        } catch(e) {}
+
         // try {
         //     for (let i = 0; i < data.field_keywords.length; i++) {
         //         let cId = data.field_keywords[i];
@@ -2085,6 +2103,48 @@ $(function() {
         });
     });
 
+    try {
+        window.exsCard_slider_players = noUiSlider.create($('#slider_range_players')[0], {
+            start: [4, 17],
+            connect: true,
+            range: {
+                'min': 4,
+                'max': 17
+            },
+            step: 1,
+        });
+        window.exsCard_slider_age = noUiSlider.create($('#slider_range_age')[0], {
+            start: [1, 20],
+            connect: true,
+            range: {
+                'min': 1,
+                'max': 20
+            },
+            step: 1,
+        });
+
+        window.exsCard_slider_players.on('update', (values, handle, unencoded) => {
+            window.changedData = true;
+            let cVal = parseInt(values[handle]);
+            if (handle == 0) {
+                $('#exerciseCard').find('[name="field_players_a"]').val(cVal);
+            } else {
+                $('#exerciseCard').find('[name="field_players_b"]').val(cVal);
+            }
+        });
+        window.exsCard_slider_age.on('update', (values, handle, unencoded) => {
+            window.changedData = true;
+            let cVal = parseInt(values[handle]);
+            if (handle == 0) {
+                $('#exerciseCard').find('[name="field_age_a"]').val(cVal);
+            } else {
+                $('#exerciseCard').find('[name="field_age_b"]').val(cVal);
+            }
+        });
+
+        window.exsCard_slider_players.disable();
+        window.exsCard_slider_age.disable();
+    } catch(e) {}
 
     $('#exerciseCard').on('change', '.exs_edit_field', (e) => {
         window.changedData = true;

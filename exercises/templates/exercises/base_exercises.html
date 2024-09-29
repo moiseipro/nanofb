@@ -5,6 +5,7 @@
 {% block title %}Упражнения{% endblock %}
 
 {% block custom_style %}
+    <link rel="stylesheet" href="{% static 'preadmin/css/nouislider.min.css' %}">
     <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
 {% endblock %}
 
@@ -68,9 +69,9 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-file-text-o" aria-hidden="true"></i>
                                             </button>
-                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" style="--w-max-x:5%;" data-state="0">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-id-card-o" aria-hidden="true"></i>
-                                            </button> -->
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                                             </button>
@@ -1217,6 +1218,9 @@
 
     <script type="text/javascript" src="{% static 'preadmin/plugins/jqueryClassyqr/jquery.classyqr.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'preadmin/js/qrcode.min.js' %}"></script>
+
+    <!-- noUiSlider-15.8.1 -->
+    <script type="text/javascript" src="{% static 'preadmin/js/nouislider.min.js' %}"></script>
 
     <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>

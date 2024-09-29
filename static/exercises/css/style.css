@@ -847,3 +847,13 @@ button.custom-disabled:hover {
     flex: 0 0 30vw;
 }
 
+
+.noUi-connect {
+    background: rgb(180, 180, 180) !important;
+}
+.noUi-handle {
+    border: none !important;
+    background: rgb(100, 100, 100) !important;
+    box-shadow: none !important;
+}
+
