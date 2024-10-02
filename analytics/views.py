@@ -113,6 +113,7 @@ def analytics_api(request):
         get_analytics_by_folders_status = 0
         get_analytics_by_folders_full_status = 0
         get_analytics_blocks_status = 0
+        get_analytics_teams_folders_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         cur_season = -1
@@ -142,6 +143,10 @@ def analytics_api(request):
             get_analytics_blocks_status = int(request.GET.get("get_analytics_blocks", 0))
         except:
             pass
+        try:
+            get_analytics_teams_folders_status = int(request.GET.get("get_analytics_teams_folders", 0))
+        except:
+            pass
         if get_analytics_all_status == 1:
             return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season, None)
         elif get_analytics_by_folders_status == 1:
@@ -150,7 +155,8 @@ def analytics_api(request):
             return v_api.GET_get_analytics_by_folders_full_in_team(request, cur_user[0], cur_team, cur_season)
         elif get_analytics_blocks_status == 1:
             return v_api.GET_get_analytics_blocks(request, cur_user[0], cur_team, cur_season, None)
+        elif get_analytics_teams_folders_status == 1:
+            return v_api.GET_get_analytics_teams_folders(request, cur_user[0], cur_team, cur_season, None)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)
-

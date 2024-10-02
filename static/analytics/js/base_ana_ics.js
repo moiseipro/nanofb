@@ -114,6 +114,32 @@ let analytics_blocks_table_options = {
     "orderFixed": [0, 'asc']
 };
 
+let analytics_teams_folders_table
+let analytics_teams_folders_table_options = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
+    scrollY: "73vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: true,
+    drawCallback: function( settings ) {
+    },
+    "columnDefs": [
+        {"width": "20%", "targets": 1},
+        {"className": "dt-vertical-center", "targets": "_all"},
+        {"orderable": false, "targets": 0}
+    ],
+    "orderFixed": [0, 'asc']
+};
+
 function getAllIndexes(arr, val) {
     let indexes = [];
     for (i = 0; i < arr.length; i++) {
@@ -586,6 +612,89 @@ function RenderAnalyticsBlocks(data) {
     analytics_blocks_table.draw();
 }
 
+function LoadAnalyticsTeamsFolders() {
+    let dataToSend = {'get_analytics_teams_folders': 1, 'season_type': season_type};
+    let dataRes = {};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {
+                dataRes = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            RenderAnalyticsTeamsFolders(dataRes);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderAnalyticsTeamsFolders(data) {
+    try {
+        analytics_teams_folders_table.destroy();
+    } catch(e) {}
+    let foldersIds = [];
+    $('#analytics-team-folders').find('thead').find('th[data-folder-id]').last().removeClass('border-custom-x');
+    $('#analytics-team-folders').find('thead').find('th[data-folder-id]').each((ind, elem) => {
+        let id = $(elem).attr('data-folder-id');
+        foldersIds.push(id);
+    });
+    $('#analytics-team-folders').find('tbody').html('');
+    if (data['teams'] && typeof data['teams'] === "object" && !Array.isArray(data['teams'])) {
+        let tmpHtml = "";
+        let cIndex = 1;
+        for (let key in data['teams']) {
+            let team = data['teams'][key];
+            let rowsHtml = "";
+            let values = [];
+            let valuesSum = 0;
+            foldersIds.forEach(folderId => {
+                let duration = 0;
+                try {
+                    duration = team.folders[folderId];
+                } catch (e) {}
+                if (duration === undefined || duration === null) {duration = 0;}
+                values.push(duration);
+                valuesSum += duration;
+            });
+            values.forEach(val => {
+                let percent = val;
+                if (valuesSum > 0) {
+                    percent = Math.round(val / valuesSum * 100);
+                }
+                rowsHtml += `
+                    <td class="text-center border-custom-left" title="${val}">
+                        ${percent}
+                    </td>
+                `;
+            });
+            tmpHtml += `
+                <tr class="analytics-blocks-row" data-id="${key}">
+                    <td class="text-center">
+                        ${cIndex}
+                    </td>
+                    <td class="border-custom-right">
+                        ${team.name}
+                    </td>
+                    ${rowsHtml}
+                </tr>
+            `;
+            cIndex ++;
+        }
+        $('#analytics-team-folders').find('tbody').html(tmpHtml);
+    }
+    analytics_teams_folders_table = $('#analytics-team-folders').DataTable(analytics_teams_folders_table_options);
+    analytics_teams_folders_table.draw();
+}
+
 
 
 $(function() {
@@ -619,6 +728,8 @@ $(function() {
                 LoadAnalyticsByFoldersFull();
             } else if ($('.toggle-tables.selected').attr('id') == "analyticsBlocksTable") {
                 LoadAnalyticsBlocks();
+            } else if ($('.toggle-tables.selected').attr('id') == "analyticsTeamsFoldersTable") {
+                LoadAnalyticsTeamsFolders();
             }
         }
     });
@@ -703,6 +814,8 @@ $(function() {
             LoadAnalyticsByFoldersFull();
         } else if ($('.toggle-tables.selected').attr('id') == "analyticsBlocksTable") {
             LoadAnalyticsBlocks();
+        } else if ($('.toggle-tables.selected').attr('id') == "analyticsTeamsFoldersTable") {
+            LoadAnalyticsTeamsFolders();
         }
     });
 

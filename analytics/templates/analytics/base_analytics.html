@@ -23,6 +23,9 @@
                                         <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables selected" id="defaultTable">
                                             Общая таблица
                                         </button>
+                                        <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="analyticsTeamsFoldersTable">
+                                            Таблица. Команды
+                                        </button>
                                         <button type="button" class="btn btn-primary btn-sm mx-1 toggle-tables" id="analyticsBlocksTable">
                                             Таблица. Блоки
                                         </button>
@@ -263,12 +266,32 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row table-block h-100 d-none" data-id="analyticsTeamsFoldersTable">
+                                                    <div class="col-12 h-100">
+                                                        <div class="table-responsive h-100">
+                                                            <table id="analytics-team-folders" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                                <thead>
+                                                                    <tr class="">
+                                                                        <th class="text-center visible-col">#</th>
+                                                                        <th class="text-center border-custom-right">Фамилия Имя</th>
+                                                                        {% for folder in folders %}
+                                                                            {% for subfolder in folder.subfolders %}
+                                                                                <th class="border text-center border-custom-x" data-folder-id="{{ subfolder.id }}" title="{{ subfolder.name }}">
+                                                                                    {{ subfolder.custom_short }}
+                                                                                </th>
+                                                                            {% endfor %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-12" style="height: 0vh;">
-
                                             </div>
                                         </div>
-                                    
                                     </div>
                                     <div class="col-1 px-0 seasons-block" style="max-width:6%!important;">
                                         <div class="row mx-0 my-2"><div class="col-12 d-flex justify-content-center">

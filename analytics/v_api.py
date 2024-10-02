@@ -12,6 +12,7 @@ from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
 import json
+import string
 import nanofootball.utils as utils
 
 
@@ -31,6 +32,7 @@ def get_exs_folders(request, cur_user, cur_team):
     :rtype: list[Model.object[UserFolder]]
 
     """
+    chars = list(string.ascii_lowercase)
     res = []
     folders = None
     if request.user.club_id is not None:
@@ -38,12 +40,18 @@ def get_exs_folders(request, cur_user, cur_team):
     else:
         folders = UserFolder.objects.filter(Q(parent=0) | Q(parent=None), user=cur_user, team=cur_team)
     if folders is not None and folders.exists() and folders[0].id != None:
-        for folder in folders:
+        for _i, folder in enumerate(folders):
             subfolders = []
             if request.user.club_id is not None:
                 subfolders = ClubFolder.objects.filter(parent=folder.id)
             else:
                 subfolders = UserFolder.objects.filter(parent=folder.id)
+            c_short = ""
+            if _i < len(chars):
+                c_short = chars[_i].upper()
+            setattr(folder, "custom_short", c_short)
+            for _j, subfolder in enumerate(subfolders):
+                setattr(subfolder, "custom_short", f"{c_short}{(_j + 1)}")
             setattr(folder, "subfolders", subfolders)
     if folders is not None and folders.exists() and folders[0].id != None:
         res = folders
@@ -153,11 +161,13 @@ def POST_reset_cache(request, cur_user, cur_team, cur_season):
         cache.delete(f'analytics_by_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_full_club_{request.user.club_id.id}_{cur_team}_{cur_season}_None')
         cache.delete(f'analytics_blocks_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+        cache.delete(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
     else:
         status = cache.delete(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_full_{cur_user}_{cur_team}_{cur_season}_None')
         cache.delete(f'analytics_blocks_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+        cache.delete(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
     res_data = "Cached data deleted successfully!"
     if not status:
         res_data = "Cached data has not been deleted. Not found or another reason."
@@ -723,6 +733,123 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
                 cache.set(f'analytics_blocks_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
                 cache.set(f'analytics_blocks_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+        else:
+            res_data = cached_data
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, options_shared=None):
+    """
+    Return JsonResponse which contains dictionary with seasons. Each object is a dictionary, where the key is what we consider, 
+    and the value, respectively, is its value.
+    Use cached data (stored at Database), if this data was expired by CACHE_EXPIRES_SECS, then server calculates actual values.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param cur_season: Current season's ID.
+    :type cur_season: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    if options_shared is not None:
+        request.user.club_id = options_shared['club'] if options_shared['club'] != "" else None
+        cur_user = User.objects.filter(id=options_shared['user']).first()
+        cur_team = options_shared['team']
+        cur_season = options_shared['season']
+    res_data = {'teams': {}}
+    teams = []
+    if request.user.club_id is not None:
+        teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+    else:
+        teams = UserTeam.objects.filter(user_id=cur_user)
+    for team in teams:
+        res_data['teams'][team.id] = {
+            'name': team.name,
+            'folders': {}, 
+        }
+    season_type = None
+    try:
+        season_type = int(request.GET.get("season_type", 0))
+    except:
+        pass
+    if options_shared is not None:
+        season_type = None
+        try:
+            season_type = int(options_shared['season_type'])
+        except:
+            pass
+    f_season = None
+    if request.user.club_id is not None:
+        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
+    else:
+        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+    if f_season and f_season.id != None:
+        cached_data = None
+        if request.user.club_id is not None:
+            cached_data = cache.get(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+        else:
+            cached_data = cache.get(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+        if cached_data is None and options_shared is None:
+            date_with = f_season.date_with
+            date_by = f_season.date_by
+            if season_type and season_type != 0:
+                if season_type == -1:
+                    date_with = date.today() - timedelta(days=30)
+                    date_by = date.today()
+                else:
+                    date_with = date_with + relativedelta(months=(season_type-1))
+                    date_with.replace(day=1)
+                    date_by = date_with + relativedelta(months=1) - relativedelta(days=1)
+                    if date.today() < date_by:
+                        date_by = date.today()
+            else:
+                if date.today() < f_season.date_by:
+                    date_by = date.today()
+            is_status_correct = False
+            trainings_protocols = []
+            if util_check_access(cur_user, {
+                'perms_user': ["trainings.analytics_usertraining"],
+                'perms_club': ["trainings.analytics_clubtraining"]
+            }):
+                if request.user.club_id is not None:
+                    trainings_protocols = ClubTrainingProtocol.objects.filter(
+                        training_id__event_id__club_id=request.user.club_id,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+                else:
+                    trainings_protocols = UserTrainingProtocol.objects.filter(
+                        training_id__event_id__user_id=cur_user,
+                        training_id__event_id__date__range=[
+                            datetime.combine(date_with, datetime.min.time()),
+                            datetime.combine(date_by, datetime.max.time())
+                        ],
+                    )
+            for t_protocol in trainings_protocols:
+                team_data = None
+                try:
+                    if not t_protocol.player_id.is_archive:
+                        team_data = res_data['teams'][t_protocol.player_id.team.id]
+                except Exception as e:
+                    pass
+                is_status_correct = check_protocol_status(t_protocol.status)
+                if team_data:
+                    if is_status_correct:
+                        for t_exercise in t_protocol.training_exercise_check.all():
+                            if not t_exercise.exercise_id.folder.id in team_data['folders']:
+                                team_data['folders'][t_exercise.exercise_id.folder.id] = 0
+                            team_data['folders'][t_exercise.exercise_id.folder.id] += t_exercise.duration
+            if request.user.club_id is not None:
+                cache.set(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+            else:
+                cache.set(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)

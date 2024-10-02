@@ -2103,20 +2103,20 @@ $(function() {
 
     try {
         window.exsCard_slider_players = noUiSlider.create($('#slider_range_players')[0], {
-            start: [4, 17],
-            connect: true,
-            range: {
-                'min': 4,
-                'max': 17
-            },
-            step: 1,
-        });
-        window.exsCard_slider_age = noUiSlider.create($('#slider_range_age')[0], {
             start: [1, 20],
             connect: true,
             range: {
                 'min': 1,
                 'max': 20
+            },
+            step: 1,
+        });
+        window.exsCard_slider_age = noUiSlider.create($('#slider_range_age')[0], {
+            start: [4, 17],
+            connect: true,
+            range: {
+                'min': 4,
+                'max': 17
             },
             step: 1,
         });
