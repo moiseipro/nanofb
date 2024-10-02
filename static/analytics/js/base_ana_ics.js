@@ -668,11 +668,11 @@ function RenderAnalyticsTeamsFolders(data) {
             values.forEach(val => {
                 let percent = val;
                 if (valuesSum > 0) {
-                    percent = Math.round(val / valuesSum * 100);
+                    percent = (val / valuesSum * 100).toFixed(2);
                 }
                 rowsHtml += `
                     <td class="text-center border-custom-left" title="${val}">
-                        ${percent}
+                        ${percent}%
                     </td>
                 `;
             });
