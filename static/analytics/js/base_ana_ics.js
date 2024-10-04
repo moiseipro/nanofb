@@ -133,11 +133,10 @@ let analytics_teams_folders_table_options = {
     drawCallback: function( settings ) {
     },
     "columnDefs": [
-        {"width": "20%", "targets": 1},
+        {"width": "25%", "targets": 1},
         {"className": "dt-vertical-center", "targets": "_all"},
         {"orderable": false, "targets": 0}
-    ],
-    "orderFixed": [0, 'asc']
+    ]
 };
 
 function getAllIndexes(arr, val) {
@@ -668,11 +667,12 @@ function RenderAnalyticsTeamsFolders(data) {
             values.forEach(val => {
                 let percent = val;
                 if (valuesSum > 0) {
-                    percent = (val / valuesSum * 100).toFixed(2);
+                    percent = Math.round(val / valuesSum * 100);
                 }
+                if (percent == 0) {percent = "-";}
                 rowsHtml += `
                     <td class="text-center border-custom-left" title="${val}">
-                        ${percent}%
+                        ${percent}
                     </td>
                 `;
             });

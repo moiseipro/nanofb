@@ -88,7 +88,7 @@
                                                 <div class="row table-block h-100" data-id="defaultTable">
                                                     <div class="col-12 h-100">
                                                         <div class="table-responsive h-100">
-                                                            <table id="analytics" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                            <table id="analytics" class="table table-sm table-bordered dataTable" style="width:100%;">
                                                                 <thead>
                                                                     <tr class="">
                                                                         <th class="border text-center border-custom-right" colspan="2"></th>
@@ -160,7 +160,7 @@
                                                 <div class="row table-block h-100 d-none" data-id="analyticsBlocksTable">
                                                     <div class="col-12 h-100">
                                                         <div class="table-responsive h-100">
-                                                            <table id="analytics-blocks" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                            <table id="analytics-blocks" class="table table-sm table-bordered dataTable" style="width:100%;">
                                                                 <thead>
                                                                     <tr class="">
                                                                         <th class="border text-center border-custom-right" colspan="2"></th>
@@ -269,14 +269,14 @@
                                                 <div class="row table-block h-100 d-none" data-id="analyticsTeamsFoldersTable">
                                                     <div class="col-12 h-100">
                                                         <div class="table-responsive h-100">
-                                                            <table id="analytics-team-folders" class="table table-sm table-striped table-bordered dataTable" style="width:100%;">
+                                                            <table id="analytics-team-folders" class="table table-sm table-bordered dataTable" style="width:100%;">
                                                                 <thead>
                                                                     <tr class="">
                                                                         <th class="text-center visible-col">#</th>
-                                                                        <th class="text-center border-custom-right">Фамилия Имя</th>
+                                                                        <th class="text-center border-custom-right">Название команды</th>
                                                                         {% for folder in folders %}
                                                                             {% for subfolder in folder.subfolders %}
-                                                                                <th class="border text-center border-custom-x" data-folder-id="{{ subfolder.id }}" title="{{ subfolder.name }}">
+                                                                                <th class="border text-center border-custom-x custom_background" data-folder-id="{{ subfolder.id }}" title="{{ subfolder.name }}">
                                                                                     {{ subfolder.custom_short }}
                                                                                 </th>
                                                                             {% endfor %}
