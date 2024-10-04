@@ -667,7 +667,7 @@ function RenderAnalyticsTeamsFolders(data) {
             values.forEach(val => {
                 let percent = val;
                 if (valuesSum > 0) {
-                    percent = (Math.round(val / valuesSum) * 100);
+                    percent = Math.round(val / valuesSum * 100);
                 }
                 if (percent == 0) {percent = "-";}
                 rowsHtml += `
