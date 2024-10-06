@@ -533,6 +533,10 @@ function ToggleUpFilter(id, state) {
             //     }
             // }
             break;
+        case "toggle_filter_panel":
+            $('.exs-panel-filtering').toggleClass('d-none');
+            $('.exs-panel-filtering').toggleClass('d-flex');
+            break;
         default:
             break;
     }
