@@ -1,6 +1,6 @@
 let video_table
 
-function generate_ajax_video_table(scroll_y = ''){
+function generate_ajax_video_table(scroll_y = '', columnHideClassesOrIds = []){
     video_table = $('#video').DataTable({
         language: {
             url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
@@ -21,6 +21,7 @@ function generate_ajax_video_table(scroll_y = ''){
                 "targets": 5,
                 "className": "text-center"
             },
+            { 'visible': false, 'targets': columnHideClassesOrIds },
         ],
         ajax: {
             url:'/video/api/all?format=datatables',
@@ -113,6 +114,10 @@ function generate_ajax_video_table(scroll_y = ''){
         }
 
     })
+}
+
+function changeVisionColumns(columnVisibleClassesOrIds = [], isVisible = false) {
+    video_table.columns(columnVisibleClassesOrIds).visible(isVisible);
 }
 
 $(".dataTables_filter input")

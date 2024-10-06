@@ -1,13 +1,3 @@
-/pyvenv.cfg
-
-/Scripts/
-/Lib/
-
-/venv/
-/env/
-/.vscode/
-/.idea/
-
 /data.txt
 /temp.txt
 /db.sqlite3
