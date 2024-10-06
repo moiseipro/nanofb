@@ -849,11 +849,23 @@ button.custom-disabled:hover {
 
 
 .noUi-connect {
-    background: rgb(180, 180, 180) !important;
+    background: rgb(150, 150, 150) !important;
+}
+.noUi-connects {
+    background: rgb(200, 200, 200) !important;
 }
 .noUi-handle {
-    border: none !important;
-    background: rgb(100, 100, 100) !important;
+    width: 30px !important;
+    border: 1px solid rgb(100, 100, 100);
+    border-radius: 100px;
+    background: rgb(70, 70, 70) !important;
     box-shadow: none !important;
+}
+.noUi-handle::before {
+    background: rgb(70, 70, 70) !important;
+
+}
+.noUi-handle:after {
+    background: rgb(70, 70, 70) !important;
 }
 
