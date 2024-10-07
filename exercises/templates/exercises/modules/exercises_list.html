@@ -213,44 +213,30 @@
                         </tr>
 
                         <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <!-- <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
-                                <span class="ml-2 mt-1">игроки</span>
-                            </td> -->
-                            <td class="text-center" colspan="3" title="Игроки">
-                                <div class="d-flex w-100">
-                                    <input name="field_players_a" class="exs_edit_field text-center ml-2" type="number" value="" placeholder="4" autocomplete="off" min="0" max="99" readonly="">
-                                    <div id="slider_range_players" class="w-100 mx-4 mt-1"></div>
-                                    <input name="field_players_b" class="exs_edit_field text-center mr-2" type="number" value="" placeholder="17" autocomplete="off" min="0" max="99" readonly="">
-                                </div>
+                            <td class="text-left bck-light-gray border-top-light align-middle">
+                                <span class="ml-2 mt-1">Возраст</span>
                             </td>
-                            <!-- <td class="text-center" title="с">
-                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
-                            </td>
-                            <td class="text-center" title="по">
-                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
-                            </td> -->
-                        </tr>
-                        <tr class="bck-custom border-y-custom" data-id="card_block">
-                            <!-- <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
-                                <span class="ml-2 mt-1">возраст</span>
-                            </td> -->
-                            <td class="text-center" colspan="3" title="Возраст">
-                                <div class="d-flex w-100">
-                                    <input name="field_age_a" class="exs_edit_field text-center ml-2" type="number" value="" placeholder="1" autocomplete="off" min="0" max="99" readonly="">
-                                    <div id="slider_range_age" class="w-100 mx-4 mt-1"></div>
-                                    <input name="field_age_b" class="exs_edit_field text-center mr-2" type="number" value="" placeholder="20" autocomplete="off" min="0" max="99" readonly="">
-                                </div>
-                            </td>
-                            <!-- <td class="text-center" title="с">
+                            <td class="text-center" title="с">
                                 <input name="field_age_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="150">
                             </td>
                             <td class="text-center" title="по">
                                 <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="150">
-                            </td> -->
+                            </td>
+                        </tr>
+                        <tr class="bck-custom border-y-custom" data-id="card_block">
+                            <td class="text-left bck-light-gray border-top-light align-middle">
+                                <span class="ml-2 mt-1">Игроки</span>
+                            </td>
+                            <td class="text-center" title="с">
+                                <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
+                            </td>
+                            <td class="text-center" title="по">
+                                <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
+                            </td>
                         </tr>
                         <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
-                            <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
-                                <span class="ml-2 mt-1">мяч</span>
+                            <td class="text-left bck-light-gray border-top-light align-middle">
+                                <span class="ml-2 mt-1">Мяч</span>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="ball" data-val="true">
@@ -264,8 +250,25 @@
                             </td>
                         </tr>
                         <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
-                            <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
-                                <span class="ml-2 mt-1">ворота</span>
+                            <td class="text-left bck-light-gray border-top-light align-middle">
+                                <span class="ml-2 mt-1">Категория</span>
+                            </td>
+                            {% for elem in refs.exs_category %}
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}">
+                                    {{ elem.title }}
+                                </button>
+                            </td>
+                            {% endfor %}
+                        </tr>
+
+                        {% if user.is_superuser %}
+                        <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                        {% else %}
+                        <tr class="bck-custom border-top-custom btn-fields" data-id="card_block">
+                        {% endif %}
+                            <td class="text-left bck-light-gray border-top-light align-middle">
+                                <span class="ml-2 mt-1">Ворота</span>
                             </td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_big">
@@ -277,18 +280,6 @@
                                     g.
                                 </button>
                             </td>
-                        </tr>
-                        <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
-                            <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
-                                <span class="ml-2 mt-1">Категория</span>
-                            </td>
-                            {% for elem in refs.exs_category %}
-                            <td class="text-center">
-                                <button type="button" class="btn btn-sm btn-block btn-custom in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}">
-                                    {{ elem.title }}
-                                </button>
-                            </td>
-                            {% endfor %}
                         </tr>
                         <tr class="d-none">
                             <td colspan="3">
