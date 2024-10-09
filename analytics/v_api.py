@@ -1,13 +1,13 @@
 from django.http import JsonResponse
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, F, Count
 from django.core.cache import cache
 from users.models import User
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
-from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol, ClubTrainingProtocol
+from trainings.models import UserTraining, ClubTraining, UserTrainingProtocol, ClubTrainingProtocol, UserTrainingExercise, ClubTrainingExercise
 from trainings.models import UserTrainingBlocks, ClubTrainingBlocks
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
-from exercises.models import UserFolder, ClubFolder
+from exercises.models import UserFolder, ClubFolder, UserExercise, ClubExercise
 from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
@@ -278,127 +278,302 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_s
             else:
                 if date.today() < f_season.date_by:
                     date_by = date.today()
-            matches_protocols = []
-            if util_check_access(cur_user, {
-                'perms_user': ["matches.analytics_usermatch"],
-                'perms_club': ["matches.analytics_clubmatch"]
-            }):
-                if request.user.club_id is not None:
-                    matches_protocols = ClubProtocol.objects.filter(
-                        # match_id__team_id=cur_team,
-                        match_id__event_id__club_id=request.user.club_id,
-                        match_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-                else:
-                    matches_protocols = UserProtocol.objects.filter(
-                        # match_id__team_id=cur_team,
-                        match_id__event_id__user_id=cur_user,
-                        match_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-            is_status_correct = False
-            for m_protocol in matches_protocols:
+            
+            # matches_protocols = []
+            # if util_check_access(cur_user, {
+            #     'perms_user': ["matches.analytics_usermatch"],
+            #     'perms_club': ["matches.analytics_clubmatch"]
+            # }):
+            #     if request.user.club_id is not None:
+            #         matches_protocols = ClubProtocol.objects.filter(
+            #             # match_id__team_id=cur_team,
+            #             match_id__event_id__club_id=request.user.club_id,
+            #             match_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            #     else:
+            #         matches_protocols = UserProtocol.objects.filter(
+            #             # match_id__team_id=cur_team,
+            #             match_id__event_id__user_id=cur_user,
+            #             match_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            # is_status_correct = False
+            # for m_protocol in matches_protocols:
+            #     player_data = None
+            #     try:
+            #         player_data = res_data['players'][m_protocol.player.id]
+            #     except Exception as e:
+            #         pass
+            #     is_status_correct = check_protocol_status(m_protocol.p_status)
+            #     if player_data:
+            #         if is_status_correct:
+            #             min_from = m_protocol.minute_from if m_protocol.minute_from else 0
+            #             min_to = m_protocol.minute_to if m_protocol.minute_to else 0
+            #             if min_to - min_from > 0:
+            #                 player_data['res_matches']['matches_count'] += 1
+            #                 player_data['res_matches']['matches_time'] += min_to - min_from + 1 if min_to > 0 else 0
+            #                 player_data['res_matches']['matches_goals'] += m_protocol.goal if m_protocol.goal else 0
+            #                 player_data['res_matches']['matches_penalty'] += m_protocol.penalty if m_protocol.penalty else 0
+            #                 player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
+            #                 player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
+            #                 player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
+            #                 player_data['res_matches']['matches_captains'] += 1 if m_protocol.is_captain == True else 0
+            #                 if m_protocol.estimation:
+            #                     player_data['res_matches']['matches_estimation'] += m_protocol.estimation
+            #                     player_data['res_matches']['matches_estimation_count'] += 1
+            #                 player_data['res_matches']['matches_dislike'] += m_protocol.dislike if m_protocol.dislike else 0
+            #                 player_data['res_matches']['matches_like'] += m_protocol.like if m_protocol.like else 0
+            #         else:
+            #             if "type_ill" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_ill'] == 1:
+            #                 player_data['res_protocols']['diseases_count'] += 1
+            #             if "type_injury" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_injury'] == 1:
+            #                 player_data['res_protocols']['injuries_count'] += 1
+            #             if "type_au" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_au'] == 1:
+            #                 player_data['res_protocols']['a_u_count'] += 1
+            #             if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
+            #                 player_data['res_protocols']['skip_count'] += 1
+            #             if "type_disqualification" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_disqualification'] == 1:
+            #                 player_data['res_protocols']['disqualification_count'] += 1
+            
+            # trainings_protocols = []
+            # if util_check_access(cur_user, {
+            #     'perms_user': ["trainings.analytics_usertraining"],
+            #     'perms_club': ["trainings.analytics_clubtraining"]
+            # }):
+            #     if request.user.club_id is not None:
+            #         trainings_protocols = ClubTrainingProtocol.objects.filter(
+            #             # training_id__team_id=cur_team,
+            #             training_id__event_id__club_id=request.user.club_id,
+            #             training_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            #     else:
+            #         trainings_protocols = UserTrainingProtocol.objects.filter(
+            #             # training_id__team_id=cur_team,
+            #             training_id__event_id__user_id=cur_user,
+            #             training_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            # is_status_correct = False
+            # for t_protocol in trainings_protocols:
+            #     player_data = None
+            #     try:
+            #         player_data = res_data['players'][t_protocol.player_id.id]
+            #     except Exception as e:
+            #         pass
+            #     is_status_correct = check_protocol_status(t_protocol.status)
+            #     if player_data:
+            #         if is_status_correct:
+            #             training_full_time = 0
+            #             for t_exercise in t_protocol.training_exercise_check.all():
+            #                 if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
+            #                     player_data['res_trainings']['trainings_with_ball'] += 1
+            #                 else:
+            #                     player_data['res_trainings']['trainings_no_ball'] += 1
+            #                 player_data['res_trainings']['trainings_time'] += t_exercise.duration
+            #                 training_full_time += t_exercise.duration
+            #                 if not t_exercise.exercise_id.folder.parent in player_data['res_trainings']['trainings_exs_folders']:
+            #                     player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] = 0
+            #                 player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] += 1
+            #             if training_full_time > 0:
+            #                 player_data['res_trainings']['trainings_count'] += 1
+            #                 if t_protocol.estimation == 2:
+            #                     player_data['res_trainings']['trainings_like'] += 1
+            #                 if t_protocol.estimation == 1:
+            #                     player_data['res_trainings']['trainings_dislike'] += 1
+            #         else:
+            #             if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
+            #                 player_data['res_protocols']['diseases_count'] += 1
+            #             if "type_injury" in t_protocol.status.tags and t_protocol.status.tags['type_injury'] == 1:
+            #                 player_data['res_protocols']['injuries_count'] += 1
+            #             if "type_au" in t_protocol.status.tags and t_protocol.status.tags['type_au'] == 1:
+            #                 player_data['res_protocols']['a_u_count'] += 1
+            #             if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
+            #                 player_data['res_protocols']['skip_count'] += 1
+            #             if "type_disqualification" in t_protocol.status.tags and t_protocol.status.tags['type_disqualification'] == 1:
+            #                 player_data['res_protocols']['disqualification_count'] += 1
+            
+            for player in players:
                 player_data = None
                 try:
-                    player_data = res_data['players'][m_protocol.player.id]
+                    player_data = res_data['players'][player.id]
                 except Exception as e:
                     pass
-                is_status_correct = check_protocol_status(m_protocol.p_status)
                 if player_data:
-                    if is_status_correct:
-                        min_from = m_protocol.minute_from if m_protocol.minute_from else 0
-                        min_to = m_protocol.minute_to if m_protocol.minute_to else 0
-                        if min_to - min_from > 0:
-                            player_data['res_matches']['matches_count'] += 1
-                            player_data['res_matches']['matches_time'] += min_to - min_from + 1 if min_to > 0 else 0
-                            player_data['res_matches']['matches_goals'] += m_protocol.goal if m_protocol.goal else 0
-                            player_data['res_matches']['matches_penalty'] += m_protocol.penalty if m_protocol.penalty else 0
-                            player_data['res_matches']['matches_pass'] += m_protocol.p_pass if m_protocol.p_pass else 0
-                            player_data['res_matches']['matches_red_card'] += m_protocol.red_card if m_protocol.red_card else 0
-                            player_data['res_matches']['matches_yellow_card'] += m_protocol.yellow_card if m_protocol.yellow_card else 0
-                            player_data['res_matches']['matches_captains'] += 1 if m_protocol.is_captain == True else 0
-                            if m_protocol.estimation:
-                                player_data['res_matches']['matches_estimation'] += m_protocol.estimation
-                                player_data['res_matches']['matches_estimation_count'] += 1
-                            player_data['res_matches']['matches_dislike'] += m_protocol.dislike if m_protocol.dislike else 0
-                            player_data['res_matches']['matches_like'] += m_protocol.like if m_protocol.like else 0
-                    else:
-                        if "type_ill" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_ill'] == 1:
-                            player_data['res_protocols']['diseases_count'] += 1
-                        if "type_injury" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_injury'] == 1:
-                            player_data['res_protocols']['injuries_count'] += 1
-                        if "type_au" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_au'] == 1:
-                            player_data['res_protocols']['a_u_count'] += 1
-                        if "type_skip" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_skip'] == 1:
-                            player_data['res_protocols']['skip_count'] += 1
-                        if "type_disqualification" in m_protocol.p_status.tags and m_protocol.p_status.tags['type_disqualification'] == 1:
-                            player_data['res_protocols']['disqualification_count'] += 1
-            is_status_correct = False
-            trainings_protocols = []
-            if util_check_access(cur_user, {
-                'perms_user': ["trainings.analytics_usertraining"],
-                'perms_club': ["trainings.analytics_clubtraining"]
-            }):
-                if request.user.club_id is not None:
-                    trainings_protocols = ClubTrainingProtocol.objects.filter(
-                        # training_id__team_id=cur_team,
-                        training_id__event_id__club_id=request.user.club_id,
-                        training_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-                else:
-                    trainings_protocols = UserTrainingProtocol.objects.filter(
-                        # training_id__team_id=cur_team,
-                        training_id__event_id__user_id=cur_user,
-                        training_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-            for t_protocol in trainings_protocols:
-                player_data = None
-                try:
-                    player_data = res_data['players'][t_protocol.player_id.id]
-                except Exception as e:
-                    pass
-                is_status_correct = check_protocol_status(t_protocol.status)
-                if player_data:
-                    if is_status_correct:
-                        training_full_time = 0
-                        for t_exercise in t_protocol.training_exercise_check.all():
-                            if t_exercise.exercise_id.ref_ball and t_exercise.exercise_id.ref_ball.name == "мяч":
-                                player_data['res_trainings']['trainings_with_ball'] += 1
+                    if util_check_access(cur_user, {
+                        'perms_user': ["matches.analytics_usermatch"],
+                        'perms_club': ["matches.analytics_clubmatch"]
+                    }):
+                        t_protocols = None
+                        if request.user.club_id is not None:
+                            t_protocols = ClubProtocol.objects.filter(
+                                match_id__event_id__club_id=request.user.club_id,
+                                match_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player=player
+                            ).annotate(matchtime=(F('minute_to')-F('minute_from')+1))
+                        else:
+                            t_protocols = UserProtocol.objects.filter(
+                                match_id__event_id__user_id=cur_user,
+                                match_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player=player
+                            ).annotate(matchtime=(F('minute_to')-F('minute_from')+1))
+                        if t_protocols:
+                            t_protocols_with_status = t_protocols.filter(Q(
+                                Q(Q(p_status__isnull=True) | Q(
+                                    Q(p_status__isnull=False) &
+                                    Q(p_status__tags__has_key='analytics') &
+                                    Q(p_status__tags__analytics=1)
+                                )) & Q(
+                                    matchtime__gt=0
+                                )
+                            ))
+                            t_protocols_without_status = t_protocols.exclude(Q(
+                                Q(p_status__isnull=True) | Q(
+                                    Q(p_status__isnull=False) &
+                                    Q(p_status__tags__has_key='analytics') &
+                                    Q(p_status__tags__analytics=1)
+                                )
+                            ))
+                            player_data['res_matches']['matches_count'] = t_protocols_with_status.count()
+                            player_data['res_matches']['matches_time'] = t_protocols_with_status.aggregate(Sum('matchtime'))['matchtime__sum']
+                            player_data['res_matches']['matches_goals'] = t_protocols_with_status.aggregate(Sum('goal'))['goal__sum']
+                            player_data['res_matches']['matches_penalty'] = t_protocols_with_status.aggregate(Sum('penalty'))['penalty__sum']
+                            player_data['res_matches']['matches_pass'] = t_protocols_with_status.aggregate(Sum('p_pass'))['p_pass__sum']
+                            player_data['res_matches']['matches_red_card'] = t_protocols_with_status.aggregate(Sum('red_card'))['red_card__sum']
+                            player_data['res_matches']['matches_yellow_card'] = t_protocols_with_status.aggregate(Sum('yellow_card'))['yellow_card__sum']
+                            player_data['res_matches']['matches_captains'] = t_protocols_with_status.aggregate(Sum('is_captain'))['is_captain__sum']
+                            player_data['res_matches']['matches_estimation'] = t_protocols_with_status.aggregate(Sum('estimation'))['estimation__sum']
+                            player_data['res_matches']['matches_estimation_count'] = t_protocols_with_status.aggregate(Count('estimation'))['estimation__count']
+                            player_data['res_matches']['matches_dislike'] = t_protocols_with_status.aggregate(Sum('dislike'))['dislike__sum']
+                            player_data['res_matches']['matches_like'] = t_protocols_with_status.aggregate(Sum('like'))['like__sum']
+                            player_data['res_protocols']['diseases_count'] += t_protocols_without_status.filter(
+                                p_status__tags__has_key='type_ill',
+                                p_status__tags__type_ill=1
+                            ).count()
+                            player_data['res_protocols']['injuries_count'] += t_protocols_without_status.filter(
+                                p_status__tags__has_key='type_injury',
+                                p_status__tags__type_injury=1
+                            ).count()
+                            player_data['res_protocols']['a_u_count'] += t_protocols_without_status.filter(
+                                p_status__tags__has_key='type_au',
+                                p_status__tags__type_au=1
+                            ).count()
+                            player_data['res_protocols']['skip_count'] += t_protocols_without_status.filter(
+                                p_status__tags__has_key='type_skip',
+                                p_status__tags__type_skip=1
+                            ).count()
+                            player_data['res_protocols']['disqualification_count'] += t_protocols_without_status.filter(
+                                p_status__tags__has_key='type_disqualification',
+                                p_status__tags__type_disqualification=1
+                            ).count()
+                    if util_check_access(cur_user, {
+                        'perms_user': ["trainings.analytics_usertraining"],
+                        'perms_club': ["trainings.analytics_clubtraining"]
+                    }):
+                        t_protocols = None
+                        if request.user.club_id is not None:
+                            t_protocols = ClubTrainingProtocol.objects.filter(
+                                training_id__event_id__club_id=request.user.club_id,
+                                training_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player_id=player
+                            ).annotate(trainingtime=Sum(F('training_exercise_check__duration')))
+                        else:
+                            t_protocols = UserTrainingProtocol.objects.filter(
+                                training_id__event_id__user_id=cur_user,
+                                training_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player_id=player
+                            ).annotate(trainingtime=Sum(F('training_exercise_check__duration')))
+                        if t_protocols:
+                            t_protocols_with_status = t_protocols.filter(Q(
+                                Q(Q(status__isnull=True) | Q(
+                                    Q(status__isnull=False) &
+                                    Q(status__tags__has_key='analytics') &
+                                    Q(status__tags__analytics=1)
+                                )) & Q(
+                                    trainingtime__gt=0
+                                )
+                            ))
+                            t_protocols_without_status = t_protocols.exclude(Q(
+                                Q(status__isnull=True) | Q(
+                                    Q(status__isnull=False) &
+                                    Q(status__tags__has_key='analytics') &
+                                    Q(status__tags__analytics=1)
+                                )
+                            ))
+                            player_data['res_trainings']['trainings_with_ball'] = t_protocols_with_status.aggregate(with_ball_count=Count('training_exercise_check', filter=Q(
+                                Q(training_exercise_check__exercise_id__ref_ball__isnull=False) &
+                                Q(training_exercise_check__exercise_id__ref_ball__name='мяч')
+                            )))['with_ball_count']
+                            player_data['res_trainings']['trainings_no_ball'] = t_protocols_with_status.aggregate(without_ball_count=Count('training_exercise_check', filter=~Q(
+                                Q(training_exercise_check__exercise_id__ref_ball__isnull=False) &
+                                Q(training_exercise_check__exercise_id__ref_ball__name='мяч')
+                            )))['without_ball_count']
+                            t_exercises_check_ids = list(t_protocols_with_status.values_list('training_exercise_check', flat=True))
+                            folder_exercise_counts = {}
+                            if request.user.club_id is not None:
+                                t_exercises_check = ClubTrainingExercise.objects.filter(id__in=t_exercises_check_ids)
+                                t_exercises = ClubExercise.objects.filter(id__in=t_exercises_check.values('exercise_id'))
+                                t_exercises_with_folder_counts = t_exercises.annotate(
+                                    folder_exercise_count=Count('folder__parent')
+                                )
+                                folder_exercise_counts = dict(
+                                    t_exercises_with_folder_counts.values_list('folder__parent', 'folder_exercise_count')
+                                )
                             else:
-                                player_data['res_trainings']['trainings_no_ball'] += 1
-                            player_data['res_trainings']['trainings_time'] += t_exercise.duration
-                            training_full_time += t_exercise.duration
-                            if not t_exercise.exercise_id.folder.parent in player_data['res_trainings']['trainings_exs_folders']:
-                                player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] = 0
-                            player_data['res_trainings']['trainings_exs_folders'][t_exercise.exercise_id.folder.parent] += 1
-                        if training_full_time > 0:
-                            player_data['res_trainings']['trainings_count'] += 1
-                            if t_protocol.estimation == 2:
-                                player_data['res_trainings']['trainings_like'] += 1
-                            if t_protocol.estimation == 1:
-                                player_data['res_trainings']['trainings_dislike'] += 1
-                    else:
-                        if "type_ill" in t_protocol.status.tags and t_protocol.status.tags['type_ill'] == 1:
-                            player_data['res_protocols']['diseases_count'] += 1
-                        if "type_injury" in t_protocol.status.tags and t_protocol.status.tags['type_injury'] == 1:
-                            player_data['res_protocols']['injuries_count'] += 1
-                        if "type_au" in t_protocol.status.tags and t_protocol.status.tags['type_au'] == 1:
-                            player_data['res_protocols']['a_u_count'] += 1
-                        if "type_skip" in t_protocol.status.tags and t_protocol.status.tags['type_skip'] == 1:
-                            player_data['res_protocols']['skip_count'] += 1
-                        if "type_disqualification" in t_protocol.status.tags and t_protocol.status.tags['type_disqualification'] == 1:
-                            player_data['res_protocols']['disqualification_count'] += 1
+                                t_exercises_check = UserTrainingExercise.objects.filter(id__in=t_exercises_check_ids)
+                                t_exercises = UserExercise.objects.filter(id__in=t_exercises_check.values('exercise_id'))
+                                t_exercises_with_folder_counts = t_exercises.annotate(
+                                    folder_exercise_count=Count('folder__parent')
+                                )
+                                folder_exercise_counts = dict(
+                                    t_exercises_with_folder_counts.values_list('folder__parent', 'folder_exercise_count')
+                                )
+                            player_data['res_trainings']['trainings_exs_folders'] = folder_exercise_counts
+                            player_data['res_trainings']['trainings_count'] = t_protocols_with_status.count()
+                            player_data['res_trainings']['trainings_time'] = t_protocols_with_status.aggregate(Sum('trainingtime'))['trainingtime__sum']
+                            player_data['res_trainings']['trainings_like'] = t_protocols_with_status.filter(estimation=2).count()
+                            player_data['res_trainings']['trainings_dislike'] = t_protocols_with_status.filter(estimation=1).count()
+                            player_data['res_protocols']['diseases_count'] += t_protocols_without_status.filter(
+                                status__tags__has_key='type_ill',
+                                status__tags__type_ill=1
+                            ).count()
+                            player_data['res_protocols']['injuries_count'] += t_protocols_without_status.filter(
+                                status__tags__has_key='type_injury',
+                                status__tags__type_injury=1
+                            ).count()
+                            player_data['res_protocols']['a_u_count'] += t_protocols_without_status.filter(
+                                status__tags__has_key='type_au',
+                                status__tags__type_au=1
+                            ).count()
+                            player_data['res_protocols']['skip_count'] += t_protocols_without_status.filter(
+                                status__tags__has_key='type_skip',
+                                status__tags__type_skip=1
+                            ).count()
+                            player_data['res_protocols']['disqualification_count'] += t_protocols_without_status.filter(
+                                status__tags__has_key='type_disqualification',
+                                status__tags__type_disqualification=1
+                            ).count()
             if request.user.club_id is not None:
                 cache.set(f'analytics_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
