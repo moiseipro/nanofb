@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.db.models import Sum, Q, F, Count
+from django.db.models import Sum, Q, F, Count, Case, When
 from django.core.cache import cache
 from users.models import User
 from matches.models import UserMatch, ClubMatch, UserProtocol, ClubProtocol
@@ -456,7 +456,10 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_s
                             player_data['res_matches']['matches_pass'] = t_protocols_with_status.aggregate(Sum('p_pass'))['p_pass__sum']
                             player_data['res_matches']['matches_red_card'] = t_protocols_with_status.aggregate(Sum('red_card'))['red_card__sum']
                             player_data['res_matches']['matches_yellow_card'] = t_protocols_with_status.aggregate(Sum('yellow_card'))['yellow_card__sum']
+
                             player_data['res_matches']['matches_captains'] = t_protocols_with_status.aggregate(Sum('is_captain'))['is_captain__sum']
+                            player_data['res_matches']['matches_captains'] = t_protocols_with_status.aggregate(is_captain__sum=Count(Case(When(is_captain=True, then=1))))['is_captain__sum']
+
                             player_data['res_matches']['matches_estimation'] = t_protocols_with_status.aggregate(Sum('estimation'))['estimation__sum']
                             player_data['res_matches']['matches_estimation_count'] = t_protocols_with_status.aggregate(Count('estimation'))['estimation__count']
                             player_data['res_matches']['matches_dislike'] = t_protocols_with_status.aggregate(Sum('dislike'))['dislike__sum']
