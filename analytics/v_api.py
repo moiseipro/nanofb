@@ -905,7 +905,7 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
                                     player_data['res_trainings'][block_id] = {'_count': 0, '_time': 0}
                                 player_data['res_trainings'][block_id]['_count'] += 1
                                 player_data['res_trainings'][block_id]['_time'] += training_full_time
-
+            
             # for player in players:
             #     player_data = None
             #     try:
@@ -1010,9 +1010,9 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
     if f_season and f_season.id != None:
         cached_data = None
         if request.user.club_id is not None:
-            cached_data = cache.get(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_season}_{season_type}')
         else:
-            cached_data = cache.get(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+            cached_data = cache.get(f'analytics_teams_folders_{cur_user}_{cur_season}_{season_type}')
         if cached_data is None and options_shared is None:
             date_with = f_season.date_with
             date_by = f_season.date_by
@@ -1066,6 +1066,7 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
             #                 if not t_exercise.exercise_id.folder.id in team_data['folders']:
             #                     team_data['folders'][t_exercise.exercise_id.folder.id] = 0
             #                 team_data['folders'][t_exercise.exercise_id.folder.id] += t_exercise.duration
+
             for team in teams:
                 try:
                     team_data = res_data['teams'][team.id]
@@ -1113,9 +1114,9 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
                                         team_data['folders'][folder_id] = 0
                                     team_data['folders'][folder_id] += total_duration
             if request.user.club_id is not None:
-                cache.set(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
-                cache.set(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
+                cache.set(f'analytics_teams_folders_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
