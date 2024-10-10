@@ -862,6 +862,7 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
             else:
                 if date.today() < f_season.date_by:
                     date_by = date.today()
+            
             is_status_correct = False
             trainings_protocols = []
             if util_check_access(cur_user, {
@@ -904,6 +905,49 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
                                     player_data['res_trainings'][block_id] = {'_count': 0, '_time': 0}
                                 player_data['res_trainings'][block_id]['_count'] += 1
                                 player_data['res_trainings'][block_id]['_time'] += training_full_time
+
+            # for player in players:
+            #     player_data = None
+            #     try:
+            #         player_data = res_data['players'][player.id]
+            #     except Exception as e:
+            #         pass
+            #     if player_data:
+            #         if util_check_access(cur_user, {
+            #             'perms_user': ["trainings.analytics_usertraining"],
+            #             'perms_club': ["trainings.analytics_clubtraining"]
+            #         }):
+            #             t_protocols = None
+            #             if request.user.club_id is not None:
+            #                 t_protocols = ClubTrainingProtocol.objects.filter(
+            #                     training_id__event_id__club_id=request.user.club_id,
+            #                     training_id__event_id__date__range=[
+            #                         datetime.combine(date_with, datetime.min.time()),
+            #                         datetime.combine(date_by, datetime.max.time())
+            #                     ],
+            #                     player_id=player
+            #                 ).annotate(trainingtime=Sum(F('training_exercise_check__duration')))
+            #             else:
+            #                 t_protocols = UserTrainingProtocol.objects.filter(
+            #                     training_id__event_id__user_id=cur_user,
+            #                     training_id__event_id__date__range=[
+            #                         datetime.combine(date_with, datetime.min.time()),
+            #                         datetime.combine(date_by, datetime.max.time())
+            #                     ],
+            #                     player_id=player
+            #                 ).annotate(trainingtime=Sum(F('training_exercise_check__duration')))
+            #             if t_protocols:
+            #                 t_protocols_with_status = t_protocols.filter(Q(
+            #                     Q(Q(status__isnull=True) | Q(
+            #                         Q(status__isnull=False) &
+            #                         Q(status__tags__has_key='analytics') &
+            #                         Q(status__tags__analytics=1)
+            #                     )) & Q(
+            #                         trainingtime__gt=0
+            #                     )
+            #                 ))
+            #                 print(t_protocols_with_status)
+            #                 t = list(t_protocols_with_status.values_list('training_id__blocks', flat=True))
             if request.user.club_id is not None:
                 cache.set(f'analytics_blocks_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
@@ -985,42 +1029,89 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
             else:
                 if date.today() < f_season.date_by:
                     date_by = date.today()
-            is_status_correct = False
-            trainings_protocols = []
-            if util_check_access(cur_user, {
-                'perms_user': ["trainings.analytics_usertraining"],
-                'perms_club': ["trainings.analytics_clubtraining"]
-            }):
-                if request.user.club_id is not None:
-                    trainings_protocols = ClubTrainingProtocol.objects.filter(
-                        training_id__event_id__club_id=request.user.club_id,
-                        training_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-                else:
-                    trainings_protocols = UserTrainingProtocol.objects.filter(
-                        training_id__event_id__user_id=cur_user,
-                        training_id__event_id__date__range=[
-                            datetime.combine(date_with, datetime.min.time()),
-                            datetime.combine(date_by, datetime.max.time())
-                        ],
-                    )
-            for t_protocol in trainings_protocols:
-                team_data = None
+            
+            # is_status_correct = False
+            # trainings_protocols = []
+            # if util_check_access(cur_user, {
+            #     'perms_user': ["trainings.analytics_usertraining"],
+            #     'perms_club': ["trainings.analytics_clubtraining"]
+            # }):
+            #     if request.user.club_id is not None:
+            #         trainings_protocols = ClubTrainingProtocol.objects.filter(
+            #             training_id__event_id__club_id=request.user.club_id,
+            #             training_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            #     else:
+            #         trainings_protocols = UserTrainingProtocol.objects.filter(
+            #             training_id__event_id__user_id=cur_user,
+            #             training_id__event_id__date__range=[
+            #                 datetime.combine(date_with, datetime.min.time()),
+            #                 datetime.combine(date_by, datetime.max.time())
+            #             ],
+            #         )
+            # for t_protocol in trainings_protocols:
+            #     team_data = None
+            #     try:
+            #         if not t_protocol.player_id.is_archive:
+            #             team_data = res_data['teams'][t_protocol.player_id.team.id]
+            #     except Exception as e:
+            #         pass
+            #     is_status_correct = check_protocol_status(t_protocol.status)
+            #     if team_data:
+            #         if is_status_correct:
+            #             for t_exercise in t_protocol.training_exercise_check.all():
+            #                 if not t_exercise.exercise_id.folder.id in team_data['folders']:
+            #                     team_data['folders'][t_exercise.exercise_id.folder.id] = 0
+            #                 team_data['folders'][t_exercise.exercise_id.folder.id] += t_exercise.duration
+            for team in teams:
                 try:
-                    if not t_protocol.player_id.is_archive:
-                        team_data = res_data['teams'][t_protocol.player_id.team.id]
+                    team_data = res_data['teams'][team.id]
                 except Exception as e:
                     pass
-                is_status_correct = check_protocol_status(t_protocol.status)
                 if team_data:
-                    if is_status_correct:
-                        for t_exercise in t_protocol.training_exercise_check.all():
-                            if not t_exercise.exercise_id.folder.id in team_data['folders']:
-                                team_data['folders'][t_exercise.exercise_id.folder.id] = 0
-                            team_data['folders'][t_exercise.exercise_id.folder.id] += t_exercise.duration
+                    if util_check_access(cur_user, {
+                        'perms_user': ["trainings.analytics_usertraining"],
+                        'perms_club': ["trainings.analytics_clubtraining"]
+                    }):
+                        t_protocols = None
+                        if request.user.club_id is not None:
+                            t_protocols = ClubTrainingProtocol.objects.filter(
+                                training_id__event_id__club_id=request.user.club_id,
+                                training_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player_id__in=list(ClubPlayer.objects.filter(team=team, is_archive=False).values_list('id', flat=True))
+                            )
+                        else:
+                            t_protocols = UserTrainingProtocol.objects.filter(
+                                training_id__event_id__user_id=cur_user,
+                                training_id__event_id__date__range=[
+                                    datetime.combine(date_with, datetime.min.time()),
+                                    datetime.combine(date_by, datetime.max.time())
+                                ],
+                                player_id__in=list(UserPlayer.objects.filter(team=team, is_archive=False).values_list('id', flat=True))
+                            )
+                        if t_protocols:
+                            t_protocols_with_status = t_protocols.filter(Q(
+                                Q(Q(status__isnull=True) | Q(
+                                    Q(status__isnull=False) &
+                                    Q(status__tags__has_key='analytics') &
+                                    Q(status__tags__analytics=1)
+                                ))
+                            )).values('training_exercise_check__exercise_id__folder_id').annotate(
+                                total_duration=Sum('training_exercise_check__duration')
+                            ).order_by('training_exercise_check__exercise_id__folder_id')
+                            for folder in t_protocols_with_status:
+                                folder_id = folder['training_exercise_check__exercise_id__folder_id']
+                                total_duration = folder['total_duration']
+                                if folder_id is not None:
+                                    if folder_id not in team_data['folders']:
+                                        team_data['folders'][folder_id] = 0
+                                    team_data['folders'][folder_id] += total_duration
             if request.user.club_id is not None:
                 cache.set(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
             else:
@@ -1028,3 +1119,4 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
         else:
             res_data = cached_data
     return JsonResponse({"data": res_data, "success": True}, status=200)
+
