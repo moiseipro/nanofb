@@ -161,13 +161,13 @@ def POST_reset_cache(request, cur_user, cur_team, cur_season):
         cache.delete(f'analytics_by_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_full_club_{request.user.club_id.id}_{cur_team}_{cur_season}_None')
         cache.delete(f'analytics_blocks_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
-        cache.delete(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_team}_{cur_season}_{season_type}')
+        cache.delete(f'analytics_teams_folders_club_{request.user.club_id.id}_{cur_season}_{season_type}')
     else:
         status = cache.delete(f'analytics_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
         cache.delete(f'analytics_by_folders_full_{cur_user}_{cur_team}_{cur_season}_None')
         cache.delete(f'analytics_blocks_{cur_user}_{cur_team}_{cur_season}_{season_type}')
-        cache.delete(f'analytics_teams_folders_{cur_user}_{cur_team}_{cur_season}_{season_type}')
+        cache.delete(f'analytics_teams_folders_{cur_user}_{cur_season}_{season_type}')
     res_data = "Cached data deleted successfully!"
     if not status:
         res_data = "Cached data has not been deleted. Not found or another reason."
