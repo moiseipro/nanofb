@@ -529,27 +529,18 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_s
                                 Q(training_exercise_check__exercise_id__ref_ball__isnull=False) &
                                 Q(training_exercise_check__exercise_id__ref_ball__name='мяч')
                             )))['without_ball_count']
-                            t_exercises_check_ids = list(t_protocols_with_status.values_list('training_exercise_check', flat=True))
-                            folder_exercise_counts = {}
-                            if request.user.club_id is not None:
-                                t_exercises_check = ClubTrainingExercise.objects.filter(id__in=t_exercises_check_ids)
-                                t_exercises = ClubExercise.objects.filter(id__in=t_exercises_check.values('exercise_id'))
-                                t_exercises_with_folder_counts = t_exercises.annotate(
-                                    folder_exercise_count=Count('folder__parent')
-                                )
-                                folder_exercise_counts = dict(
-                                    t_exercises_with_folder_counts.values_list('folder__parent', 'folder_exercise_count')
-                                )
-                            else:
-                                t_exercises_check = UserTrainingExercise.objects.filter(id__in=t_exercises_check_ids)
-                                t_exercises = UserExercise.objects.filter(id__in=t_exercises_check.values('exercise_id'))
-                                t_exercises_with_folder_counts = t_exercises.annotate(
-                                    folder_exercise_count=Count('folder__parent')
-                                )
-                                folder_exercise_counts = dict(
-                                    t_exercises_with_folder_counts.values_list('folder__parent', 'folder_exercise_count')
-                                )
-                            player_data['res_trainings']['trainings_exs_folders'] = folder_exercise_counts
+                            tmp_protocols_folders_sums = t_protocols_with_status.values(
+                                'training_exercise_check__exercise_id__folder_id__parent'
+                            ).annotate(
+                                total_duration=Sum('training_exercise_check__duration')
+                            ).order_by('training_exercise_check__exercise_id__folder_id')
+                            for folder in tmp_protocols_folders_sums:
+                                folder_id = folder['training_exercise_check__exercise_id__folder_id__parent']
+                                total_duration = folder['total_duration']
+                                if folder_id is not None:
+                                    if folder_id not in player_data['res_trainings']['trainings_exs_folders']:
+                                        player_data['res_trainings']['trainings_exs_folders'][folder_id] = 0
+                                    player_data['res_trainings']['trainings_exs_folders'][folder_id] += total_duration
                             player_data['res_trainings']['trainings_count'] = t_protocols_with_status.count()
                             player_data['res_trainings']['trainings_time'] = t_protocols_with_status.aggregate(Sum('trainingtime'))['trainingtime__sum']
                             player_data['res_trainings']['trainings_like'] = t_protocols_with_status.filter(estimation=2).count()
