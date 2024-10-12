@@ -698,6 +698,7 @@ function RenderExerciseOne(data) {
         } catch(e) {}
     }
     ResetEditPanels();
+    RenderVideoUser();
 
     setTimeout(() => {
         try {
@@ -1253,6 +1254,7 @@ function ToggleFoldersType(data = null) {
 }
 
 function CheckSelectedRowInVideoTable(onlySetVideo = false) {
+    if ($('#video-player-card-edit').hasClass('user-block')) {return;}
     let value = -1;
     if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
     if ($('#openVideo2').hasClass('selected2')) {value = $('.video-value[name="video2"]').val();}
@@ -1378,6 +1380,90 @@ function SetVideoId(value) {
     if ($('#openAnimation1').hasClass('selected2')) {$('.video-value[name="animation1"]').val(value);}
     if ($('#openAnimation2').hasClass('selected2')) {$('.video-value[name="animation2"]').val(value);}
     window.changedData = true;
+}
+
+function GetVideoId() {
+    let value = -1;
+    if ($('#openVideo1').hasClass('selected2')) {value = $('.video-value[name="video1"]').val();}
+    if ($('#openVideo2').hasClass('selected2')) {value = $('.video-value[name="video2"]').val();}
+    if ($('#openAnimation1').hasClass('selected2')) {value = $('.video-value[name="animation1"]').val();}
+    if ($('#openAnimation2').hasClass('selected2')) {value = $('.video-value[name="animation2"]').val();}
+    if (value == "") {value = -1;}
+    return value;
+}
+
+function RenderVideoUser() {
+    if (!$('#video-player-card-edit').hasClass('user-block')) {return;}
+    let videoId = GetVideoId();
+    RenderVideo(videoId, $('.video-editor').find('#video-player-card-edit'), window.videoPlayerCardEdit);
+}
+
+ function UpdateVideoUser() {
+    let nameList = [
+        'Time','Past','Future','Dev',
+        'Fly','Flying','Soar','Soaring','Power','Falling',
+        'Fall','Jump','Cliff','Mountain','Rend','Red','Blue',
+        'Green','Yellow','Gold','Demon','Demonic','Panda','Cat',
+        'Kitty','Kitten','Zero','Memory','Trooper','XX','Bandit',
+        'Fear','Light','Glow','Tread','Deep','Deeper','Deepest',
+        'Mine','Your','Worst','Enemy','Hostile','Force','Video',
+        'Game','Donkey','Mule','Colt','Cult','Cultist','Magnum',
+        'Gun','Assault','Recon','Trap','Trapper','Redeem','Code',
+        'Script','Writer','Near','Close','Open','Cube','Circle',
+        'Geo','Genome','Germ','Spaz','Shot','Echo','Beta','Alpha',
+        'Gamma','Omega','Seal','Squid','Money','Cash','Lord','King',
+        'Duke','Rest','Fire','Flame','Morrow','Break','Breaker','Numb',
+        'Ice','Cold','Rotten','Sick','Sickly','Janitor','Camel','Rooster',
+        'Sand','Desert','Dessert','Hurdle','Racer','Eraser','Erase','Big',
+        'Small','Short','Tall','Sith','Bounty','Hunter','Cracked','Broken',
+        'Sad','Happy','Joy','Joyful','Crimson','Destiny','Deceit','Lies',
+        'Lie','Honest','Destined','Bloxxer','Hawk','Eagle','Hawker','Walker',
+        'Zombie','Sarge','Capt','Captain','Punch','One','Two','Uno','Slice',
+        'Slash','Melt','Melted','Melting','Fell','Wolf','Hound',
+        'Legacy','Sharp','Dead','Mew','Chuckle','Bubba','Bubble','Sandwich','Smasher','Extreme','Multi','Universe','Ultimate','Death','Ready','Monkey','Elevator','Wrench','Grease','Head','Theme','Grand','Cool','Kid','Boy','Girl','Vortex','Paradox'
+    ];
+    function createRandomName() {
+        let cName = "";
+        let wordsCount = Math.floor(Math.random() * 5) + 1;
+        for (let i = 0; i < wordsCount; i++) {
+            cName += nameList[Math.floor(Math.random() * nameList.length)]
+        }
+        return cName;
+    };
+    let videoId = GetVideoId();
+    let formData = new FormData();
+    let cMethod = "PUT";
+    if (videoId == -1) {
+        formData.append('name', createRandomName());
+        cMethod = "POST";
+    }
+    formData.append('file_video', $('#fileVideoUser')[0].files[0]);
+    formData.append('duration', '');
+    formData.append('language', '');
+    formData.append('videosource_id', '');
+    formData.append('taggit', '');
+    ajax_video_action(cMethod, formData, 'update', videoId != -1 ? videoId : '').done((data) => {
+        $('#exerciseCard').find('#fileVideoUser').val('');
+        SetVideoId(data.id);
+        RenderVideoUser();
+    });
+}
+
+function DeleteVideoUser() {
+    let videoId = GetVideoId();
+    if (videoId == -1) {return;}
+    let request = $.ajax({
+        headers: {"X-CSRFToken": csrftoken},
+        url: "/video/api/all/" + videoId + "/",
+        type: "DELETE",
+    });
+    request.done((data) => {
+        SetVideoId('');
+        RenderVideoUser();
+    });
+    request.fail((jqXHR, textStatus) => {
+        alert(gettext('An error occurred when deleting the video. ') + gettext(textStatus));
+    });
 }
 
 function StopVideoForEdit() {
@@ -1914,6 +2000,7 @@ $(function() {
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        RenderVideoUser();
         $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
@@ -1938,6 +2025,7 @@ $(function() {
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        RenderVideoUser();
         $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
@@ -1962,6 +2050,7 @@ $(function() {
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        RenderVideoUser();
         $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
@@ -1986,6 +2075,7 @@ $(function() {
         $('.scheme-editor').addClass('d-none');
         StopVideoForEdit();
         CheckSelectedRowInVideoTable();
+        RenderVideoUser();
         $('.video-editor').parent().removeClass('d-none');
         $('.video-editor').removeClass('d-none');
         try {
@@ -2663,6 +2753,13 @@ $(function() {
                 $('.page-loader-wrapper').fadeOut();
             }
         });
+    });
+
+    $('#exerciseCard').on('click', '[name="fileVideoUserUpload"]', (e) => {
+        UpdateVideoUser();
+    });
+    $('#exerciseCard').on('click', '[name="fileVideoUserDelete"]', (e) => {
+        DeleteVideoUser();
     });
 
 });

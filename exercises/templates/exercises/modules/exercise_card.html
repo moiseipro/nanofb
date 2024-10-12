@@ -1320,27 +1320,50 @@
                             </div>
                             {% else %}
                             <div class="row">
+                                <div class="col-12 d-flex justify-content-center mt-2">
+                                    <div><input type="file" id="fileVideoUser" accept=".MP4,.avi"></div>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-primary" name="fileVideoUserUpload" title="Загрузить">
+                                            Загрузить видео
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-danger" name="fileVideoUserDelete" title="Удалить">
+                                            Удалить видео
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-2 mx-0"></div>
+                                        <div class="col-8 mx-0">
+                                            <video id="video-player-card-edit" class="video-js resize-block not-active user-block">
+                                            </video>
+                                        </div>
+                                        <div class="col-2 mx-0"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
                                 <div class="col-7">
                                     <div class="exs_video_link" data-type="video_1">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название видео" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на видео" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание видео" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
                                     </div>
-                                    <!-- <div class="exs_video_link" data-type="video_2">
+                                    <div class="exs_video_link" data-type="video_2">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название видео 2" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на видео 2" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание видео 2" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
-                                    </div> -->
+                                    </div>
                                     <div class="exs_video_link" data-type="animation_1">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название анимации" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на анимацию" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание анимации" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
                                     </div>
-                                    <!-- <div class="exs_video_link" data-type="animation_2">
+                                    <div class="exs_video_link" data-type="animation_2">
                                         <input name="video_links_name[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название анимации 2" autocomplete="off">
                                         <input name="video_links_link[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Ссылка на анимацию 2" autocomplete="off">
                                         <textarea name="video_links_note[]" class="form-control form-control-sm exs_edit_field ignore-style" placeholder="Описание анимации 2" type="text" autocomplete="off" style="min-height: 300px;"></textarea>
-                                    </div> -->
+                                    </div>
                                 </div>
                                 <div class="col-5 px-5">
                                     <div class="row">
@@ -1350,7 +1373,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             {% endif %}
                         </div>
                     </div>
