@@ -1438,6 +1438,7 @@ function RenderVideoUser() {
         cMethod = "POST";
     }
     formData.append('file_video', $('#fileVideoUser')[0].files[0]);
+    formData.append('second_screensaver', '3');
     formData.append('duration', '');
     formData.append('language', '');
     formData.append('videosource_id', '');
