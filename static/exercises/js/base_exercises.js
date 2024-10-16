@@ -3198,7 +3198,7 @@ $(function() {
                         if (Array.isArray(res.data) && res.data.length > 0) {
                             let htmlBlocksByClubs = {};
                             let htmlNoClubsStr = `
-                                <li class="list-group-item p-1 club-title">
+                                <li class="list-group-item p-1 club-title" data-club="-1">
                                     <div class="d-flex justify-content-center">
                                         <div class="">
                                             <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
@@ -3211,7 +3211,7 @@ $(function() {
                                 if (elem['club_id']) {
                                     if (!(elem['club_id'] in htmlBlocksByClubs)) {
                                         htmlBlocksByClubs[elem['club_id']] = `
-                                            <li class="list-group-item p-1 club-title">
+                                            <li class="list-group-item p-1 club-title" data-club="${elem['club_id']}">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="">
                                                         <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
@@ -3221,7 +3221,7 @@ $(function() {
                                         `;
                                     }
                                     htmlBlocksByClubs[elem['club_id']] += `
-                                        <li class="list-group-item p-1">
+                                        <li class="list-group-item p-1" data-club="${elem['club_id']}">
                                             <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                                                 <div class="pull-left">
                                                     <button type="button" class="btn btn-sm btn-empty">
@@ -3229,6 +3229,9 @@ $(function() {
                                                     </button>
                                                     <span class="folder-point mr-2"></span>
                                                     <span class="folder-title">${elem['name']}</span>
+                                                    <span class="badge badge-light" title="Есть собственные видео">
+                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                    </span>
                                                 </div>
                                                 <div class="pull-right border-left border-dark">
                                                     <div class="pull-right text-right" style="width: 45px;">
@@ -3240,7 +3243,7 @@ $(function() {
                                     `;
                                 } else {
                                     htmlNoClubsStr += `
-                                        <li class="list-group-item p-1">
+                                        <li class="list-group-item p-1" data-club="-1">
                                             <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                                                 <div class="pull-left">
                                                     <button type="button" class="btn btn-sm btn-empty">
@@ -3248,6 +3251,9 @@ $(function() {
                                                     </button>
                                                     <span class="folder-point mr-2"></span>
                                                     <span class="folder-title">${elem['name']}</span>
+                                                    <span class="badge badge-light" title="Есть собственные видео">
+                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                    </span>
                                                 </div>
                                                 <div class="pull-right border-left border-dark">
                                                     <div class="pull-right text-right" style="width: 45px;">

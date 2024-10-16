@@ -3970,7 +3970,7 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             found_users.append({
                 'id': f_user.id,
                 'email': f_user.email,
-                'name': f_user.personal.full_name,
+                'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
                 'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
                 'club': None,
                 'club_id': None
@@ -3984,11 +3984,15 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                 found_users.append({
                     'id': f_user.id,
                     'email': f_user.email,
-                    'name': f_user.personal.full_name,
+                    'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
                     'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
                     'club': f_user.club_id.name,
                     'club_id': f_user.club_id.id
                 })
+    try:
+        found_users = sorted(found_users, key=lambda x: x['exs_count'], reverse=True)
+    except:
+        pass
     return JsonResponse({"data": found_users, "success": True}, status=200)
 
 
