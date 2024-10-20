@@ -20,6 +20,7 @@ let analytics_table_options = {
     drawCallback: function( settings ) {
     },
     initComplete: (settings, json) => {
+        SetTableMarkers();
         let storagedColumns = null;
         try {
             storagedColumns = JSON.parse(localStorage.getItem("analytics__table_cols_visible"));
@@ -106,6 +107,9 @@ let analytics_blocks_table_options = {
     select: true,
     drawCallback: function( settings ) {
     },
+    initComplete: (settings, json) => {
+        SetTableMarkers();
+    },
     "columnDefs": [
         {"width": "20%", "targets": 1},
         {"className": "dt-vertical-center", "targets": "_all"},
@@ -131,6 +135,9 @@ let analytics_teams_folders_table_options = {
     searching: false,
     select: true,
     drawCallback: function( settings ) {
+    },
+    initComplete: (settings, json) => {
+        SetTableMarkers();
     },
     "columnDefs": [
         {"width": "25%", "targets": 1},
@@ -221,7 +228,7 @@ function RenderAnalyticsTable(data) {
                     tVal = (parseInt(player.res_trainings.trainings_exs_folders[elem]) / foldersSum * 100).toFixed(0);
                 } catch(e) {}
                 exsFoldersHtml += `
-                    <td class="text-center">
+                    <td class="text-center" data-column="exs_folders__${elem}__${key}">
                         ${player.res_trainings.trainings_count > 0 && tVal > 0 ? tVal : '-'}
                     </td>
                 `;
@@ -239,77 +246,77 @@ function RenderAnalyticsTable(data) {
             } catch(e) {}
             tmpHtml += `
                 <tr class="analytics-row" data-id="${key}">
-                    <td class="text-center">
+                    <td class="text-center" data-column="index__${key}">
                         ${cIndex}
                     </td>
-                    <td class="border-custom-right">
+                    <td class="border-custom-right" data-column="name__${key}">
                         ${player.name}
                     </td>
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="diseases__${key}">
                         ${player.res_protocols.diseases_count > 0 ? player.res_protocols.diseases_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="injuries__${key}">
                         ${player.res_protocols.injuries_count > 0 ? player.res_protocols.injuries_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="skip_count__${key}">
                         ${player.res_protocols.skip_count > 0 ? player.res_protocols.skip_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="a_u_count__${key}">
                         ${player.res_protocols.a_u_count > 0 ? player.res_protocols.a_u_count : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center border-custom-right" data-column="disqualification_count__${key}">
                         ${player.res_protocols.disqualification_count > 0 ? player.res_protocols.disqualification_count : '-'}
                     </td>
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="matches_count__${key}">
                         ${player.res_matches.matches_count > 0 ? player.res_matches.matches_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_time__${key}">
                         ${player.res_matches.matches_time > 0 ? player.res_matches.matches_time : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_yellow_card__${key}">
                         ${player.res_matches.matches_yellow_card > 0 ? player.res_matches.matches_yellow_card : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_red_card__${key}">
                         ${player.res_matches.matches_red_card > 0 ? player.res_matches.matches_red_card : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="estimationAvg__${key}">
                         ${estimationAvg > 0 ? estimationAvg : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_dislike__${key}">
                         ${player.res_matches.matches_dislike > 0 ? player.res_matches.matches_dislike : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_like__${key}">
                         ${player.res_matches.matches_like > 0 ? player.res_matches.matches_like : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center border-custom-right" data-column="matches_captains__${key}">
                         ${player.res_matches.matches_captains > 0 ? player.res_matches.matches_captains : '-'}
                     </td>
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="matches_goals__${key}">
                         ${player.res_matches.matches_goals > 0 ? player.res_matches.matches_goals : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="matches_penalty__${key}">
                         ${player.res_matches.matches_penalty > 0 ? player.res_matches.matches_penalty : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center border-custom-right" data-column="matches_pass__${key}">
                         ${player.res_matches.matches_pass > 0 ? player.res_matches.matches_pass : '-'}
                     </td>
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="trainings_count__${key}">
                         ${player.res_trainings.trainings_count > 0 ? player.res_trainings.trainings_count : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="trainings_time__${key}">
                         ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_time > 0 ? player.res_trainings.trainings_time : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="trainings_dislike__${key}">
                         ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_dislike > 0 ? player.res_trainings.trainings_dislike : '-'}
                     </td>
-                    <td class="text-center border-custom-right">
+                    <td class="text-center border-custom-right" data-column="trainings_like__${key}">
                         ${player.res_trainings.trainings_count > 0 && player.res_trainings.trainings_like > 0 ? player.res_trainings.trainings_like : '-'}
                     </td>
                     ${exsFoldersHtml}
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="withBallPercent__${key}">
                         ${player.res_trainings.trainings_count > 0 && withBallPercent > 0 ? withBallPercent : '-'}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="withoutBallPercent__${key}">
                         ${player.res_trainings.trainings_count > 0 && withoutBallPercent > 0 ? withoutBallPercent : '-'}
                     </td>
                 </tr>
@@ -584,20 +591,20 @@ function RenderAnalyticsBlocks(data) {
                     count = player.res_trainings[blockId]['_count'];
                 } catch (e) {}
                 rowsHtml += `
-                    <td class="text-center border-custom-left">
+                    <td class="text-center border-custom-left" data-column="block_count__${blockId}__${key}">
                         ${count}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-column="block_duration__${blockId}__${key}">
                         ${duration}
                     </td>
                 `;
             });
             tmpHtml += `
                 <tr class="analytics-blocks-row" data-id="${key}">
-                    <td class="text-center">
+                    <td class="text-center" data-column="index__${key}">
                         ${cIndex}
                     </td>
-                    <td class="border-custom-right">
+                    <td class="border-custom-right" data-column="name__${key}">
                         ${player.name}
                     </td>
                     ${rowsHtml}
@@ -661,27 +668,28 @@ function RenderAnalyticsTeamsFolders(data) {
                     duration = team.folders[folderId];
                 } catch (e) {}
                 if (duration === undefined || duration === null) {duration = 0;}
-                values.push(duration);
+                values.push({'id': folderId, 'duration': duration});
                 valuesSum += duration;
             });
-            values.forEach(val => {
+            values.forEach(elem => {
+                let val = elem['duration'];
                 let percent = val;
                 if (valuesSum > 0) {
                     percent = (val / valuesSum * 100).toFixed(0);
                 }
                 if (percent == 0) {percent = "-";}
                 rowsHtml += `
-                    <td class="text-center border-custom-left" title="${val}">
+                    <td class="text-center border-custom-left" title="${val}" data-column="block_count__${elem['id']}__${key}">
                         ${percent}
                     </td>
                 `;
             });
             tmpHtml += `
                 <tr class="analytics-blocks-row" data-id="${key}">
-                    <td class="text-center">
+                    <td class="text-center" data-column="index__${key}">
                         ${cIndex}
                     </td>
-                    <td class="border-custom-right">
+                    <td class="border-custom-right" data-column="name__${key}">
                         ${team.name}
                     </td>
                     ${rowsHtml}
@@ -695,6 +703,70 @@ function RenderAnalyticsTeamsFolders(data) {
     analytics_teams_folders_table.draw();
 }
 
+function UpdateTableMarkers(table, markers) {
+    let dataToSend = {
+        'edit_table_markers': 1,
+        'table': table, 'markers': JSON.stringify(markers),
+        'season_type': season_type};
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {}
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+        }
+    });
+}
+
+function SetTableMarkers() {
+    let dataRes = {};
+    let dataToSend = {'get_table_markers': 1, 'season_type': season_type};
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataToSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "analytics_api",
+        success: function (res) {
+            if (res.success) {
+                dataRes = res.data;
+            }
+        },
+        error: function (res) {
+            console.log(res);
+        },
+        complete: function (res) {
+            window.tableMarkers = dataRes;
+            if (typeof window.tableMarkers === 'object' && !Array.isArray(window.tableMarkers) && window.tableMarkers !== null) {
+                $('.analytics-table-container').find('td.td-m-red').removeClass('td-m-red');
+                $('.analytics-table-container').find('td.td-m-green').removeClass('td-m-green');
+                for (let key in window.tableMarkers) {
+                    let markers = null;
+                    try {
+                        markers = JSON.parse(window.tableMarkers[key]);  
+                    } catch (e) {}
+                    if (markers) {
+                        for (let m in markers) {
+                            let val = markers[m];
+                            let className = '';
+                            if (val == 'red') {className = 'td-m-red';}
+                            else if (val == 'green') {className = 'td-m-green';}
+                            $(`#${key}`).find(`td[data-column="${m}"]`).addClass(className);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 
 
 $(function() {
@@ -705,7 +777,6 @@ $(function() {
         swal("Внимание", "Выберите сезон и команду для отображения данных!", "warning");
     }
     LoadAnalytics();
-
     $('.analytics-table-container').find('.season-toggle').removeClass('active');
     let foundBtn = $('.analytics-table-container').find(`.season-toggle[type=${season_type}]`);
     if (foundBtn.length > 0) {
@@ -817,6 +888,25 @@ $(function() {
         } else if ($('.toggle-tables.selected').attr('id') == "analyticsTeamsFoldersTable") {
             LoadAnalyticsTeamsFolders();
         }
+    });
+
+    $('.analytics-table-container').on('click', 'td', (e) => {
+        let tableId = $(e.currentTarget).parent().parent().parent().attr('id');
+        let currentMarker = $('#colorMarkerSelect').val();
+        $(e.currentTarget).toggleClass('td-m-red', currentMarker == "red");
+        $(e.currentTarget).toggleClass('td-m-green', currentMarker == "green");
+        let markers = {};
+        $(`#${tableId}`).find('td').each((ind, elem) => {
+            let column = $(elem).attr('data-column');
+            let className = '';
+            if ($(elem).hasClass('td-m-red')) {
+                className = 'red';
+            } else if ($(elem).hasClass('td-m-green')) {
+                className = 'green';
+            }
+            markers[column] = className;
+        });
+        UpdateTableMarkers(tableId, markers);
     });
 
     $('#printTableData').on('click', (e) => {

@@ -244,7 +244,6 @@ class AbstractExercise(models.Model):
 
     tags = models.ManyToManyField(ExerciseTag)
     features = models.ManyToManyField(ExerciseFeature)
-
     objects = models.Manager()
 
     class Meta():

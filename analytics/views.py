@@ -81,6 +81,7 @@ def analytics_api(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if request.method == "POST" and is_ajax:
         edit_analytics_status = 0
+        edit_table_markers_status = 0
         reset_cache_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
@@ -100,11 +101,17 @@ def analytics_api(request):
         except:
             pass
         try:
+            edit_table_markers_status = int(request.POST.get("edit_table_markers", 0))
+        except:
+            pass
+        try:
             reset_cache_status = int(request.POST.get("reset_cache", 0))
         except:
             pass
         if edit_analytics_status == 1:
             return v_api.POST_edit_analytics(request, cur_user[0], cur_team)
+        elif edit_table_markers_status == 1:
+            return v_api.POST_edit_table_markers(request, cur_user[0], cur_team, cur_season)
         elif reset_cache_status == 1:
             return v_api.POST_reset_cache(request, cur_user[0], cur_team, cur_season)
         return JsonResponse({"errors": "access_error"}, status=400)
@@ -114,6 +121,7 @@ def analytics_api(request):
         get_analytics_by_folders_full_status = 0
         get_analytics_blocks_status = 0
         get_analytics_teams_folders_status = 0
+        get_table_markers_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         cur_season = -1
@@ -147,6 +155,10 @@ def analytics_api(request):
             get_analytics_teams_folders_status = int(request.GET.get("get_analytics_teams_folders", 0))
         except:
             pass
+        try:
+            get_table_markers_status = int(request.GET.get("get_table_markers", 0))
+        except:
+            pass
         if get_analytics_all_status == 1:
             return v_api.GET_get_analytics_in_team(request, cur_user[0], cur_team, cur_season, None)
         elif get_analytics_by_folders_status == 1:
@@ -157,6 +169,8 @@ def analytics_api(request):
             return v_api.GET_get_analytics_blocks(request, cur_user[0], cur_team, cur_season, None)
         elif get_analytics_teams_folders_status == 1:
             return v_api.GET_get_analytics_teams_folders(request, cur_user[0], cur_team, cur_season, None)
+        elif get_table_markers_status == 1:
+            return v_api.GET_get_table_markers(request, cur_user[0], cur_team, cur_season)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

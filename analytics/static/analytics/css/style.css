@@ -70,3 +70,19 @@ th.dt-vertical-center, td.dt-vertical-center {
 .dataTable > thead > tr > th.custom_background {
     background-color: #e7eb8f8b !important;
 }
+
+.dataTable > tbody > tr > td.td-m-red {
+    border: rgba(200, 0, 0, 0.3) solid 2px !important;
+    color: rgb(200, 0, 0) !important;
+}
+.dataTable > tbody > tr > td.td-m-green {
+    border-color: green !important;
+    border: rgba(0, 200, 0, 0.3) solid 2px !important;
+    color: rgb(15, 170, 15) !important;
+}
+
+
+.dataTable > tbody > tr:hover {
+    background-color: rgba(170, 170, 170, 0.6);
+}
+

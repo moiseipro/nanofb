@@ -8,6 +8,7 @@ from trainings.models import UserTrainingBlocks, ClubTrainingBlocks
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 from exercises.models import UserFolder, ClubFolder, UserExercise, ClubExercise
+from analytics.models import UserTableMarkers, ClubTableMarkers
 from nanofootball.views import util_check_access
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta  import relativedelta
@@ -141,6 +142,57 @@ def POST_edit_analytics(request, cur_user, cur_team):
 
     """
     return JsonResponse({"errors": "Can't edit analytics"}, status=400)
+
+
+def POST_edit_table_markers(request, cur_user, cur_team, cur_season):
+    """
+    Template POST API FUNC
+
+    """
+    season_type = 0
+    try:
+        season_type = int(request.POST.get("season_type", 0))
+    except:
+        pass
+    f_season = None
+    if request.user.club_id is not None:
+        f_season = ClubSeason.objects.get(id=cur_season, club_id=request.user.club_id)
+    else:
+        f_season = UserSeason.objects.get(id=cur_season, user_id=cur_user)
+    if f_season is None:
+        return JsonResponse({"errors": "Can't find the season."}, status=400)
+    f_team = None
+    if request.user.club_id is not None:
+        f_team = ClubTeam.objects.get(id=cur_team, club_id=request.user.club_id)
+    else:
+        f_team = UserTeam.objects.get(id=cur_team, user_id=cur_user)
+    if f_team is None:
+        return JsonResponse({"errors": "Can't find the team."}, status=400)
+    table_name = request.POST.get("table", "")
+    markers = request.POST.get("markers", "")
+    c_table_markers = None
+    if request.user.club_id is not None:
+        c_table_markers = ClubTableMarkers.objects.filter(team=f_team, club=request.user.club_id, season=f_season, season_type=season_type).first()
+    else:
+        c_table_markers = UserTableMarkers.objects.filter(team=f_team, user=cur_user, season=f_season, season_type=season_type).first()
+    if not c_table_markers:
+        if request.user.club_id is not None:
+            c_table_markers = ClubTableMarkers(team=f_team, club=request.user.club_id, season=f_season, season_type=season_type)
+        else:
+            c_table_markers = UserTableMarkers(team=f_team, user=cur_user, season=f_season, season_type=season_type)
+    if table_name == "analytics":
+        c_table_markers.table_default = markers
+    elif table_name == "analytics-blocks":
+        c_table_markers.table_blocks = markers
+    elif table_name == "analytics-team-folders":
+        c_table_markers.table_teams_folders = markers
+    try:
+        c_table_markers.save()
+        return JsonResponse({"data": "OK.", "success": True}, status=200)
+    except Exception as e:
+        print(e)
+        pass
+    return JsonResponse({"errors": "Can't edit table markers"}, status=400)
 
 
 def POST_reset_cache(request, cur_user, cur_team, cur_season):
@@ -1110,5 +1162,39 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
                 cache.set(f'analytics_teams_folders_{cur_user}_{cur_season}_{season_type}', res_data, CACHE_EXPIRES_SECS)
         else:
             res_data = cached_data
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
+def GET_get_table_markers(request, cur_user, cur_team, cur_season):
+    """
+    Return JsonResponse which contains markers for every table.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :param cur_season: Current season's ID.
+    :type cur_season: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    season_type = 0
+    try:
+        season_type = int(request.GET.get("season_type", 0))
+    except:
+        pass
+    res_data = {}
+    markers = None
+    if request.user.club_id is not None:
+        markers = ClubTableMarkers.objects.filter(team=cur_team, club=request.user.club_id, season=cur_season, season_type=season_type).first()
+    else:
+        markers = UserTableMarkers.objects.filter(team=cur_team, user=cur_user, season=cur_season, season_type=season_type).first()
+    if markers:
+        res_data['analytics'] = markers.table_default if markers.table_default else ""
+        res_data['analytics-blocks'] = markers.table_blocks if markers.table_blocks else ""
+        res_data['analytics-team-folders'] = markers.table_teams_folders if markers.table_teams_folders else ""
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
