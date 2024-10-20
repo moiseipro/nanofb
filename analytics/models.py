@@ -7,9 +7,9 @@ from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason
 
 class AbstractTableMarkers(models.Model):
     date_creation = models.DateField(auto_now_add=True)
-    table_default = models.CharField(max_length=2048, default="", null=True, blank=True)
-    table_blocks = models.CharField(max_length=2048, default="", null=True, blank=True)
-    table_teams_folders = models.CharField(max_length=2048, default="", null=True, blank=True)
+    table_default = models.TextField(default="", null=True, blank=True)
+    table_blocks = models.TextField(default="", null=True, blank=True)
+    table_teams_folders = models.TextField(default="", null=True, blank=True)
     objects = models.Manager()
     class Meta():
         abstract = True
