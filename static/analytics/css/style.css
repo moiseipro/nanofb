@@ -71,13 +71,20 @@ th.dt-vertical-center, td.dt-vertical-center {
     background-color: #e7eb8f8b !important;
 }
 
+.dataTable > tbody > tr > td.td-m-black {
+    font-weight: bold;
+    border: rgba(50, 50, 50, 0.4) solid 3px !important;
+    color: rgb(50, 50, 50) !important;
+}
 .dataTable > tbody > tr > td.td-m-red {
-    border: rgba(200, 0, 0, 0.3) solid 2px !important;
+    font-weight: bold;
+    border: rgba(200, 0, 0, 0.4) solid 3px !important;
     color: rgb(200, 0, 0) !important;
 }
 .dataTable > tbody > tr > td.td-m-green {
+    font-weight: bold;
     border-color: green !important;
-    border: rgba(0, 200, 0, 0.3) solid 2px !important;
+    border: rgba(0, 200, 0, 0.4) solid 3px !important;
     color: rgb(15, 170, 15) !important;
 }
 

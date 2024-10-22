@@ -657,8 +657,14 @@ function RenderAnalyticsTeamsFolders(data) {
     if (data['teams'] && typeof data['teams'] === "object" && !Array.isArray(data['teams'])) {
         let tmpHtml = "";
         let cIndex = 1;
+        let teams = {};
         for (let key in data['teams']) {
-            let team = data['teams'][key];
+            let team = clone = JSON.parse(JSON.stringify(data['teams'][key]));
+            team.id = key;
+            teams[team.index] = team;
+        }
+        for (let key in teams) {
+            let team = teams[key];
             let rowsHtml = "";
             let values = [];
             let valuesSum = 0;
@@ -679,17 +685,17 @@ function RenderAnalyticsTeamsFolders(data) {
                 }
                 if (percent == 0) {percent = "-";}
                 rowsHtml += `
-                    <td class="text-center border-custom-left" title="${val}" data-column="block_count__${elem['id']}__${key}">
+                    <td class="text-center border-custom-left" title="${val}" data-column="block_count__${elem['id']}__${team.id}">
                         ${percent}
                     </td>
                 `;
             });
             tmpHtml += `
-                <tr class="analytics-blocks-row" data-id="${key}">
-                    <td class="text-center" data-column="index__${key}">
+                <tr class="analytics-blocks-row" data-id="${team.id}">
+                    <td class="text-center" data-column="index__${team.id}">
                         ${cIndex}
                     </td>
-                    <td class="border-custom-right" data-column="name__${key}">
+                    <td class="border-custom-right" data-column="name__${team.id}">
                         ${team.name}
                     </td>
                     ${rowsHtml}
@@ -745,6 +751,7 @@ function SetTableMarkers() {
         complete: function (res) {
             window.tableMarkers = dataRes;
             if (typeof window.tableMarkers === 'object' && !Array.isArray(window.tableMarkers) && window.tableMarkers !== null) {
+                $('.analytics-table-container').find('td.td-m-black').removeClass('td-m-black');
                 $('.analytics-table-container').find('td.td-m-red').removeClass('td-m-red');
                 $('.analytics-table-container').find('td.td-m-green').removeClass('td-m-green');
                 for (let key in window.tableMarkers) {
@@ -756,7 +763,8 @@ function SetTableMarkers() {
                         for (let m in markers) {
                             let val = markers[m];
                             let className = '';
-                            if (val == 'red') {className = 'td-m-red';}
+                            if (val == 'black') {className = 'td-m-black';}
+                            else if (val == 'red') {className = 'td-m-red';}
                             else if (val == 'green') {className = 'td-m-green';}
                             $(`#${key}`).find(`td[data-column="${m}"]`).addClass(className);
                         }
@@ -893,13 +901,17 @@ $(function() {
     $('.analytics-table-container').on('click', 'td', (e) => {
         let tableId = $(e.currentTarget).parent().parent().parent().attr('id');
         let currentMarker = $('#colorMarkerSelect').val();
+        if (currentMarker == null || currentMarker == "") {return;}
+        $(e.currentTarget).toggleClass('td-m-black', currentMarker == "black");
         $(e.currentTarget).toggleClass('td-m-red', currentMarker == "red");
         $(e.currentTarget).toggleClass('td-m-green', currentMarker == "green");
         let markers = {};
         $(`#${tableId}`).find('td').each((ind, elem) => {
             let column = $(elem).attr('data-column');
             let className = '';
-            if ($(elem).hasClass('td-m-red')) {
+            if ($(elem).hasClass('td-m-black')) {
+                className = 'black';
+            } else if ($(elem).hasClass('td-m-red')) {
                 className = 'red';
             } else if ($(elem).hasClass('td-m-green')) {
                 className = 'green';

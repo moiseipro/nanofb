@@ -1026,11 +1026,12 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
     res_data = {'teams': {}}
     teams = []
     if request.user.club_id is not None:
-        teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+        teams = ClubTeam.objects.filter(club_id=request.user.club_id).order_by('name')
     else:
-        teams = UserTeam.objects.filter(user_id=cur_user)
-    for team in teams:
+        teams = UserTeam.objects.filter(user_id=cur_user).order_by('name')
+    for index, team in enumerate(teams):
         res_data['teams'][team.id] = {
+            'index': index,
             'name': team.name,
             'folders': {}, 
         }
