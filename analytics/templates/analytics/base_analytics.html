@@ -283,7 +283,7 @@
                                                                         <th class="text-center border-custom-right">Название команды</th>
                                                                         {% for folder in folders %}
                                                                             {% for subfolder in folder.subfolders %}
-                                                                                <th class="border text-center border-custom-x custom_background" data-folder-id="{{ subfolder.id }}" title="{{ subfolder.name }}">
+                                                                                <th class="border text-center custom_background" data-folder-parent="{{ folder.id }}" data-folder-id="{{ subfolder.id }}" title="{{ subfolder.name }}">
                                                                                     {{ subfolder.custom_short }}
                                                                                 </th>
                                                                             {% endfor %}

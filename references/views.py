@@ -49,7 +49,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         if self.request.user.club_id is not None:
             teams = ClubTeam.objects.filter(club_id=self.request.user.club_id)
             if len(teams) < self.request.user.club_id.team_limit:
-                serializer.save(club_id=self.request.user.club_id)
+                serializer.save(club_id=self.request.user.club_id, user_trainer=self.request.user)
             else:
                 is_limit = True
         else:
@@ -61,7 +61,7 @@ class TeamViewSet(viewsets.ModelViewSet):
             #         is_limit = True
             # else:
             if len(teams) < self.request.user.team_limit:
-                serializer.save(user_id=self.request.user)
+                serializer.save(user_id=self.request.user, user_trainer=self.request.user)
             else:
                 is_limit = True
         return is_limit
@@ -306,7 +306,7 @@ class SettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['team_form'] = CreateTeamForm
+        context['team_form'] = CreateTeamForm(user=self.request.user)
         context['season_form'] = CreateSeasonForm
         context['ui_elements'] = get_ui_elements(self.request)
         return context

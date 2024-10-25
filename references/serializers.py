@@ -2,7 +2,7 @@ from rest_framework import serializers
 from references.models import VideoSource, UserTeam, UserSeason, ClubTeam, ClubSeason, TeamStatus, ExsAdditionalData, \
     PlayerProtocolStatus, PlayerPosition, TrainingSpace, TrainingAdditionalData, UserExsAdditionalData, \
     ClubExsAdditionalData, UserPaymentInformation, PaymentInformation, ClubPaymentInformation
-
+from users.serializers import UserSerializer
 
 class PlayerPositionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
@@ -91,11 +91,12 @@ class TeamStatusSerializer(serializers.ModelSerializer):
 class UserTeamsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     team_status_info = TeamStatusSerializer(source='ref_team_status', read_only=True)
+    user_trainer_info = UserSerializer(source='user_trainer', read_only=True)
 
     class Meta:
         model = UserTeam
         fields = [
-            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info', 'players_json'
+            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info', 'players_json', 'user_trainer', 'user_trainer_info'
         ]
         datatables_always_serialize = ('id',)
 
@@ -103,11 +104,12 @@ class UserTeamsSerializer(serializers.ModelSerializer):
 class ClubTeamsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     team_status_info = TeamStatusSerializer(source='ref_team_status', read_only=True)
+    user_trainer_info = UserSerializer(source='user_trainer', read_only=True)
 
     class Meta:
         model = ClubTeam
         fields = [
-            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info', 'users', 'players_json'
+            'id', 'name', 'short_name', 'age_key', 'u_key', 'ref_team_status', 'team_status_info', 'users', 'players_json', 'user_trainer', 'user_trainer_info'
         ]
         datatables_always_serialize = ('id',)
 

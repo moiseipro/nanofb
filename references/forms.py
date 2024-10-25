@@ -2,8 +2,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import gettext_lazy as _
-
 from references.models import UserTeam, UserSeason
+from users.models import User
 
 
 date_with_input_widget = forms.DateInput(attrs={
@@ -26,17 +26,22 @@ class CreateTeamForm(forms.ModelForm):
     helper = FormHelper()
     helper.add_input(Submit('submit', _('Save'), css_class='w-100 btn btn-lg btn-primary save mt-3'))
     helper.form_method = 'POST'
-
     name = forms.CharField(
         required=True,
         label=_('Team title')
     )
+    user_trainer = forms.ModelChoiceField(
+        queryset=User.objects.none(),
+        required=False,
+        label=_('Trainer')
+    )
 
     class Meta:
         model = UserTeam
-        fields = ['name'] #, 'age_key', 'u_key', 'ref_team_status'
+        fields = ['name', 'user_trainer'] #, 'age_key', 'u_key', 'ref_team_status'
         labels = {
             'name': _('Team title'),
+            'user_trainer': _('Trainer'),
             #'short_name': _('Team short name'),
             #'age_key': _('Year of birth'),
             #'u_key': _('Age U'),
@@ -45,6 +50,15 @@ class CreateTeamForm(forms.ModelForm):
         help_texts = {
             'name': None,
         }
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        if user.club_id is not None:
+            self.fields['user_trainer'].queryset = User.objects.filter(club_id=user.club_id)
+        else:
+            self.fields['user_trainer'].queryset = User.objects.filter(id=user.id)
+        self.fields['user_trainer'].label_from_instance = lambda obj: obj.personal.full_name
 
 
 class CreateSeasonForm(forms.ModelForm):

@@ -132,6 +132,12 @@ class AbstractTeam(AbstractReference):
         blank=True,
         null=True
     )
+    user_trainer = models.ForeignKey(
+        User,
+        related_name="%(class)s_user_trainer",
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
 
     class Meta:
         abstract = True

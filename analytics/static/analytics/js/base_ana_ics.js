@@ -648,10 +648,20 @@ function RenderAnalyticsTeamsFolders(data) {
         analytics_teams_folders_table.destroy();
     } catch(e) {}
     let foldersIds = [];
+    let cFolderParentId = "";
+    let foldersIdstoggleParent = [];
     $('#analytics-team-folders').find('thead').find('th[data-folder-id]').last().removeClass('border-custom-x');
     $('#analytics-team-folders').find('thead').find('th[data-folder-id]').each((ind, elem) => {
         let id = $(elem).attr('data-folder-id');
-        foldersIds.push(id);
+        let parent = $(elem).attr('data-folder-parent');
+        foldersIds.push({'id': id, 'parent': parent});
+        if (cFolderParentId != parent) {
+            foldersIdstoggleParent.push(id);
+            cFolderParentId = parent;
+        }
+    });
+    foldersIdstoggleParent.forEach(e => {
+        $('#analytics-team-folders').find('thead').find(`th[data-folder-id="${e}"]`).addClass('border-custom-left');
     });
     $('#analytics-team-folders').find('tbody').html('');
     if (data['teams'] && typeof data['teams'] === "object" && !Array.isArray(data['teams'])) {
@@ -668,13 +678,15 @@ function RenderAnalyticsTeamsFolders(data) {
             let rowsHtml = "";
             let values = [];
             let valuesSum = 0;
-            foldersIds.forEach(folderId => {
+            foldersIds.forEach(folder => {
+                let folderId = folder['id'];
+                let folderParent = folder['parent'];
                 let duration = 0;
                 try {
                     duration = team.folders[folderId];
                 } catch (e) {}
                 if (duration === undefined || duration === null) {duration = 0;}
-                values.push({'id': folderId, 'duration': duration});
+                values.push({'id': folderId, 'parent': folderParent, 'duration': duration});
                 valuesSum += duration;
             });
             values.forEach(elem => {
@@ -685,7 +697,7 @@ function RenderAnalyticsTeamsFolders(data) {
                 }
                 if (percent == 0) {percent = "-";}
                 rowsHtml += `
-                    <td class="text-center border-custom-left" title="${val}" data-column="block_count__${elem['id']}__${team.id}">
+                    <td class="text-center ${foldersIdstoggleParent.includes(elem['id']) ? `border-custom-left` : ``}" title="${val}" data-column="block_count__${elem['id']}__${team.id}">
                         ${percent}
                     </td>
                 `;
@@ -697,6 +709,11 @@ function RenderAnalyticsTeamsFolders(data) {
                     </td>
                     <td class="border-custom-right" data-column="name__${team.id}">
                         ${team.name}
+                        ${team.trainer ? `
+                            <span class="badge badge-light ml-2" title="${team.trainer}">
+                                <i class="fa fa-lg fa-male" aria-hidden="true"></i>
+                            </span>
+                        ` : ``}
                     </td>
                     ${rowsHtml}
                 </tr>

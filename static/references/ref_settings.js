@@ -30,6 +30,9 @@ $(window).on('load', function (){
                 return meta.row + meta.settings._iDisplayStart + 1;
             }, searchable: false},
             {'data': 'name'},
+            {'data': 'user_trainer_info.full_name', 'name': 'user_trainer', render: (data, type, row, meta) => {
+                return data ? `${data}` : ``;
+            }},
             //{'data': 'short_name'},
             //{'data': 'age_key'},
             //{'data': 'u_key'},
@@ -92,6 +95,8 @@ $(window).on('load', function (){
         $('#form-team-modal-label').text(gettext('Changing the team'))
         $('#form-team').attr('method', 'PATCH')
         $('#form-team #id_name').val(cur_edit_data['name'])
+        let user_trainer_val = cur_edit_data['user_trainer_info'] ? cur_edit_data['user_trainer_info']['id'] : "";
+        $('#form-team #id_user_trainer').val(user_trainer_val).trigger('change')
         //$('#form-team #id_short_name').val(cur_edit_data['short_name'])
         //$('#form-team #id_age_key').val(cur_edit_data['age_key'])
         //$('#form-team #id_u_key').val(cur_edit_data['u_key'])
@@ -154,6 +159,9 @@ function clear_team_form() {
     $('#form-team #id_ref_team_status option').prop('selected', false)
     $('#form-team #id_ref_team_status option:first').prop('selected', true)
     $('#form-team #id_ref_team_status').trigger('change');
+    $('#form-team #id_user_trainer option').prop('selected', false)
+    $('#form-team #id_user_trainer option:first').prop('selected', true)
+    $('#form-team #id_user_trainer').trigger('change');
 }
 
 function clear_season_form() {

@@ -1033,6 +1033,7 @@ def GET_get_analytics_teams_folders(request, cur_user, cur_team, cur_season, opt
         res_data['teams'][team.id] = {
             'index': index,
             'name': team.name,
+            'trainer': team.user_trainer.personal.full_name if team.user_trainer else None,
             'folders': {}, 
         }
     season_type = None
