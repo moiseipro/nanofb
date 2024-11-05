@@ -37,6 +37,7 @@ function ToggleUpFilter(id, state) {
     let folderType = "";
     let activeBlockElem = null;
     let activeBlockElemNext = null;
+    let visualBlockElements = [];
     switch(id) {
         case "toggle_side_filter":
             $('.up-tabs-elem[data-id="toggle_tags_filter"]').removeClass('selected3');
@@ -501,13 +502,23 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="toggle_visual_block_scroll_down"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="toggle_visual_block_scroll_down"]').attr('data-state', 0);
 
-            activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
-            if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
-            activeBlockElemNext = $(activeBlockElem).next();
-            if (activeBlockElemNext.length == 0) {
-                activeBlockElemNext = $('.visual-block').find('.visual-block-elem').first();
+            visualBlockElements = $('.visual-block').find('.visual-block-elem');
+            for (let i = 0; i < visualBlockElements.length; i++) {
+                let elem = visualBlockElements[i];
+                if ($(elem).hasClass('active')) {
+                    if (i + 1 < visualBlockElements.length) {
+                        activeBlockElemNext = $(visualBlockElements[i + 1]);
+                    } else {
+                        activeBlockElemNext = $(visualBlockElements[0]);
+                    }
+                    break;
+                }
             }
-            if ($(activeBlockElemNext).height() < 100) {activeBlockElemNext = $(activeBlockElemNext).next();}
+            if (activeBlockElemNext == null) {
+                activeBlockElemNext = $(visualBlockElements[1]);
+            }
+            console.log(activeBlockElemNext)
+
             if (activeBlockElemNext.length > 0) {
                 $('.visual-block').animate({
                     scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
