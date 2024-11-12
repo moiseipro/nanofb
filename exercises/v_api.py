@@ -623,13 +623,20 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         f_exercises = TrainerExercise.objects.filter(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday)
     elif folder_type == utils.FOLDER_USERS_EXS:
+        user_id = folder_id
+        exs_user = User.objects.filter(id=user_id).first()
         if cur_user.is_superuser:
-            user_id = folder_id
-            exs_user = User.objects.filter(id=user_id).first()
             if exs_user.club_id is not None:
                 f_exercises = ClubExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
             else:
                 f_exercises = UserExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
+        else:
+            if req.user.club_id is not None:
+                if req.user.club_id == exs_user.club_id:
+                    f_exercises = ClubExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
+            else:
+                if req.user.id == exs_user.id:
+                    f_exercises = UserExercise.objects.filter(user=exs_user, clone_nfb_id__isnull=True)
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
     if filter_goal != -1:
