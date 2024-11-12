@@ -517,8 +517,6 @@ function ToggleUpFilter(id, state) {
             if (activeBlockElemNext == null) {
                 activeBlockElemNext = $(visualBlockElements[1]);
             }
-            console.log(activeBlockElemNext)
-
             if (activeBlockElemNext.length > 0) {
                 $('.visual-block').animate({
                     scrollTop: $('.visual-block').scrollTop() - $('.visual-block').offset().top + $(activeBlockElemNext).offset().top 
@@ -529,7 +527,6 @@ function ToggleUpFilter(id, state) {
             break;
         case "toggle_visual_block_overflow":
             $('.visual-block').toggleClass('overflow-hidden');
-            
             // activeBlockElem = $('.visual-block').find('.visual-block-elem.active');
             // if (activeBlockElem.length == 0) {activeBlockElem = $('.visual-block').find('.visual-block-elem').first();}
             // activeBlockElemNext = $(activeBlockElem).prev();
@@ -547,6 +544,51 @@ function ToggleUpFilter(id, state) {
         case "toggle_filter_panel":
             $('.exs-panel-filtering').toggleClass('d-none');
             $('.exs-panel-filtering').toggleClass('d-flex');
+            break;
+        case "toggle_trainers_exs":
+            if (!$('.folders-block').find('.card-container').hasClass('d-none')) {
+                state = !state;
+                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').toggleClass('selected3', state);
+                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').attr('data-state', state ? 1 : 0);
+                swal("Ошибка", `Отключите карточку упражнения`, "warning");
+                break;
+            }
+            $('.up-tabs-elem[data-id="toggle_trainers_exs"]').toggleClass('selected3', state);
+            $('.up-tabs-elem[data-id="toggle_trainers_exs"]').attr('data-state', state ? 1 : 0);
+
+            $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', state);
+            $('.btn[data-id="users_exs_folders"]').toggleClass('d-none', !state);
+            $('.folders_div[data-id!="trainer_folders"]').toggleClass('c-hidden');
+            $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !state);
+            $('.folders_div').find('.list-group-item').removeClass('active');
+            $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
+            $('.btn-custom.tgl-off-usrs-exs').toggleClass('btn-disabled', state);
+            $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('btn-disabled');
+            if (state) {
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {'get_users_with_own_exs': 1},
+                    type: 'GET', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            RenderUsersExsContent(res.data, false);
+                        } else {
+                            swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
+                            console.log(res);
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        $('.page-loader-wrapper').fadeOut();
+                    }
+                });
+            }
             break;
         default:
             break;
@@ -1378,6 +1420,86 @@ function AddExerciseToSelectedSlot() {
             // LoadFolderExercises();
             CountExsInFolder();
         }
+    }
+}
+
+function RenderUsersExsContent(data, withTitles=true) {
+    if (Array.isArray(data) && data.length > 0) {
+        let htmlBlocksByClubs = {};
+        let htmlNoClubsStr = `
+            <li class="list-group-item p-1 club-title ${withTitles ? '' : 'd-none'}" data-club="-1">
+                <div class="d-flex justify-content-center">
+                    <div class="">
+                        <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
+                    </div>
+                </div>
+            </li>
+        `;
+        for (let i = 0; i < data.length; i++) {
+            let elem = data[i];
+            if (elem['club_id']) {
+                if (!(elem['club_id'] in htmlBlocksByClubs)) {
+                    htmlBlocksByClubs[elem['club_id']] = `
+                        <li class="list-group-item p-1 club-title ${withTitles ? '' : 'd-none'}" data-club="${elem['club_id']}">
+                            <div class="d-flex justify-content-center">
+                                <div class="">
+                                    <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                }
+                htmlBlocksByClubs[elem['club_id']] += `
+                    <li class="list-group-item p-1 ${withTitles ? 'd-none' : ''}" data-club="${elem['club_id']}">
+                        <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                            <div class="pull-left">
+                                <button type="button" class="btn btn-sm btn-empty">
+                                    <input type="checkbox" value="">
+                                </button>
+                                <span class="folder-point mr-2"></span>
+                                <span class="folder-title">${elem['name']}</span>
+                                <span class="badge badge-light" title="Есть собственные видео">
+                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="pull-right border-left border-dark">
+                                <div class="pull-right text-right" style="width: 45px;">
+                                    <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+            } else {
+                htmlNoClubsStr += `
+                    <li class="list-group-item p-1" data-club="-1">
+                        <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
+                            <div class="pull-left">
+                                <button type="button" class="btn btn-sm btn-empty">
+                                    <input type="checkbox" value="">
+                                </button>
+                                <span class="folder-point mr-2"></span>
+                                <span class="folder-title">${elem['name']}</span>
+                                <span class="badge badge-light" title="Есть собственные видео">
+                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="pull-right border-left border-dark">
+                                <div class="pull-right text-right" style="width: 45px;">
+                                    <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+            }
+        }
+        let htmlStr = "";
+        for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
+        htmlStr += htmlNoClubsStr;
+        $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
+    } else {
+        $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");
     }
 }
 
@@ -3191,112 +3313,36 @@ $(function() {
         let isSelected = $(e.currentTarget).hasClass('selected3');
         $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', isSelected);
         $('.btn[data-id="users_exs_folders"]').toggleClass('d-none', !isSelected);
+        $('.btn[data-id="users_exs_folders"]').find('.title').addClass('d-none');
+        $('.btn[data-id="users_exs_folders"]').find('.title[data-id="nf"]').removeClass('d-none');
         $('.folders_div[data-id!="trainer_folders"]').toggleClass('c-hidden');
         $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !isSelected);
         $('.folders_div').find('.list-group-item').removeClass('active');
         $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
         $('.btn-custom.tgl-off-usrs-exs').toggleClass('btn-disabled', isSelected);
-        if ($('.folders_div[data-id="users_exs_folders"]').find('li.list-group-item').length == 0) {
-            $('.page-loader-wrapper').fadeIn();
-            $.ajax({
-                headers:{"X-CSRFToken": csrftoken},
-                data: {'get_users_with_own_exs': 1},
-                type: 'GET', // GET или POST
-                dataType: 'json',
-                url: "exercises_api",
-                success: function (res) {
-                    if (res.success) {
-                        if (Array.isArray(res.data) && res.data.length > 0) {
-                            let htmlBlocksByClubs = {};
-                            let htmlNoClubsStr = `
-                                <li class="list-group-item p-1 club-title" data-club="-1">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="">
-                                            <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            `;
-                            for (let i = 0; i < res.data.length; i++) {
-                                let elem = res.data[i];
-                                if (elem['club_id']) {
-                                    if (!(elem['club_id'] in htmlBlocksByClubs)) {
-                                        htmlBlocksByClubs[elem['club_id']] = `
-                                            <li class="list-group-item p-1 club-title" data-club="${elem['club_id']}">
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="">
-                                                        <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        `;
-                                    }
-                                    htmlBlocksByClubs[elem['club_id']] += `
-                                        <li class="list-group-item p-1" data-club="${elem['club_id']}">
-                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
-                                                <div class="pull-left">
-                                                    <button type="button" class="btn btn-sm btn-empty">
-                                                        <input type="checkbox" value="">
-                                                    </button>
-                                                    <span class="folder-point mr-2"></span>
-                                                    <span class="folder-title">${elem['name']}</span>
-                                                    <span class="badge badge-light" title="Есть собственные видео">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="pull-right border-left border-dark">
-                                                    <div class="pull-right text-right" style="width: 45px;">
-                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `;
-                                } else {
-                                    htmlNoClubsStr += `
-                                        <li class="list-group-item p-1" data-club="-1">
-                                            <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
-                                                <div class="pull-left">
-                                                    <button type="button" class="btn btn-sm btn-empty">
-                                                        <input type="checkbox" value="">
-                                                    </button>
-                                                    <span class="folder-point mr-2"></span>
-                                                    <span class="folder-title">${elem['name']}</span>
-                                                    <span class="badge badge-light" title="Есть собственные видео">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="pull-right border-left border-dark">
-                                                    <div class="pull-right text-right" style="width: 45px;">
-                                                        <span class="badge badge-light folder-exs-counter mr-1" title="Количество упражнений">${elem['exs_count']}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `;
-                                }
-                            }
-                            let htmlStr = "";
-                            for (let clubId in htmlBlocksByClubs) {htmlStr += htmlBlocksByClubs[clubId];}
-                            htmlStr += htmlNoClubsStr;
-                            $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
-                        } else {
-                            $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");
-                        }
-                    } else {
-                        swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
-                        console.log(res);
-                    }
-                },
-                error: function (res) {
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'get_users_with_own_exs': 1},
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    RenderUsersExsContent(res.data, true);
+                } else {
                     swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
                     console.log(res);
-                },
-                complete: function (res) {
-                    $('.page-loader-wrapper').fadeOut();
                 }
-            });
-        }
+            },
+            error: function (res) {
+                swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
     // CountTrainerExercises();

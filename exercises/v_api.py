@@ -3959,10 +3959,17 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
     :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
 
     """
-    if not cur_user.is_superuser:
-        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     found_users = []
-    found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+    found_users_ids = []
+    found_club_users_ids = []
+    if cur_user.is_superuser:
+        found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+    else:
+        if request.user.club_id is not None:
+            found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True, club=request.user.club_id).values('user').distinct()
+        else:
+            found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
     for elem in found_users_ids:
         c_id = elem['user']
         if c_id != cur_user.id:
@@ -3975,8 +3982,7 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
                 'club': None,
                 'club_id': None
             })
-    found_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
-    for elem in found_users_ids:
+    for elem in found_club_users_ids:
         c_id = elem['user']
         if c_id != cur_user.id:
             f_user = User.objects.filter(id=c_id).first()
