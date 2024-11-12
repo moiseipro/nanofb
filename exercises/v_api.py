@@ -3979,29 +3979,27 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
     for elem in found_users_ids:
         c_id = elem['user']
-        if c_id != cur_user.id:
-            f_user = User.objects.filter(id=c_id).first()
+        f_user = User.objects.filter(id=c_id).first()
+        found_users.append({
+            'id': f_user.id,
+            'email': f_user.email,
+            'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
+            'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+            'club': None,
+            'club_id': None
+        })
+    for elem in found_club_users_ids:
+        c_id = elem['user']
+        f_user = User.objects.filter(id=c_id).first()
+        if f_user.club_id is not None:
             found_users.append({
                 'id': f_user.id,
                 'email': f_user.email,
                 'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
-                'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
-                'club': None,
-                'club_id': None
+                'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+                'club': f_user.club_id.name,
+                'club_id': f_user.club_id.id
             })
-    for elem in found_club_users_ids:
-        c_id = elem['user']
-        if c_id != cur_user.id:
-            f_user = User.objects.filter(id=c_id).first()
-            if f_user.club_id is not None:
-                found_users.append({
-                    'id': f_user.id,
-                    'email': f_user.email,
-                    'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
-                    'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
-                    'club': f_user.club_id.name,
-                    'club_id': f_user.club_id.id
-                })
     try:
         found_users = sorted(found_users, key=lambda x: x['exs_count'], reverse=True)
     except:
