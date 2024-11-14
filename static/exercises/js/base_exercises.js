@@ -562,8 +562,16 @@ function ToggleUpFilter(id, state) {
             $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !state);
             $('.folders_div').find('.list-group-item').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-            $('.btn-custom.tgl-off-usrs-exs').toggleClass('btn-disabled', state);
-            $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('btn-disabled');
+            $('.btn-custom.tgl-off-usrs-exs').toggleClass('d-none', state);
+            if (state) {
+                $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '3%');
+                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '3%');
+            } else {
+                $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '4%');
+                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '4%');
+            }
+            $('.btn-custom.empty-panel-usrs-exs').toggleClass('d-none', !state);
+            $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('d-none');
             if (state) {
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
