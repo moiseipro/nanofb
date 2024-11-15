@@ -1466,9 +1466,6 @@ function RenderUsersExsContent(data, withTitles=true) {
                                 </button>
                                 <span class="folder-point mr-2"></span>
                                 <span class="folder-title">${elem['name']}</span>
-                                <span class="badge badge-light" title="Есть собственные видео">
-                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                </span>
                             </div>
                             <div class="pull-right border-left border-dark">
                                 <div class="pull-right text-right" style="width: 45px;">
@@ -1488,9 +1485,6 @@ function RenderUsersExsContent(data, withTitles=true) {
                                 </button>
                                 <span class="folder-point mr-2"></span>
                                 <span class="folder-title">${elem['name']}</span>
-                                <span class="badge badge-light" title="Есть собственные видео">
-                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                </span>
                             </div>
                             <div class="pull-right border-left border-dark">
                                 <div class="pull-right text-right" style="width: 45px;">
