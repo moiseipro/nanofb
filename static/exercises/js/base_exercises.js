@@ -567,8 +567,8 @@ function ToggleUpFilter(id, state) {
                 $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '3%');
                 $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '3%');
             } else {
-                $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '4%');
-                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '4%');
+                $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '5%');
+                $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '5%');
             }
             $('.btn-custom.empty-panel-usrs-exs').toggleClass('d-none', !state);
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('d-none');
