@@ -3615,11 +3615,11 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
             res_exs['animation_2_watched'] = user_params['animation_2_watched']
     elif folder_type == utils.FOLDER_USERS_EXS:
-        if not request.user.is_superuser:
-            if is_as_object:
-                return None
-            else:
-                return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        # if not request.user.is_superuser:
+        #     if is_as_object:
+        #         return None
+        #     else:
+        #         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         user_id = -1
         try:
             user_id = int(request.GET.get("user_id", -1))
