@@ -1835,9 +1835,9 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
             pass
         exs_user = User.objects.filter(id=user_id).first()
         if exs_user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id).first()
         else:
-            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user).first()
         if not request.user.is_superuser:
             is_valid = False
             if request.user.club_id is not None:
