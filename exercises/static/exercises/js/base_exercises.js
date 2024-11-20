@@ -3537,8 +3537,14 @@ $(function() {
                 } catch(e) {}
             } else {
                 let folderType = $('.folders_div.selected').attr('data-id');
+                let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+                let userId = "";
+                if (isUsersExs) {
+                    folderType = "__is_user_exs";
+                    userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+                }
                 let exsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
-                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId};
+                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId, 'user_id': userId};
                 $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
                     if (!$(elem).hasClass('d-none') || $(elem).hasClass('selected')) {
                         let name = $(elem).attr('name');
@@ -3594,8 +3600,14 @@ $(function() {
                 ToggleEditFields(true);
             } else {
                 let folderType = $('.folders_div.selected').attr('data-id');
+                let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+                let userId = "";
+                if (isUsersExs) {
+                    folderType = "__is_user_exs";
+                    userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+                }
                 let exsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
-                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId};
+                let dataToSend = {'edit_exs_custom': 1, 'exs': exsId, 'type': folderType, 'data': {}, 'mode': cId, 'user_id': userId};
                 $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
                     if (!$(elem).hasClass('d-none') || $(elem).hasClass('selected')) {
                         let name = $(elem).attr('name');

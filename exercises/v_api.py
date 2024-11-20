@@ -1827,6 +1827,31 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
         if access_denied:
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         pass
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        user_id = -1
+        try:
+            user_id = int(request.POST.get("user_id", -1))
+        except:
+            pass
+        exs_user = User.objects.filter(id=user_id).first()
+        if exs_user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
+        if not request.user.is_superuser:
+            is_valid = False
+            if request.user.club_id is not None:
+                if util_check_access(cur_user, {
+                    'perms_user': ["clubs.club_admin"], 
+                    'perms_club': ["clubs.club_admin"]
+                }):
+                    is_valid = request.user.club_id == exs_user.club_id
+                else:
+                    is_valid = request.user.id == exs_user.id
+            else:
+                is_valid = request.user.id == exs_user.id
+            if not is_valid:
+                return JsonResponse({"err": f"Access denied.", "success": False}, status=400)
     if c_exs == None:
         return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
     
