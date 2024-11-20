@@ -1447,13 +1447,15 @@ def POST_edit_exs(request, cur_user, cur_team):
     access_denied = False
     copied_from_nfb = False
     found_team = None
+    edit_from_trainers_exs = False
     if request.user.club_id is not None:
         found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
     else:
         found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
     if folder_type == utils.FOLDER_TEAM:
         if not found_team or not found_team.exists() or found_team[0].id == None:
-            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+            edit_from_trainers_exs = True
+            # return JsonResponse({"err": "Team not found.", "success": False}, status=400)
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
             'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
@@ -1465,12 +1467,32 @@ def POST_edit_exs(request, cur_user, cur_team):
         else:
             c_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
         if not c_folder.exists() or c_folder[0].id == None:
-            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+            if not edit_from_trainers_exs:
+                return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
         c_exs = None
         if request.user.club_id is not None:
-            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
+            if edit_from_trainers_exs:
+                c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id)
+                if not request.user.has_perm('clubs.club_admin'):
+                    exs_user_id = -1
+                    try:
+                        exs_user_id = c_exs.user.id
+                    except:
+                        pass
+                    if request.user.id != exs_user_id:
+                        return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
+            else:
+                c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
         else:
             c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+            if edit_from_trainers_exs:
+                exs_user_id = -1
+                try:
+                    exs_user_id = c_exs.user.id
+                except:
+                    pass
+                if request.user.id != exs_user_id:
+                    return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         if not c_exs.exists() or c_exs[0].id == None:
             if request.user.club_id is not None:
                 c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
@@ -1482,9 +1504,10 @@ def POST_edit_exs(request, cur_user, cur_team):
                 return JsonResponse({"err": "Can't edit the exs.", "success": False}, status=200)
         else:
             c_exs = c_exs[0]
-            if c_exs.folder != c_folder[0]:
-                c_exs.date_editing_folder = datetime.datetime.now()
-            c_exs.folder = c_folder[0]
+            if not edit_from_trainers_exs:
+                if c_exs.folder != c_folder[0]:
+                    c_exs.date_editing_folder = datetime.datetime.now()
+                c_exs.folder = c_folder[0]
             copied_from_nfb = c_exs.clone_nfb_id != None
     elif folder_type == utils.FOLDER_NFB:
         if not util_check_access(cur_user, {

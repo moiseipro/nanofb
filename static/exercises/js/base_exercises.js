@@ -2564,8 +2564,13 @@ $(function() {
         }
         if (cId == "trainer_copied") {return;}
         if (cId == "note_status") {
+            // $('#exerciseNoteModal').modal('show');
             if (!$(exsElem).hasClass("active")) {$(exsElem).click();}
-            $('#exerciseNoteModal').modal('show');
+            $('.page-loader-wrapper').fadeIn();
+            setTimeout(() => {
+                $('#exerciseNoteModal').find('button[name="note_status"]').click();
+                $('#exerciseNoteModal').find('.btn-apply').click();
+            }, 500);
             return;
         }
      
@@ -2668,6 +2673,7 @@ $(function() {
                             error: function (res) {
                             },
                             complete: function (res) {
+                                $('.page-loader-wrapper').fadeOut();
                                 $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="note_status"] > i').toggleClass('text-danger', valNoteStatus == 1);
                                 $('.exs-list-group').find(`.list-group-item[data-id="${exsId}"]`).find('button[data-id="note_status"] > i').toggleClass('text-success', valNoteStatus == 2);
                                 if (exsIdRes != -1) {$('#exerciseNoteModal').modal('hide');}
