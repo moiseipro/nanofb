@@ -3630,6 +3630,26 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
         else:
             c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
+        if not request.user.is_superuser:
+            c_exs_user_id = -1
+            try:
+                c_exs_user_id = c_exs.user.id
+            except:
+                pass
+            is_valid = True
+            if request.user.club_id is not None:
+                if request.user.has_perm('clubs.club_admin'):
+                    found_user = User.objects.filter(club_id=request.user.club_id, id=c_exs_user_id).first()
+                    is_valid = found_user != None
+                else:
+                    is_valid = request.user.id == c_exs_user_id
+            else:
+                is_valid = request.user.id == c_exs_user_id
+            if not is_valid:
+                if is_as_object:
+                    return None
+                else:
+                    return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = False
