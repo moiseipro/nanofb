@@ -3649,7 +3649,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 if is_as_object:
                     return None
                 else:
-                    return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+                    return JsonResponse({"err": f"Access denied. {request.user.id}", "success": False}, status=400)
         if c_exs.exists() and c_exs[0].id != None:
             res_exs = c_exs.values()[0]
             res_exs['nfb'] = False
