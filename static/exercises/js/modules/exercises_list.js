@@ -106,6 +106,7 @@ function LoadFolderExercises() {
         }
         if (isUsersExs) {
             cFolderId = $('.folders_div[data-id="users_exs_folders"]').find('.list-group-item.active > div').attr('data-id');
+            if (cFolderId === null || cFolderId === undefined) {return;}
             fType = "__is_user_exs";
         }
         let data = {'get_exs_all': 1, 'folder': cFolderId, 'get_nfb': isNfbExs ? 1 : 0, 'f_type': fType, 'filter': window.exercisesFilter};

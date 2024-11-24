@@ -97,6 +97,16 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
                 });
             }
         }
+        folders = $('.folders_users_with_exs_list').find('.list-group-item:not(.club-title) > div');
+        for (let i = 0; i < folders.length; i++) {
+            let folder = $(folders[i]);
+            let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "__is_user_exs", 'filter': window.exercisesFilter};
+            window.count_exs_calls.push({
+                'data': data,
+                'folderElem': folder,
+                'call': CountExsAjaxReq(data, folder)
+            });
+        }
     }
     let tagsElems = $('.tags-filter-block').find('.side-filter-elem[data-type="tags"]');
     let folderType = $('.folders_div.selected').attr('data-id');

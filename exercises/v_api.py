@@ -719,11 +719,11 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         ).distinct()
     if filter_video_isvideo != -1:
         f_exercises = f_exercises.filter(
-            Q(exercisevideo__video__note__video=True)
+            Q(exercisevideo__video__isnull=False, exercisevideo__type=1)
         ).distinct()
     if filter_video_isanimation != -1:
         f_exercises = f_exercises.filter(
-            Q(exercisevideo__video__note__animation=True)
+            Q(exercisevideo__video__isnull=False, exercisevideo__type=3)
         ).distinct()
     if filter_note_status != -1:
         if req.user.club_id is not None:
@@ -2225,7 +2225,6 @@ def POST_count_exs(request, cur_user, cur_team):
         found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True, None).count()
         # found_exercises = len(get_excerises_data(folder_id, folder_type, request, cur_user, cur_team))
     except Exception as e:
-        print(e)
         pass
     return JsonResponse({"data": found_exercises, "success": True}, status=200)
 
