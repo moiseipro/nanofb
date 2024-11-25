@@ -145,6 +145,26 @@ def exercise(request):
         if cur_user.exists():
             if request.user.club_id is not None:
                 found_exercise = ClubExercise.objects.filter(id=c_id, club=request.user.club_id).values()
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        user_id = -1
+        try:
+            user_id = int(request.GET.get("user", -1))
+        except:
+            pass
+        exs_user = User.objects.filter(id=user_id).first()
+        if exs_user is not None:
+            if exs_user.club_id is not None:
+                found_exercise = ClubExercise.objects.filter(id=c_id, club=exs_user.club_id).values()
+            else:
+                found_exercise = UserExercise.objects.filter(id=c_id, user=exs_user).values()
+            if not request.user.is_superuser:
+                is_valid = False
+                if request.user.club_id is not None:
+                    is_valid = request.user.club_id == exs_user.club_id
+                else:
+                    is_valid = request.user.id == exs_user.id
+                if not is_valid:
+                    found_exercise = None
     if not found_exercise and not is_new_exs:
         return redirect('/exercises')
     if is_new_exs and folder_type == utils.FOLDER_NFB and not cur_user[0].is_superuser:

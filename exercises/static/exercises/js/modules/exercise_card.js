@@ -154,6 +154,11 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "", userId = ""
     if (!folderType || folderType == "") {
         folderType = searchParams.get('type');
     }
+    if (!userId || userId == "") {
+        try {
+            userId = searchParams.get('user');
+        } catch (e) {}
+    }
     AdaptPageToSection(chosenSection, searchParams.get('id') == "new", false, searchParams.get('id') == "new");
     if (searchParams.get('id') == "new") {
         window.parent.postMessage("exercise_loaded", '*');
@@ -889,7 +894,11 @@ function SaveExerciseOne() {
     let searchParams = new URLSearchParams(window.location.search);
     let folderType = searchParams.get('type');
     let exsId = $('#exerciseCard').attr('data-exs');
-    let dataToSend = {'edit_exs': 1, 'exs': exsId, type: folderType, 'data': {}};
+    let userId = "";
+    try {
+        userId = searchParams.get('user');
+    } catch (e) {}
+    let dataToSend = {'edit_exs': 1, 'exs': exsId, 'type': folderType, 'user_id': userId, 'data': {}};
     $('#exerciseCard').find('.exs_edit_field').each((ind, elem) => {
         if (!$(elem).hasClass('d-none') || $(elem).parent().hasClass('exs_video_link')) {
             let name = $(elem).attr('name');
@@ -926,12 +935,12 @@ function SaveExerciseOne() {
     dataToSend.data['description'] = document.descriptionEditor2.getData();
     dataToSend.data['description_template'] = document.descriptionEditor2Template.getData();
     dataToSend.data['description_trainer'] = document.descriptionEditor2Trainer.getData();
-    if (dataToSend.data.title == "") {
+    if (dataToSend.data.title == "" && folderType != "__is_user_exs") {
         window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Добавьте название для упражнения.", "info");
         return;
     }
-    if (dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "" || !dataToSend.data.folder_parent || !dataToSend.data.folder_main) {
+    if ((dataToSend.data.folder_parent == "" || dataToSend.data.folder_main == "" || !dataToSend.data.folder_parent || !dataToSend.data.folder_main) && folderType != "__is_user_exs") {
         window.parent.postMessage("exercise_end_edited", '*');
         swal("Внимание", "Выберите папку для упражнения.", "info");
         return;

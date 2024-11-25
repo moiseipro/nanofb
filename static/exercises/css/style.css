@@ -149,6 +149,9 @@
 .c-hidden {
     display: none !important;
 }
+.hidden-by-search {
+    display: none !important;
+}
 
 .container-custom-inline {
     overflow: auto;

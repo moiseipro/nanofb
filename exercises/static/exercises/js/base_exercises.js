@@ -566,10 +566,15 @@ function ToggleUpFilter(id, state) {
             if (state) {
                 $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '3%');
                 $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '3%');
+                $('.exs-edit-block').find('.exs-card-editor.d-none').addClass('d-no');
+                $('.exs-edit-block').find('.exs-card-editor').removeClass('d-none');
             } else {
                 $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '5%');
                 $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '5%');
+                $('.exs-edit-block').find('.exs-card-editor.d-no').addClass('d-none');
+                $('.exs-edit-block').find('.exs-card-editor').removeClass('d-no');
             }
+            $('.exs-edit-block').find('.exs-card-editor.no-in-users-exs').toggleClass('d-none', state);
             $('.btn-custom.empty-panel-usrs-exs').toggleClass('d-none', !state);
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('d-none');
             if (state) {
@@ -582,7 +587,7 @@ function ToggleUpFilter(id, state) {
                     url: "exercises_api",
                     success: function (res) {
                         if (res.success) {
-                            RenderUsersExsContent(res.data, false);
+                            RenderUsersExsContent(res.data, $('.up-tabs-elem[data-id="toggle_trainers_exs"]').hasClass('w-titles'));
                         } else {
                             swal("Ошибка", "Не удалось найти упражнения других пользователей!", "error");
                             console.log(res);
@@ -1666,6 +1671,23 @@ $(function() {
         }, 500);
     });
 
+    let searchUserTmpVal = "";
+    $('.user-search').on('keyup', (e) => {
+        let val = $(e.currentTarget).val();
+        setTimeout(() => {
+            let waitedVal = $('.user-search').val();
+            if ((val == waitedVal || waitedVal == "") && waitedVal != searchUserTmpVal) {
+                searchUserTmpVal = waitedVal;
+                $('.folders_users_with_exs_list').find('.list-group-item:not(.club-title)').each((ind, elem) => {
+                    let cName = $(elem).find('.folder-title').text().toLowerCase().replace(/\s/g, '');
+                    let searching = searchUserTmpVal.toLowerCase().replace(/\s/g, '');
+                    $(elem).toggleClass('hidden-by-search', !cName.includes(searching));
+                    if (searchUserTmpVal == "") {$(elem).toggleClass('hidden-by-search', false);}
+                });
+            }
+        }, 500);
+    });
+
 
     // Toggle side filter content
     $('.side-filter-block').on('click', '.toggle-filter-content', (e) => {
@@ -2556,8 +2578,14 @@ $(function() {
         let val = $(currentTarget).attr('data-val');
         let folderType = $('.folders_div.selected').attr('data-id');
         let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
         if (isTrainer) {folderType = "__is_trainer";}
-        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': {'key': cId, 'value': state ? 0 : 1}};
+        let userId = "";
+        if (isUsersExs) {
+            folderType = "__is_user_exs";
+            userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+        }
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'user_id': userId, 'data': {'key': cId, 'value': state ? 0 : 1}};
         if (cId == "trainer") {
             ToggleExerciseToArchive(exsElem, exsId, folderType, val);
             return;
@@ -2628,7 +2656,15 @@ $(function() {
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let folderType = $('.folders_div.selected').attr('data-id');
         let valNoteTrainer = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
-        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data':
+        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+        if (isTrainer) {folderType = "__is_trainer";}
+        let userId = "";
+        if (isUsersExs) {
+            folderType = "__is_user_exs";
+            userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+        }
+        let dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'user_id': userId, 'data':
             {'key': "note_trainer", 'value': valNoteTrainer}};
         let exsIdRes = -1;
         $.ajax({
@@ -2644,7 +2680,7 @@ $(function() {
             },
             complete: function (res) {
                 let valNoteClubAdmin = $('#exerciseNoteModal').find('textarea[name="note_club_admin"]').val();
-                dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
+                dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'user_id': userId, 'data': 
                     {'key': "note_club_admin", 'value': valNoteClubAdmin}};
                 $.ajax({
                     headers:{"X-CSRFToken": csrftoken},
@@ -2659,7 +2695,7 @@ $(function() {
                     },
                     complete: function (res) {
                         let valNoteStatus = $('#exerciseNoteModal').find('button[name="note_status"] > i').hasClass('text-danger') ? 1 : $('#exerciseNoteModal').find('button[name="note_status"] > i').hasClass('text-success') ? 2 : 0;
-                        dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'data': 
+                        dataToSend = {'edit_exs_user_params': 1, 'exs': exsId, 'nfb': fromNFB, 'type': folderType, 'user_id': userId, 'data': 
                             {'key': "note_status", 'value': valNoteStatus}};
                         $.ajax({
                             headers:{"X-CSRFToken": csrftoken},
@@ -3026,7 +3062,7 @@ $(function() {
         $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
         $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
         let folderType = $('.folders_div.selected').attr('data-id');
-        $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
+        $('.exs-edit-block').find('.d-e-nf:not(.d-no)').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
         ToggleMarkersInExs();
     });
@@ -3107,7 +3143,13 @@ $(function() {
                 let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
                 let folderType = $('.folders_div.selected').attr('data-id');
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
-                let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}`;
+                let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+                let userId = "";
+                if (isUsersExs) {
+                    folderType = "__is_user_exs";
+                    userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+                }
+                let linkForModal = `/exercises/exercise?id=${activeExsId}&nfb=${fromNfbFolder ? 1 : 0}&type=${folderType}&section=${cId}&user=${userId}`;
                 $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
                 $('#exerciseCardModalForEdit').find('iframe').attr('src', linkForModal);
                 $('#exerciseCardModalForEdit').modal('show');

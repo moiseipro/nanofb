@@ -1514,7 +1514,35 @@ def POST_edit_exs(request, cur_user, cur_team):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
         pass
     elif folder_type == utils.FOLDER_USERS_EXS:
-        return JsonResponse({"err": "Access denied 111.", "success": False}, status=400)
+        user_id = -1
+        try:
+            user_id = int(request.POST.get("user_id", -1))
+        except:
+            pass
+        exs_user = User.objects.filter(id=user_id).first()
+        if not exs_user:
+            return JsonResponse({"err": "Can't find the User.", "success": False}, status=400)
+        if exs_user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
+        if not c_exs.exists() or c_exs[0].id == None:
+            return JsonResponse({"err": "Can't find the exercise.", "success": False}, status=400)
+        c_exs = c_exs[0]
+        if not request.user.is_superuser:
+            is_valid = False
+            if request.user.club_id is not None:
+                if util_check_access(cur_user, {
+                    'perms_user': ["clubs.club_admin"], 
+                    'perms_club': ["clubs.club_admin"]
+                }):
+                    is_valid = request.user.club_id == exs_user.club_id
+                else:
+                    is_valid = request.user.id == exs_user.id
+            else:
+                is_valid = request.user.id == exs_user.id
+            if not is_valid:
+                return JsonResponse({"err": f"Access denied.", "success": False}, status=400)      
     if c_exs == None:
         return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
     
@@ -2082,6 +2110,11 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             post_value = request.POST.get("data[value]", "")
         except:
             pass
+    user_id = -1
+    try:
+        user_id = int(request.POST.get("user_id", -1))
+    except:
+        pass
     c_exs = None
     if folder_type == utils.FOLDER_TEAM:
         if not util_check_access(cur_user, {
@@ -2110,6 +2143,19 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id)
         else:
             pass
+    elif folder_type == utils.FOLDER_USERS_EXS:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.view_userexercise"], 
+            'perms_club': ["exercises.view_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        exs_user = User.objects.filter(id=user_id).first()
+        if exs_user is None:
+            return JsonResponse({"err": "Can't find the User.", "success": False}, status=400)
+        if exs_user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=exs_user.club_id)
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=exs_user)
     if (post_key == "note_club_admin" or post_key == "note_status") and request.user.club_id is not None:
         if not request.user.has_perm('clubs.club_admin'):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
@@ -2128,6 +2174,16 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
             c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=cur_user)
             if post_key == "note_trainer" or post_key == "note_club_admin" or post_key == "note_status":
                 c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=None)
+        elif folder_type == utils.FOLDER_USERS_EXS:
+            exs_user = User.objects.filter(id=user_id).first()
+            if exs_user is None:
+                return JsonResponse({"err": "Can't find the User.", "success": False}, status=400)
+            if exs_user.club_id is not None:
+                c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=cur_user)
+                if post_key == "note_trainer" or post_key == "note_club_admin" or post_key == "note_status":
+                    c_exs_params = UserExerciseParam.objects.filter(exercise_club=c_exs[0], user=None)
+            else:
+                c_exs_params = UserExerciseParam.objects.filter(exercise_user=c_exs[0], user=cur_user)
         if c_exs_params != None and c_exs_params.exists() and c_exs_params[0].id != None:
             c_exs_params = c_exs_params[0]
             if post_key == "like":
@@ -2167,6 +2223,16 @@ def POST_edit_exs_user_params(request, cur_user, cur_team):
                 new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
                 if post_key == "note_trainer" or post_key == "note_club_admin" or post_key == "note_status":
                     new_params = UserExerciseParam(exercise_club=c_exs[0], user=None)
+            elif folder_type == utils.FOLDER_USERS_EXS:
+                exs_user = User.objects.filter(id=user_id).first()
+                if exs_user is None:
+                    return JsonResponse({"err": "Can't find the User.", "success": False}, status=400)
+                if exs_user.club_id is not None:
+                    new_params = UserExerciseParam(exercise_club=c_exs[0], user=cur_user)
+                    if post_key == "note_trainer" or post_key == "note_club_admin" or post_key == "note_status":
+                        new_params = UserExerciseParam(exercise_club=c_exs[0], user=None)
+                else:
+                    new_params = UserExerciseParam(exercise_user=c_exs[0], user=cur_user)
             if post_key == "like":
                 new_params.dislike = 0
                 post_value = 1
@@ -4015,15 +4081,20 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
     found_users_ids = []
     found_club_users_ids = []
     if cur_user.is_superuser:
-        found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
-        found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        found_users_ids = User.objects.filter(club_id__isnull=True).values('id').distinct()
+        found_club_users_ids = User.objects.filter(club_id__isnull=False).values('id').distinct()
+        # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
     else:
         if request.user.club_id is not None:
-            found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True, club=request.user.club_id).values('user').distinct()
+            found_club_users_ids = User.objects.filter(club=request.user.club_id).values('id').distinct()
+            # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True, club=request.user.club_id).values('user').distinct()
         else:
-            found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
+            found_users_ids = User.objects.filter(id=cur_user.id).values('id').distinct()
+            # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
     for elem in found_users_ids:
-        c_id = elem['user']
+        c_id = elem['id']
+        # c_id = elem['user']
         f_user = User.objects.filter(id=c_id).first()
         found_users.append({
             'id': f_user.id,
@@ -4034,7 +4105,8 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             'club_id': None
         })
     for elem in found_club_users_ids:
-        c_id = elem['user']
+        c_id = elem['id']
+        # c_id = elem['user']
         f_user = User.objects.filter(id=c_id).first()
         if f_user.club_id is not None:
             found_users.append({
