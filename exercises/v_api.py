@@ -4087,7 +4087,7 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
         # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
     else:
         if request.user.club_id is not None:
-            found_club_users_ids = User.objects.filter(club=request.user.club_id).values('id').distinct()
+            found_club_users_ids = User.objects.filter(club_id=request.user.club_id).values('id').distinct()
             # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True, club=request.user.club_id).values('user').distinct()
         else:
             found_users_ids = User.objects.filter(id=cur_user.id).values('id').distinct()
