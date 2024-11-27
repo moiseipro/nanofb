@@ -68,7 +68,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
     window.filterIsLoaded = false;
     window.count_exs_calls = [];
     if (!skipFolders) {
-        let folders = $('.folders_list').find('.list-group-item > div');
+        let folders = $('.folders_list:visible').find('.list-group-item > div');
         for (let i = 0; i < folders.length; i++) {
             let folder = $(folders[i]);
             if ($(folder).attr('data-root') != '1') {
@@ -80,7 +80,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
                 });
             }
         }
-        folders = $('.folders_club_list').find('.list-group-item > div');
+        folders = $('.folders_club_list:visible').find('.list-group-item > div');
         for (let i = 0; i < folders.length; i++) {
             let folder = $(folders[i]);
             if ($(folder).attr('data-root') != '1') {
@@ -92,7 +92,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
                 });
             }
         }
-        folders = $('.folders_nfb_list').find('.list-group-item > div');
+        folders = $('.folders_nfb_list:visible').find('.list-group-item > div');
         for (let i = 0; i < folders.length; i++) {
             let folder = $(folders[i]);
             if ($(folder).attr('data-root') != '1') {
@@ -104,7 +104,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
                 });
             }
         }
-        folders = $('.folders_users_with_exs_list').find('.list-group-item:not(.club-title) > div');
+        folders = $('.folders_users_with_exs_list:visible').find('.list-group-item:not(.club-title) > div');
         for (let i = 0; i < folders.length; i++) {
             let folder = $(folders[i]);
             let data = {'count_exs': 1, 'folder': $(folder).attr('data-id'), 'type': "__is_user_exs", 'filter': window.exercisesFilter};
