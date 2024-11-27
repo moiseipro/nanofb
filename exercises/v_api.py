@@ -4081,10 +4081,10 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
     found_users_ids = []
     found_club_users_ids = []
     if cur_user.is_superuser:
-        # found_users_ids = User.objects.filter(club_id__isnull=True).values('id').distinct()
-        # found_club_users_ids = User.objects.filter(club_id__isnull=False).values('id').distinct()
-        found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
-        found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        found_users_ids = User.objects.filter(club_id__isnull=True).values('id').distinct()
+        found_club_users_ids = User.objects.filter(club_id__isnull=False).values('id').distinct()
+        # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
     else:
         if request.user.club_id is not None:
             found_club_users_ids = User.objects.filter(club_id=request.user.club_id).values('id').distinct()
@@ -4093,33 +4093,31 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             found_users_ids = User.objects.filter(id=cur_user.id).values('id').distinct()
             # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
     for elem in found_users_ids:
-        c_id = -1
-        if cur_user.is_superuser:
-            c_id = elem['user']
-        else:
-            c_id = elem['id']
+        c_id = elem['id']
         f_user = User.objects.filter(id=c_id).first()
+        exs_count = UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count()
+        if cur_user.is_superuser and exs_count == 0:
+            continue
         found_users.append({
             'id': f_user.id,
             'email': f_user.email,
             'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
-            'exs_count': UserExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+            'exs_count': exs_count,
             'club': None,
             'club_id': None
         })
     for elem in found_club_users_ids:
-        c_id = -1
-        if cur_user.is_superuser:
-            c_id = elem['user']
-        else:
-            c_id = elem['id']
+        c_id = elem['id']
         f_user = User.objects.filter(id=c_id).first()
+        exs_count = ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count()
+        if cur_user.is_superuser and exs_count == 0:
+            continue
         if f_user.club_id is not None:
             found_users.append({
                 'id': f_user.id,
                 'email': f_user.email,
                 'name': f"{f_user.personal.last_name} {f_user.personal.first_name}",
-                'exs_count': ClubExercise.objects.filter(user=f_user, clone_nfb_id__isnull=True).count(),
+                'exs_count': exs_count,
                 'club': f_user.club_id.name,
                 'club_id': f_user.club_id.id
             })
