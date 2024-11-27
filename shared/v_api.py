@@ -134,8 +134,7 @@ def POST_add_link(request, cur_user):
         }
         if request.user.club_id is not None:
             c_dict['analytics']['club'] = request.user.club_id.id
-        else:
-            c_dict['analytics']['user'] = cur_user.id
+        c_dict['analytics']['user'] = cur_user.id
     if f_obj:
         new_link = SharedLink(**c_dict)
         try:
@@ -208,9 +207,8 @@ def GET_get_link(request, cur_user=None):
                 'season_type': request.GET.get("season_type", "")
             }
             if request.user.club_id is not None:
-                f_dict['analytics']['club'] = request.user.club_id
-            else:
-                f_dict['analytics']['user'] = cur_user.id
+                f_dict['analytics']['club'] = request.user.club_id.id
+            f_dict['analytics']['user'] = cur_user.id
         if f_obj:
             c_link = SharedLink.objects.filter(**f_dict).first()
     else:
