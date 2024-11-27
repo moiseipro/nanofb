@@ -19,6 +19,9 @@ function CountExsAjaxReq(data, folder) {
             }
         },
         error: function (res) {
+            if (data.type == "__is_user_exs") {
+                $(folder).parent().toggleClass('hidden-by-filter', false);
+            }
             $(folder).find('.folder-exs-counter').html('...');
         },
         complete: function (res) {
