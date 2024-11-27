@@ -92,6 +92,8 @@ function ToggleUpFilter(id, state) {
             // $('.toggle-filter-content').removeClass('btn-custom-outline-green');
             // $('.toggle-filter-content').addClass('btn-custom-outline-red');
 
+            LoadFolderExercises();
+            CountExsInFolder();
             CountFilteredExs();
             CountExsInFoldersByType();
             ToggleTagsView();
@@ -118,6 +120,8 @@ function ToggleUpFilter(id, state) {
             }
             ToggleFolderTypeUI("team_folders");
 
+            LoadFolderExercises();
+            CountExsInFolder();
             CountFilteredExs();
             CountExsInFoldersByType();
             ToggleTagsView();
@@ -147,6 +151,8 @@ function ToggleUpFilter(id, state) {
             // $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             // $('.toggle-filter-content').addClass('btn-custom-outline-green');
 
+            LoadFolderExercises();
+            CountExsInFolder();
             CountFilteredExs();
             CountExsInFoldersByType();
             ToggleTagsView();
