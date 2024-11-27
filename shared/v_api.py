@@ -145,7 +145,7 @@ def POST_add_link(request, cur_user):
             t_link = f"http://{domain}/shared?link={new_link.link}"
             return JsonResponse({"data": {"link": t_link}, "success": True}, status=200)
         except Exception as e:
-            pass
+            return JsonResponse({"errors": f"Can't create link. {e}", "type": "link"}, status=400)
     return JsonResponse({"errors": "Can't create link", "type": "link"}, status=400)
 
 
