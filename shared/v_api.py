@@ -133,7 +133,7 @@ def POST_add_link(request, cur_user):
             'season_type': request.POST.get("season_type", "")
         }
         if request.user.club_id is not None:
-            c_dict['analytics']['club'] = request.user.club_id
+            c_dict['analytics']['club'] = request.user.club_id.id
         else:
             c_dict['analytics']['user'] = cur_user.id
     if f_obj:
