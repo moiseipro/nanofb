@@ -4081,10 +4081,10 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
     found_users_ids = []
     found_club_users_ids = []
     if cur_user.is_superuser:
-        found_users_ids = User.objects.filter(club_id__isnull=True).values('id').distinct()
-        found_club_users_ids = User.objects.filter(club_id__isnull=False).values('id').distinct()
-        # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
-        # found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        # found_users_ids = User.objects.filter(club_id__isnull=True).values('id').distinct()
+        # found_club_users_ids = User.objects.filter(club_id__isnull=False).values('id').distinct()
+        found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
+        found_club_users_ids = ClubExercise.objects.filter(clone_nfb_id__isnull=True).values('user').distinct()
     else:
         if request.user.club_id is not None:
             found_club_users_ids = User.objects.filter(club_id=request.user.club_id).values('id').distinct()
