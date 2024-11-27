@@ -11,6 +11,10 @@ function CountExsAjaxReq(data, folder) {
             if (res.success && res.data != 0) {
                 $(folder).find('.folder-exs-counter').html(res.data);
             } else {
+                if (data.type == "__is_user_exs") {
+                    let flag = (typeof window.exercisesFilter === 'object' && !Array.isArray(window.exercisesFilter) && window.exercisesFilter !== null && Object.keys(window.exercisesFilter).length > 0) || $('.user-search').val() != "";
+                    $(folder).parent().toggleClass('hidden-by-filter', flag);
+                }
                 $(folder).find('.folder-exs-counter').html('...');
             }
         },

@@ -106,6 +106,17 @@ function LoadFolderExercises() {
         }
         if (isUsersExs) {
             cFolderId = $('.folders_div[data-id="users_exs_folders"]').find('.list-group-item.active > div').attr('data-id');
+            if ((typeof window.exercisesFilter === 'object' && !Array.isArray(window.exercisesFilter) && window.exercisesFilter !== null && Object.keys(window.exercisesFilter).length > 0) || $('.user-search').val() != "") {
+                $('.folders_users_with_exs_list').find('.list-group-item.club-title.d-visible').each((ind, elem) => {
+                    let cClubID = $(elem).attr('data-club');
+                    $('.folders_users_with_exs_list').find(`.list-group-item:not(.club-title)[data-club="${cClubID}"]`).removeClass('d-none');
+                });
+            } else {
+                $('.folders_users_with_exs_list').find('.list-group-item.club-title.d-visible-off').each((ind, elem) => {
+                    let cClubID = $(elem).attr('data-club');
+                    $('.folders_users_with_exs_list').find(`.list-group-item:not(.club-title)[data-club="${cClubID}"]`).addClass('d-none');
+                });
+            }
             if (cFolderId === null || cFolderId === undefined) {return;}
             fType = "__is_user_exs";
         }
@@ -720,9 +731,12 @@ $(function() {
         });
     });
     $('.folders_users_with_exs_list').on('click', '.list-group-item', (e) => {
-        if ($(e.currentTarget).hasClass('club-title')) {
+        if ($(e.currentTarget).hasClass('club-title') && $(e.currentTarget).hasClass('d-visible')) {
             let cClubID = $(e.currentTarget).attr('data-club');
-            $('.folders_users_with_exs_list').find(`.list-group-item:not(.club-title)[data-club="${cClubID}"]`).toggleClass('d-none');
+            $('.folders_users_with_exs_list').find(`.list-group-item:not(.club-title)[data-club="${cClubID}"]`).toggleClass('d-none',
+                !$(e.currentTarget).hasClass('d-visible-off')
+            );
+            $(e.currentTarget).toggleClass('d-visible-off', !$(e.currentTarget).hasClass('d-visible-off'));
             return;
         }
         let isActive = $(e.currentTarget).hasClass('active');

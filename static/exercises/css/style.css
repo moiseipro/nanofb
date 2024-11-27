@@ -152,6 +152,16 @@
 .hidden-by-search {
     display: none !important;
 }
+.hidden-by-filter {
+    display: none !important;
+}
+
+.d-visible {
+    background-color: #737e855e !important;
+}
+.d-visible-off {
+    background-color: #24272a5e !important;
+}
 
 .container-custom-inline {
     overflow: auto;

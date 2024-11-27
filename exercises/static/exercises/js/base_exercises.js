@@ -207,6 +207,8 @@ function ToggleUpFilter(id, state) {
 
             $('.visual-block').find('.visual-block-elem.active').removeClass('active');
             $('.visual-block').animate({scrollTop: 0}, 500);
+
+            $('.user-search').val('').trigger('change');
             break;
         case "toggle_watched":
             if (state) {
@@ -1440,7 +1442,7 @@ function RenderUsersExsContent(data, withTitles=true) {
     if (Array.isArray(data) && data.length > 0) {
         let htmlBlocksByClubs = {};
         let htmlNoClubsStr = `
-            <li class="list-group-item p-1 club-title ${withTitles ? '' : 'd-none'}" data-club="-1">
+            <li class="list-group-item p-1 club-title ${withTitles ? 'd-visible' : 'd-none'}" data-club="-1">
                 <div class="d-flex justify-content-center">
                     <div class="">
                         <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
@@ -1453,7 +1455,7 @@ function RenderUsersExsContent(data, withTitles=true) {
             if (elem['club_id']) {
                 if (!(elem['club_id'] in htmlBlocksByClubs)) {
                     htmlBlocksByClubs[elem['club_id']] = `
-                        <li class="list-group-item p-1 club-title ${withTitles ? '' : 'd-none'}" data-club="${elem['club_id']}">
+                        <li class="list-group-item p-1 club-title ${withTitles ? 'd-visible d-visible-off' : 'd-none'}" data-club="${elem['club_id']}">
                             <div class="d-flex justify-content-center">
                                 <div class="">
                                     <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
@@ -1672,7 +1674,7 @@ $(function() {
     });
 
     let searchUserTmpVal = "";
-    $('.user-search').on('keyup', (e) => {
+    $('.user-search').on('keyup keypress blur change', (e) => {
         let val = $(e.currentTarget).val();
         setTimeout(() => {
             let waitedVal = $('.user-search').val();
