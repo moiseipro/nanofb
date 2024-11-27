@@ -4108,8 +4108,11 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             'club_id': None
         })
     for elem in found_club_users_ids:
-        c_id = elem['id']
-        # c_id = elem['user']
+        c_id = -1
+        if cur_user.is_superuser:
+            c_id = elem['user']
+        else:
+            c_id = elem['id']
         f_user = User.objects.filter(id=c_id).first()
         if f_user.club_id is not None:
             found_users.append({
