@@ -9,6 +9,9 @@ function CountExsAjaxReq(data, folder) {
         timeout: 60000,
         success: function (res) {
             if (res.success && res.data != 0) {
+                if (data.type == "__is_user_exs") {
+                    $(folder).parent().toggleClass('hidden-by-filter', false);
+                }
                 $(folder).find('.folder-exs-counter').html(res.data);
             } else {
                 if (data.type == "__is_user_exs") {
