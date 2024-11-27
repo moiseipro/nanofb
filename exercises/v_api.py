@@ -4093,8 +4093,11 @@ def GET_get_users_with_own_exs(request, cur_user, cur_team):
             found_users_ids = User.objects.filter(id=cur_user.id).values('id').distinct()
             # found_users_ids = UserExercise.objects.filter(clone_nfb_id__isnull=True, user=cur_user).values('user').distinct()
     for elem in found_users_ids:
-        c_id = elem['id']
-        # c_id = elem['user']
+        c_id = -1
+        if cur_user.is_superuser:
+            c_id = elem['user']
+        else:
+            c_id = elem['id']
         f_user = User.objects.filter(id=c_id).first()
         found_users.append({
             'id': f_user.id,
