@@ -192,8 +192,8 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "clear_filter":
-            $('.up-block-content').find('.up-tabs-elem').attr('data-state', 0);
-            $('.up-block-content').find('.up-tabs-elem').removeClass('selected3');
+            $('.up-block-content').find('.up-tabs-elem[data-id!="toggle_trainers_exs"]').attr('data-state', 0);
+            $('.up-block-content').find('.up-tabs-elem[data-id!="toggle_trainers_exs"]').removeClass('selected3');
             ToggleIconsInExs();
             ToggleMarkersInExs();
             $('.exs-search').val('');
