@@ -119,7 +119,10 @@ $(window).on('load', function (){
     })
 
     $('#training-exercises-button').on('click', function () {
-        render_exercises_training(id)
+        render_exercises_training(id);
+        setTimeout(() => {
+            CountExsInFolder();
+        }, 500);
     })
 
     // Save last chosen exercise's id
