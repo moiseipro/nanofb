@@ -12,9 +12,9 @@ function ToggleFolderTypeUI(fType="") {
     $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
     $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
 
-    $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', fType != "nfb_folders");
-    $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', fType != "club_folders");
-    $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', fType != "team_folders");
+    // $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('d-none', fType != "nfb_folders");
+    // $('.up-tabs-elem[data-id="club_folders"]').toggleClass('d-none', fType != "club_folders");
+    // $('.up-tabs-elem[data-id="team_folders"]').toggleClass('d-none', fType != "team_folders");
 
     $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
     $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
@@ -81,11 +81,12 @@ function ToggleUpFilter(id, state) {
                 });
                 return;
             }
-            if ($('.up-tabs-elem[data-id="club_folders"]').length > 0) {
-                ToggleFolderTypeUI("club_folders");
-            } else {
-                ToggleFolderTypeUI("team_folders");
-            }
+            // if ($('.up-tabs-elem[data-id="club_folders"]').length > 0) {
+            //     ToggleFolderTypeUI("club_folders");
+            // } else {
+            //     ToggleFolderTypeUI("team_folders");
+            // }
+            ToggleFolderTypeUI("nfb_folders");
             // $('#exerciseCopyModal').find('select[name="copy_mode"]').val('1');
             // $('#exerciseCopyModal').find('select[name="copy_mode"]').prop('disabled', true);
             // $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
@@ -118,7 +119,8 @@ function ToggleUpFilter(id, state) {
                 });
                 return;
             }
-            ToggleFolderTypeUI("team_folders");
+            // ToggleFolderTypeUI("team_folders");
+            ToggleFolderTypeUI("club_folders");
 
             LoadFolderExercises();
             CountExsInFolder();
@@ -146,7 +148,8 @@ function ToggleUpFilter(id, state) {
                 });
                 return;
             }
-            ToggleFolderTypeUI("nfb_folders");
+            // ToggleFolderTypeUI("nfb_folders");
+            ToggleFolderTypeUI("team_folders");
             // $('.toggle-filter-content').removeClass('btn-custom-outline-blue');
             // $('.toggle-filter-content').removeClass('btn-custom-outline-red');
             // $('.toggle-filter-content').addClass('btn-custom-outline-green');
@@ -623,7 +626,7 @@ function CheckLastExs() {
     } catch(e) {}
     sessionStorage.setItem('last_exs', '');
     if (window.lastExercise && window.lastExercise.type) {
-        $('.up-tabs-elem.folders-toggle').addClass('d-none');
+        // $('.up-tabs-elem.folders-toggle').addClass('d-none');
         $('.up-tabs-elem.folders-toggle').removeClass('selected');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).addClass('selected');
@@ -2953,7 +2956,7 @@ $(function() {
             }
         }
         if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
-            $('.up-tabs-elem.folders-toggle').addClass('d-none');
+            // $('.up-tabs-elem.folders-toggle').addClass('d-none');
             $('.up-tabs-elem.folders-toggle').removeClass('selected');
 
             // temp -> club folders are invisible

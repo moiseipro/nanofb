@@ -102,27 +102,27 @@
         <div class="folders-container">
             {% if show_folders_button %}
             <div class="folders-toggle-container {% if not user.is_superuser %}df-usr{% endif %}">
-                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2" data-id="nfb_folders" style="--w-x:97%;">
+                <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 up-tabs-elem folders-toggle size-w-x mt-2 ml-1" data-id="nfb_folders" style="--w-x:48%;" title="Структура папок N.F.">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки n.f.</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% if show_club_folders %}
-                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="club_folders" style="--w-x:97%;">
+                <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 up-tabs-elem folders-toggle size-w-x mt-2 ml-1" data-id="club_folders" style="--w-x:48%;" title="Структура папок клуба">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "клуб"</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
                 {% endif %}
-                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="team_folders" style="--w-x:97%;">
+                <button type="button" class="btn btn-sm btn-custom custom-blue2 up-tabs-elem folders-toggle size-w-x mt-2 ml-1" data-id="team_folders" style="--w-x:48%;" title="Структура папок выбранной команды">
                     <div class="">
                         <span class="text-center text-uppercase ml-2">папки "команда"</span>
                         <span class="exs_counter float-right">(...)</span>
                     </div>
                 </button>
-                <button type="button" class="btn btn-sm btn-custom size-w-x mt-2 ml-2 d-none" data-id="users_exs_folders" style="--w-x:97%;">
+                <button type="button" class="btn btn-sm btn-custom size-w-x mt-2 ml-1 d-none" data-id="users_exs_folders" style="--w-x:97%;">
                     <div class="">
                         <input type="search" class="form-control form-control-sm user-search" placeholder="Упражнения тренеров">
                         <!-- <span class="text-center text-uppercase">Упражнения пользователей</span> -->
@@ -427,6 +427,30 @@
                     <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
+                    {% if user.is_superuser %}
+                    <div class="col-12 px-0">
+                        <div class="mx-4">
+                            <select class="select w-100 custom-select custom-select-sm tag-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
+                                {% for tag in exercises_tags.nfb %}
+                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot" data-tag-count="0">
+                                        {% if tag.category %}
+                                            {{ tag.category.name }}. 
+                                        {% endif %}
+                                        {{ tag.name }}
+                                    </option>
+                                {% endfor %}
+                                {% for tag in exercises_tags.self %}
+                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square" data-tag-count="0">
+                                        {% if tag.category %}
+                                            {{ tag.category.name }}. 
+                                        {% endif %}
+                                        {{ tag.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- {% if user.is_superuser %}

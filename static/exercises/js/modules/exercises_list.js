@@ -580,6 +580,15 @@ function ToggleFoldersView(saveView, ignoreViewStatus=false) {
     }
 }
 
+function ToggleTagsSearh(tags) {
+    window.exercisesFilter["tags"] = tags;
+    for (ind in window.count_exs_calls) {
+        window.count_exs_calls[ind]['call'].abort();
+    }
+    LoadFolderExercises();
+    CountExsInFolder();
+}
+
 
 
 $(function() {
@@ -1088,7 +1097,57 @@ $(function() {
         $('.folders-block').find('.description-container').find(`.description-panel[data-id="${cId}"]`).removeClass('d-none');
     });
 
-    
+    try {
+        let templateSelect2Result = (state) => {
+            if (!state.id) {
+                return state.text;
+            }
+            let text = state.text;
+            let color = $(state.element).attr('data-color');
+            let tagClass = $(state.element).attr('data-tag-class');
+            let tagCount = $(state.element).attr('data-tag-count');
+            let $state = $(`
+                <div class="row mx-0">
+                    <div class="col-9">
+                        <span class="${tagClass}" style="--color: ${color};"></span>
+                        <span class="">${text}</span>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
+                        <span class="counter">${tagCount}</span>
+                    </div>
+                </div>
+            `);
+            return $state;
+        };
+        let templateSelect2Selection = (state) => {
+            if (!state.id) {
+                return state.text;
+            }
+            let text = state.text;
+            let $state = $(`
+                <span>${text}</span>
+            `);
+            return $state;
+        };
+        $('.exs-panel-filtering').find('.tag-select-search').select2({
+            maximumSelectionLength: 5,
+            closeOnSelect: true,
+            templateSelection: templateSelect2Selection,
+            templateResult: templateSelect2Result,
+            placeholder: "Поиск по тэгам",
+        })
+        .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:select', e => {
+            $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
+            ToggleTagsSearh($(e.currentTarget).val());
+        })
+        .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:unselect', e => {
+            $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
+            ToggleTagsSearh($(e.currentTarget).val());
+        });
+    } catch {}
+
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols'));

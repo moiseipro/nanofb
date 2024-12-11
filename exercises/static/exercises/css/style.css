@@ -77,7 +77,7 @@
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 77vh !important;
+    height: 75vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -351,6 +351,14 @@
     opacity: 0.9;
     border-width: 2px;
 }
+
+.folders-toggle {
+    opacity: 0.75 !important;
+}
+.folders-toggle.selected {
+    opacity: 0.95 !important;
+}
+
 
 .btn-custom.b-c-blue2.selected3 {
     background-color: #9ee2f9 !important;
@@ -744,12 +752,23 @@ input.exs-search {
 }
 
 
-.tag-dot {
+.tag-dot-old {
     height: 10px;
     width: 10px;
     background-color: var(--color);
     border-radius: 50%;
     display: inline-block;
+}
+.tag-dot {
+    height: 20px;
+    width: 20px;
+    background-color: var(--color);
+    mask-size: cover !important;
+    -webkit-mask-image: url(/static/preadmin/img/icons/svg/components.svg);
+    mask-image: url(/static/preadmin/img/icons/svg/components.svg);
+    display: inline-block;
+    position: relative;
+    transform: translateY(20%);
 }
 .tag-square {
     height: 10px;

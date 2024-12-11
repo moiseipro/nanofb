@@ -20,12 +20,23 @@
     border-radius: 10px;
 }
 
-.tag-dot {
+.tag-dot-old {
     height: 10px;
     width: 10px;
     background-color: var(--color);
     border-radius: 50%;
     display: inline-block;
+}
+.tag-dot {
+    height: 20px;
+    width: 20px;
+    background-color: var(--color);
+    mask-size: cover !important;
+    -webkit-mask-image: url(/static/preadmin/img/icons/svg/components.svg);
+    mask-image: url(/static/preadmin/img/icons/svg/components.svg);
+    display: inline-block;
+    position: relative;
+    transform: translateY(20%);
 }
 .tag-square {
     height: 10px;
