@@ -291,7 +291,7 @@
                             </td>
                         </tr>
 
-                        {% if user.is_superuser %}
+                        <!-- {% if user.is_superuser %}
                         {% for feature in exercises_features %}
                         <tr class="bck-custom border-y-custom" data-id="card_block" data-feature="{{ feature.id }}">
                             <td class="text-left bck-light-gray text-uppercase">
@@ -302,7 +302,7 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        {% endif %}
+                        {% endif %} -->
 
                         <!-- <tr class="bck-custom border-y-custom1" data-id="categories_block">
                             <td colspan="3">
@@ -377,7 +377,6 @@
                                 </div>
                             </td>
                         </tr> -->
-                        {% if user.is_superuser %}
                         <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_data_block">
                             <td colspan="3">
                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
@@ -389,18 +388,17 @@
                                             {{ tag.name }}
                                         </option>
                                     {% endfor %}
-                                    {% for tag in exercises_tags.self %}
+                                    <!-- {% for tag in exercises_tags.self %}
                                         <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
                                             {% if tag.category %}
                                                 {{ tag.category.name }}. 
                                             {% endif %}
                                             {{ tag.name }}
                                         </option>
-                                    {% endfor %}
+                                    {% endfor %} -->
                                 </select>
                             </td>
                         </tr>
-                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -427,7 +425,6 @@
                     <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
-                    {% if user.is_superuser %}
                     <div class="col-12 px-0">
                         <div class="mx-4">
                             <select class="select w-100 custom-select custom-select-sm tag-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
@@ -439,18 +436,17 @@
                                         {{ tag.name }}
                                     </option>
                                 {% endfor %}
-                                {% for tag in exercises_tags.self %}
+                                <!-- {% for tag in exercises_tags.self %}
                                     <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square" data-tag-count="0">
                                         {% if tag.category %}
                                             {{ tag.category.name }}. 
                                         {% endif %}
                                         {{ tag.name }}
                                     </option>
-                                {% endfor %}
+                                {% endfor %} -->
                             </select>
                         </div>
                     </div>
-                    {% endif %}
                 </div>
             </div>
             <!-- {% if user.is_superuser %}

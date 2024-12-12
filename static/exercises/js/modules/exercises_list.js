@@ -1134,7 +1134,7 @@ $(function() {
             closeOnSelect: true,
             templateSelection: templateSelect2Selection,
             templateResult: templateSelect2Result,
-            placeholder: "Поиск по тэгам",
+            placeholder: "Тэги",
         })
         .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
         .on('select2:select', e => {

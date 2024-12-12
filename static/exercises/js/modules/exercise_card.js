@@ -1862,6 +1862,7 @@ $(function() {
         if (!state.id) {
             return state.text;
         }
+        console.log(`st` + state)
         let text = state.text;
         let color = $(state.element).attr('data-color');
         let tagClass = $(state.element).attr('data-tag-class');
@@ -1875,7 +1876,8 @@ $(function() {
         maximumSelectionLength: 5,
         closeOnSelect: false,
         templateSelection: templateSelect2,
-        templateResult: templateSelect2
+        templateResult: templateSelect2,
+        placeholder: "Тэги",
     })
     .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
     .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))
