@@ -77,7 +77,7 @@
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 75vh !important;
+    height: 73vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -899,5 +899,10 @@ button.custom-disabled:hover {
 }
 .noUi-handle:after {
     background: rgb(70, 70, 70) !important;
+}
+
+.select2-container--bootstrap4 .select2-results__option {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
 }
 

@@ -218,6 +218,9 @@ function ToggleUpFilter(id, state) {
             $('.visual-block').animate({scrollTop: 0}, 500);
 
             $('.user-search').val('').trigger('change');
+            try {
+                $('.exs-panel-filtering').find('.tag-select-search').val(null).trigger('change');
+            } catch(e) {}
             break;
         case "toggle_watched":
             if (state) {

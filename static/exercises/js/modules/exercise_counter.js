@@ -35,6 +35,7 @@ function CountExsAjaxReq(data, folder) {
 function CountExsInTagsFilterAjaxReq(data, tagElem) {
     // $(tagElem).find('.row > div:nth-child(2)').html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
     $(tagElem).attr('data-tag-count', `<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+    $(tagElem).attr('data-visible', '1');
     $(tagElem).trigger('change');
     return $.ajax({
         headers:{"X-CSRFToken": csrftoken},
@@ -49,6 +50,12 @@ function CountExsInTagsFilterAjaxReq(data, tagElem) {
                 $(tagElem).attr('data-tag-count', res.data);
             } else {
                 // $(tagElem).find('.row > div:nth-child(2)').html('...');
+                try {
+                    let cTags = $('.exs-panel-filtering').find('.tag-select-search').val();
+                    if (Array.isArray(cTags) && cTags.length != 0) {
+                        $(tagElem).attr('data-visible', '0');
+                    }
+                } catch {}
                 $(tagElem).attr('data-tag-count', `...`);
             }
         },
@@ -58,6 +65,13 @@ function CountExsInTagsFilterAjaxReq(data, tagElem) {
         },
         complete: function (res) {
             $(tagElem).trigger('change');
+            try {
+                let status = $('.exs-panel-filtering').find('.tag-select-search').attr('data-status');
+                if (status == "open") {
+                    $('.exs-panel-filtering').find('.tag-select-search').select2('close');
+                    $('.exs-panel-filtering').find('.tag-select-search').select2('open');
+                }
+            } catch {}
         }
     });
 }
