@@ -353,7 +353,7 @@
 }
 
 .folders-toggle {
-    opacity: 0.75 !important;
+    opacity: 0.65 !important;
 }
 .folders-toggle.selected {
     opacity: 0.95 !important;
