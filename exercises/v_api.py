@@ -1319,6 +1319,8 @@ def POST_copy_exs(request, cur_user, cur_team):
                             else:
                                 new_exs.videos.through.objects.update_or_create(type=video.type, exercise_user=new_exs, defaults={"video": video.video})
                 res_data['videos'].append("OK")
+                new_exs.tags.add(*c_exs[0].tags.all())
+                res_data['tags'] = "OK"
             except Exception as e:
                 res_data['err'].append(str(e))
             try:

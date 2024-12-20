@@ -1032,7 +1032,7 @@ $(function() {
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').removeClass('active');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
-                window.split.setSizes([40, 40]);
+                window.split.setSizes([35, 45]);
             } catch(e) {}
             $('#toggleFoldersViews').toggleClass('selected3', false);
             $('#toggleCardInFolders').attr('data-state', '0');
@@ -1070,7 +1070,7 @@ $(function() {
             $('.exs-edit-block').find('.btn-o-modal[data-id="card"]').addClass('active');
             try {
                 window.split_sizes_tempo = window.split.getSizes();
-                window.split.setSizes([40, 40]);
+                window.split.setSizes([35, 45]);
             } catch(e) {}
             $('#toggleFoldersViews').toggleClass('selected3', false);
             $('#toggleDescriptionInFolders').attr('data-state', '0');
@@ -1131,8 +1131,7 @@ $(function() {
             return $state;
         };
         $('.exs-panel-filtering').find('.tag-select-search').select2({
-            maximumSelectionLength: 5,
-            closeOnSelect: true,
+            closeOnSelect: false,
             templateSelection: templateSelect2Selection,
             templateResult: templateSelect2Result,
             placeholder: "Тэги",

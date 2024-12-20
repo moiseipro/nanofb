@@ -782,13 +782,6 @@ input.exs-search {
     border-top: 1px solid var(--color);
 }
 
-/*.select2-results {*/
-/*    height: 90vh;*/
-/*}*/
-/*.select2-results > ul {*/
-/*    max-height: 50vh !important;*/
-/*}*/
-
 
 .btn-link.collapsed {
     opacity: 0.6;
@@ -904,5 +897,8 @@ button.custom-disabled:hover {
 .select2-container--bootstrap4 .select2-results__option {
     padding-top: 0.15rem !important;
     padding-bottom: 0.15rem !important;
+}
+.select2-container--bootstrap4 .select2-results > .select2-results__options {
+    max-height: 75vh !important;
 }
 

@@ -1873,7 +1873,6 @@ $(function() {
         return $state;
     };
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
-        maximumSelectionLength: 5,
         closeOnSelect: false,
         templateSelection: templateSelect2,
         templateResult: templateSelect2,
