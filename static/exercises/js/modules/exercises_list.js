@@ -1108,7 +1108,7 @@ $(function() {
             let tagCount = $(state.element).attr('data-tag-count');
             let tagVisible = $(state.element).attr('data-visible');
             let $state = $(`
-                <div class="row mx-0 ${tagVisible != '1' ? 'd-none' : ''}">
+                <div class="row mx-0 ${tagVisible == '1' ? '' : 'd-none'}">
                     <div class="col-9">
                         <span class="${tagClass}" style="--color: ${color};"></span>
                         <span class="">${text}</span>
@@ -1126,7 +1126,7 @@ $(function() {
             }
             let text = state.text;
             let $state = $(`
-                <span>${text}</span>
+                <span class="font-weight-bold">${text}</span>
             `);
             return $state;
         };
@@ -1136,8 +1136,14 @@ $(function() {
             templateResult: templateSelect2Result,
             placeholder: "Тэги",
         })
-        .on('select2:open', e => $(e.currentTarget).attr('data-status', 'open'))
-        .on('select2:close', e => $(e.currentTarget).attr('data-status', 'close'))
+        .on('select2:open', e => {
+            $(e.currentTarget).attr('data-status', 'open')
+            $('.exs-list-group').addClass('overflow-hidden')
+        })
+        .on('select2:close', e => {
+            $(e.currentTarget).attr('data-status', 'close')
+            $('.exs-list-group').removeClass('overflow-hidden')
+        })
         .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
         .on('select2:select', e => {
             $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));

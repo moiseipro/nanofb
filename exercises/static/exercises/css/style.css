@@ -901,4 +901,10 @@ button.custom-disabled:hover {
 .select2-container--bootstrap4 .select2-results > .select2-results__options {
     max-height: 75vh !important;
 }
+.select2-results__options .select2-results__option:has(div.d-none) {
+    display: none !important;
+}
 
+.overflow-hidden {
+    overflow-y: hidden !important;
+}
