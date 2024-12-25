@@ -1107,8 +1107,21 @@ $(function() {
             let tagClass = $(state.element).attr('data-tag-class');
             let tagCount = $(state.element).attr('data-tag-count');
             let tagVisible = $(state.element).attr('data-visible');
+            let tagCategory = $(state.element).attr('data-category');
+            
+            let hideByCategory = false;
+            let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
+            for (let i = 0; i < chosenTags.length; i++) {
+                let elem = chosenTags[i];
+                let fId = $('.exs-panel-filtering').find(`.tag-select-search > option[value="${elem}"]`).attr('data-category');
+                if (fId == tagCategory) {
+                    hideByCategory = true;
+                    break;
+                }
+            }
+
             let $state = $(`
-                <div class="row mx-0 ${tagVisible == '1' ? '' : 'd-none'}">
+                <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'}">
                     <div class="col-9">
                         <span class="${tagClass}" style="--color: ${color};"></span>
                         <span class="">${text}</span>

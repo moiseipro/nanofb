@@ -416,7 +416,7 @@
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags.nfb %}
-                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot" data-tag-count="0" data-visible="1">
+                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-dot" data-tag-count="0" data-visible="1" data-category="{{ tag.category.id }}">
                                         {% if tag.category %}
                                             {{ tag.category.name }}. 
                                         {% endif %}

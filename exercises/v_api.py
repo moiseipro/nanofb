@@ -1447,7 +1447,6 @@ def POST_edit_exs(request, cur_user, cur_team):
         pass
     c_exs = None
     access_denied = False
-    copied_from_nfb = False
     found_team = None
     if request.user.club_id is not None:
         found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
@@ -1487,7 +1486,6 @@ def POST_edit_exs(request, cur_user, cur_team):
             if c_exs.folder != c_folder[0]:
                 c_exs.date_editing_folder = datetime.datetime.now()
             c_exs.folder = c_folder[0]
-            copied_from_nfb = c_exs.clone_nfb_id != None
     elif folder_type == utils.FOLDER_NFB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
@@ -1620,65 +1618,66 @@ def POST_edit_exs(request, cur_user, cur_team):
         video2_id = -1
         animation1_id = -1
         animation2_id = -1
-        if not copied_from_nfb:
-            c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
-            c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
-            if type(c_exs.scheme_data) is dict:
-                c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
-                c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")
-            else:
-                c_exs.scheme_data = {
-                    'scheme_1': request.POST.get("data[scheme_1_old]"),
-                    'scheme_2': request.POST.get("data[scheme_2_old]")
-                }   
-            video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
-            # video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
-            if type(c_exs.video_data) is dict:
-                c_exs.video_data['data'] = [video1_id, video2_id]
-            else:
-                c_exs.video_data = {'data': [video1_id, video2_id]}
-            animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
-            # animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
-            if type(c_exs.animation_data) is dict:
-                c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
-            else:
-                c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
-      
-    c_exs.tags.clear()
-    tags_arr = utils.set_value_as_list(request, "data[tags]", "data[tags][]", [])
-    for c_tag in tags_arr:
-        c_tag_lower = c_tag.lower()
-        f_tag = None
-        try:
-            if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
-                f_tag = ExerciseTag.objects.filter(
-                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
-                )
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-            elif folder_type == utils.FOLDER_NFB:
-                f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-            elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
-                f_tag = ExerciseTag.objects.filter(
-                    Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
-                )
-                if f_tag.exists() and f_tag[0].id != None:
-                    f_tag = f_tag[0]
-                else:
-                    f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
-                    f_tag.save()
-        except:
-            pass
-        if f_tag is not None:
-            c_exs.tags.add(f_tag)
+
+        c_exs.scheme_1 = request.POST.get("data[scheme_1]", None)
+        c_exs.scheme_2 = request.POST.get("data[scheme_2]", None)
+        if type(c_exs.scheme_data) is dict:
+            c_exs.scheme_data['scheme_1'] = request.POST.get("data[scheme_1_old]")
+            c_exs.scheme_data['scheme_2'] = request.POST.get("data[scheme_2_old]")
+        else:
+            c_exs.scheme_data = {
+                'scheme_1': request.POST.get("data[scheme_1_old]"),
+                'scheme_2': request.POST.get("data[scheme_2_old]")
+            }   
+        video1_id = int(request.POST.get("data[video_1]")) if request.POST.get("data[video_1]").isdigit() else -1
+        # video2_id = int(request.POST.get("data[video_2]")) if request.POST.get("data[video_2]").isdigit() else -1
+        if type(c_exs.video_data) is dict:
+            c_exs.video_data['data'] = [video1_id, video2_id]
+        else:
+            c_exs.video_data = {'data': [video1_id, video2_id]}
+        animation1_id = int(request.POST.get("data[animation_1]")) if request.POST.get("data[animation_1]").isdigit() else -1
+        # animation2_id = int(request.POST.get("data[animation_2]")) if request.POST.get("data[animation_2]").isdigit() else -1
+        if type(c_exs.animation_data) is dict:
+            c_exs.animation_data['data']['default'] = [animation1_id, animation2_id]
+        else:
+            c_exs.animation_data = {'data': {'custom': "", 'default': [animation1_id, animation2_id]}}
+        
+        c_exs.tags.clear()
+        tags_arr = utils.set_value_as_list(request, "data[tags]", "data[tags][]", [])
+        for c_tag in tags_arr:
+            c_tag_lower = c_tag.lower()
+            f_tag = None
+            try:
+                if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == utils.FOLDER_NFB:
+                    f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
+                    f_tag = ExerciseTag.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+            except:
+                pass
+            if f_tag is not None:
+                c_exs.tags.add(f_tag)
+    
     c_exs = set_exs_additional_params(request, c_exs, folder_type)
     try:
         c_exs.save()
@@ -1917,41 +1916,42 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
         field_fields = utils.set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
         c_exs.field_fields = field_fields
 
-        c_exs.tags.clear()
-        tags_arr = utils.set_value_as_list(request, "data[tags]", "data[tags][]", [])
-        for c_tag in tags_arr:
-            c_tag_lower = c_tag.lower()
-            f_tag = None
-            try:
-                if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
-                    f_tag = ExerciseTag.objects.filter(
-                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
-                    )
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-                elif folder_type == utils.FOLDER_NFB:
-                    f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-                elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
-                    f_tag = ExerciseTag.objects.filter(
-                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
-                    )
-                    if f_tag.exists() and f_tag[0].id != None:
-                        f_tag = f_tag[0]
-                    else:
-                        f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
-                        f_tag.save()
-            except:
-                pass
-            if f_tag is not None:
-                c_exs.tags.add(f_tag)
+        if is_can_edit_full:
+            c_exs.tags.clear()
+            tags_arr = utils.set_value_as_list(request, "data[tags]", "data[tags][]", [])
+            for c_tag in tags_arr:
+                c_tag_lower = c_tag.lower()
+                f_tag = None
+                try:
+                    if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
+                        f_tag = ExerciseTag.objects.filter(
+                            Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                        )
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTag(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                    elif folder_type == utils.FOLDER_NFB:
+                        f_tag = ExerciseTag.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTag(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                    elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
+                        f_tag = ExerciseTag.objects.filter(
+                            Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                        )
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTag(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                except:
+                    pass
+                if f_tag is not None:
+                    c_exs.tags.add(f_tag)
     elif edit_mode == "description":
         c_exs.description = utils.set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
         c_exs.description_trainer = utils.set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))

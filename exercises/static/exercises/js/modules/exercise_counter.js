@@ -143,6 +143,7 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
     let tagsElems = $('.tag-select-search').find('option');
     let folderType = $('.folders_div.selected').attr('data-id');
     let folderId = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
+    folderId = "";
     let exerciseId = $('.exercises-list').find('.exs-elem.active').attr('data-id');
     for (let i = 0; i < tagsElems.length; i++) {
         let tagElem = $(tagsElems[i]);
