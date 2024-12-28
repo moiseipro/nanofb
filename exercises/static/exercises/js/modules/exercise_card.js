@@ -1858,11 +1858,10 @@ $(function() {
 
     ToggleEditFields(false);
 
-    let templateSelect2 = (state) => {
+    let templateSelect2Result = (state) => {
         if (!state.id) {
             return state.text;
         }
-        console.log(`st` + state)
         let text = state.text;
         let color = $(state.element).attr('data-color');
         let tagClass = $(state.element).attr('data-tag-class');
@@ -1874,9 +1873,12 @@ $(function() {
     };
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
         closeOnSelect: false,
-        templateSelection: templateSelect2,
-        templateResult: templateSelect2,
+        templateSelection: templateSelect2Result,
+        templateResult: templateSelect2Result,
         placeholder: "Тэги",
+    })
+    .on('select2:open', e => {
+        $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '50vh');
     })
     .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
     .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))

@@ -898,11 +898,14 @@ button.custom-disabled:hover {
     padding-top: 0.15rem !important;
     padding-bottom: 0.15rem !important;
 }
-.select2-container--bootstrap4 .select2-results > .select2-results__options {
-    max-height: 75vh !important;
-}
 .select2-results__options .select2-results__option:has(div.d-none) {
     display: none !important;
+}
+.select2-container--bootstrap4 .select2-results > .select2-results__options {
+    max-height: var(--vh-value) !important;
+}
+tr[data-id="additional_characteristics_data_block"] .select2-selection--multiple .select2-selection__choice {
+    width: 100% !important;
 }
 
 .overflow-hidden {

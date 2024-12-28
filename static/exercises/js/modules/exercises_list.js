@@ -1108,7 +1108,6 @@ $(function() {
             let tagCount = $(state.element).attr('data-tag-count');
             let tagVisible = $(state.element).attr('data-visible');
             let tagCategory = $(state.element).attr('data-category');
-            
             let hideByCategory = false;
             let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
             for (let i = 0; i < chosenTags.length; i++) {
@@ -1119,7 +1118,6 @@ $(function() {
                     break;
                 }
             }
-
             let $state = $(`
                 <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'}">
                     <div class="col-9">
@@ -1152,6 +1150,7 @@ $(function() {
         .on('select2:open', e => {
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '75vh');
         })
         .on('select2:close', e => {
             $(e.currentTarget).attr('data-status', 'close')
