@@ -478,13 +478,18 @@ def exercises_api(request):
             pass
         if copy_exs_status == 1:
             req_team_id = None
+            req_from_folder = None
             try:
                 req_team_id = int(request.POST.get("team", None))
             except:
                 pass
+            try:
+                req_from_folder = int(request.POST.get("from_folder", None))
+            except:
+                pass
             if req_team_id:
                 cur_team = req_team_id
-            return v_api.POST_copy_exs(request, cur_user[0], cur_team)
+            return v_api.POST_copy_exs(request, cur_user[0], cur_team, req_from_folder)
         elif move_exs_status == 1:
             return v_api.POST_move_exs(request, cur_user[0], cur_team)
         elif edit_exs_status == 1:

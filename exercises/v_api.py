@@ -994,7 +994,7 @@ def get_exercises_features(request, user, team):
     return features
 # --------------------------------------------------
 # EXERCISES API
-def POST_copy_exs(request, cur_user, cur_team):
+def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
     """
     Return JSON Response as result on POST operation "Copy exercise". User can copy the exercise from
     NFB folder or from TEAM folder. Copied exercise from NFB Folder is not available to edit video, animation and schemas.
@@ -1005,6 +1005,8 @@ def POST_copy_exs(request, cur_user, cur_team):
     :type cur_user: Model.object[User]
     :param cur_team: The current team, that is selected by the user.
     :type cur_team: [int]
+    :param from_folder: Shows which folder to copy the exercises from.
+    :type from_folder: [int|None]
     :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
     :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
 
@@ -1046,6 +1048,16 @@ def POST_copy_exs(request, cur_user, cur_team):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     if move_mode != "all" and move_mode != "favorite":
         exs_ids = [exs_id]
+    if from_folder:
+        if folder_type == utils.FOLDER_NFB:
+            exs_ids = list(AdminExercise.objects.filter(folder=from_folder, visible=True).values_list('id', flat=True))
+        elif folder_type == utils.FOLDER_TEAM:
+            if request.user.club_id is not None:
+                exs_ids = list(ClubExercise.objects.filter(folder=from_folder, club=request.user.club_id).values_list('id', flat=True))
+            else:
+                exs_ids = list(UserExercise.objects.filter(folder=from_folder, user=cur_user).values_list('id', flat=True))
+        else:
+            exs_ids = []
     if is_to_trainer:
         EXS_LIMIT = 1500
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
@@ -4461,7 +4473,7 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
 
 def GET_all_teams_folders(request, cur_user):
     """
-    Return JSON Response as result on GET operation "Get all teams folders".
+    Return JSON Response as result on GET operation "Get all teams folders" if team_id is None else find all folders by team_id.
 
     :return: JsonResponse with "data", "status" (response code).
     :rtype: JsonResponse[{"data": [obj]}, status=[int]]
@@ -4472,9 +4484,17 @@ def GET_all_teams_folders(request, cur_user):
         'perms_club': ["exercises.view_clubfolder"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    team_id = -1
+    try:
+        team_id = int(request.GET.get("team_id", -1))
+    except:
+        pass
     data_result = []
     if request.user.club_id is None:
-        teams = UserTeam.objects.filter(user_id=cur_user)
+        if team_id == -1:
+            teams = UserTeam.objects.filter(user_id=cur_user)
+        else:
+            teams = UserTeam.objects.filter(user_id=cur_user, id=team_id)
         for team in teams:
             folders = UserFolder.objects.filter(
                 Q(user=cur_user, team=team, visible=True) &
@@ -4489,10 +4509,13 @@ def GET_all_teams_folders(request, cur_user):
                 'folders': folders
             })
     else:
-        if request.user.has_perm('clubs.club_admin'):
-            teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+        if team_id == -1:
+            if request.user.has_perm('clubs.club_admin'):
+                teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+            else:
+                teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
         else:
-            teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+            teams = ClubTeam.objects.filter(club_id=request.user.club_id, id=team_id)
         for team in teams:
             folders = ClubFolder.objects.filter(
                 Q(club=request.user.club_id, visible=True) &

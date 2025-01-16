@@ -3348,6 +3348,116 @@ $(function() {
         $('#exerciseCopyModal').find('.btn-team').text(currentTeam);
         $('#exerciseCopyModal').modal('show'); 
     });
+    $('#copyExsFromFolder').on('click', (e) => {
+        $(e.currentTarget).toggleClass('selected3', false);
+        $(e.currentTarget).attr('data-state', '0');
+        let folder = $('.folders_div').find('.list-group-item.active');
+        if (folder.length == 0) {
+            swal("Внимание", "Выберите любую папку с упражнениями.", "info");
+            return;
+        }
+        $('#exerciseCopyFromFolderModal').find('.d-folders').html('');
+        $('#exerciseCopyFromFolderModal').find('[name="f_team"]').val('');
+        $('#exerciseCopyFromFolderModal').modal('show'); 
+    });
+    $('#exerciseCopyFromFolderModal').on('change', '[name="f_team"]', (e) => {
+        $('#exerciseCopyFromFolderModal').find('.d-folders').html('');
+        let chosenFolder = $(e.currentTarget).val();
+        if (chosenFolder == "" || chosenFolder == undefined || chosenFolder == null) {return;}
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'all_team_folders': 1, 'team_id': chosenFolder},
+            type: 'GET', // GET или POST
+            dataType: 'json',
+            url: "/exercises/folders_api",
+            success: function (res) {
+                if (res.success) {
+                    let htmlFolders = "";
+                    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+                    res.data.forEach(row => {
+                        htmlFolders += `
+                            <li class="list-group-item p-1 last-elem team-elem">
+                                <div class="tmp-folder-elem-team" data-team="${row.team.id}">
+                                    <div class="pull-center d-flex justify-content-center">
+                                        <span class="folder-title">Команда: ${row.team.name}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                        row.folders.forEach((folder, folder_i) => {
+                            folder.subfolders.forEach((subfolder, subfolder_i) => {
+                                let isLastElem = subfolder_i == folder.subfolders.length-1;
+                                let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
+                                htmlFolders += `
+                                    <li class="list-group-item p-1 ${isLastElem ? 'last-elem' : ''}">
+                                        <div class="tmp-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
+                                            <div class="pull-left">
+                                                <span class="folder-title">${shortName}. ${subfolder.name}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                `;
+                            });
+                        });
+                    });
+                    $('#exerciseCopyFromFolderModal').find('.d-folders').html(htmlFolders);
+                }
+            },
+            error: function (res) {
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exerciseCopyFromFolderModal').on('click', '.list-group-item', (e) => {
+        $('#exerciseCopyFromFolderModal').find('.d-folders').find('.list-group-item').removeClass('active');
+        $(e.currentTarget).addClass('active');
+    });
+    $('#exerciseCopyFromFolderModal').on('click', '.btn-apply', (e) => {
+        let activeFolder = $('#exerciseCopyFromFolderModal').find('.d-folders').find('.list-group-item.active');
+        if (activeFolder.length == 0) {
+            swal("Внимание", "Выберите папку, в которую небходимо скопировать выбранные упражнения.", "info");
+            return;
+        }
+        let folderType = $('.folders_div.selected').attr('data-id');
+        let fromFolderId = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
+        let chosenTeam = $(activeFolder).find('.tmp-folder-elem').attr('data-team');
+        let chosenFolder = $(activeFolder).find('.tmp-folder-elem').attr('data-id');
+        let data = {
+            'copy_exs': 1,
+            'from_folder': fromFolderId,
+            'copy_to_nf': 0,
+            'team': chosenTeam,
+            'folder': chosenFolder,
+            'type': folderType
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: data,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнения успешно скопированы.", "success");
+                } else {
+                    swal("Ошибка", "Упражнения не удалось скопировать / переместить.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнения не удалось скопировать / переместить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+                $('#exerciseCopyFromFolderModal').modal('hide');
+            }
+        });
+    });
 
     $('#getExsDuplicates').on('click', (e) => {
         let isSelected = $(e.currentTarget).hasClass('selected3');
