@@ -699,13 +699,13 @@ class EventViewSet(viewsets.ModelViewSet):
                 group = 0
             else:
                 group = 1
-            if count_tr < 3:
+            if count_tr < 3 or True:
                 count_group_tr = tr_query.filter(date__date=cur_date, date__hour=cur_time.hour,
                                                  date__minute=cur_time.minute).count()
                 print(count_tr)
                 print(count_group_tr)
                 print(count_tr < 3 and count_group_tr >= 0 and count_group_tr < 2)
-                if count_tr < 2 or (count_tr < 3 and count_group_tr > 0 and count_group_tr < 2):
+                if count_tr < 2 or (count_tr < 3 and count_group_tr > 0 and count_group_tr < 2) or True:
                     user_id = User.objects.get(pk=self.request.data['trainer_user_id'])
                     goalkepeers = self.request.data['goalkepeers'] if 'goalkepeers' in self.request.data else 0
                     players = self.request.data['players'] if 'players' in self.request.data else 0
@@ -740,7 +740,7 @@ class EventViewSet(viewsets.ModelViewSet):
                 match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
                                                  usermatch__m_type=0).count()
             print(match)
-            if match == 0:
+            if match == 0 or True:
                 if self.request.user.club_id is not None:
                     event = serializer.save(user_id=user, club_id=self.request.user.club_id)
                     new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=0, opponent=opponent)
@@ -759,7 +759,7 @@ class EventViewSet(viewsets.ModelViewSet):
                 match = UserEvent.objects.filter(user_id=user, date__date=cur_date, usermatch__team_id=team,
                                                  usermatch__m_type=1).count()
             print(match)
-            if match == 0:
+            if match == 0 or True:
                 if self.request.user.club_id is not None:
                     event = serializer.save(user_id=user, club_id=self.request.user.club_id)
                     new_match = ClubMatch.objects.create(team_id=team, event_id=event, m_type=1, opponent=opponent)
