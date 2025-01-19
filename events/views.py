@@ -847,12 +847,12 @@ class EventViewSet(viewsets.ModelViewSet):
                 match2 = 0
 
         print(count_tr)
-        if count_tr > 2 | count_tr_group > 1:
-            return Response({'status': 'event_type_full'})
-        if match1 != 0:
-            return Response({'status': 'event_type_full'})
-        if match2 != 0:
-            return Response({'status': 'event_type_full'})
+        # if count_tr > 2 | count_tr_group > 1:
+        #     return Response({'status': 'event_type_full'})
+        # if match1 != 0:
+        #     return Response({'status': 'event_type_full'})
+        # if match2 != 0:
+        #     return Response({'status': 'event_type_full'})
         print(event)
 
         if event:
