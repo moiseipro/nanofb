@@ -1142,7 +1142,7 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
             elif folder_type == utils.FOLDER_TEAM:
                 c_exs = None
                 if request.user.club_id is not None:
-                    c_exs = ClubExercise.objects.filter(id=exs_id, team=found_team[0], club=request.user.club_id)
+                    c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id)
                 else:
                     c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
                 if c_exs.exists() and c_exs[0].id != None:
