@@ -3352,8 +3352,9 @@ $(function() {
         $(e.currentTarget).toggleClass('selected3', false);
         $(e.currentTarget).attr('data-state', '0');
         let folder = $('.folders_div').find('.list-group-item.active');
-        if (folder.length == 0) {
-            swal("Внимание", "Выберите любую папку с упражнениями.", "info");
+        let folderType = $('.folders_div.selected').attr('data-id');
+        if (folder.length == 0 || folderType != "team_folders") {
+            swal("Внимание", "Выберите папку из структуры <Команда>.", "info");
             return;
         }
         $('#exerciseCopyFromFolderModal').find('.d-folders').html('');

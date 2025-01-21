@@ -1050,7 +1050,8 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
         exs_ids = [exs_id]
     if from_folder:
         if folder_type == utils.FOLDER_NFB:
-            exs_ids = list(AdminExercise.objects.filter(folder=from_folder, visible=True).values_list('id', flat=True))
+            # exs_ids = list(AdminExercise.objects.filter(folder=from_folder, visible=True).values_list('id', flat=True))
+            return JsonResponse({"errors": "Can't copy exercise / exercises"}, status=400)
         elif folder_type == utils.FOLDER_TEAM:
             if request.user.club_id is not None:
                 exs_ids = list(ClubExercise.objects.filter(folder=from_folder, club=request.user.club_id).values_list('id', flat=True))
