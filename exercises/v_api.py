@@ -1156,7 +1156,7 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                         else:
                             new_exs = UserExercise(user=cur_user)
                     for key in c_exs.values()[0]:
-                        if key != "id" and key != "date_creation" and key != "team":
+                        if key != "id" and key != "date_creation" and key != "team_id":
                             if key == "scheme_1" or key == "scheme_2":
                                 new_scheme_id = ""
                                 scheme_id = c_exs.values()[0][key]
