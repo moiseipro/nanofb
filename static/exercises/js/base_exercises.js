@@ -3353,8 +3353,13 @@ $(function() {
         $(e.currentTarget).attr('data-state', '0');
         let folder = $('.folders_div').find('.list-group-item.active');
         let folderType = $('.folders_div.selected').attr('data-id');
-        if (folder.length == 0 || folderType != "team_folders") {
-            swal("Внимание", "Выберите папку из структуры <Команда>.", "info");
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        // if (folder.length == 0 || folderType != "team_folders") {
+        //     swal("Внимание", "Выберите папку из структуры <Команда>.", "info");
+        //     return;
+        // }
+        if ($(activeExs).length == 0 || folderType != "team_folders") {
+            swal("Внимание", "Выберите упражнение из папок <Команда>.", "info");
             return;
         }
         $('#exerciseCopyFromFolderModal').find('.d-folders').html('');
@@ -3422,13 +3427,16 @@ $(function() {
             swal("Внимание", "Выберите папку, в которую небходимо скопировать выбранные упражнения.", "info");
             return;
         }
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let exsId = $(activeExs).attr('data-id');
         let folderType = $('.folders_div.selected').attr('data-id');
         let fromFolderId = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
         let chosenTeam = $(activeFolder).find('.tmp-folder-elem').attr('data-team');
         let chosenFolder = $(activeFolder).find('.tmp-folder-elem').attr('data-id');
         let data = {
             'copy_exs': 1,
-            'from_folder': fromFolderId,
+            'exs': exsId,
+            // 'from_folder': fromFolderId,
             'copy_to_nf': 0,
             'team': chosenTeam,
             'folder': chosenFolder,
@@ -3443,14 +3451,14 @@ $(function() {
             url: "exercises_api",
             success: function (res) {
                 if (res.success) {
-                    swal("Готово", "Упражнения успешно скопированы.", "success");
+                    swal("Готово", "Упражнение успешно скопировано.", "success");
                 } else {
-                    swal("Ошибка", "Упражнения не удалось скопировать / переместить.", "error");
+                    swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
                     console.log(res);
                 }
             },
             error: function (res) {
-                swal("Ошибка", "Упражнения не удалось скопировать / переместить.", "error");
+                swal("Ошибка", "Упражнение не удалось скопировать / переместить.", "error");
                 console.log(res);
             },
             complete: function (res) {
