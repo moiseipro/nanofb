@@ -4327,7 +4327,8 @@ def POST_update_archived_exs(request, cur_user):
             teams = ClubTeam.objects.filter(club_id=request.user.club_id)
         else:
             teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
-        all_exs = ClubExercise.objects.filter(team__in=teams, club=request.user.club_id, user=cur_user, clone_nfb_id__isnull=True)
+        # all_exs = ClubExercise.objects.filter(team__in=teams, club=request.user.club_id, clone_nfb_id__isnull=True)
+        all_exs = ClubExercise.objects.filter(user=cur_user, club=request.user.club_id, clone_nfb_id__isnull=True)
     else:
         all_exs = UserExercise.objects.filter(user=cur_user, clone_nfb_id__isnull=True)
     res_data = []
