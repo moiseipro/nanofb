@@ -4356,7 +4356,7 @@ def POST_update_archived_exs(request, cur_user):
                 continue
             if key == "scheme_1":
                 setattr(new_exs, 'scheme_1_old', getattr(t_exs, key))
-            if key == "scheme_2":
+            elif key == "scheme_2":
                 setattr(new_exs, 'scheme_2_old', getattr(t_exs, key))
             else:
                 setattr(new_exs, key, getattr(t_exs, key))
