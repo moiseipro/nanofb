@@ -4333,7 +4333,7 @@ def POST_update_archived_exs(request, cur_user):
         all_exs = UserExercise.objects.filter(user=cur_user, clone_nfb_id__isnull=True)
     res_data = []
     last_name = cur_user.personal.last_name.lower().replace(' ', '')
-    skip_keys = ["id", "date_creation", "tags", "folder", "features", "videos"]
+    skip_keys = {"id", "date_creation", "tags", "folder", "features", "videos"}
     for t_exs in all_exs:
         found_exs = TrainerExercise.objects.filter(
             Q(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday) & 
@@ -4352,17 +4352,18 @@ def POST_update_archived_exs(request, cur_user):
                 setattr(new_exs, 'exs_ref', getattr(t_exs, key))
             if key == "clone_nfb_id":
                 setattr(new_exs, 'exs_ref_nfb', getattr(t_exs, key))
-            if key not in skip_keys:
-                if key == "scheme_1" or key == "scheme_2":
-                    new_scheme_id = ""
-                    scheme_id = getattr(t_exs, key)
-                    response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                    r_json = response.json()
-                    if 'id' in r_json:
-                        new_scheme_id = r_json['id']
-                    setattr(new_exs, key, new_scheme_id)
-                else:
-                    setattr(new_exs, key, getattr(t_exs, key))
+            if key in skip_keys:
+                continue
+            if key == "scheme_1" or key == "scheme_2":
+                new_scheme_id = ""
+                scheme_id = getattr(t_exs, key)
+                # response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                # r_json = response.json()
+                # if 'id' in r_json:
+                #     new_scheme_id = r_json['id']
+                # setattr(new_exs, key, new_scheme_id)
+            else:
+                setattr(new_exs, key, getattr(t_exs, key))
         try:
             new_exs.save()
             if request.user.club_id is not None:
@@ -4372,6 +4373,7 @@ def POST_update_archived_exs(request, cur_user):
             for video in videos:
                 if video.type == 1 or video.type == 3:
                     new_exs.videos.through.objects.update_or_create(type=video.type, exercise_trainer=new_exs, defaults={"video": video.video})
+            new_exs.tags.add(*t_exs.tags.all())
             res_data.append({'id': new_exs.id, 'status': True})
         except Exception as e:
             res_data.append({'id': new_exs.id, 'status': False, 'err': str(e)})
