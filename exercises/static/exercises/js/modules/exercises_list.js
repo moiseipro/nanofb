@@ -84,7 +84,7 @@ function LoadFolderExercises() {
     }
     let activeRow = $('.folders_list').find('.list-group-item.active');
     let isClub = false;
-    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
     let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
     if (activeRow.length <= 0) {
         activeRow = $('.folders_club_list').find('.list-group-item.active');
@@ -366,7 +366,7 @@ function LoadExerciseOneHandler(checkHoveredAsActive = false) {
     let cId = $(activeExs).attr('data-id');
     let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
     let folderType = $('.folders_div.selected').attr('data-id');
-    let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+    let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
     let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
     let userId = "";
     if (isTrainer) {
@@ -942,7 +942,7 @@ $(function() {
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {
-        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+        if ($('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected')) {
             swal("Внимание", "Отключите упражнения тренера.", "info");
             return;
         }

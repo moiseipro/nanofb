@@ -210,7 +210,24 @@ function CountExsInFoldersByType() {
 
 function CountAllExsInList() {
     let res = $('.exercises-block').find('.exs-elem').length;
-    $('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
+    $(`.folders-toggle`).find('.exs_counter').html('');
+    $(`.folders-toggle[data-id="toggle_trainer"]`).find('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
+    
+    let tagsElems = $('.tag-select-search').find('option');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let tag = $(tagElem).attr('value');
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': tag, 
+            'type': "__is_trainer",
+            'filter': window.exercisesFilter
+        };
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
 }
 
 

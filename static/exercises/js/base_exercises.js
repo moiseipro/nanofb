@@ -4,10 +4,12 @@ function ToggleFolderTypeUI(fType="") {
     $('.folders_nfb_list').toggleClass('d-none', fType != "nfb_folders");
     $('.folders_club_list').toggleClass('d-none', fType != "club_folders");
     $('.folders_list').toggleClass('d-none', fType != "team_folders");
+    $('.folders_trainer_list').toggleClass('d-none', fType != "trainer_folder");
 
     $('.folders_nfb_list').toggleClass('selected', fType == "nfb_folders");
     $('.folders_club_list').toggleClass('selected', fType == "club_folders");
     $('.folders_list').toggleClass('selected', fType == "team_folders");
+    $('.folders_trainer_list').toggleClass('selected', fType == "trainer_folder");
 
     $('.exercises-list').find('.list-group-item:not(.side-filter-elem)').removeClass('active');
     $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
@@ -19,10 +21,12 @@ function ToggleFolderTypeUI(fType="") {
     $('.up-tabs-elem[data-id="nfb_folders"]').removeClass('selected3');
     $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
     $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
+    $('.up-tabs-elem[data-id="toggle_trainer"]').removeClass('selected3');
 
     $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', fType == "nfb_folders");
     $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', fType == "club_folders");
     $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', fType == "team_folders");
+    $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected', fType == "trainer_folder");
 
     $('.up-tabs-elem').toggleClass('b-c-green2', fType == "nfb_folders");
     $('.up-tabs-elem').toggleClass('b-c-red2', fType == "club_folders");
@@ -31,6 +35,10 @@ function ToggleFolderTypeUI(fType="") {
     $('.in-card-elem').toggleClass('b-c-green2', fType == "nfb_folders");
     $('.in-card-elem').toggleClass('b-c-red2', fType == "club_folders");
     $('.in-card-elem').toggleClass('b-c-blue2', fType == "team_folders");
+
+    $('.exs-edit-block').find('.btn-o-modal').parent().toggleClass('c-hidden', fType == "trainer_folder");
+    $('.exs-edit-block').find('.btn-edit-e[data-id="move"]').parent().toggleClass('c-hidden', fType == "trainer_folder");
+    $('.exs-edit-block').find('.btn-edit-e[data-id="trainer"]').parent().toggleClass('c-hidden', fType == "trainer_folder");
 }
 
 function ToggleUpFilter(id, state) {
@@ -164,31 +172,8 @@ function ToggleUpFilter(id, state) {
             $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "toggle_trainer":
-            $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('c-hidden', state);
-            $('.up-tabs-elem[data-id="club_folders"]').toggleClass('c-hidden', state);
-            $('.up-tabs-elem[data-id="team_folders"]').toggleClass('c-hidden', state);
-            $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('c-hidden', !state);
-            $('.up-tabs-elem[data-id="trainer_folders"]').toggleClass('d-none', !state);
-
-            $('.exs-list-group').toggleClass('trainer-list', state);
-
-            $('.folders_nfb_list').toggleClass('c-hidden', state);
-            $('.folders_club_list').toggleClass('c-hidden', state);
-            $('.folders_list').toggleClass('c-hidden', state);
-            $('.folders_trainer_list').toggleClass('c-hidden', !state);
-            $('.folders_trainer_list').toggleClass('d-none', !state);
-
-            $('.exs-edit-block').find('.btn-o-modal').parent().toggleClass('c-hidden', state);
-            $('.exs-edit-block').find('.btn-edit-e[data-id="move"]').parent().toggleClass('c-hidden', state);
-            $('.exs-edit-block').find('.btn-edit-e[data-id="trainer"]').parent().toggleClass('c-hidden', state);
-
-            if (state) {
-                $('#toggleFoldersViews').toggleClass('selected3', false);
-                LoadAllTeamFolders();
-            } else {
-                $('#toggleFoldersViews').toggleClass('selected3', $('#toggleFoldersViews').attr('data-state') != '0');
-                $('.exs-list-group').html('');
-            }
+            ToggleFolderTypeUI("trainer_folder");
+            LoadAllTeamFolders();
             break;
         case "share":
             if ($('.exercises-list').find('.exs-elem.active').length <= 0) {
@@ -1923,7 +1908,7 @@ $(function() {
             swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
             return;
         }
-        if (!$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none')) {
+        if ($('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected')) {
             $(e.currentTarget).removeClass('selected3');
             swal("Внимание", "Отключите упражнения тренера.", "info");
             return;
@@ -2277,7 +2262,7 @@ $(function() {
                     exsId.push($(elem).attr('data-id'));
                 });
             }
-            let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+            let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
             let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
             let fromNfbFolder = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none');
             let selectedFolder = $('#exerciseCopyModal').find('.list-group-item.active').find('.folder-copy-elem').attr('data-id');
@@ -2591,7 +2576,7 @@ $(function() {
         let state = $(currentTarget).hasClass('selected');
         let val = $(currentTarget).attr('data-val');
         let folderType = $('.folders_div.selected').attr('data-id');
-        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
         let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
         if (isTrainer) {folderType = "__is_trainer";}
         let userId = "";
@@ -2670,7 +2655,7 @@ $(function() {
         let fromNFB = !$('.exercises-list').find('.folders_nfb_list').hasClass('d-none') ? 1 : 0;
         let folderType = $('.folders_div.selected').attr('data-id');
         let valNoteTrainer = $('#exerciseNoteModal').find('textarea[name="note_trainer"]').val();
-        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
         let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
         if (isTrainer) {folderType = "__is_trainer";}
         let userId = "";
@@ -2896,7 +2881,7 @@ $(function() {
 
     // Open graphics in modal
     $('.visual-block').on('click', '.carousel-item', (e) => {
-        let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+        let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
         let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
         let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
         if (isTrainer) {folderType = "__is_trainer";}
@@ -3636,7 +3621,7 @@ $(function() {
                     exsId = $(activeExs).attr('data-id');
                 }
                 let folderType = $('.folders_div.selected').attr('data-id');
-                let isTrainer = $('.up-tabs-elem[data-id="trainer_folders"]').length > 0 && !$('.up-tabs-elem[data-id="trainer_folders"]').hasClass('d-none');
+                let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
                 if (isTrainer) {folderType = "__is_trainer";}
                 let folder = $('.folders-block').find('.list-group-item.active > div').attr('data-id');
                 let data = {'type': folderType, 'folder': folder, 'exs': exsId};

@@ -3790,9 +3790,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             r_json = response.json()
             if 'id' in r_json:
                 new_scheme_id = r_json['id']
-                c_exs[0].scheme_1 = new_scheme_id
-                c_exs[0].scheme_1_old = None
-                c_exs[0].save(update_fields=["scheme_1", "scheme_1_old"])
+                exs_to_save = c_exs.first()
+                exs_to_save.scheme_1 = new_scheme_id
+                exs_to_save.scheme_1_old = None
+                exs_to_save.save(update_fields=["scheme_1", "scheme_1_old"])
                 res_exs['scheme_1'] = new_scheme_id
         except Exception as e:
             pass
@@ -3802,9 +3803,10 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
             r_json = response.json()
             if 'id' in r_json:
                 new_scheme_id = r_json['id']
-                c_exs[0].scheme_2 = new_scheme_id
-                c_exs[0].scheme_2_old = None
-                c_exs[0].save(update_fields=["scheme_2", "scheme_2_old"])
+                exs_to_save = c_exs.first()
+                exs_to_save.scheme_2 = new_scheme_id
+                exs_to_save.scheme_2_old = None
+                exs_to_save.save(update_fields=["scheme_2", "scheme_2_old"])
                 res_exs['scheme_2'] = new_scheme_id
         except Exception as e:
             pass

@@ -68,11 +68,7 @@
 .card-inside {
     height: 88vh !important;
 }
-.folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list {
-    height: 77vh !important;
-    overflow-y: auto;
-}
-.folders_trainer_list {
+.folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list, .folders_trainer_list {
     height: 77vh !important;
     overflow-y: auto;
 }
@@ -285,6 +281,16 @@
     color: rgb(49, 49, 49) !important;
     background-color: #afafaf;
     border-color: #afafaf;
+}
+.btn-custom.custom-gray3 {
+    text-decoration: none !important;
+    color: whitesmoke !important;
+    background-color: #858585;
+    border-color: #858585;
+}
+.btn-custom.custom-gray3:hover {
+    background-color: #424242;
+    border-color: #424242;
 }
 
 
