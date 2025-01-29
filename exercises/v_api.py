@@ -4354,14 +4354,10 @@ def POST_update_archived_exs(request, cur_user):
                 setattr(new_exs, 'exs_ref_nfb', getattr(t_exs, key))
             if key in skip_keys:
                 continue
-            if key == "scheme_1" or key == "scheme_2":
-                new_scheme_id = ""
-                scheme_id = getattr(t_exs, key)
-                # response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                # r_json = response.json()
-                # if 'id' in r_json:
-                #     new_scheme_id = r_json['id']
-                # setattr(new_exs, key, new_scheme_id)
+            if key == "scheme_1":
+                setattr(new_exs, 'scheme_1_old', getattr(t_exs, key))
+            if key == "scheme_2":
+                setattr(new_exs, 'scheme_2_old', getattr(t_exs, key))
             else:
                 setattr(new_exs, key, getattr(t_exs, key))
         try:
