@@ -4333,7 +4333,7 @@ def POST_update_archived_exs(request, cur_user):
         all_exs = UserExercise.objects.filter(user=cur_user, clone_nfb_id__isnull=True)
     res_data = []
     last_name = cur_user.personal.last_name.lower().replace(' ', '')
-    skip_keys = {"id", "date_creation", "tags", "folder", "features", "videos"}
+    skip_keys = {"id", "date_creation", "tags", "folder", "features", "videos", "scheme_1_old", "scheme_2_old"}
     for t_exs in all_exs:
         found_exs = TrainerExercise.objects.filter(
             Q(user_name=last_name, user_birthdate=cur_user.personal.date_birthsday) & 
@@ -4352,13 +4352,12 @@ def POST_update_archived_exs(request, cur_user):
                 setattr(new_exs, 'exs_ref', getattr(t_exs, key))
             if key == "clone_nfb_id":
                 setattr(new_exs, 'exs_ref_nfb', getattr(t_exs, key))
-            if key == "scheme_1":
-                setattr(new_exs, 'scheme_1_old', getattr(t_exs, key))
-            if key == "scheme_2":
-                setattr(new_exs, 'scheme_2_old', getattr(t_exs, key))
             if key in skip_keys:
                 continue
-            setattr(new_exs, key, getattr(t_exs, key))
+            if key == "scheme_1" or key == "scheme_2":
+                setattr(new_exs, f'{key}_old', getattr(t_exs, key))
+            else:
+                setattr(new_exs, key, getattr(t_exs, key))
         try:
             new_exs.save()
             if request.user.club_id is not None:
