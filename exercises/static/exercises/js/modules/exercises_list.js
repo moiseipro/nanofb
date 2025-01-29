@@ -214,7 +214,7 @@ function RenderFolderExercises(id, tExs) {
                         <span class=""> g </span>
                     </button>
                     ` : ``}
-                    ${exElem.trainer_exs_copied ? `
+                    ${exElem.trainer_exs_copied && false ? `
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer_copied" title="Уже скопировано!">
                         X2
                     </button>

@@ -757,30 +757,30 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             elif folder_type == utils.FOLDER_TRAINER:
                 exercise['in_trainer_folder'] = True
                 found_exs = None
-                if req.user.club_id is not None:
-                    if req.user.has_perm('clubs.club_admin'):
-                        teams = ClubTeam.objects.filter(club_id=req.user.club_id)
-                    else:
-                        teams = ClubTeam.objects.filter(club_id=req.user.club_id, users=req.user)
-                    found_exs = ClubExercise.objects.filter(
-                        Q(user=cur_user, club=req.user.club_id, team__in=teams) &
-                        Q(
-                            Q(id=exercise['exs_ref']) | Q(id=exercise['exs_ref_nfb']) |
-                            Q(Q(clone_nfb_id__isnull=False) & Q(clone_nfb_id=exercise['exs_ref_nfb'])) |
-                            Q(Q(clone_archive_id__isnull=False) & Q(clone_archive_id=exercise['id']))
-                        )
-                    ).first()
-                else:
-                    found_exs = UserExercise.objects.filter(
-                        Q(user=cur_user) &
-                        Q(
-                            Q(id=exercise['exs_ref']) | Q(id=exercise['exs_ref_nfb']) |
-                            Q(Q(clone_nfb_id__isnull=False) & Q(clone_nfb_id=exercise['exs_ref_nfb'])) |
-                            Q(Q(clone_archive_id__isnull=False) & Q(clone_archive_id=exercise['id']))
-                        )
-                    ).first()
-                if found_exs:
-                    exercise['trainer_exs_copied'] = True
+                # if req.user.club_id is not None:
+                #     if req.user.has_perm('clubs.club_admin'):
+                #         teams = ClubTeam.objects.filter(club_id=req.user.club_id)
+                #     else:
+                #         teams = ClubTeam.objects.filter(club_id=req.user.club_id, users=req.user)
+                #     found_exs = ClubExercise.objects.filter(
+                #         Q(user=cur_user, club=req.user.club_id, team__in=teams) &
+                #         Q(
+                #             Q(id=exercise['exs_ref']) | Q(id=exercise['exs_ref_nfb']) |
+                #             Q(Q(clone_nfb_id__isnull=False) & Q(clone_nfb_id=exercise['exs_ref_nfb'])) |
+                #             Q(Q(clone_archive_id__isnull=False) & Q(clone_archive_id=exercise['id']))
+                #         )
+                #     ).first()
+                # else:
+                #     found_exs = UserExercise.objects.filter(
+                #         Q(user=cur_user) &
+                #         Q(
+                #             Q(id=exercise['exs_ref']) | Q(id=exercise['exs_ref_nfb']) |
+                #             Q(Q(clone_nfb_id__isnull=False) & Q(clone_nfb_id=exercise['exs_ref_nfb'])) |
+                #             Q(Q(clone_archive_id__isnull=False) & Q(clone_archive_id=exercise['id']))
+                #         )
+                #     ).first()
+                # if found_exs:
+                #     exercise['trainer_exs_copied'] = True
             else:
                 exercise['in_trainer_folder'] = False
             user_params = None
