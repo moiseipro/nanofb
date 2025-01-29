@@ -4323,10 +4323,10 @@ def POST_update_archived_exs(request, cur_user):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     all_exs = []
     if request.user.club_id is not None:
-        if request.user.has_perm('clubs.club_admin'):
-            teams = ClubTeam.objects.filter(club_id=request.user.club_id)
-        else:
-            teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
+        # if request.user.has_perm('clubs.club_admin'):
+        #     teams = ClubTeam.objects.filter(club_id=request.user.club_id)
+        # else:
+        #     teams = ClubTeam.objects.filter(club_id=request.user.club_id, users=request.user)
         # all_exs = ClubExercise.objects.filter(team__in=teams, club=request.user.club_id, clone_nfb_id__isnull=True)
         all_exs = ClubExercise.objects.filter(user=cur_user, club=request.user.club_id, clone_nfb_id__isnull=True)
     else:
@@ -4355,7 +4355,8 @@ def POST_update_archived_exs(request, cur_user):
             if key in skip_keys:
                 continue
             if key == "scheme_1" or key == "scheme_2":
-                setattr(new_exs, f'{key}_old', getattr(t_exs, key))
+                tmp_key = f'{key}_old'
+                setattr(new_exs, tmp_key, getattr(t_exs, key))
             else:
                 setattr(new_exs, key, getattr(t_exs, key))
         try:
