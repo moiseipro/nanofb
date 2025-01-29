@@ -3793,6 +3793,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 c_exs[0].scheme_1 = new_scheme_id
                 c_exs[0].scheme_1_old = None
                 c_exs[0].save()
+                res_exs['scheme_1'] = new_scheme_id
         except Exception as e:
             pass
     if res_exs['scheme_2_old'] is not None:
@@ -3804,6 +3805,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
                 c_exs[0].scheme_2 = new_scheme_id
                 c_exs[0].scheme_2_old = None
                 c_exs[0].save()
+                res_exs['scheme_2'] = new_scheme_id
         except Exception as e:
             pass
     if folder_type == utils.FOLDER_USERS_EXS:
