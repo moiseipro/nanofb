@@ -3784,6 +3784,28 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     res_exs['field_goalkeeper'] = utils.get_by_language_code(res_exs['field_goalkeeper'], request.LANGUAGE_CODE)
     res_exs['field_age'] = utils.get_by_language_code(res_exs['field_age'], request.LANGUAGE_CODE)
     res_exs['field_task'] = utils.get_by_language_code(res_exs['field_task'], request.LANGUAGE_CODE)
+    if res_exs['scheme_1_old'] is not None:
+        try:
+            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': res_exs['scheme_1_old']})
+            r_json = response.json()
+            if 'id' in r_json:
+                new_scheme_id = r_json['id']
+                c_exs[0].scheme_1 = new_scheme_id
+                c_exs[0].scheme_1_old = None
+                c_exs[0].save()
+        except Exception as e:
+            pass
+    if res_exs['scheme_2_old'] is not None:
+        try:
+            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': res_exs['scheme_2_old']})
+            r_json = response.json()
+            if 'id' in r_json:
+                new_scheme_id = r_json['id']
+                c_exs[0].scheme_2 = new_scheme_id
+                c_exs[0].scheme_2_old = None
+                c_exs[0].save()
+        except Exception as e:
+            pass
     if folder_type == utils.FOLDER_USERS_EXS:
          res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
     else:
