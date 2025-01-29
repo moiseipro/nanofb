@@ -4352,14 +4352,13 @@ def POST_update_archived_exs(request, cur_user):
                 setattr(new_exs, 'exs_ref', getattr(t_exs, key))
             if key == "clone_nfb_id":
                 setattr(new_exs, 'exs_ref_nfb', getattr(t_exs, key))
-            if key in skip_keys:
-                continue
             if key == "scheme_1":
                 setattr(new_exs, 'scheme_1_old', getattr(t_exs, key))
-            elif key == "scheme_2":
+            if key == "scheme_2":
                 setattr(new_exs, 'scheme_2_old', getattr(t_exs, key))
-            else:
-                setattr(new_exs, key, getattr(t_exs, key))
+            if key in skip_keys:
+                continue
+            setattr(new_exs, key, getattr(t_exs, key))
         try:
             new_exs.save()
             if request.user.club_id is not None:
