@@ -1084,6 +1084,7 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
         return JsonResponse({"err": "Cant find team.", "success": False}, status=400)
     success_status = False
     res_data = {'ids': [], 'exs_params': [], 'videos': [], 'err': []}
+    exs_to_copy_len = len(exs_ids)
     for exs_id in exs_ids:
         c_exs = None
         new_exs = None
@@ -1095,20 +1096,32 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                         if cur_user.is_superuser or "impersonate_is_superuser" in request.session:
                             new_exs = AdminExercise()
                     else:
+                        found_copied_exercise = None
                         if request.user.club_id is not None:
+                            found_copied_exercise = ClubExercise.objects.filter(club=request.user.club_id, team=found_team[0], folder=found_folder[0], clone_nfb_id=c_exs[0].id).first()
                             new_exs = ClubExercise(user=cur_user, club=request.user.club_id, team=found_team[0])
                         else:
+                            found_copied_exercise = UserExercise.objects.filter(user=cur_user, folder=found_folder[0], clone_nfb_id=c_exs[0].id).first()
                             new_exs = UserExercise(user=cur_user)
+                        if found_copied_exercise:
+                            continue
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
                             if key == "scheme_1" or key == "scheme_2":
-                                new_scheme_id = ""
-                                scheme_id = c_exs.values()[0][key]
-                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                                r_json = response.json()
-                                if 'id' in r_json:
-                                    new_scheme_id = r_json['id']
-                                setattr(new_exs, key, new_scheme_id)
+                                if exs_to_copy_len < 6:
+                                    new_scheme_id = ""
+                                    scheme_id = c_exs.values()[0][key]
+                                    response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                    r_json = response.json()
+                                    if 'id' in r_json:
+                                        new_scheme_id = r_json['id']
+                                    setattr(new_exs, key, new_scheme_id)
+                                else:
+                                    tmp_key = f'{key}_old'
+                                    setattr(new_exs, tmp_key, c_exs.values()[0][key])
+                            elif key == "scheme_1_old" or key == "scheme_2_old":
+                                if c_exs.values()[0][key] and c_exs.values()[0][key] != "":
+                                    setattr(new_exs, key, c_exs.values()[0][key])
                             else:
                                 setattr(new_exs, key, c_exs.values()[0][key])
                     new_exs.folder = found_folder[0]
@@ -1158,13 +1171,20 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation" and key != "team_id":
                             if key == "scheme_1" or key == "scheme_2":
-                                new_scheme_id = ""
-                                scheme_id = c_exs.values()[0][key]
-                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                                r_json = response.json()
-                                if 'id' in r_json:
-                                    new_scheme_id = r_json['id']
-                                setattr(new_exs, key, new_scheme_id)
+                                if exs_to_copy_len < 6:
+                                    new_scheme_id = ""
+                                    scheme_id = c_exs.values()[0][key]
+                                    response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                    r_json = response.json()
+                                    if 'id' in r_json:
+                                        new_scheme_id = r_json['id']
+                                    setattr(new_exs, key, new_scheme_id)
+                                else:
+                                    tmp_key = f'{key}_old'
+                                    setattr(new_exs, tmp_key, c_exs.values()[0][key])
+                            elif key == "scheme_1_old" or key == "scheme_2_old":
+                                if c_exs.values()[0][key] and c_exs.values()[0][key] != "":
+                                    setattr(new_exs, key, c_exs.values()[0][key])
                             else:
                                 setattr(new_exs, key, c_exs.values()[0][key])
                     new_exs.folder = found_folder[0]
@@ -1209,13 +1229,20 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
                             if key == "scheme_1" or key == "scheme_2":
-                                new_scheme_id = ""
-                                scheme_id = c_exs.values()[0][key]
-                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                                r_json = response.json()
-                                if 'id' in r_json:
-                                    new_scheme_id = r_json['id']
-                                setattr(new_exs, key, new_scheme_id)
+                                if exs_to_copy_len < 6:
+                                    new_scheme_id = ""
+                                    scheme_id = c_exs.values()[0][key]
+                                    response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                    r_json = response.json()
+                                    if 'id' in r_json:
+                                        new_scheme_id = r_json['id']
+                                    setattr(new_exs, key, new_scheme_id)
+                                else:
+                                    tmp_key = f'{key}_old'
+                                    setattr(new_exs, tmp_key, c_exs.values()[0][key])
+                            elif key == "scheme_1_old" or key == "scheme_2_old":
+                                if c_exs.values()[0][key] and c_exs.values()[0][key] != "":
+                                    setattr(new_exs, key, c_exs.values()[0][key])
                             else:
                                 setattr(new_exs, key, c_exs.values()[0][key])
                     new_exs.folder = found_folder[0]
@@ -1247,13 +1274,20 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                     for key in c_exs.values()[0]:
                         if key != "id" and key != "date_creation":
                             if key == "scheme_1" or key == "scheme_2":
-                                new_scheme_id = ""
-                                scheme_id = c_exs.values()[0][key]
-                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                                r_json = response.json()
-                                if 'id' in r_json:
-                                    new_scheme_id = r_json['id']
-                                setattr(new_exs, key, new_scheme_id)
+                                if exs_to_copy_len < 6:
+                                    new_scheme_id = ""
+                                    scheme_id = c_exs.values()[0][key]
+                                    response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                    r_json = response.json()
+                                    if 'id' in r_json:
+                                        new_scheme_id = r_json['id']
+                                    setattr(new_exs, key, new_scheme_id)
+                                else:
+                                    tmp_key = f'{key}_old'
+                                    setattr(new_exs, tmp_key, c_exs.values()[0][key])
+                            elif key == "scheme_1_old" or key == "scheme_2_old":
+                                if c_exs.values()[0][key] and c_exs.values()[0][key] != "":
+                                    setattr(new_exs, key, c_exs.values()[0][key])
                             else:
                                 setattr(new_exs, key, c_exs.values()[0][key])
                     new_exs.folder = found_folder[0]
@@ -1278,13 +1312,20 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                         setattr(new_exs, 'exs_ref', c_exs.values()[0][key])
                     if key != "id" and key != "date_creation":
                         if key == "scheme_1" or key == "scheme_2":
-                            new_scheme_id = ""
-                            scheme_id = c_exs.values()[0][key]
-                            response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
-                            r_json = response.json()
-                            if 'id' in r_json:
-                                new_scheme_id = r_json['id']
-                            setattr(new_exs, key, new_scheme_id)
+                            if exs_to_copy_len < 6:
+                                new_scheme_id = ""
+                                scheme_id = c_exs.values()[0][key]
+                                response = requests.post(f'{NEW_SCHEME_DRAWER_URL}/api/canvas-draw/v1/canvas/duplicate', json={'id': scheme_id})
+                                r_json = response.json()
+                                if 'id' in r_json:
+                                    new_scheme_id = r_json['id']
+                                setattr(new_exs, key, new_scheme_id)
+                            else:
+                                tmp_key = f'{key}_old'
+                                setattr(new_exs, tmp_key, c_exs.values()[0][key])
+                        elif key == "scheme_1_old" or key == "scheme_2_old":
+                            if c_exs.values()[0][key] and c_exs.values()[0][key] != "":
+                                setattr(new_exs, key, c_exs.values()[0][key])
                         else:
                             setattr(new_exs, key, c_exs.values()[0][key])
                 try:

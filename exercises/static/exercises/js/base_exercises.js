@@ -27,6 +27,7 @@ function ToggleFolderTypeUI(fType="") {
     $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', fType == "club_folders");
     $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', fType == "team_folders");
     $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected', fType == "trainer_folder");
+    $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected3', fType == "trainer_folder");
 
     $('.up-tabs-elem').toggleClass('b-c-green2', fType == "nfb_folders");
     $('.up-tabs-elem').toggleClass('b-c-red2', fType == "club_folders");
@@ -3333,6 +3334,31 @@ $(function() {
         $('#exerciseCopyModal').find('.btn-team').text(currentTeam);
         $('#exerciseCopyModal').modal('show'); 
     });
+    $('#copyExsNew').on('click', (e) => {
+        $(e.currentTarget).toggleClass('selected3', false);
+        $(e.currentTarget).attr('data-state', '0');
+        let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
+        if (isTrainer) {
+            swal("Внимание", "Чтобы скопировать упражнение из архива, просто выберите любое упражнение, а затем выберите папку из левой панели.", "info");
+            return;
+        }
+        let activeExs = $('.exs-list-group').find('.list-group-item.active');
+        let exsId = null;
+        let moveMode = "";
+        if (Array.isArray(window.selectedExercisesForDelete) && window.selectedExercisesForDelete.length > 0) {
+            exsId = window.selectedExercisesForDelete;
+            moveMode = "all";
+        } else {
+            if ($(activeExs).length > 0) {exsId = $(activeExs).attr('data-id');}
+        }
+        if (exsId === null) {
+            swal("Внимание", "Выберите упражнение / упражнения для копирования.", "info");
+            return;
+        }
+        $('#exerciseCopyFromFolderModal').find('.d-folders').html('');
+        $('#exerciseCopyFromFolderModal').find('[name="f_team"]').val($('#select-team').val()).trigger('change');
+        $('#exerciseCopyFromFolderModal').modal('show'); 
+    });
     $('#copyExsFromFolder').on('click', (e) => {
         $(e.currentTarget).toggleClass('selected3', false);
         $(e.currentTarget).attr('data-state', '0');
@@ -3413,13 +3439,21 @@ $(function() {
             return;
         }
         let activeExs = $('.exs-list-group').find('.list-group-item.active');
-        let exsId = $(activeExs).attr('data-id');
+        let exsId = null;
+        let moveMode = "";
+        if (Array.isArray(window.selectedExercisesForDelete) && window.selectedExercisesForDelete.length > 0) {
+            exsId = window.selectedExercisesForDelete;
+            moveMode = "all";
+        } else {
+            if ($(activeExs).length > 0) {exsId = $(activeExs).attr('data-id');}
+        }
         let folderType = $('.folders_div.selected').attr('data-id');
         let fromFolderId = $('.folders_div.selected').find('.list-group-item.active > div').attr('data-id');
         let chosenTeam = $(activeFolder).find('.tmp-folder-elem').attr('data-team');
         let chosenFolder = $(activeFolder).find('.tmp-folder-elem').attr('data-id');
         let data = {
             'copy_exs': 1,
+            'move_mode': moveMode,
             'exs': exsId,
             // 'from_folder': fromFolderId,
             'copy_to_nf': 0,
@@ -3449,6 +3483,7 @@ $(function() {
             complete: function (res) {
                 $('.page-loader-wrapper').fadeOut();
                 $('#exerciseCopyFromFolderModal').modal('hide');
+                IsSelectedExercisesForDelete(true);
             }
         });
     });

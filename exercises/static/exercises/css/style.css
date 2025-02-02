@@ -358,8 +358,9 @@
     border-width: 2px;
 }
 
-.folders-toggle {
+.folders-toggle:not(.selected) {
     opacity: 0.65 !important;
+    background-color: rgb(120, 120, 120) !important;
 }
 .folders-toggle.selected {
     opacity: 0.95 !important;

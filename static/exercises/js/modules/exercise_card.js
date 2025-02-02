@@ -1113,6 +1113,7 @@ function DeleteExerciseOne(exsId=null, folderType=null, isMultiExs=false) {
                 complete: function (res) {
                     $('.page-loader-wrapper').fadeOut();
                     $('#exerciseCopyModal').modal('hide');
+                    IsSelectedExercisesForDelete(true);
                 }
             });
         } else {

@@ -63,22 +63,25 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem up-tab-custom size-max-w-x tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" style="--w-max-x:5%;" data-state="0">
                                                 <span class="icon-custom icon--folder-2" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
                                             </button>
-                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x d-none" data-id="toggle_trainer" title="Архив упражнений тренера" style="--w-max-x:5%;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_trainer" title="Архив упражнений тренера" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-file-archive-o" aria-hidden="true" style="opacity: 1;"></i>
-                                            </button> -->
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-file-text-o" aria-hidden="true"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center up-tabs-elem size-max-w-x" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" style="--w-max-x:5%;" data-state="0">
                                                 <i class="fa fa-lg fa-id-card-o" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение" style="--w-max-x:5%;">
+                                                <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
+                                            </button> -->
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs {% if not user.is_superuser %}d-none{% endif %}" id="copyExsNew" title="Скопировать упражнение / упражнения" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExsFromFolder" title="Копирование упражнения между командными папками" style="--w-max-x:5%;">
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="copyExsFromFolder" title="Копирование упражнения между командными папками" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                                                 К
-                                            </button>
+                                            </button> -->
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="moveExs" title="Переместить упражнение" style="--w-max-x:5%;">
                                                 <i class="fa fa-lg fa-arrows-alt" aria-hidden="true"></i>
                                             </button> -->
@@ -1235,7 +1238,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
-                                    <div class="col-8">
+                                    <div class="col-12">
+                                        <h5>Внимание!</h5>
+                                        <h6>Упражнения NF, которые уже есть в выбранной папке, не будут копироваться автоматически.</h6>
+                                    </div>
+                                    <div class="col-8 mt-4">
                                         <h6>Выберите команду из списка</h6>
                                     </div>
                                     <div class="col-4">
