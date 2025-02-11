@@ -25,6 +25,9 @@ class PlayerRecord(models.Model):
 
 
 class PlayerCard(models.Model):
+    surname = models.CharField(max_length=30, default="")
+    name = models.CharField(max_length=30, default="")
+    patronymic = models.CharField(max_length=30, null=True, blank=True)
     citizenship = models.CharField(max_length=30, null=True, blank=True)
     club_from = models.CharField(max_length=30, null=True, blank=True)
     growth = models.IntegerField(null=True, blank=True)
