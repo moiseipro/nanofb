@@ -184,9 +184,6 @@ def POST_edit_player(request, cur_user, cur_team):
             c_player = c_player[0]
     if c_player == None:
             return JsonResponse({"err": "Player not found.", "success": False}, status=400)
-    c_player.surname = request.POST.get("data[surname]", "")
-    c_player.name = request.POST.get("data[name]", "")
-    c_player.patronymic = request.POST.get("data[patronymic]", "")
     c_player.is_archive = request.POST.get("data[is_archive]", "0") == '1'
 
     new_team_id = utils.set_value_as_int(request, "data[team]", None)
@@ -223,6 +220,9 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard = c_player.card
     if not c_player_playercard or not c_player_playercard.id == None:
         c_player_playercard = PlayerCard()
+    c_player_playercard.surname = request.POST.get("data[surname]", "")
+    c_player_playercard.name = request.POST.get("data[name]", "")
+    c_player_playercard.patronymic = request.POST.get("data[patronymic]", "")
     c_player_playercard.citizenship = request.POST.get("data[citizenship]", None)
     c_player_playercard.club_from = request.POST.get("data[club_from]", None)
     c_player_playercard.growth = utils.set_value_as_int(request, "data[growth]", None)
@@ -1227,7 +1227,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
         pass
     is_archive = request.GET.get('is_archive')
     columns = [
-        'id', 'surname', 'name', 'patronymic', 'card__birthsday', 
+        'id', 'card__surname', 'card__name', 'card__patronymic', 'card__birthsday', 
         'card__citizenship', 'team__name', 'card__ref_position__short_name', ['card__is_captain', 'card__is_vice_captain'], 
         'card__ref_foot__short_name', 'card__growth', 'card__weight', 'card__game_num', 
         'card__come', 'card__club_from', 'card__contract_with', 
@@ -1280,7 +1280,7 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 players = players.filter(is_archive=False)
         if is_for_table:
             if search_val and search_val != "":
-                players = players.filter(Q(surname__istartswith=search_val) | Q(name__istartswith=search_val) | Q(patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
+                players = players.filter(Q(card__surname__istartswith=search_val) | Q(card__name__istartswith=search_val) | Q(card__patronymic__istartswith=search_val) | Q(card__citizenship__istartswith=search_val) | Q(team__name__istartswith=search_val) | Q(card__club_from__istartswith=search_val))
             # players = players.order_by(f'{column_order_dir}{column_order}')[c_start:(c_start+c_length)] with pagination
             if isinstance(column_order, list):
                 for _i in range(len(column_order)):
@@ -1334,9 +1334,9 @@ def GET_get_players_json(request, cur_user, cur_team, is_for_table=True, return_
                 pass
             player_data = {
                 'id': player.id,
-                'surname': player.surname,
-                'name': player.name,
-                'patronymic': player.patronymic,
+                'surname': player.card.surname if player.card else "",
+                'name': player.card.name if player.card else "",
+                'patronymic': player.card.patronymic if player.card else "",
                 'archive': '1' if player.is_archive else '0',
                 'citizenship': player.card.citizenship if player.card else "",
                 'team': player.team.name if player.team else "",
@@ -1525,9 +1525,9 @@ def GET_get_players_documents(request, cur_user, cur_team):
                     player_docs[doc.type.id] = doc.id
             res_data.append({
                 'id': player.id,
-                'surname': player.surname,
-                'name': player.name,
-                'patronymic': player.patronymic,
+                'surname': player.card.surname if player.card else "",
+                'name': player.card.name if player.card else "",
+                'patronymic': player.card.patronymic if player.card else "",
                 'docs': player_docs
             })
     return JsonResponse({"data": res_data, "success": True}, status=200)

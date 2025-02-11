@@ -70,10 +70,10 @@ class AbstractPlayer(models.Model):
     objects = models.Manager()
 
     def get_full_name(self):
-        return f"{self.surname} {self.name} {self.patronymic}"
+        return f"{self.card.surname} {self.card.name} {self.card.patronymic}"
 
     def get_part_name(self):
-        return f"{self.surname} {self.name}"
+        return f"{self.card.surname} {self.card.name}"
 
     class Meta():
         abstract = True
@@ -83,7 +83,7 @@ class AbstractPlayer(models.Model):
         ]
 
     def __str__(self):
-        return f"[id: {self.id}] {self.surname} {self.name} {self.patronymic}"
+        return f"[id: {self.id}] {self.card.surname} {self.card.name} {self.card.patronymic}"
 
 
 class UserPlayer(AbstractPlayer):
