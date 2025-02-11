@@ -3,8 +3,15 @@
 from django.db import migrations, models
 
 def copy_player_data(apps, schema_editor):
-    AbstractPlayer = apps.get_model('players', 'AbstractPlayer')
-    for player in AbstractPlayer.objects.all():
+    UserPlayer = apps.get_model('players', 'UserPlayer')
+    for player in UserPlayer.objects.all():
+        player_card = player.card
+        player_card.surname = player.surname
+        player_card.name = player.name
+        player_card.patronymic = player.patronymic
+        player_card.save()
+    ClubPlayer = apps.get_model('players', 'ClubPlayer')
+    for player in ClubPlayer.objects.all():
         player_card = player.card
         player_card.surname = player.surname
         player_card.name = player.name
