@@ -282,7 +282,7 @@ def GET_get_analytics_in_team(request, cur_user, cur_team, cur_season, options_s
         players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
-            'name': f'{player.surname} {player.name}',
+            'name': f'{player.card.surname} {player.card.name}',
             'res_matches': json.loads(json.dumps(res_matches)), 
             'res_trainings': json.loads(json.dumps(res_trainings)), 
             'res_protocols': json.loads(json.dumps(res_protocols))
@@ -655,7 +655,7 @@ def GET_get_analytics_by_folders_in_team(request, cur_user, cur_team, cur_season
         players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
-            'name': f'{player.surname} {player.name}',
+            'name': f'{player.card.surname} {player.card.name}',
             'res_trainings': json.loads(json.dumps(res_trainings))
         }
     season_type = None
@@ -864,7 +864,7 @@ def GET_get_analytics_blocks(request, cur_user, cur_team, cur_season, options_sh
         players = UserPlayer.objects.filter(team=cur_team, user=cur_user, is_archive=False)
     for player in players:
         res_data['players'][player.id] = {
-            'name': f'{player.surname} {player.name}',
+            'name': f'{player.card.surname} {player.card.name}',
             'res_trainings': {}, 
         }
     season_type = None
