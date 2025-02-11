@@ -71,7 +71,14 @@ class Club(ClubLimitations):
         null=False,
         blank=False,
     )
-
+    separate_database = models.CharField(
+        max_length=30,
+        verbose_name=_('Name of the separate database'),
+        help_text=_('Settings for separate database check in settings.py -> DATABASES.'),
+        null=True,
+        blank=True,
+    )
+    
     def __str__(self):
         return self.name
 
