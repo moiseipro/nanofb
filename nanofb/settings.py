@@ -47,6 +47,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'dbbackup',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,6 +135,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'nanofb.wsgi.application'
+
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': '/var/backups/db'}
 
 
 # Database
