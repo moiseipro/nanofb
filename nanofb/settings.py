@@ -139,6 +139,7 @@ WSGI_APPLICATION = 'nanofb.wsgi.application'
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': '/var/backups/db'}
+DBBACKUP_KEEP_BACKUPS = 5
 
 
 # Database
