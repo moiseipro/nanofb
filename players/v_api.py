@@ -246,12 +246,12 @@ def POST_edit_player(request, cur_user, cur_team):
     c_player_playercard.is_vice_captain = utils.set_value_as_int(request, "data[is_vice_captain]", 0)
     c_player_playercard.field_labels = request.POST.get("data[field_labels]", None)
     try:
-        c_player_playercard.save()
+        c_player_playercard.save(current_user=cur_user)
         c_player.card = c_player_playercard
         c_player.save()
         res_data += '\nAdded player card for player.'
-    except:
-        res_data += '\nErr while saving player card.'
+    except Exception as e:
+        res_data += f'\nErr while saving player card ({e}).'
     
     record_dates = request.POST.getlist("data[record_dates]")
     record_notes = request.POST.getlist("data[record_notes]")

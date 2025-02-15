@@ -317,6 +317,3 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
-
-# DATABASE_ROUTERS = ['users.db_router.UserDatabaseRouter', 'players.db_router.PlayerDatabaseRouter']

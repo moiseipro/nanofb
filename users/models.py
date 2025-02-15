@@ -1,8 +1,9 @@
 from datetime import date, timedelta, datetime
 
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save, post_delete
+from django.forms.models import model_to_dict
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
@@ -193,6 +194,40 @@ class UserPersonal(models.Model):
         verbose_name = _('Personal information')
 
 
+@receiver(post_save, sender=UserPersonal)
+def sync_to_secondary_db(sender, instance, created, **kwargs):
+    separate_db = None
+    try:
+        current_user = User.objects.filter(personal=instance.pk).first()
+        current_club = Club.objects.filter(pk=current_user.club_id.id).first()
+        separate_db = current_club.separate_database
+    except Exception as e:
+        pass
+    if instance._state.db != 'default':
+        return
+    if separate_db and separate_db != "":
+        with transaction.atomic(using=separate_db):
+            instance_data = model_to_dict(instance)
+            UserPersonal.objects.using(separate_db).update_or_create(
+                pk=instance.pk,
+                defaults=instance_data
+            )
+@receiver(post_delete, sender=UserPersonal)
+def delete_from_secondary_db(sender, instance, **kwargs):
+    separate_db = None
+    try:
+        current_user = User.objects.filter(personal=instance.pk).first()
+        current_club = Club.objects.filter(pk=current_user.club_id.id).first()
+        separate_db = current_club.separate_database
+    except Exception as e:
+        pass
+    if instance._state.db != 'default':
+        return
+    if separate_db and separate_db != "":
+        with transaction.atomic(using=separate_db):
+            UserPersonal.objects.using(separate_db).filter(pk=instance.pk).delete()
+
+
 class UserPayment(models.Model):
     last_invoice_id = models.IntegerField(null=True, blank=True, default=None)
     autopay_id = models.IntegerField(null=True, blank=True, default=None)
@@ -302,7 +337,7 @@ class User(AbstractUser, Limitations):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-    objects = CustomUserManager()
+    objects = CustomUserManager(UserPersonal=UserPersonal)
 
     def __str__(self):
         return self.email

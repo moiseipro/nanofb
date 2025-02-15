@@ -1,5 +1,9 @@
 from statistics import mode
-from django.db import models
+from django.db import models, transaction, connections
+from django.db.models import QuerySet
+from django.db.models.signals import pre_save, post_save, post_delete
+from django.forms.models import model_to_dict
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 from django.utils import timezone
@@ -15,6 +19,40 @@ def file_size(value):
     if value.size > limit:
         raise ValidationError('File too large. Size should not exceed 25 MiB.')
 
+
+class PlayerManager(models.Manager):
+    def fake_data_receiving(self, data):
+        data = data if isinstance(data, list) else [data]
+        if self.db != 'default':
+            return False
+        separate_db = None
+        try:
+            f_elem = data[0].first() if isinstance(data[0], QuerySet) else data[0]
+            current_club = Club.objects.filter(pk=f_elem.user.club_id.id).first()
+            separate_db = current_club.separate_database
+        except Exception as e:
+            pass
+        fake_data = []
+        if separate_db and separate_db != "":
+            for elem in data:
+                f_elem = elem.first() if isinstance(elem, QuerySet) else elem
+                try:
+                    fake_data.append(
+                        PlayerCard.objects.using(separate_db).filter(pk=f_elem.card.id).first()
+                    )
+                except Exception as e:
+                    pass
+        return fake_data
+
+    def get(self, *args, **kwargs):
+        instance = super().get(*args, **kwargs)
+        self.fake_data_receiving(instance)
+        return instance
+    
+    def filter(self, *args, **kwargs):
+        instances = super().filter(*args, **kwargs)
+        self.fake_data_receiving(instances)
+        return instances
 
 
 class PlayerRecord(models.Model):
@@ -56,6 +94,45 @@ class PlayerCard(models.Model):
 
     objects = models.Manager()
 
+    def save(self, *args, **kwargs):
+        self.current_user = kwargs.pop('current_user', None)
+        super().save(*args, **kwargs)
+
+
+@receiver(post_save, sender=PlayerCard)
+def sync_to_secondary_db(sender, instance, created, **kwargs):
+    separate_db = None
+    current_user = getattr(instance, 'current_user', None)
+    try:
+        current_club = Club.objects.filter(pk=current_user.club_id.id).first()
+        separate_db = current_club.separate_database
+    except Exception as e:
+        pass
+    if instance._state.db != 'default':
+        return
+    if separate_db and separate_db != "":
+        with transaction.atomic(using=separate_db):
+            instance_data = model_to_dict(instance)
+            del instance_data['records']
+            PlayerCard.objects.using(separate_db).update_or_create(
+                pk=instance.pk,
+                defaults=instance_data
+            )
+@receiver(post_delete, sender=PlayerCard)
+def delete_from_secondary_db(sender, instance, **kwargs):
+    separate_db = None
+    current_user = getattr(instance, 'current_user', None)
+    try:
+        current_club = Club.objects.filter(pk=current_user.club_id.id).first()
+        separate_db = current_club.separate_database
+    except Exception as e:
+        pass
+    if instance._state.db != 'default':
+        return
+    if separate_db and separate_db != "":
+        with transaction.atomic(using=separate_db):
+            PlayerCard.objects.using(separate_db).filter(pk=instance.pk).delete()
+
 
 class AbstractPlayer(models.Model):
     date_creation = models.DateField(auto_now_add=True)
@@ -67,7 +144,7 @@ class AbstractPlayer(models.Model):
     photo = models.ImageField(upload_to='players/img/uploads', null=True, blank=True)
     card = models.ForeignKey(PlayerCard, on_delete=models.CASCADE, null=True, blank=True)
 
-    objects = models.Manager()
+    objects = PlayerManager()
 
     def get_full_name(self):
         return f"{self.card.surname} {self.card.name} {self.card.patronymic}"
