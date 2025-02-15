@@ -208,6 +208,7 @@ def sync_to_secondary_db(sender, instance, created, **kwargs):
     if separate_db and separate_db != "":
         with transaction.atomic(using=separate_db):
             instance_data = model_to_dict(instance)
+            del instance_data['trainer_license']
             UserPersonal.objects.using(separate_db).update_or_create(
                 pk=instance.pk,
                 defaults=instance_data
