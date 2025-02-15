@@ -116,6 +116,9 @@ def sync_to_secondary_db(sender, instance, created, **kwargs):
             del instance_data['records']
             del instance_data['ref_team_status']
             del instance_data['ref_player_status']
+            del instance_data['ref_level']
+            del instance_data['ref_position']
+            del instance_data['ref_foot']
             PlayerCard.objects.using(separate_db).update_or_create(
                 pk=instance.pk,
                 defaults=instance_data
