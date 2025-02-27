@@ -227,6 +227,6 @@ class NewUserForm(UserCreationForm):
 
 
 class NewLoginForm(AuthenticationForm):
-    # username = forms.EmailField(required=True, widget=text_widget)
-    password = forms.CharField(required=True, widget=password_widget, label="Пароль")
+    username = forms.EmailField(required=True, widget=text_widget)
+    # password = forms.CharField(required=True, widget=password_widget, label="Пароль")
 
