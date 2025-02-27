@@ -40,7 +40,7 @@ def login_req(request):
             else:
                 messages.error(request, _("Invalid email or password."))
         else:
-            messages.error(request, _("Invalid email or password.") + str(form.errors))
+            messages.error(request, _("Invalid email or password.") + str(form.errors) + str(form.cleaned_data) + str(request.POST))
     form = NewLoginForm()
     return render(request=request, template_name="authorization/login.html", context={"login_form": form})
 
