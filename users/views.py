@@ -274,10 +274,10 @@ class UserManagementApiView(viewsets.ModelViewSet):
                 'message': _('The message was sent successfully!'),
             }
             return Response(response, status=status.HTTP_200_OK)
-        except:
+        except Exception as e:
             response = {
                 'status': 'error',
-                'message': _('Error sending the message!'),
+                'message': _('Error sending the message!') + str(e),
             }
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
