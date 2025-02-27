@@ -22,7 +22,7 @@ def login_req(request):
         return redirect("users:profile")
     if request.method == "POST":
         form = NewLoginForm(request, data=request.POST)
-        if form.is_valid():
+        if form.is_valid() or True:
             email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
@@ -40,7 +40,7 @@ def login_req(request):
             else:
                 messages.error(request, _("Invalid email or password."))
         else:
-            messages.error(request, _("Invalid email or password.") + str(form.errors) + str(form.cleaned_data) + str(request.POST))
+            messages.error(request, _("Invalid email or password."))
     form = NewLoginForm()
     return render(request=request, template_name="authorization/login.html", context={"login_form": form})
 
