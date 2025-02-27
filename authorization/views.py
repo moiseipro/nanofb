@@ -38,9 +38,9 @@ def login_req(request):
                 messages.info(request, _("You are now logged in as ")+email)
                 return redirect("users:profile")
             else:
-                messages.error(request, _("Invalid email or password.") + form.errors.as_data())
+                messages.error(request, _("Invalid email or password."))
         else:
-            messages.error(request, _("Invalid email or password."))
+            messages.error(request, _("Invalid email or password.") + form.errors.as_data())
     form = NewLoginForm()
     return render(request=request, template_name="authorization/login.html", context={"login_form": form})
 
