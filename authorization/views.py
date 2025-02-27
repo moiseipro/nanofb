@@ -22,7 +22,7 @@ def login_req(request):
         return redirect("users:profile")
     if request.method == "POST":
         form = NewLoginForm(request, data=request.POST)
-        if form.is_valid() or True:
+        if form.is_valid():
             email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
@@ -33,7 +33,6 @@ def login_req(request):
                     #     if len(user.groups.all()) == 0:
                     #         print(version_groups)
                     #         user.groups.set(version_groups)
-
                 login(request, user)
                 messages.info(request, _("You are now logged in as ")+email)
                 return redirect("users:profile")
