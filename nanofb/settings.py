@@ -198,13 +198,15 @@ CACHES = {
 
 
 # EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = email_props.HOST
 EMAIL_PORT = email_props.PORT
+EMAIL_USE_SSL = email_props.USE_SSL
 EMAIL_HOST_USER = email_props.HOST_USER
 EMAIL_HOST_PASSWORD = email_props.HOST_PASSWORD
-EMAIL_USE_SSL = email_props.USE_SSL
-# EMAIL_USE_TLS = email_props.USE_TLS
-
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
