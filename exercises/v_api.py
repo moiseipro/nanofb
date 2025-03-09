@@ -658,7 +658,14 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if filter_new_folder_exs != -1:
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
-        f_exercises = f_exercises.filter(date_editing_folder__range=[startdate, enddate])
+        # f_exercises = f_exercises.filter(date_editing_folder__range=[startdate, enddate])
+        f_exercises = f_exercises.filter(
+            Q(
+                Q(date_editing_folder__range=[startdate, enddate]) |
+                Q(date_editing__range=[startdate, enddate]) |
+                Q(date_creation__range=[startdate, enddate])
+            )
+        )
     if filter_editing_exs != -1:
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
