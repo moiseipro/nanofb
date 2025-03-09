@@ -365,6 +365,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_favorite = -1
     filter_new_exs = -1
     filter_new_folder_exs = -1
+    filter_new_folder_exs_day = -1
     filter_editing_exs = -1
     filter_search = ""
     filter_tags = []
@@ -412,6 +413,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_new_folder_exs = int(req.GET.get("filter[new_folder_exs]", -1))
         elif req.method == "POST":
             filter_new_folder_exs = int(req.POST.get("filter[new_folder_exs]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_new_folder_exs_day = int(req.GET.get("filter[new_folder_exs_day]", -1))
+        elif req.method == "POST":
+            filter_new_folder_exs_day = int(req.POST.get("filter[new_folder_exs_day]", -1))
     except:
         pass
     try:
@@ -659,6 +667,16 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
         # f_exercises = f_exercises.filter(date_editing_folder__range=[startdate, enddate])
+        f_exercises = f_exercises.filter(
+            Q(
+                Q(date_editing_folder__range=[startdate, enddate]) |
+                Q(date_editing__range=[startdate, enddate]) |
+                Q(date_creation__range=[startdate, enddate])
+            )
+        )
+    if filter_new_folder_exs_day != -1:
+        enddate = datetime.date.today()
+        startdate = enddate - datetime.timedelta(days=1)
         f_exercises = f_exercises.filter(
             Q(
                 Q(date_editing_folder__range=[startdate, enddate]) |
