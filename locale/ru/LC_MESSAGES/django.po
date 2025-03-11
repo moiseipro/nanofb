@@ -2383,7 +2383,7 @@ msgstr "Создать пользователя"
 #: .\clubs\templates\clubs\mail\email.html:7 .\clubs\views.py:90
 #: .\users\views.py:127
 msgid "Registration on the Nanofootball website"
-msgstr "Регистрация на сайте Nanofootball"
+msgstr "Регистрация на сайте nanofootball.ru"
 
 #: .\clubs\templates\clubs\mail\email.html:10
 msgid "To log in to the site, use this data."
