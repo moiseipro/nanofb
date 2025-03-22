@@ -1866,8 +1866,9 @@ $(function() {
         let text = state.text;
         let color = $(state.element).attr('data-color');
         let tagClass = $(state.element).attr('data-tag-class');
+        let tagNum = $(state.element).attr('data-tag-num');
         let $state = $(`
-            <span class="${tagClass}" style="--color: ${color};"></span>
+            <span class="${tagClass}" style="--color: ${color};">${tagNum}</span>
             <span>${text}</span>
         `);
         return $state;

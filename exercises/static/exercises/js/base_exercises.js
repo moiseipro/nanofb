@@ -3068,7 +3068,7 @@ $(function() {
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
         $('#toggleExsEditPanel').toggleClass('selected3', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
-        $('.btns-tabs-first').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
+        // $('.btns-tabs-first').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
@@ -3077,7 +3077,7 @@ $(function() {
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
         $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
-        $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
+        // $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf:not(.d-no)').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
@@ -3086,7 +3086,7 @@ $(function() {
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
         $('#toggleExsEditPanel').toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
-        $('.btns-tabs-first').removeClass('d-none');
+        // $('.btns-tabs-first').removeClass('d-none');
         sessionStorage.setItem("exercises__exs_edit_panel", 0);
     });
     $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {

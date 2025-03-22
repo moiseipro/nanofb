@@ -244,6 +244,10 @@
     background-color: #c57474;
     border-color: #c57474;
 }
+.btn-custom.btn-thick {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+}
 
 .btn-custom.custom-blue2 {
     text-decoration: none !important;
@@ -812,10 +816,25 @@ input.exs-search {
     border-radius: 0%;
     display: inline-block;
 }
+.tag-circle {
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    color: #5e5e5e;
+    border: 2px solid var(--color);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+}
+
 
 .custom-border-top {
     border-top: 1px solid var(--color);
 }
+
 
 
 .btn-link.collapsed {

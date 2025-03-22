@@ -1108,6 +1108,7 @@ $(function() {
             let tagCount = $(state.element).attr('data-tag-count');
             let tagVisible = $(state.element).attr('data-visible');
             let tagCategory = $(state.element).attr('data-category');
+            let tagNum = $(state.element).attr('data-tag-num');
             let hideByCategory = false;
             let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
             for (let i = 0; i < chosenTags.length; i++) {
@@ -1121,7 +1122,7 @@ $(function() {
             let $state = $(`
                 <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'}">
                     <div class="col-9">
-                        <span class="${tagClass}" style="--color: ${color};"></span>
+                        <span class="tag-ico ${tagClass}" style="--color: ${color};">${tagNum}</span>
                         <span class="">${text}</span>
                     </div>
                     <div class="col-3 d-flex justify-content-end">

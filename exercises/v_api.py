@@ -963,6 +963,18 @@ def get_exercises_tags(request, user, team, only_visible=False):
         query_user_str &= Q(visible=True)
     tags['nfb'] = ExerciseTag.objects.filter(query_nfb_str)
     tags['categories']['nfb'] = ExerciseTagCategory.objects.filter(query_nfb_str)
+    tags_counter = {'-1': 0}
+    for category in tags['categories']['nfb']:
+        tags_counter[category.id] = 0
+    for tag in tags['nfb']:
+        current_num = 0
+        if tag.category:
+            tags_counter[tag.category.id] += 1
+            current_num = tags_counter[tag.category.id]
+        else:
+            tags_counter['-1'] += 1
+            current_num = tags_counter['-1']
+        setattr(tag, 'c_num', current_num)
     if request.user.club_id is not None:
         tags['self'] = ExerciseTag.objects.filter(query_club_str)
         tags['categories']['self'] = ExerciseTagCategory.objects.filter(query_club_str)
@@ -4019,7 +4031,8 @@ def GET_get_exs_all_tags(request, cur_user, cur_team):
             'name': entry.name,
             'lowercase_name': entry.lowercase_name,
             'category': entry.category.id if getattr(entry, 'category') is not None else "",
-            'color': entry.category.color if getattr(entry, 'category') is not None else ""
+            'color': entry.category.color if getattr(entry, 'category') is not None else "",
+            'c_num': getattr(entry, 'c_num') if hasattr(entry, 'c_num') else ""
         })
     for entry in tags['self']:
         data['self'].append({
@@ -4027,7 +4040,8 @@ def GET_get_exs_all_tags(request, cur_user, cur_team):
             'name': entry.name,
             'lowercase_name': entry.lowercase_name,
             'category': entry.category.id if getattr(entry, 'category') is not None else "",
-            'color': entry.category.color if getattr(entry, 'category') is not None else ""
+            'color': entry.category.color if getattr(entry, 'category') is not None else "",
+            'c_num': getattr(entry, 'c_num') if hasattr(entry, 'c_num') else ""
         })
     for entry in tags['categories']['nfb']:
         data['categories']['nfb'].append({
