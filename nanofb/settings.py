@@ -37,11 +37,14 @@ ALLOWED_HOSTS = [
     'https.nanofootball.ru', 'https://www.nanofootball.ru', 'https://nanofootball.ru', 'http://nanofootball.ru',
     'nanofootball.info', 'www.nanofootball.info', 'http.nanofootball.info',
     'https.nanofootball.info', 'https://www.nanofootball.info', 'https://nanofootball.info', 'http://nanofootball.info',
+    'nanofootball.kz', 'www.nanofootball.kz', 'http.nanofootball.kz',
+    'https.nanofootball.kz', 'https://www.nanofootball.kz', 'https://nanofootball.kz', 'http://nanofootball.kz',
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://nanofootball.com', 'https://www.nanofootball.com', 
     'https://nanofootball.ru', 'https://www.nanofootball.ru',
     'https://nanofootball.info', 'https://www.nanofootball.info',
+    'https://nanofootball.kz', 'https://www.nanofootball.kz',
 ]
 
 # Application definition
