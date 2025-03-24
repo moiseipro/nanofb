@@ -1539,8 +1539,7 @@ $(function() {
     let selectedTeam = $('#select-team').val();
     if (selectedTeam && selectedTeam != "") {
         let tText = $('#select-team').find(`option[value="${selectedTeam}"]`).text();
-        // $('.up-block-content').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`"${tText}"`);
-        // $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').first().text(`"${tText}"`);
+        $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').text(`"${tText}"`);
     }
 
     // Toggle upper buttons panel
