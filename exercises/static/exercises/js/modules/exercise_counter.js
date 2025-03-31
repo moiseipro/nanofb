@@ -72,6 +72,13 @@ function CountExsInTagsFilterAjaxReq(data, tagElem) {
                     $('.exs-panel-filtering').find('.tag-select-search').select2('open');
                 }
             } catch {}
+            try {
+                let status = $('.exs-panel-filtering').find('.tag-folder-select-search').attr('data-status');
+                if (status == "open") {
+                    $('.exs-panel-filtering').find('.tag-folder-select-search').select2('close');
+                    $('.exs-panel-filtering').find('.tag-folder-select-search').select2('open');
+                }
+            } catch {}
         }
     });
 }
@@ -160,6 +167,24 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
             'call': CountExsInTagsFilterAjaxReq(data, tagElem)
         });
     }
+
+    tagsElems = $('.tag-folder-select-search').find('option');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let tag = $(tagElem).attr('value');
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': tag, 
+            'type': folderType, 'folder': folderId, 'exercise': exerciseId,
+            'tags_folder': 1,
+            'filter': window.exercisesFilter
+        };
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
+
     let callsList = window.count_exs_calls.map(obj => obj.call);
     if (useFilter) {
         $.when.apply($, callsList).then(() => {
@@ -195,8 +220,16 @@ function CountFilteredExs() {
 
 function CountExsInFoldersByType() {
     let res = 0;
-    let currentFolderId = $('.folders-block').find('.folders_div.selected').attr('data-id');
-    $('.folders-block').find('.folders_div.selected').find('[data-root="0"]').find('.folder-exs-counter').each((ind, elem) =>{
+    // let currentFolderId = $('.folders-block').find('.folders_div.selected').attr('data-id');
+    let foldersBlock = $('.folders-block').find('.folders_div.selected:visible');
+    if ($(foldersBlock).length == 0) {
+        foldersBlock = $('.folders-block').find('.folders_div:visible').first();
+    }
+    let elems = $(foldersBlock).find('[data-root="0"]');
+    if ($(elems).length == 0) {
+        elems = $(foldersBlock).find('[data-id]');
+    }
+    $(elems).find('.folder-exs-counter').each((ind, elem) =>{
         let tVal = 0;
         try {
             tVal = parseInt($(elem).text());
@@ -222,6 +255,23 @@ function CountAllExsInList() {
         let data = {
             'count_exs_in_tags_filter': 1, 'tag': tag, 
             'type': "__is_trainer",
+            'filter': window.exercisesFilter
+        };
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
+
+    tagsElems = $('.tag-folder-select-search').find('option');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let tag = $(tagElem).attr('value');
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': tag, 
+            'type': "__is_trainer",
+            'tags_folder': 1,
             'filter': window.exercisesFilter
         };
         window.count_exs_calls.push({

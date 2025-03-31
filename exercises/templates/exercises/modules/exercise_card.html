@@ -172,7 +172,7 @@
                                                 </tr>
                                                 
                                                 
-                                                <tr class="bck-custom border-y-custom" data-id="card_block">
+                                                <tr class="bck-custom border-y-custom d-none" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">игроки</span>
                                                     </td>
@@ -183,7 +183,7 @@
                                                         <input name="field_players_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="50">
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom border-y-custom" data-id="card_block">
+                                                <tr class="bck-custom border-y-custom d-none" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">возраст</span>
                                                     </td>
@@ -194,7 +194,7 @@
                                                         <input name="field_age_b" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="по" autocomplete="off" min="0" max="150">
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                                                <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">мяч</span>
                                                     </td>
@@ -209,7 +209,7 @@
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                                                <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">ворота</span>
                                                     </td>
@@ -224,7 +224,7 @@
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                                                <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                                                     <td class="text-left bck-light-gray text-uppercase border-top-light align-middle">
                                                         <span class="ml-2 mt-1">Категория</span>
                                                     </td>
@@ -265,6 +265,17 @@
                                                                     {{ tag.name }}
                                                                 </option>
                                                             {% endfor %} -->
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
+                                                    <td colspan="3">
+                                                        <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
+                                                            {% for tag in exercises_tags_folder.nfb %}
+                                                                <option value="{{ tag.name }}" data-tag-num="{{ tag.c_num }}">
+                                                                    {{ tag.short_name }}. {{ tag.name }}
+                                                                </option>
+                                                            {% endfor %}
                                                         </select>
                                                     </td>
                                                 </tr>

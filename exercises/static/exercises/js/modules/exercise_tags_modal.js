@@ -115,7 +115,7 @@ function RenderExercisesTagsAll(data) {
                 let tagHtml = `
                     <span class="drag mx-1" draggable="true" ondragstart="drag(event)" id="ex_tag_${type}_${i}" data-id="${elem.id}" data-category-id="${elem.category}">
                         <a class="btn btn-sm btn-light">
-                            <span class="tag-ico ${type == "nfb" ? `tag-circle` : `tag-square`}" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};">${elem.c_num}</span>
+                            <span class="tag-ico ${type == "nfb" ? `tag-circle` : `tag-square`} d-none" style="--color: ${elem.color && elem.color != "" ? elem.color : ''};">${elem.c_num}</span>
                             <span class="mr-1">${elem.name}</span>
                             <span class="badge badge-danger tag-delete" title="Удалить элемент">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>

@@ -99,6 +99,9 @@ $(window).on('load', function (){
     $('#exsTagsRef').on('click', (e) => {
         $('#exerciseTagsModal').modal();
     });
+    $('#exsTagsFolderRef').on('click', (e) => {
+        $('#exerciseTagsFolderModal').modal();
+    });
     $('#exsFeaturesRef').on('click', (e) => {
         $('#exerciseFeaturesModal').modal();
     });

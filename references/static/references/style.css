@@ -67,3 +67,7 @@
     border: 2px solid black !important;
 }
 
+
+.tag-row.selected {
+    background-color: rgba(0, 100, 255, 0.6) !important;
+}

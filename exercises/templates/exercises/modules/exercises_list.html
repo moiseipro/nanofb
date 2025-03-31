@@ -103,35 +103,68 @@
         <div class="folders-container">
             {% if show_folders_button %}
             <div class="folders-toggle-container mx-2 {% if not user.is_superuser %}df-usr{% endif %}">
-                <ul class="list-group">
-                    <li class="list-group-item p-1">
+                <ul class="list-group folders-toggle-list">
+                    <li class="list-group-item folders-toggle-li p-1">
                         <div class="d-flex justify-content-between">
                             <div class="row mx-0 w-100">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-success btn-sm btn-custom btn-thick custom-green2 up-tabs-elem folders-toggle w-100" data-id="nfb_folders" title="Структура папок N.F.">
+                                    <button type="button" class="btn btn-light btn-sm border-bottom up-tabs-elem folders-toggle w-100 py-0" data-id="nfb_folders" title="Структура папок N.F.">
                                         <div class="">
-                                            <span class="text-center text-uppercase ml-2">n.f.</span>
+                                            <span class="text-center text-uppercase ml-2">Nano-Football</span>
                                         </div>
                                     </button>
                                 </div>
-                                {% if show_club_folders %}
-                                <div class="col-12 mt-1">
-                                    <button type="button" class="btn btn-warning btn-sm btn-custom btn-thick custom-red2 up-tabs-elem folders-toggle w-100" data-id="club_folders" title="Структура папок клуба">
+                            </div>
+                            <div class="pull-right border-left border-dark d-flex align-items-center">
+                                <div class="pull-right text-right" style="width: 45px;">
+                                    <span class="badge badge-danger exs_counter mr-1 mt-1" title="Кол-во упражнений в папке" style="color: #eaeaea;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% if show_club_folders %}
+                    <li class="list-group-item folders-toggle-li p-1">
+                        <div class="d-flex justify-content-between">
+                            <div class="row mx-0 w-100">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-light btn-sm border-bottom up-tabs-elem folders-toggle w-100 py-0" data-id="club_folders" title="Структура папок клуба">
                                         <div class="">
                                             <span class="text-center text-uppercase ml-2">клуб</span>
                                         </div>
                                     </button>
                                 </div>
-                                {% endif %}
-                                <div class="col-12 mt-1">
-                                    <button type="button" class="btn btn-sm btn-custom btn-thick custom-blue2 up-tabs-elem folders-toggle w-100" data-id="team_folders" title="Структура папок выбранной команды">
+                            </div>
+                            <div class="pull-right border-left border-dark d-flex align-items-center">
+                                <div class="pull-right text-right" style="width: 45px;">
+                                    <span class="badge badge-danger exs_counter mr-1 mt-1" title="Кол-во упражнений в папке" style="color: #eaeaea;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    <li class="list-group-item folders-toggle-li p-1">
+                        <div class="d-flex justify-content-between">
+                            <div class="row mx-0 w-100">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-light btn-sm border-bottom up-tabs-elem folders-toggle w-100 py-0" data-id="team_folders" title="Структура папок выбранной команды">
                                         <div class="">
                                             <span class="text-center text-uppercase ml-2">команда</span>
                                         </div>
                                     </button>
                                 </div>
+                            </div>
+                            <div class="pull-right border-left border-dark d-flex align-items-center">
+                                <div class="pull-right text-right" style="width: 45px;">
+                                    <span class="badge badge-danger exs_counter mr-1 mt-1" title="Кол-во упражнений в папке" style="color: #eaeaea;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item folders-toggle-user-exs-li p-1 d-none">
+                        <div class="d-flex justify-content-between">
+                            <div class="row mx-0 w-100">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-sm btn-custom btn-thick w-100 ml-1 d-none" data-id="users_exs_folders">
+                                    <button type="button" class="btn btn-light btn-sm border-bottom up-tabs-elem w-100 py-0 d-none" data-id="users_exs_folders">
                                         <div class="">
                                             <input type="search" class="form-control form-control-sm user-search" placeholder="Упражнения тренеров">
                                         </div>
@@ -143,7 +176,6 @@
                                     <span class="badge badge-danger exs_counter mr-1 mt-1" title="Кол-во упражнений в папке" style="color: #eaeaea;"></span>
                                 </div>
                             </div>
-
                         </div>
                     </li>
                 </ul>
@@ -230,7 +262,7 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                        <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="ball" data-val="true">
                                     <span class="icon-custom icon--ball mt-1" style="--i-w: 1.2em; --i-h: 1.2em;"></span>
@@ -248,7 +280,7 @@
                                 <span class="ml-2 mt-1">игроки</span>
                             </td>
                         </tr>
-                        <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                        <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="gate" data-val="g_big">
                                     G.
@@ -266,7 +298,7 @@
                                 <input name="field_players_a" class="form-control form-control-sm exs_edit_field field_pair text-center" type="number" value="" placeholder="с" autocomplete="off" min="0" max="50">
                             </td>
                         </tr>
-                        <tr class="bck-custom border-y-custom btn-fields" data-id="card_block">
+                        <tr class="bck-custom border-y-custom btn-fields d-none" data-id="card_block">
                             {% for elem in refs.exs_category %}
                             <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-block btn-custom btn-no-border in-card-elem py-custom-1" data-id="category" data-val="{{ elem.keycode }}">
@@ -315,6 +347,17 @@
                                             {{ tag.name }}
                                         </option>
                                     {% endfor %} -->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
+                            <td colspan="4">
+                                <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
+                                    {% for tag in exercises_tags_folder.nfb %}
+                                        <option value="{{ tag.name }}" data-tag-num="{{ tag.c_num }}">
+                                            {{ tag.short_name }}. {{ tag.name }}
+                                        </option>
+                                    {% endfor %}
                                 </select>
                             </td>
                         </tr>
@@ -450,6 +493,17 @@
                                         {{ tag.name }}
                                     </option>
                                 {% endfor %} -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0">
+                        <div class="ml-3 mt-1">
+                            <select class="select w-100 custom-select custom-select-sm tag-folder-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
+                                {% for tag in exercises_tags_folder.nfb %}
+                                    <option value="{{ tag.lowercase_name }}" data-tag-count="0" data-visible="1" data-tag-num="{{ tag.c_num }}">
+                                        {{ tag.short_name }}. {{ tag.name }}
+                                    </option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -803,7 +857,7 @@
                 <li class="side-filter-elem list-group-item py-0 px-0" data-type="tags" data-id="{{ tag.lowercase_name }}">
                     <div class="row w-100 mx-0">
                         <div class="col-10 text-left pr-1">
-                            <span class="tag-ico tag-circle mx-1" style="--color: {{ category.color }};">{{ tag.c_num }}</span>
+                            <span class="tag-ico tag-circle mx-1 d-none" style="--color: {{ category.color }};">{{ tag.c_num }}</span>
                             {{ tag.name }}
                         </div>
                         <div class="col-2 text-center px-0"></div>

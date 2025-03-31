@@ -1,6 +1,11 @@
 function ToggleFolderTypeUI(fType="") {
     $('.exs_counter').html("(...)");
 
+    $('.up-tabs-elem[data-id="nfb_folders"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "nfb_folders");
+    $('.up-tabs-elem[data-id="club_folders"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "club_folders");
+    $('.up-tabs-elem[data-id="team_folders"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "team_folders");
+    $('.up-tabs-elem[data-id="toggle_trainer"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "trainer_folder");
+
     $('.folders_nfb_list').toggleClass('d-none', fType != "nfb_folders");
     $('.folders_club_list').toggleClass('d-none', fType != "club_folders");
     $('.folders_list').toggleClass('d-none', fType != "team_folders");
@@ -28,6 +33,11 @@ function ToggleFolderTypeUI(fType="") {
     $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', fType == "team_folders");
     $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected', fType == "trainer_folder");
     $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected3', fType == "trainer_folder");
+
+    $('.up-tabs-elem[data-id="nfb_folders"]').closest('li').toggleClass('selected', fType == "nfb_folders");
+    $('.up-tabs-elem[data-id="club_folders"]').closest('li').toggleClass('selected', fType == "club_folders");
+    $('.up-tabs-elem[data-id="team_folders"]').closest('li').toggleClass('selected', fType == "team_folders");
+    $('.up-tabs-elem[data-id="toggle_trainer"]').closest('li').toggleClass('selected', fType == "trainer_folder");
 
     $('.up-tabs-elem').toggleClass('b-c-green2', fType == "nfb_folders");
     $('.up-tabs-elem').toggleClass('b-c-red2', fType == "club_folders");
@@ -206,6 +216,7 @@ function ToggleUpFilter(id, state) {
             $('.user-search').val('').trigger('change');
             try {
                 $('.exs-panel-filtering').find('.tag-select-search').val(null).trigger('change');
+                $('.exs-panel-filtering').find('.tag-folder-select-search').val(null).trigger('change');
             } catch(e) {}
             break;
         case "toggle_watched":
@@ -572,9 +583,10 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').toggleClass('selected3', state);
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').attr('data-state', state ? 1 : 0);
-
             $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', state);
             $('.btn[data-id="users_exs_folders"]').toggleClass('d-none', !state);
+            $('.folders-toggle-container').find('li.folders-toggle-li').toggleClass('c-hidden', state);
+            $('.folders-toggle-container').find('li.folders-toggle-user-exs-li').toggleClass('d-none', !state);
             $('.folders_div[data-id!="trainer_folders"]').toggleClass('c-hidden');
             $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !state);
             $('.folders_div').find('.list-group-item').removeClass('active');
@@ -594,6 +606,7 @@ function ToggleUpFilter(id, state) {
             $('.exs-edit-block').find('.exs-card-editor.no-in-users-exs').toggleClass('d-none', state);
             $('.btn-custom.empty-panel-usrs-exs').toggleClass('d-none', !state);
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').removeClass('d-none');
+            $('.exs_counter').html('...');
             if (state) {
                 $('.page-loader-wrapper').fadeIn();
                 $.ajax({
@@ -615,9 +628,12 @@ function ToggleUpFilter(id, state) {
                         console.log(res);
                     },
                     complete: function (res) {
+                        CountExsInFolder(false, true);
                         $('.page-loader-wrapper').fadeOut();
                     }
                 });
+            } else {
+                CountExsInFolder(false, true);
             }
             break;
         default:
@@ -634,12 +650,17 @@ function CheckLastExs() {
     if (window.lastExercise && window.lastExercise.type) {
         // $('.up-tabs-elem.folders-toggle').addClass('d-none');
         $('.up-tabs-elem.folders-toggle').removeClass('selected');
-        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
+        $('.up-tabs-elem.folders-toggle').closest('li').removeClass('selected');
+        // $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).addClass('selected');
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).closest('li').addClass('selected');
         $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
         $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).removeClass('d-none');
         $(`.folders-block > div.folders-container > div.folders_div[data-id="${window.lastExercise.type}"]`).addClass('selected');
+
+        $('.up-tabs-elem.folders-toggle').closest('li').find('.exs_counter').addClass('d-none');
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).closest('li').find('.exs_counter').removeClass('d-none');
         
         $('.toggle-filter-content').toggleClass('btn-custom-outline-blue', window.lastExercise.type == "team_folders");
         $('.toggle-filter-content').toggleClass('btn-custom-outline-red', window.lastExercise.type == "club_folders");
@@ -2580,7 +2601,7 @@ $(function() {
 
     // Open last exercise from card
     window.lastExercise = null;
-    CheckLastExs();
+    // CheckLastExs();
 
 
     // Toggle marker for exercise
@@ -2963,14 +2984,18 @@ $(function() {
         if (cFoldersSettings.type !== null && cFoldersSettings.type !== undefined) {
             // $('.up-tabs-elem.folders-toggle').addClass('d-none');
             $('.up-tabs-elem.folders-toggle').removeClass('selected');
-
+            $('.up-tabs-elem.folders-toggle').closest('li').removeClass('selected');
             // temp -> club folders are invisible
             if (cFoldersSettings.type == "club_folders") {
                 cFoldersSettings.type == "nfb_folders";
             }
-
             $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
             $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).addClass('selected');
+            $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).closest('li').addClass('selected');
+
+            $('.up-tabs-elem.folders-toggle').closest('li').find('.exs_counter').addClass('d-none');
+            $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).closest('li').find('.exs_counter').removeClass('d-none');
+
             $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
             $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');
             $(`.folders-block > div.folders-container > div.folders_div[data-id="${cFoldersSettings.type}"]`).removeClass('d-none');
@@ -3874,6 +3899,13 @@ $(function() {
                     for (let i = dataToSend.data['tags'].length-1; i >= 0; i--) {
                         if (Array.isArray(dataToSend.data['tags'][i])) {
                             dataToSend.data['tags'].splice(i, 1);
+                        }
+                    }
+                }
+                if (Array.isArray(dataToSend.data['tags_folder'])) {
+                    for (let i = dataToSend.data['tags_folder'].length-1; i >= 0; i--) {
+                        if (Array.isArray(dataToSend.data['tags_folder'][i])) {
+                            dataToSend.data['tags_folder'].splice(i, 1);
                         }
                     }
                 }
