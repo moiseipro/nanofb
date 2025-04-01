@@ -61,11 +61,11 @@ function EditExsTagFolderOne(id, name, type, short_name, toDelete=0) {
             if (res.success) {
                 LoadExercisesTagsFolderAll();
             } else {
-                swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно такой тэг уже занят.)", "error");
+                swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно ТАКОЙ ТЭГ УЖЕ ЗАНЯТ!) (Пустых тэгов не должно быть!)", "error");
             }
         },
         error: function (res) {
-            swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно такой тэг уже занят.)", "error");
+            swal("Ошибка", "Не удалось создать / изменить / удалить ключевое слово! (Возможно ТАКОЙ ТЭГ УЖЕ ЗАНЯТ!) (Пустых тэгов не должно быть!)", "error");
         },
         complete: function (res) {
             $('.page-loader-wrapper').fadeOut();
@@ -131,6 +131,7 @@ function SaveExsTagFolderOrder() {
         success: function (res) {
             if (res.success) {
                 swal("Успешно", "Порядок ключевых слов успешно обновлён.", "success");
+                LoadExercisesTagsFolderAll();
             } else {
                 swal("Ошибка", `При изменении порядка ключевых слов произошла ошибка (${res.err}).`, "error");
             }
