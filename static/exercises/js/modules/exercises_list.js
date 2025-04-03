@@ -1128,8 +1128,19 @@ $(function() {
                     break;
                 }
             }
+            if (!window.tagsSelectSearhLines) {
+                window.tagsSelectSearhLines = {};
+                $('.exs-panel-filtering').find(`.tag-select-search > option`).each((ind, elem) => {
+                    window.tagsSelectSearhLines[$(elem).attr('data-category')] = false;
+                });
+            }
+            let setBorder = false;
+            if (!window.tagsSelectSearhLines[tagCategory] && tagVisible == '1' && !hideByCategory) {
+                window.tagsSelectSearhLines[tagCategory] = true;
+                setBorder = true;
+            }
             let $state = $(`
-                <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'}">
+                <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'} ${setBorder ? 'category-split-line': ''}" style="${setBorder ? `--color: ${color};`: ''}">
                     <div class="col-9">
                         <span class="tag-ico ${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
                         <span class="">${text}</span>
@@ -1158,20 +1169,26 @@ $(function() {
             placeholder: "Тэги",
         })
         .on('select2:open', e => {
+            window.tagsSelectSearhLines = null;
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
             $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '75vh');
         })
         .on('select2:close', e => {
+            window.tagsSelectSearhLines = null;
             $(e.currentTarget).attr('data-status', 'close')
             $('.exs-list-group').removeClass('overflow-hidden')
         })
-        .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:selecting', e => {
+            $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop())
+        })
         .on('select2:select', e => {
             $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
             ToggleTagsSearch($(e.currentTarget).val());
         })
-        .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:unselecting', e => {
+            $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop())
+        })
         .on('select2:unselect', e => {
             $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
             ToggleTagsSearch($(e.currentTarget).val());

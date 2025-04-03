@@ -332,7 +332,7 @@
                             <td colspan="4">
                                 <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                     {% for tag in exercises_tags.nfb %}
-                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}">
+                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}" data-category="{{ tag.category.id }}">
                                             {% if tag.category %}
                                                 {{ tag.category.name }}. 
                                             {% endif %}
@@ -350,7 +350,7 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
+                        <!-- <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
                             <td colspan="4">
                                 <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                     {% for tag in exercises_tags_folder.nfb %}
@@ -360,7 +360,7 @@
                                     {% endfor %}
                                 </select>
                             </td>
-                        </tr>
+                        </tr> -->
 
                         <!-- {% if user.is_superuser %}
                         {% for feature in exercises_features %}
@@ -465,13 +465,13 @@
             </div>
             <div class="col-12 exs-panel-filtering d-flex">
                 <div class="row w-100">
-                    <div class="col-4 pr-0">
+                    <div class="col-6 pr-0">
                         <input type="text" class="form-control form-control-sm exs-search text-center" placeholder="Поиск" aria-controls="false">
                     </div>
-                    <div class="col-4 px-0">
+                    <!-- <div class="col-4 px-0">
                         <input type="number" class="form-control form-control-sm exs-age-filter text-center" placeholder="Возраст" aria-controls="false">
-                    </div>
-                    <div class="col-4 px-0">
+                    </div> -->
+                    <div class="col-6 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
                     <div class="col-12 px-0">
@@ -496,7 +496,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 px-0">
+                    <!-- <div class="col-12 px-0">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-folder-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags_folder.nfb %}
@@ -506,7 +506,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- {% if user.is_superuser %}

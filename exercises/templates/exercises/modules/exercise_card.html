@@ -250,7 +250,7 @@
                                                     <td colspan="3">
                                                         <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                             {% for tag in exercises_tags.nfb %}
-                                                                <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}">
+                                                                <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}" data-category="{{ tag.category.id }}">
                                                                     {% if tag.category %}
                                                                         {{ tag.category.name }}. 
                                                                     {% endif %}
@@ -268,7 +268,7 @@
                                                         </select>
                                                     </td>
                                                 </tr>
-                                                <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
+                                                <!-- <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
                                                     <td colspan="3">
                                                         <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                                             {% for tag in exercises_tags_folder.nfb %}
@@ -278,7 +278,7 @@
                                                             {% endfor %}
                                                         </select>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
 
                                                 <!-- <tr class="bck-custom border-y-custom">

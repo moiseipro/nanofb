@@ -1868,21 +1868,60 @@ $(function() {
         let text = state.text;
         let color = $(state.element).attr('data-color');
         let tagClass = $(state.element).attr('data-tag-class');
+        let tagCategory = $(state.element).attr('data-category');
+        let tagNum = $(state.element).attr('data-tag-num');
+        if (!window.tagsSelectCardLines) {
+            window.tagsSelectCardLines = {};
+            $('#exerciseCard').find(`.tag-select > option`).each((ind, elem) => {
+                window.tagsSelectCardLines[$(elem).attr('data-category')] = false;
+            });
+        }
+        let setBorder = false;
+        if (!window.tagsSelectCardLines[tagCategory]) {
+            window.tagsSelectCardLines[tagCategory] = true;
+            setBorder = true;
+        }
+        let $state = $(`
+            <div class="row mx-0 ${setBorder ? 'category-split-line': ''}" style="${setBorder ? `--color: ${color};`: ''}">
+                <div class="col-12">
+                    <span class="tag-ico ${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
+                    <span class="">${text}</span>
+                </div>
+            </div>
+        `);
+        return $state;
+    };
+    let templateSelect2Selection = (state) => {
+        if (!state.id) {
+            return state.text;
+        }
+        let text = state.text;
+        let color = $(state.element).attr('data-color');
+        let tagClass = $(state.element).attr('data-tag-class');
+        let tagCategory = $(state.element).attr('data-category');
         let tagNum = $(state.element).attr('data-tag-num');
         let $state = $(`
-            <span class="${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
-            <span>${text}</span>
+            <div class="row mx-0">
+                <div class="col-12">
+                    <span class="tag-ico ${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
+                    <span class="">${text}</span>
+                </div>
+            </div>
         `);
         return $state;
     };
     $('#exerciseCard').find('.exs_edit_field[name="tags"]').select2({
         closeOnSelect: false,
-        templateSelection: templateSelect2Result,
+        templateSelection: templateSelect2Selection,
         templateResult: templateSelect2Result,
         placeholder: "Тэги",
     })
     .on('select2:open', e => {
+        window.tagsSelectCardLines = null;
         $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '50vh');
+    })
+    .on('select2:close', e => {
+        window.tagsSelectCardLines = null;
     })
     .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
     .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))

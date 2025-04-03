@@ -73,7 +73,7 @@
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 70vh !important;
+    height: 73vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -969,4 +969,8 @@ tr[data-id="additional_characteristics_data_block"] .select2-selection--multiple
 }
 .folders-toggle-list > .list-group-item.selected span:not(.badge) {
     font-weight: bold !important;
+}
+
+.category-split-line {
+    border-top: 2px solid var(--color) !important;
 }
