@@ -1881,7 +1881,7 @@ $(function() {
         try {
             activeTags = JSON.parse(localStorage.getItem('exs_tags_active'));
         } catch(e) {}
-        let isActive = activeTags != null && activeTags.includes(tagId);
+        let isActive = activeTags == null || (activeTags != null && activeTags.includes(tagId));
         let setBorder = false;
         if (!window.tagsSelectCardLines[tagCategory] && isActive) {
             window.tagsSelectCardLines[tagCategory] = true;
