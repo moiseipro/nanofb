@@ -1870,19 +1870,25 @@ $(function() {
         let tagClass = $(state.element).attr('data-tag-class');
         let tagCategory = $(state.element).attr('data-category');
         let tagNum = $(state.element).attr('data-tag-num');
+        let tagId = $(state.element).attr('data-tag-id');
         if (!window.tagsSelectCardLines) {
             window.tagsSelectCardLines = {};
             $('#exerciseCard').find(`.tag-select > option`).each((ind, elem) => {
                 window.tagsSelectCardLines[$(elem).attr('data-category')] = false;
             });
         }
+        let activeTags = null;
+        try {
+            activeTags = JSON.parse(localStorage.getItem('exs_tags_active'));
+        } catch(e) {}
+        let isActive = activeTags != null && activeTags.includes(tagId);
         let setBorder = false;
-        if (!window.tagsSelectCardLines[tagCategory]) {
+        if (!window.tagsSelectCardLines[tagCategory] && isActive) {
             window.tagsSelectCardLines[tagCategory] = true;
             setBorder = true;
         }
         let $state = $(`
-            <div class="row mx-0 ${setBorder ? 'category-split-line': ''}" style="${setBorder ? `--color: ${color};`: ''}">
+            <div class="row mx-0 ${setBorder ? 'category-split-line': ''} ${isActive ? '': 'd-none'}" style="${setBorder ? `--color: ${color};`: ''}">
                 <div class="col-12">
                     <span class="tag-ico ${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
                     <span class="">${text}</span>
@@ -1927,6 +1933,50 @@ $(function() {
     .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))
     .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
     .on('select2:unselect', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')));
+
+    $('#exerciseCard').on('click', '.tags-active-change', (e) => {
+        $('#exerciseTagsActive').modal('show');
+    });
+    $('#exerciseTagsActive').on('show.bs.modal', (e) => {
+        let activeElems = null;
+        try {
+            activeElems = JSON.parse(localStorage.getItem('exs_tags_active'));
+        } catch(e) {}
+        let setActiveElems = activeElems === null;
+        let tagsHtml = "";
+        let tmpCategories = [];
+        $('#exerciseCard').find(`.tag-select > option`).each((ind, elem) => {
+            let tagId = $(elem).attr('data-tag-id');
+            let tagCategory = $(elem).attr('data-category');
+            let tagColor = $(elem).attr('data-color');
+            let tagValue = $(elem).text();
+            if (setActiveElems) {
+                if (activeElems === null) {activeElems = [];}
+                activeElems.push(tagId);
+            }
+            let setLine = false;
+            if (!tmpCategories.includes(tagCategory)) {
+                tmpCategories.push(tagCategory);
+                setLine = true;
+            }
+            let isDisabled = !activeElems.includes(tagId);
+            tagsHtml += `
+                <li class="list-group-item py-0 tag-item ${isDisabled ? 'tag-disabled' : ''} ${setLine ? 'category-split-line': ''}" data-id="${tagId}" style="${setLine ? `--color: ${tagColor};`: ''}">
+                    ${tagValue}
+                </li>
+            `;
+        });
+        $('#exerciseTagsActive').find('.tags-list').html(tagsHtml);
+    });
+    $('#exerciseTagsActive').on('click', '.tag-item', (e) => {
+        $(e.currentTarget).toggleClass('tag-disabled');
+        let activeElems = [];
+        $('#exerciseTagsActive').find('.tag-item:not(.tag-disabled)').each((ind, elem) => {
+            activeElems.push($(elem).attr('data-id'));
+        });
+        localStorage.setItem('exs_tags_active', JSON.stringify(activeElems));
+    });
+
 
     let templateSelect3Result = (state) => {
         if (!state.id) {

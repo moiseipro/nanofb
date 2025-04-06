@@ -73,7 +73,7 @@
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 70vh !important;
+    height: 72vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -973,4 +973,16 @@ tr[data-id="additional_characteristics_data_block"] .select2-selection--multiple
 
 .category-split-line {
     border-top: 2px solid var(--color) !important;
+}
+
+
+ul.tags-list > li.tag-item {
+    background-color: #238fd742;
+}
+ul.tags-list > li.tag-item:hover {
+    font-weight: bold !important;
+}
+ul.tags-list > li.tag-item.tag-disabled {
+    background-color: #a5a5a5;
+    opacity: 0.8;
 }

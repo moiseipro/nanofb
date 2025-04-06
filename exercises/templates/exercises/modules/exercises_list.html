@@ -7,6 +7,13 @@
                 </button>
             </div>
             <div class="col-12 px-0 mt-2">
+                <ul class="list-group exs-card-editor">
+                    <li class="list-group-item py-1 px-0">
+                        <button type="button" class="btn btn-sm btn-outline-success btn-block" id="createExercise" data-id="">
+                            Добавить
+                        </button>
+                    </li>
+                </ul>
                 <ul class="list-group exs-card-editor {% if not user.is_superuser %}d-e-nf{% endif %}">
                     <li class="list-group-item py-1 px-0">
                         <button type="button" class="btn btn-sm btn-outline-primary btn-block btn-o-modal" data-id="card">
@@ -58,6 +65,13 @@
                             Характеристики
                         </button>
                     </li> -->
+                </ul>
+                <ul class="list-group exs-card-editor">
+                    <li class="list-group-item py-1 px-0">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block" data-id="">
+                            Маркер
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div class="col-12 px-0 mt-2">
@@ -330,27 +344,36 @@
                         </tr>
                         <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_data_block">
                             <td colspan="4">
-                                <select name="tags" class="select w-100 custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
-                                    {% for tag in exercises_tags.nfb %}
-                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}" data-category="{{ tag.category.id }}">
-                                            {% if tag.category %}
-                                                {{ tag.category.name }}. 
-                                            {% endif %}
-                                            {{ tag.name }}
-                                        </option>
-                                    {% endfor %}
-                                    <!-- {% for tag in exercises_tags.self %}
-                                        <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
-                                            {% if tag.category %}
-                                                {{ tag.category.name }}. 
-                                            {% endif %}
-                                            {{ tag.name }}
-                                        </option>
-                                    {% endfor %} -->
-                                </select>
+                                <div class="row mx-0">
+                                    <div class="col-11 px-0">
+                                        <select name="tags" class="select custom-select custom-select-sm tag-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
+                                            {% for tag in exercises_tags.nfb %}
+                                                <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-num="{{ tag.c_num }}" data-category="{{ tag.category.id }}" data-tag-id="{{ tag.id }}">
+                                                    {% if tag.category %}
+                                                        {{ tag.category.name }}. 
+                                                    {% endif %}
+                                                    {{ tag.name }}
+                                                </option>
+                                            {% endfor %}
+                                            <!-- {% for tag in exercises_tags.self %}
+                                                <option value="{{ tag.name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-square">
+                                                    {% if tag.category %}
+                                                        {{ tag.category.name }}. 
+                                                    {% endif %}
+                                                    {{ tag.name }}
+                                                </option>
+                                            {% endfor %} -->
+                                        </select>
+                                    </div>
+                                    <div class="col-1 px-0">
+                                        <button type="button" class="btn btn-sm btn-secondary tags-active-change" title="Изменить видимость тэгов">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
-                        <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_2_data_block">
+                        <tr class="wider_row bck-custom border-top-custom d-none" data-id="additional_characteristics_2_data_block">
                             <td colspan="4">
                                 <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                     {% for tag in exercises_tags_folder.nfb %}
@@ -478,7 +501,7 @@
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags.nfb %}
-                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-count="0" data-visible="1" data-category="{{ tag.category.id }}" data-tag-num="{{ tag.c_num }}">
+                                    <option value="{{ tag.lowercase_name }}" data-color="{{ tag.category.color }}" data-tag-class="tag-circle" data-tag-count="0" data-visible="1" data-category="{{ tag.category.id }}" data-tag-num="{{ tag.c_num }}" data-tag-id="{{ tag.id }}">
                                         {% if tag.category %}
                                             {{ tag.category.name }}. 
                                         {% endif %}
@@ -496,7 +519,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 px-0">
+                    <div class="col-12 px-0 d-none">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-folder-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags_folder.nfb %}

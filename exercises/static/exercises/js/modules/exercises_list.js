@@ -1118,6 +1118,7 @@ $(function() {
             let tagVisible = $(state.element).attr('data-visible');
             let tagCategory = $(state.element).attr('data-category');
             let tagNum = $(state.element).attr('data-tag-num');
+            let tagId = $(state.element).attr('data-tag-id');
             let hideByCategory = false;
             let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
             for (let i = 0; i < chosenTags.length; i++) {
@@ -1134,13 +1135,18 @@ $(function() {
                     window.tagsSelectSearhLines[$(elem).attr('data-category')] = false;
                 });
             }
+            let activeTags = null;
+            try {
+                activeTags = JSON.parse(localStorage.getItem('exs_tags_active'));
+            } catch(e) {}
+            let isActive = activeTags != null && activeTags.includes(tagId);
             let setBorder = false;
-            if (!window.tagsSelectSearhLines[tagCategory] && tagVisible == '1' && !hideByCategory) {
+            if (!window.tagsSelectSearhLines[tagCategory] && tagVisible == '1' && !hideByCategory && isActive) {
                 window.tagsSelectSearhLines[tagCategory] = true;
                 setBorder = true;
             }
             let $state = $(`
-                <div class="row mx-0 ${tagVisible == '1' && !hideByCategory ? '' : 'd-none'} ${setBorder ? 'category-split-line': ''}" style="${setBorder ? `--color: ${color};`: ''}">
+                <div class="row mx-0 ${tagVisible == '1' && !hideByCategory && isActive ? '' : 'd-none'} ${setBorder ? 'category-split-line': ''}" style="${setBorder ? `--color: ${color};`: ''}">
                     <div class="col-9">
                         <span class="tag-ico ${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
                         <span class="">${text}</span>
