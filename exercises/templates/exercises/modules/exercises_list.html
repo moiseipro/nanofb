@@ -342,7 +342,7 @@
                                 <span class="">тэги</span>
                             </td>
                         </tr>
-                        <tr class="wider_row bck-custom border-top-custom" data-id="additional_characteristics_data_block">
+                        <tr class="wider_row bck-custom border-top-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="additional_characteristics_data_block">
                             <td colspan="4">
                                 <div class="row mx-0">
                                     <div class="col-11 px-0">
@@ -373,7 +373,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="wider_row bck-custom border-top-custom d-none" data-id="additional_characteristics_2_data_block">
+                        <tr class="wider_row bck-custom border-top-custom {% if not user.is_superuser %}d-none{% endif %}" data-id="additional_characteristics_2_data_block">
                             <td colspan="4">
                                 <select name="tags_folder" class="select w-100 custom-select custom-select-sm tag-folder-select exs_edit_field" multiple data-tags="true" data-theme="bootstrap4" disabled style="width: 100%;">
                                     {% for tag in exercises_tags_folder.nfb %}
@@ -497,7 +497,7 @@
                     <div class="col-6 px-0">
                         <input type="number" class="form-control form-control-sm exs-players-filter text-center" placeholder="Игроки" aria-controls="false">
                     </div>
-                    <div class="col-12 px-0">
+                    <div class="col-12 px-0 {% if not user.is_superuser %}d-none{% endif %}">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags.nfb %}
@@ -519,7 +519,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 px-0 d-none">
+                    <div class="col-12 px-0 {% if not user.is_superuser %}d-none{% endif %}">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-folder-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags_folder.nfb %}
