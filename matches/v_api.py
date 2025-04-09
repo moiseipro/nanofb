@@ -711,8 +711,8 @@ def GET_get_match_protocol(request, cur_user, cur_team):
     if protocol.exists() and protocol[0].id != None:
         for protocol_elem in protocol:
             protocol_dict = model_to_dict(protocol_elem)
-            protocol_dict['player_name'] = f"{protocol_elem.player.surname} {protocol_elem.player.name}"
-            protocol_dict['player_name_full'] = f"{protocol_elem.player.surname} {protocol_elem.player.name} {protocol_elem.player.patronymic}"
+            protocol_dict['player_name'] = f"{protocol_elem.player.card.surname} {protocol_elem.player.card.name}"
+            protocol_dict['player_name_full'] = f"{protocol_elem.player.card.surname} {protocol_elem.player.card.name} {protocol_elem.player.card.patronymic}"
             player_position = ""
             try:
                 player_position = protocol_elem.player.card.ref_position.short_name
