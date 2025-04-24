@@ -1,4 +1,11 @@
 function ToggleFolderTypeUI(fType="") {
+    if (window.exercisesFoldersTypeLast == "nfb_folders" || window.exercisesFoldersTypeLast == "team_folders") {
+        window.exercisesFoldersTypeLast = "";
+    }
+    if (fType == "trainer_folder") {
+        window.exercisesFoldersTypeLast = $('.folders-toggle.selected').attr('data-id');
+    }
+
     $('.exs_counter').html("(...)");
 
     $('.up-tabs-elem[data-id="nfb_folders"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "nfb_folders");
@@ -185,7 +192,11 @@ function ToggleUpFilter(id, state) {
             $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
             break;
         case "toggle_trainer":
-            ToggleFolderTypeUI("trainer_folder");
+            if (window.exercisesFoldersTypeLast == "nfb_folders" || window.exercisesFoldersTypeLast == "team_folders") {
+                ToggleFolderTypeUI(window.exercisesFoldersTypeLast);
+            } else {
+                ToggleFolderTypeUI("trainer_folder");
+            }
             LoadAllTeamFolders();
             break;
         case "share":
