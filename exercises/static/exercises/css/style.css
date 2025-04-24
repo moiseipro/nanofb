@@ -69,11 +69,11 @@
     height: 88vh !important;
 }
 .folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list, .folders_trainer_list {
-    height: 77vh !important;
+    height: 74vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 71vh !important;
+    height: 69vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {

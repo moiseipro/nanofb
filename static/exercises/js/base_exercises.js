@@ -27,12 +27,14 @@ function ToggleFolderTypeUI(fType="") {
     $('.up-tabs-elem[data-id="club_folders"]').removeClass('selected3');
     $('.up-tabs-elem[data-id="team_folders"]').removeClass('selected3');
     $('.up-tabs-elem[data-id="toggle_trainer"]').removeClass('selected3');
+    $('.up-tabs-elem[data-id="toggle_trainer"]').removeClass('active');
 
     $('.up-tabs-elem[data-id="nfb_folders"]').toggleClass('selected', fType == "nfb_folders");
     $('.up-tabs-elem[data-id="club_folders"]').toggleClass('selected', fType == "club_folders");
     $('.up-tabs-elem[data-id="team_folders"]').toggleClass('selected', fType == "team_folders");
     $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected', fType == "trainer_folder");
     $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('selected3', fType == "trainer_folder");
+    $('.up-tabs-elem[data-id="toggle_trainer"]').toggleClass('active', fType == "trainer_folder");
 
     $('.up-tabs-elem[data-id="nfb_folders"]').closest('li').toggleClass('selected', fType == "nfb_folders");
     $('.up-tabs-elem[data-id="club_folders"]').closest('li').toggleClass('selected', fType == "club_folders");

@@ -1121,14 +1121,14 @@ $(function() {
             let tagId = $(state.element).attr('data-tag-id');
             let hideByCategory = false;
             let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
-            // for (let i = 0; i < chosenTags.length; i++) {
-            //     let elem = chosenTags[i];
-            //     let fId = $('.exs-panel-filtering').find(`.tag-select-search > option[value="${elem}"]`).attr('data-category');
-            //     if (fId == tagCategory) {
-            //         hideByCategory = true;
-            //         break;
-            //     }
-            // }
+            for (let i = 0; i < chosenTags.length; i++) {
+                let elem = chosenTags[i];
+                let fId = $('.exs-panel-filtering').find(`.tag-select-search > option[value="${elem}"]`).attr('data-category');
+                if (fId == tagCategory) {
+                    hideByCategory = true;
+                    break;
+                }
+            }
             if (!window.tagsSelectSearhLines) {
                 window.tagsSelectSearhLines = {};
                 $('.exs-panel-filtering').find(`.tag-select-search > option`).each((ind, elem) => {
@@ -1178,7 +1178,7 @@ $(function() {
             window.tagsSelectSearhLines = null;
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
-            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '75vh');
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '40vh');
         })
         .on('select2:close', e => {
             window.tagsSelectSearhLines = null;
@@ -1240,7 +1240,7 @@ $(function() {
         .on('select2:open', e => {
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
-            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '75vh');
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '40vh');
         })
         .on('select2:close', e => {
             $(e.currentTarget).attr('data-status', 'close')
