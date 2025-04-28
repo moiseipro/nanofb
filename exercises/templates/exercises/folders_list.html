@@ -1,7 +1,7 @@
 <div class="folders_list folders_div selected mt-2 mx-2" data-id="team_folders">
     <ul class="list-group">
     {% for folder in folders %}
-        <li class="list-group-item p-1">
+        <li class="list-group-item px-1 py-0">
             <div class="folder-elem d-flex justify-content-between" 
                 data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                 data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0"
@@ -54,7 +54,7 @@
     <div class="folders_nfb_list folders_div mt-2 mx-2 d-none" data-id="nfb_folders">
         <ul class="list-group">
         {% for folder in nfb_folders %}
-            <li class="list-group-item p-1">
+            <li class="list-group-item px-1 py-0">
                 <div class="folder-nfb-elem d-flex justify-content-between" 
                     data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                     data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0" 
@@ -102,7 +102,7 @@
     <div class="folders_club_list folders_div mt-2 mx-2 d-none" data-id="club_folders">
         <ul class="list-group">
         {% for folder in club_folders %}
-            <li class="list-group-item p-1">
+            <li class="list-group-item px-1 py-0">
                 <div class="folder-club-elem d-flex justify-content-between" 
                     data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                     data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0"

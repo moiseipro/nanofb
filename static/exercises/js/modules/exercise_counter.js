@@ -51,12 +51,12 @@ function CountExsInTagsFilterAjaxReq(data, tagElem) {
             } else {
                 // $(tagElem).find('.row > div:nth-child(2)').html('...');
 
-                try {
-                    let cTags = $('.exs-panel-filtering').find('.tag-select-search').val();
-                    if (Array.isArray(cTags) && cTags.length != 0) {
-                        $(tagElem).attr('data-visible', '0');
-                    }
-                } catch {}
+                // try {
+                //     let cTags = $('.exs-panel-filtering').find('.tag-select-search').val();
+                //     if (Array.isArray(cTags) && cTags.length != 0) {
+                //         $(tagElem).attr('data-visible', '0');
+                //     }
+                // } catch {}
                 
                 $(tagElem).attr('data-tag-count', `...`);
             }

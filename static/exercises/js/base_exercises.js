@@ -1200,7 +1200,7 @@ function LoadAllTeamFolders() {
                     const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
                     res.data.forEach(row => {
                         htmlFolders += `
-                            <li class="list-group-item p-1 last-elem team-elem">
+                            <li class="list-group-item px-1 py-0 last-elem team-elem">
                                 <div class="trainer-folder-elem-team" data-team="${row.team.id}">
                                     <div class="pull-center d-flex justify-content-center">
                                         <span class="folder-title">Команда: ${row.team.name}</span>
@@ -1213,7 +1213,7 @@ function LoadAllTeamFolders() {
                                 let isLastElem = subfolder_i == folder.subfolders.length-1;
                                 let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
                                 htmlFolders += `
-                                    <li class="list-group-item p-1 ${isLastElem ? 'last-elem' : ''}">
+                                    <li class="list-group-item px-1 py-0 ${isLastElem ? 'last-elem' : ''}">
                                         <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
                                             <div class="pull-left">
                                                 <span class="folder-title">${shortName}. ${subfolder.name}</span>
@@ -1491,7 +1491,7 @@ function RenderUsersExsContent(data, withTitles=true) {
     if (Array.isArray(data) && data.length > 0) {
         let htmlBlocksByClubs = {};
         let htmlNoClubsStr = `
-            <li class="list-group-item p-1 club-title ${withTitles ? 'd-visible' : 'd-none'}" data-club="-1">
+            <li class="list-group-item px-1 py-0 club-title ${withTitles ? 'd-visible' : 'd-none'}" data-club="-1">
                 <div class="d-flex justify-content-center">
                     <div class="">
                         <span class="folder-title text-uppercase font-weight-bold">без клуба</span>
@@ -1504,7 +1504,7 @@ function RenderUsersExsContent(data, withTitles=true) {
             if (elem['club_id']) {
                 if (!(elem['club_id'] in htmlBlocksByClubs)) {
                     htmlBlocksByClubs[elem['club_id']] = `
-                        <li class="list-group-item p-1 club-title ${withTitles ? 'd-visible d-visible-off' : 'd-none'}" data-club="${elem['club_id']}">
+                        <li class="list-group-item px-1 py-0 club-title ${withTitles ? 'd-visible d-visible-off' : 'd-none'}" data-club="${elem['club_id']}">
                             <div class="d-flex justify-content-center">
                                 <div class="">
                                     <span class="folder-title text-uppercase font-weight-bold">${elem['club']}</span>
@@ -1514,7 +1514,7 @@ function RenderUsersExsContent(data, withTitles=true) {
                     `;
                 }
                 htmlBlocksByClubs[elem['club_id']] += `
-                    <li class="list-group-item p-1 ${withTitles ? 'd-none' : ''}" data-club="${elem['club_id']}">
+                    <li class="list-group-item px-1 py-0 ${withTitles ? 'd-none' : ''}" data-club="${elem['club_id']}">
                         <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                             <div class="pull-left">
                                 <button type="button" class="btn btn-sm btn-empty">
@@ -1533,7 +1533,7 @@ function RenderUsersExsContent(data, withTitles=true) {
                 `;
             } else {
                 htmlNoClubsStr += `
-                    <li class="list-group-item p-1" data-club="-1">
+                    <li class="list-group-item px-1 py-0" data-club="-1">
                         <div class="d-flex justify-content-between" data-id="${elem['id']}" title="${elem['email']}">
                             <div class="pull-left">
                                 <button type="button" class="btn btn-sm btn-empty">
@@ -3952,8 +3952,13 @@ $(function() {
         $(e.currentTarget).toggleClass('btn-success', !isSelected);
         $(e.currentTarget).toggleClass('btn-secondary', isSelected);
         $(e.currentTarget).text(isSelected ? "Редактировать" : "Сохранить");
-
     });
+
+    // Toggle Marker Modal Ment
+    $('#toggleMarkerModal').on('click', (e) => {
+        $('#exerciseMarkerModal').modal('show');
+    });
+    
 
     // Toggle left menu
     setTimeout(() => {

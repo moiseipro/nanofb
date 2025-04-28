@@ -13,7 +13,7 @@
     <main class="">
         <div class="row">
             <div class="col-12">
-                <div class="card mb-1">
+                <div class="card mb-1 pb-4">
                     <div class="card-body p-1">
                         <div class="card-inside">
                             <div class="up-block-content d-flex justify-content-center">
@@ -1265,6 +1265,83 @@
                             </div>
                             <div class="col-12 d-folders"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseMarkerModal" tabindex="-1" role="dialog" aria-labelledby="exerciseMarkerModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Настройка маркера</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                Цвет фона:
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bg" id="bg1" value="" checked>
+                                    <label class="form-check-label" for="bg1">нет</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bg" id="bg2" value="#0000004f">
+                                    <label class="form-check-label" for="bg2">чёрный</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bg" id="bg3" value="#08ff004f">
+                                    <label class="form-check-label" for="bg3">зелёный</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bg" id="bg4" value="#ffa7004f">
+                                    <label class="form-check-label" for="bg4">оранжевый</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bg" id="bg5" value="#ff00004f">
+                                    <label class="form-check-label" for="bg5">красный</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-12">
+                                Начертание к тексту:
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_style" id="f_style1" value="" checked>
+                                    <label class="form-check-label" for="f_style1">нет</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_style" id="f_style2" value="bold">
+                                    <label class="form-check-label" for="f_style2">жирный</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_style" id="f_style3" value="italic">
+                                    <label class="form-check-label" for="f_style3">курсив</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_style" id="f_style4" value="underline">
+                                    <label class="form-check-label" for="f_style4">подчёркнутый</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h6>
+                            <span class="badge badge-danger">Внимание</span>
+                            <span>
+                                Настройки маркера сбрасываются после обновления страницы.
+                            </span>
+                        </h6>
+                        <h6>
+                            <span class="badge badge-danger">Внимание</span>
+                            <span>
+                                После выбора определенных опций нажмите правую кнопку мыши на упражнение, чтобы установить маркер. Нажмите повторно, чтобы убрать маркер.
+                            </span>
+                        </h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
             </div>

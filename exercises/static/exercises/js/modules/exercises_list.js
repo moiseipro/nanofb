@@ -191,12 +191,27 @@ function RenderFolderExercises(id, tExs) {
         try {
             isGoalSmall = exElem.field_goal.includes('g_small');
         } catch(e) {}
+        let markerClass = "";
+        let markerCSS = "";
+        let folderType = $('.folders_div.selected').attr('data-id');
+        try {
+            let markerExsData = JSON.parse(localStorage.getItem("exs_markers"));
+            if (!markerExsData) {markerExsData = {};}
+            let currentMarker = markerExsData[folderType][exElem.id];
+            Object.keys(currentMarker).forEach(key => {
+                let keyAsCSS = `--${key}-value`;
+                if (currentMarker[key] != "") {
+                    markerClass += `marker--${key} `;
+                    markerCSS += `--${key}-value:${currentMarker[key]};`
+                }
+            });
+        } catch(e) {}
         exsHtml += `
-        <li class="exs-elem list-group-item py-1 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''}" data-id="${exElem.id}" data-folder="${exElem.folder}">
+        <li class="exs-elem list-group-item py-0 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''} ${markerClass}" data-id="${exElem.id}" data-folder="${exElem.folder}" style="${markerCSS}">
             <div class="row w-100">
                 <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
-                        <span class="num">${i+1}.</span>
+                        <span class="num" style="font-size:1em; font-weight:bold;">${i+1}.</span>
                         <span class="title">
                             ${exElem.title == "" ? "-- None --" : exElem.title}
                         </span>
@@ -922,6 +937,42 @@ $(function() {
             AddExerciseToSelectedSlot();
         }
     });
+    $('.exercises-list').on('contextmenu', '.exs-elem', (e) => {
+        e.preventDefault();
+        let currentMarker = {
+            'bg': $('#exerciseMarkerModal').find('input[name="bg"]:checked').val(),
+            'f_style': $('#exerciseMarkerModal').find('input[name="f_style"]:checked').val(),
+        };
+        let markerExsData = {};
+        try {
+            markerExsData = JSON.parse(localStorage.getItem("exs_markers"));
+            if (!markerExsData) {markerExsData = {};}
+        } catch(e) {}
+        let exsID = $(e.currentTarget).attr('data-id');
+        let folderType = $('.folders_div.selected').attr('data-id');
+        if (!markerExsData.hasOwnProperty(folderType)) {markerExsData[folderType] = {};}
+        if (markerExsData[folderType].hasOwnProperty(exsID)) {
+            delete markerExsData[folderType];
+            Object.keys(currentMarker).forEach(key => {
+                let keyAsCSS = `--${key}-value`;
+                $(e.currentTarget).removeClass(`marker--${key}`);
+                $(e.currentTarget).css(keyAsCSS, '');
+            });
+        } else {
+            markerExsData[folderType][exsID] = currentMarker;
+            Object.keys(currentMarker).forEach(key => {
+                let keyAsCSS = `--${key}-value`;
+                if (currentMarker[key] != "") {
+                    $(e.currentTarget).addClass(`marker--${key}`);
+                    $(e.currentTarget).css(keyAsCSS, currentMarker[key]);
+                } else {
+                    $(e.currentTarget).removeClass(`marker--${key}`);
+                    $(e.currentTarget).css(keyAsCSS, '');
+                }
+            });
+        }
+        localStorage.setItem("exs_markers", JSON.stringify(markerExsData));
+    });
     window.currentExsHovered = -1;
     // $('.exercises-list').on('mouseover', '.exs-elem', (e) => {
     //     if ($(e.currentTarget).hasClass('exs-blocked')) {
@@ -1120,15 +1171,15 @@ $(function() {
             let tagNum = $(state.element).attr('data-tag-num');
             let tagId = $(state.element).attr('data-tag-id');
             let hideByCategory = false;
-            let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
-            for (let i = 0; i < chosenTags.length; i++) {
-                let elem = chosenTags[i];
-                let fId = $('.exs-panel-filtering').find(`.tag-select-search > option[value="${elem}"]`).attr('data-category');
-                if (fId == tagCategory) {
-                    hideByCategory = true;
-                    break;
-                }
-            }
+            // let chosenTags = window.exercisesFilter["tags"] ? window.exercisesFilter["tags"] : [];
+            // for (let i = 0; i < chosenTags.length; i++) {
+            //     let elem = chosenTags[i];
+            //     let fId = $('.exs-panel-filtering').find(`.tag-select-search > option[value="${elem}"]`).attr('data-category');
+            //     if (fId == tagCategory) {
+            //         hideByCategory = true;
+            //         break;
+            //     }
+            // }
             if (!window.tagsSelectSearhLines) {
                 window.tagsSelectSearhLines = {};
                 $('.exs-panel-filtering').find(`.tag-select-search > option`).each((ind, elem) => {
@@ -1172,13 +1223,14 @@ $(function() {
             closeOnSelect: false,
             templateSelection: templateSelect2Selection,
             templateResult: templateSelect2Result,
+            allowClear: true,
             placeholder: "Тэги",
         })
         .on('select2:open', e => {
             window.tagsSelectSearhLines = null;
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
-            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '40vh');
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '70vh');
         })
         .on('select2:close', e => {
             window.tagsSelectSearhLines = null;
@@ -1240,7 +1292,7 @@ $(function() {
         .on('select2:open', e => {
             $(e.currentTarget).attr('data-status', 'open')
             $('.exs-list-group').addClass('overflow-hidden')
-            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '40vh');
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '70vh');
         })
         .on('select2:close', e => {
             $(e.currentTarget).attr('data-status', 'close')

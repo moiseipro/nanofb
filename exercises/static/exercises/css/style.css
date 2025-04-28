@@ -566,6 +566,10 @@ tr.bck-custom > td {
 }
 
 
+.exs-list-group > .list-group-item:hover {
+    background-color: #efefef84;
+    color: #5a6268;
+}
 .exs-list-group > .list-group-item.active {
     background-color: #d4d4d4;
     border-color: #b9b8b8;
@@ -956,6 +960,7 @@ tr[data-id="additional_characteristics_data_block"] .select2-selection--multiple
     width: 100% !important;
 }
 
+
 .overflow-hidden {
     overflow-y: hidden !important;
 }
@@ -985,4 +990,13 @@ ul.tags-list > li.tag-item:hover {
 ul.tags-list > li.tag-item.tag-disabled {
     background-color: #a5a5a5;
     opacity: 0.8;
+}
+
+li.marker--bg {
+    background-color: var(--bg-value);
+}
+li.marker--f_style{
+    text-decoration: var(--f_style-value);
+    font-weight: var(--f_style-value);
+    font-style: var(--f_style-value);
 }

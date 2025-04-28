@@ -68,7 +68,7 @@
                 </ul>
                 <ul class="list-group exs-card-editor">
                     <li class="list-group-item py-1 px-0">
-                        <button type="button" class="btn btn-sm btn-outline-primary btn-block" data-id="">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-block" id="toggleMarkerModal">
                             Маркер
                         </button>
                     </li>
@@ -123,7 +123,7 @@
             {% if show_folders_button %}
             <div class="folders-toggle-container mx-2 {% if not user.is_superuser %}df-usr{% endif %}">
                 <ul class="list-group folders-toggle-list">
-                    <li class="list-group-item folders-toggle-li p-1">
+                    <li class="list-group-item folders-toggle-li px-1 py-0">
                         <div class="d-flex justify-content-between">
                             <div class="row mx-0 w-100">
                                 <div class="col-12">
@@ -142,7 +142,7 @@
                         </div>
                     </li>
                     {% if show_club_folders %}
-                    <li class="list-group-item folders-toggle-li p-1">
+                    <li class="list-group-item folders-toggle-li px-1 py-0">
                         <div class="d-flex justify-content-between">
                             <div class="row mx-0 w-100">
                                 <div class="col-12">
@@ -161,7 +161,7 @@
                         </div>
                     </li>
                     {% endif %}
-                    <li class="list-group-item folders-toggle-li p-1">
+                    <li class="list-group-item folders-toggle-li px-1 py-0">
                         <div class="d-flex justify-content-between">
                             <div class="row mx-0 w-100">
                                 <div class="col-12">
@@ -179,7 +179,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item folders-toggle-user-exs-li p-1 d-none">
+                    <li class="list-group-item folders-toggle-user-exs-li px-1 py-0 d-none">
                         <div class="d-flex justify-content-between">
                             <div class="row mx-0 w-100">
                                 <div class="col-12">
