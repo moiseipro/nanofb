@@ -429,6 +429,12 @@ tr.bck-custom > td {
     border: 2px solid #7f8340 !important;
 }
 
+.folders_div >.list-group > .list-group-item:hover {
+    cursor: pointer;
+    background-color: #efefef84;
+    color: #5a6268;
+}
+
 .folders_list > .list-group > .list-group-item {
     background-color: #fff;
     border-bottom: 1px solid rgb(170, 170, 170);
@@ -567,6 +573,7 @@ tr.bck-custom > td {
 
 
 .exs-list-group > .list-group-item:hover {
+    cursor: pointer;
     background-color: #efefef84;
     color: #5a6268;
 }
@@ -999,4 +1006,10 @@ li.marker--f_style{
     text-decoration: var(--f_style-value);
     font-weight: var(--f_style-value);
     font-style: var(--f_style-value);
+}
+li.marker--border {
+    border: 2px solid var(--border-value) !important;
+}
+li.marker--border_btm {
+    border-bottom: 2px solid var(--border_btm-value) !important;
 }

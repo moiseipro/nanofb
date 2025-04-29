@@ -942,6 +942,8 @@ $(function() {
         let currentMarker = {
             'bg': $('#exerciseMarkerModal').find('input[name="bg"]:checked').val(),
             'f_style': $('#exerciseMarkerModal').find('input[name="f_style"]:checked').val(),
+            'border': $('#exerciseMarkerModal').find('input[name="border"]:checked').val(),
+            'border_btm': $('#exerciseMarkerModal').find('input[name="border_btm"]:checked').val(),
         };
         let markerExsData = {};
         try {
