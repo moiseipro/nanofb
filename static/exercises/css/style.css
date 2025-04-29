@@ -1002,6 +1002,9 @@ ul.tags-list > li.tag-item.tag-disabled {
 li.marker--bg {
     background-color: var(--bg-value);
 }
+li.marker--f_color {
+    color: var(--f_color-value);
+}
 li.marker--f_style{
     text-decoration: var(--f_style-value);
     font-weight: var(--f_style-value);
