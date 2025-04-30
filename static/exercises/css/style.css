@@ -1011,8 +1011,8 @@ li.marker--f_style{
     font-style: var(--f_style-value);
 }
 li.marker--border {
-    border: 2px solid var(--border-value) !important;
+    border: 3px solid var(--border-value) !important;
 }
 li.marker--border_btm {
-    border-bottom: 2px solid var(--border_btm-value) !important;
+    border-bottom: 3px solid var(--border_btm-value) !important;
 }
