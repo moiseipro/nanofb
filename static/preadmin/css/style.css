@@ -187,8 +187,34 @@ html.custom-cursor, body.custom-cursor {
     color: var(--color);
     z-index: 9999;
 }
-#custom-cursor.backlight {
-	filter: drop-shadow(0 0 10px yellow);
+#custom-cursor .icon-backlight {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+#custom-cursor .icon-backlight .backlight-circle {
+	display: none;
+}
+#custom-cursor.backlight .icon-backlight .backlight-circle {
+	display: inline;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 45px;
+    height: 45px;
+    background-color: #ffeb3b;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(10px);
+    opacity: 0.75;
+    z-index: 1;
+}
+#custom-cursor .icon-backlight .fa-icon {
+    position: relative;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 

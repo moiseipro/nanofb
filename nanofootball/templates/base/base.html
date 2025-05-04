@@ -72,7 +72,10 @@
         {% block main %}{% endblock %}
         
         <div id="custom-cursor" class="d-none">
-            <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+            <div class="icon-backlight mt-4">
+                <div class="backlight-circle"></div>
+                <i class="fa fa-hand-o-up fa-icon" aria-hidden="true"></i>
+            </div>
         </div>
         <div class="modal fade" id="customCursorSettingsModal" tabindex="-1" role="dialog" aria-labelledby="customCursorSettingsModalLbl" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -82,28 +85,46 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-8">
-                                <label class="" for="toggleCustomCursor">Скрыть / показать новый курсор:</label>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-8 font-weight-bold">
+                                        <label class="" for="toggleCustomCursor">Скрыть / показать новый курсор:</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="checkbox" class="" id="toggleCustomCursor"/>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <input type="checkbox" class="" id="toggleCustomCursor"/>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 font-weight-bold">
+                                        <label class="form-check-label" for="customCursorColor1">Цвет курсора:</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="customCursorColor" id="customCursorColor1" value="#000" checked>
+                                            <label class="form-check-label" for="customCursorColor1">чёрный</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="customCursorColor" id="customCursorColor2" value="#ca0000">
+                                            <label class="form-check-label" for="customCursorColor2">красный</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="customCursorColor" id="customCursorColor3" value="#059900">
+                                            <label class="form-check-label" for="customCursorColor3">зелёный</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <label class="form-check-label" for="customCursorColor">Цвет курсора:</label>
-                            </div>
-                            <div class="col-4">
-                                <input
-                                    type="color"
-                                    class="form-control"
-                                    id="customCursorColor"
-                                    value="#ffcc00"
-                                />
-                            </div>
-                            <div class="col-8">
-                                <label class="form-check-label" for="toggleCustomCursorLight">Скрыть / показать подсветку курсора:</label>
-                            </div>
-                            <div class="col-4">
-                                <input type="checkbox" class="" id="toggleCustomCursorLight"/>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-8 font-weight-bold">
+                                        <label class="form-check-label" for="toggleCustomCursorLight">Скрыть / показать подсветку курсора:</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="checkbox" class="" id="toggleCustomCursorLight"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

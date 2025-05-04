@@ -337,14 +337,15 @@ Version      : 1.0
 				if (foundElem.length > 0) {
 					if ($(foundElem).attr('type') == "checkbox") {
 						$(foundElem).prop('checked', currentSettings[key]);
-					} else {
-						$(foundElem).val(currentSettings[key]);
 					}
+				} else {
+					let foundElem = $('#customCursorSettingsModal').find(`input[name="${key}"][value="${currentSettings[key]}"]`);
+					$(foundElem).click();
 				}
 			}
 		}
 		let isCustomCursor = $('#customCursorSettingsModal').find('#toggleCustomCursor').is(':checked');
-		let customCursorColor = $('#customCursorSettingsModal').find('#customCursorColor').val();
+		let customCursorColor = $('#customCursorSettingsModal').find('input[name="customCursorColor"]:checked').val();
 		let customCursorBackLight = $('#customCursorSettingsModal').find('#toggleCustomCursorLight').is(':checked');
 		$('html, body').toggleClass('custom-cursor', isCustomCursor);
 		$('#custom-cursor').toggleClass('d-none', !isCustomCursor);
@@ -359,7 +360,12 @@ Version      : 1.0
 	$('#customCursorSettingsModal').on('change', 'input', (e) => {
 		let currentSettings = {};
 		$('#customCursorSettingsModal').find('input').each((ind, elem) => {
-			currentSettings[$(elem).attr('id')] = $(elem).attr('type') == "checkbox" ? $(elem).is(':checked') : $(elem).val();
+			if ($(elem).attr('type') == "checkbox") {
+				currentSettings[$(elem).attr('id')] = $(elem).is(':checked');
+			} else {
+				let cName = $(elem).attr('name');
+				currentSettings[cName] = $('#customCursorSettingsModal').find(`input[name="${cName}"]:checked`).val();
+			}
 		});
 		localStorage.setItem("custom_cursor", JSON.stringify(currentSettings));
 		setCustomCursor();
