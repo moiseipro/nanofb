@@ -70,6 +70,50 @@
     </head>
     <body>
         {% block main %}{% endblock %}
+        
+        <div id="custom-cursor" class="d-none">
+            <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+        </div>
+        <div class="modal fade" id="customCursorSettingsModal" tabindex="-1" role="dialog" aria-labelledby="customCursorSettingsModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Настройка курсора</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <label class="" for="toggleCustomCursor">Скрыть / показать новый курсор:</label>
+                            </div>
+                            <div class="col-4">
+                                <input type="checkbox" class="" id="toggleCustomCursor"/>
+                            </div>
+                            <div class="col-8">
+                                <label class="form-check-label" for="customCursorColor">Цвет курсора:</label>
+                            </div>
+                            <div class="col-4">
+                                <input
+                                    type="color"
+                                    class="form-control"
+                                    id="customCursorColor"
+                                    value="#ffcc00"
+                                />
+                            </div>
+                            <div class="col-8">
+                                <label class="form-check-label" for="toggleCustomCursorLight">Скрыть / показать подсветку курсора:</label>
+                            </div>
+                            <div class="col-4">
+                                <input type="checkbox" class="" id="toggleCustomCursorLight"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Django Translate JS -->
         <script src="{% url 'javascript-catalog' %}"></script>
         <!-- <script src="{% static 'django_i18n_example/index.js' %}"></script>-->

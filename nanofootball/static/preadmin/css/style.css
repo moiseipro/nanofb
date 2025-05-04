@@ -170,6 +170,28 @@ textarea.form-control {
 	font-weight: 600;
 }
 
+
+html.custom-cursor, body.custom-cursor {
+    cursor: none !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    transition: color 0.3s ease, filter 0.3s ease;
+    color: var(--color);
+    z-index: 9999;
+}
+#custom-cursor.backlight {
+	filter: drop-shadow(0 0 10px yellow);
+}
+
+
 /*-----------------
 	2. Table
 -----------------------*/

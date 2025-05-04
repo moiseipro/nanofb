@@ -325,5 +325,52 @@ Version      : 1.0
 			localStorage.setItem('skin-color', skin);
 		}
 	})
+
+	function setCustomCursor() {
+		let currentSettings = null;
+		try {
+			currentSettings = JSON.parse(localStorage.getItem("custom_cursor"));
+		} catch(e){}
+		if (currentSettings) {
+			for (let key in currentSettings) {
+				let foundElem = $('#customCursorSettingsModal').find(`input#${key}`);
+				if (foundElem.length > 0) {
+					if ($(foundElem).attr('type') == "checkbox") {
+						$(foundElem).prop('checked', currentSettings[key]);
+					} else {
+						$(foundElem).val(currentSettings[key]);
+					}
+				}
+			}
+		}
+		let isCustomCursor = $('#customCursorSettingsModal').find('#toggleCustomCursor').is(':checked');
+		let customCursorColor = $('#customCursorSettingsModal').find('#customCursorColor').val();
+		let customCursorBackLight = $('#customCursorSettingsModal').find('#toggleCustomCursorLight').is(':checked');
+		$('html, body').toggleClass('custom-cursor', isCustomCursor);
+		$('#custom-cursor').toggleClass('d-none', !isCustomCursor);
+		$('#custom-cursor').css('--color', customCursorColor);
+		$('#custom-cursor').toggleClass('backlight', customCursorBackLight);
+	}
+
+	setCustomCursor();
+	$(document).on('click', '#customCursorSettingsToggle', function(e){
+		$('#customCursorSettingsModal').modal('show');
+	});
+	$('#customCursorSettingsModal').on('change', 'input', (e) => {
+		let currentSettings = {};
+		$('#customCursorSettingsModal').find('input').each((ind, elem) => {
+			currentSettings[$(elem).attr('id')] = $(elem).attr('type') == "checkbox" ? $(elem).is(':checked') : $(elem).val();
+		});
+		localStorage.setItem("custom_cursor", JSON.stringify(currentSettings));
+		setCustomCursor();
+	});
+	const $cursor = $('#custom-cursor');
+	$(window).on('mousemove', function (e) {
+		$cursor.css({
+		  top: e.clientY + 'px',
+		  left: e.clientX + 'px',
+		});
+	});
+
 	
 })(jQuery);

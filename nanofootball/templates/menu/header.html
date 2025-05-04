@@ -118,6 +118,12 @@
     {% endif %}
     <!-- /Admin settings panel -->
 
+    <li class="nav-item dropdown custom-cursor-settings" title="Открыть настройки курсора">
+        <a class="nav-link dropdown-toggle" id="customCursorSettingsToggle" aria-expanded="false" role="button" data-toggle="collapse" href="#">
+            <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+        </a>
+    </li>
+
     <!-- Notifications -->
     <li class="nav-item dropdown noti-dropdown">
         <a href="#" id="view-notifications-button" data-count="{{ request.notifications_count }}" class="dropdown-toggle nav-link" data-toggle="modal" data-target="#notifications-view-modal"> {# data-toggle="dropdown" #}
