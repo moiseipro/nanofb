@@ -49,6 +49,18 @@
 }
 
 
+.col-01 {
+    -ms-flex: 0 0 5%;
+    flex: 0 0 5%;
+    max-width: 5%;
+}
+.col-02 {
+    -ms-flex: 0 0 13.3%;
+    flex: 0 0 13.3%;
+    max-width: 13.3%;
+}
+
+
 .size-w-x {
     width: var(--w-x) !important;
 }
@@ -81,11 +93,11 @@
     height: 85vh !important;
 }
 .folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list, .folders_trainer_list {
-    height: 73vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 63vh !important;
+    height: 60vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -1029,4 +1041,9 @@ li.marker--border {
 }
 li.marker--border_btm {
     border-bottom: 3px solid var(--border_btm-value) !important;
+}
+
+.txt-as-ico {
+    font-weight: bold !important;
+    color: black !important;
 }
