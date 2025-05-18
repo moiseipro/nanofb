@@ -10,11 +10,12 @@
                     <span class="folder-point mr-2">
                         <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                     </span>
+                    <span class="folder-short pr-2 mr-1 border-right border-dark">
+                        {{ folder.short_name }}
+                    </span>
                     <span class="folder-title">
-                        {% if folders_only_view %}
-                            {{ folder.short_name }}
-                        {% else %}
-                            {{ folder.short_name }}. {{ folder.name }}
+                        {% if not folders_only_view %}
+                            {{ folder.name }}
                         {% endif %}
                     </span>
                 </div>
@@ -63,11 +64,12 @@
                         <span class="folder-point mr-2">
                             <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                         </span>
+                        <span class="folder-short pr-2 mr-1 border-right border-dark">
+                            {{ folder.short_name }}
+                        </span>
                         <span class="folder-title">
-                            {% if folders_only_view %}
-                                {{ folder.short_name }}
-                            {% else %}
-                                {{ folder.short_name }}. {{ folder.name }}
+                            {% if not folders_only_view %}
+                                {{ folder.name }}
                             {% endif %}
                         </span>
                     </div>
@@ -111,11 +113,12 @@
                         <span class="folder-point mr-2">
                             <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                         </span>
+                        <span class="folder-short pr-2 mr-1 border-right border-dark">
+                            {{ folder.short_name }}
+                        </span>
                         <span class="folder-title">
-                            {% if folders_only_view %}
-                                {{ folder.short_name }}
-                            {% else %}
-                                {{ folder.short_name }}. {{ folder.name }}
+                            {% if not folders_only_view %}
+                                {{ folder.name }}
                             {% endif %}
                         </span>
                     </div>

@@ -29,7 +29,8 @@ function SetNewShortName(elem) {
     if ($('#toggleFoldersNames').length > 0) {
         ToggleFoldersNames();
     } else {
-        $(elem).find('div').first().find('.folder-title').text(`${currentShortName}. ${cName}`);
+        $(elem).find('div').first().find('.folder-short').text(`${currentShortName}`);
+        $(elem).find('div').first().find('.folder-title').text(`${cName}`);
     }
 }
 
