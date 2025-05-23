@@ -183,14 +183,6 @@ function RenderFolderExercises(id, tExs) {
         try {
             isIQ = exElem.field_cognitive_loads[0].toUpperCase().replace('_', '-');
         } catch(e) {}
-        let isGoalBig = false;
-        let isGoalSmall = false;
-        try {
-            isGoalBig = exElem.field_goal.includes('g_big');
-        } catch(e) {}
-        try {
-            isGoalSmall = exElem.field_goal.includes('g_small');
-        } catch(e) {}
         let markerClass = "";
         let markerCSS = "";
         let folderType = $('.folders_div.selected').attr('data-id');
@@ -219,16 +211,9 @@ function RenderFolderExercises(id, tExs) {
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite ? 'selected' : ''}" data-type="marker" data-id="favorite" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное">
                         <span class="icon-custom ${exElem.favorite == true ? 'icon--favorite-selected' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    ${isGoalBig ? `
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="goal" title="Ворота">
-                        <span class=""> G </span>
+                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x ${exElem.favorite_2 ? 'selected' : ''}" data-type="marker" data-id="favorite_2" style="--w-x:24px; min-width: 38px; --h-x:24px;" title="Избранное 2">
+                        <span class="icon-custom ${exElem.favorite_2 == true ? 'icon--favorite-selected-2' : 'icon--favorite'}" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                     </button>
-                    ` : ``}
-                    ${isGoalSmall ? `
-                    <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="goal" title="Ворота">
-                        <span class=""> g </span>
-                    </button>
-                    ` : ``}
                     ${exElem.trainer_exs_copied && false ? `
                     <button type="button" class="btn btn-sm btn-marker btn-empty elem-flex-center size-w-x size-h-x" data-type="marker" data-id="trainer_copied" title="Уже скопировано!">
                         X2
@@ -512,13 +497,13 @@ function ToggleIconsInExs() {
 }
 function ToggleMarkersInExs() {
     let isActiveFavorite = $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state') == "1";
+    let isActiveFavorite2 = $('.up-tabs-elem[data-id="toggle_favorite_2"]').attr('data-state') == "1";
     let isActiveNoteStatus = $('.up-tabs-elem[data-id="toggle_note_status"]').attr('data-state') == "1";
-    let isActiveGoal = $('.up-tabs-elem[data-id="goal"]').attr('data-state') == "1";
     let isActiveWatched = $('.up-tabs-elem[data-id="toggle_watched"]').attr('data-state') == "1";
     let isActiveWatchedNot = $('.up-tabs-elem[data-id="toggle_watched_not"]').attr('data-state') == "1";
     let isActiveEditBlock = !$('.exs-edit-block').hasClass('d-none');
     $('.exercises-block').find(`[data-type="marker"][data-id="favorite"]`).toggleClass('d-none', !isActiveFavorite);
-    $('.exercises-block').find(`[data-type="marker"][data-id="goal"]`).toggleClass('d-none', !isActiveGoal);
+    $('.exercises-block').find(`[data-type="marker"][data-id="favorite_2"]`).toggleClass('d-none', !isActiveFavorite2);
     $('.exercises-block').find(`[data-type="marker"][data-id="watched"]`).toggleClass('d-none', !(isActiveWatched || isActiveWatchedNot));
     $('.exercises-block').find(`[data-type="marker"][data-id="trainer"]`).toggleClass('d-none', false);
     $('.exercises-block').find(`[data-type="marker"][data-id="note_status"]`).toggleClass('d-none', !isActiveNoteStatus);
@@ -1048,6 +1033,7 @@ $(function() {
         
         let visibleRoot = false;
         let visibleOthers = false;
+        console.log( $(e.currentTarget).attr('data-state') )
         if ($(e.currentTarget).attr('data-state') == "1") {
             visibleRoot = true;
             visibleOthers = false;

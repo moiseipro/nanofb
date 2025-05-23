@@ -367,6 +367,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_goal = -1
     filter_ball = -1
     filter_favorite = -1
+    filter_favorite_2 = -1
     filter_new_exs = -1
     filter_new_folder_exs = -1
     filter_new_folder_exs_day = -1
@@ -385,6 +386,8 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_video_isanimation = -1
     filter_note_status = -1
     filter_exs_duplicated = -1
+    filter_user_exs = -1
+    filter_e_type = -1
     try:
         if req.method == "GET":
             filter_goal = int(req.GET.get("filter[goal]", -1))
@@ -404,6 +407,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_favorite = int(req.GET.get("filter[favorite]", -1))
         elif req.method == "POST":
             filter_favorite = int(req.POST.get("filter[favorite]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_favorite_2 = int(req.GET.get("filter[favorite_2]", -1))
+        elif req.method == "POST":
+            filter_favorite_2 = int(req.POST.get("filter[favorite_2]", -1))
     except:
         pass
     try:
@@ -533,6 +543,20 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_exs_duplicated = int(req.POST.get("filter[exs_duplicated]", -1))
     except:
         pass
+    try:
+        if req.method == "GET":
+            filter_user_exs = int(req.GET.get("filter[user_exs]", -1))
+        elif req.method == "POST":
+            filter_user_exs = int(req.POST.get("filter[user_exs]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_e_type = int(req.GET.get("filter[e_type]", -1))
+        elif req.method == "POST":
+            filter_e_type = int(req.POST.get("filter[e_type]", -1))
+    except:
+        pass
     f_exercises = []
     c_folder = None
     child_folders = None
@@ -660,14 +684,17 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
     if filter_goal != -1:
-        f_exercises = f_exercises.filter(
-            Q(
-                Q(field_goal__icontains="g_big") |
-                Q(field_goal__icontains="g_small")
-            )
-        )
+        if filter_goal == 1:
+            f_exercises = f_exercises.filter(field_goal__icontains="g_big")
+        elif filter_goal == 2:
+            f_exercises = f_exercises.filter(field_goal__icontains="g_small")
     if filter_ball != -1:
-        f_exercises = f_exercises.filter(ref_ball__short_name="true")
+        if filter_ball == 1:
+            f_exercises = f_exercises.filter(ref_ball__short_name="true")
+        else:
+            f_exercises = f_exercises.filter(
+                Q(ref_ball__short_name="false") | Q(ref_ball__isnull=True)
+            )
     if len(filter_tags) > 0:
         for f_tag in filter_tags:
             f_exercises = f_exercises.filter(tags__lowercase_name__icontains=f_tag)
@@ -707,6 +734,10 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if filter_favorite != -1:
         f_exercises = f_exercises.filter(
             Q(userexerciseparam__favorite=filter_favorite, userexerciseparam__user=cur_user)
+        )
+    if filter_favorite_2 != -1:
+        f_exercises = f_exercises.filter(
+            Q(userexerciseparam__favorite_2=filter_favorite_2, userexerciseparam__user=cur_user)
         )
     if filter_search != "":
         filter_search_low = filter_search.lower()
@@ -774,6 +805,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(
                 Q(Q(userexerciseparam__note_status__gt=0), userexerciseparam__user=cur_user)
             ).distinct()
+    if filter_user_exs != -1:
+        f_exercises = f_exercises.filter(clone_nfb_id__isnull=True)
+    if filter_e_type != -1:
+        if filter_e_type == 1:
+            f_exercises = f_exercises.filter(field_e_type__icontains="main")
+        else:
+            f_exercises = f_exercises.filter(field_e_type__icontains="stretch")
     if count_for_tag:
         if tags_folder:
             f_exercises = f_exercises.filter(tags_folder__lowercase_name__in=[count_for_tag]).distinct()
@@ -907,6 +945,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             if user_params != None and user_params.exists() and user_params[0].id != None:
                 user_params = user_params.values()[0]
                 exercise['favorite'] = user_params['favorite']
+                exercise['favorite_2'] = user_params['favorite_2']
                 exercise['video_1_watched'] = user_params['video_1_watched']
                 exercise['video_2_watched'] = user_params['video_2_watched']
                 exercise['animation_1_watched'] = user_params['animation_1_watched']
@@ -1716,6 +1755,7 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.field_cognitive_loads = field_cognitive_loads
     field_fields = utils.set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
     c_exs.field_fields = field_fields
+    c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
 
     if is_can_edit_full:
         video_links_links = utils.set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -2066,6 +2106,7 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
         c_exs.field_cognitive_loads = field_cognitive_loads
         field_fields = utils.set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
         c_exs.field_fields = field_fields
+        c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
 
         if is_can_edit_full:
             c_exs.tags.clear()
@@ -3729,6 +3770,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
         elif folder_type == utils.FOLDER_CLUB:
             pass
         exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
+        exs_data['favorite_2'] = exercise['favorite_2'] if 'favorite_2' in exercise else None
         exs_data['video_1_watched'] = exercise['video_1_watched'] if 'video_1_watched' in exercise else None
         exs_data['video_2_watched'] = exercise['video_2_watched'] if 'video_2_watched' in exercise else None
         exs_data['animation_1_watched'] = exercise['animation_1_watched'] if 'animation_1_watched' in exercise else None
@@ -3743,7 +3785,6 @@ def GET_get_exs_all(request, cur_user, cur_team):
             goal_shortcode = None
         exs_data['goal_code'] = goal_shortcode
         exs_data['ball_val'] = exercise['ref_ball_id']
-        exs_data['favorite'] = exercise['favorite'] if 'favorite' in exercise else None
         exs_data['has_notes'] = exercise['has_notes'] if 'has_notes' in exercise else None
         exs_data['blocked'] = not exercise['visible_demo'] if cur_user.is_demo_mode and exercise['nf_exs'] else False
         res_exs.append(exs_data)
@@ -3853,6 +3894,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
+            res_exs['favorite_2'] = user_params['favorite_2']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
@@ -3891,6 +3933,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
+            res_exs['favorite_2'] = user_params['favorite_2']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
@@ -3931,6 +3974,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
+            res_exs['favorite_2'] = user_params['favorite_2']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
@@ -3974,6 +4018,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
+            res_exs['favorite_2'] = user_params['favorite_2']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']
@@ -4020,6 +4065,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         if user_params and user_params.exists() and user_params[0].id != None:
             user_params = user_params.values()[0]
             res_exs['favorite'] = user_params['favorite']
+            res_exs['favorite_2'] = user_params['favorite_2']
             res_exs['video_1_watched'] = user_params['video_1_watched']
             res_exs['video_2_watched'] = user_params['video_2_watched']
             res_exs['animation_1_watched'] = user_params['animation_1_watched']

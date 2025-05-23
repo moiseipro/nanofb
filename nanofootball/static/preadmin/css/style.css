@@ -4300,6 +4300,9 @@ table.table-inbox tbody tr.checked {
 .icon--favorite-selected {
 	content: url(../img/icons/favorite_selected.png);
 }
+.icon--favorite-selected-2 {
+	content: url(../img/icons/favorite_selected_2.png);
+}
 .icon--field {
 	content: url(../img/icons/field.png);
 }

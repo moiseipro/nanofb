@@ -18,7 +18,7 @@ from rest_framework_datatables.django_filters.backends import DatatablesFilterBa
 
 from events.models import UserEvent, ClubEvent, ClubMicrocycles, UserMicrocycles
 from exercises.models import UserExercise, ClubExercise
-from exercises.v_api import get_exercises_params
+from exercises.v_api import get_exercises_params, get_exercises_tags
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData, UserExsAdditionalData, \
     ClubExsAdditionalData
@@ -1828,6 +1828,8 @@ class EditTrainingsView(DetailView):
         context['is_exercises'] = True
         context['ui_elements'] = get_ui_elements(self.request)
         context['group'] = get_training_group(self.request, context['object'])
+        context['exercises_tags'] = get_exercises_tags(self.request, cur_user[0], self.request.session['team'], True, False)
+        context['exercises_tags_folder'] = get_exercises_tags(self.request, cur_user[0], self.request.session['team'], True, True)
         print(context)
 
         return context
