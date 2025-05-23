@@ -212,6 +212,7 @@ function ToggleUpFilter(id, state) {
         case "clear_filter":
             $('.up-block-content').find('.up-tabs-elem[data-id!="toggle_trainers_exs"]').attr('data-state', 0);
             $('.up-block-content').find('.up-tabs-elem[data-id!="toggle_trainers_exs"]').removeClass('selected3');
+            $('.up-block-content').find('.up-tabs-elem[data-id!="toggle_trainers_exs"]').removeClass('filtering');
             ToggleIconsInExs();
             ToggleMarkersInExs();
             $('.exs-search').val('');
@@ -337,6 +338,18 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_favorite":
+            $('.up-tabs-elem[data-id="toggle_favorite_2"]').attr('data-state', 0);
+            $('.up-tabs-elem[data-id="toggle_favorite_2"]').removeClass('selected3');
+            if ($('.up-tabs-elem[data-id="toggle_favorite_2"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite_2"]').removeClass('filtering');
+                delete window.exercisesFilter['favorite_2'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+
             if (!state && !$('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('filtering');
                 $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('selected3');
@@ -358,7 +371,43 @@ function ToggleUpFilter(id, state) {
             }
             ToggleMarkersInExs();
             break;
+        case "toggle_favorite_2":
+            $('.up-tabs-elem[data-id="toggle_favorite"]').attr('data-state', 0);
+            $('.up-tabs-elem[data-id="toggle_favorite"]').removeClass('selected3');
+            if ($('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite"]').removeClass('filtering');
+                delete window.exercisesFilter['favorite'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+
+            if (!state && !$('.up-tabs-elem[data-id="toggle_favorite_2"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite_2"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_favorite_2"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_favorite_2"]').attr('data-state', 1);
+                window.exercisesFilter['favorite_2'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_favorite_2"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_favorite_2"]').removeClass('filtering');
+                delete window.exercisesFilter['favorite_2'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            ToggleMarkersInExs();
+            break;
         case "goal":
+            $('.up-tabs-elem[data-id="goal_small"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 0);
             if (state) {
                 $('.up-tabs-elem[data-id="goal"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="goal"]').attr('data-state', 1);
@@ -377,20 +426,58 @@ function ToggleUpFilter(id, state) {
                 CountExsInFolder();
             }
             break;
-        case "players":
-            ToggleIconsInExs();
-            break;
-        case "ball":
+        case "goal_small":
+            $('.up-tabs-elem[data-id="goal"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="goal"]').attr('data-state', 0);
             if (state) {
-                $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
-                window.exercisesFilter['ball'] = '1';
+                $('.up-tabs-elem[data-id="goal_small"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 1);
+                window.exercisesFilter['goal'] = '2';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
+                delete window.exercisesFilter['goal'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
+        case "players":
+            ToggleIconsInExs();
+            break;
+        case "ball":
+            if (state && !$('.up-tabs-elem[data-id="ball"]').hasClass('with-ball')) {
+                $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 0);
+                $('.up-tabs-elem[data-id="ball"]').addClass('with-ball');
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2-x');
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2');
+                window.exercisesFilter['ball'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else if (state && $('.up-tabs-elem[data-id="ball"]').hasClass('with-ball')) {
+                $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
+                $('.up-tabs-elem[data-id="ball"]').removeClass('with-ball');
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2');
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2-x');
+                window.exercisesFilter['ball'] = '0';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2-x');
+                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2');
                 delete window.exercisesFilter['ball'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
@@ -437,6 +524,10 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_new_folder":
+            $('.up-tabs-elem[data-id="toggle_new_exs_per_day"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_new_exs_per_day"]').attr('data-state', 0);
+            delete window.exercisesFilter['new_folder_exs_day'];
+
             if (state) {
                 window.exercisesFilter['new_folder_exs'] = '1';
                 for (ind in window.count_exs_calls) {
@@ -454,6 +545,10 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_new_exs_per_day":
+            $('.up-tabs-elem[data-id="toggle_new_folder"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_new_folder"]').attr('data-state', 0);
+            delete window.exercisesFilter['new_folder_exs'];
+
             if (state) {
                 window.exercisesFilter['new_folder_exs_day'] = '1';
                 for (ind in window.count_exs_calls) {
@@ -471,6 +566,10 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_pro":
+            $('.up-tabs-elem[data-id="toggle_u_big"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 0);
+            delete window.exercisesFilter['u_big'];
+
             if (state) {
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 1);
@@ -492,6 +591,10 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "toggle_u_big":
+            $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 0);
+            delete window.exercisesFilter['pro'];
+
             if (state) {
                 $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 1);
@@ -647,6 +750,80 @@ function ToggleUpFilter(id, state) {
                 });
             } else {
                 CountExsInFolder(false, true);
+            }
+            break;
+        case "toggle_user_exs":
+            if ($('.folders_div.selected').attr('data-id') == "nfb_folders") {
+                $('.up-tabs-elem[data-id="toggle_user_exs"]').removeClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_user_exs"]').attr('data-state', 0);
+                swal("Ошибка", `Только для упражнений из папок <Команда>!`, "warning");
+                break;
+            }
+            if (state) {
+                $('.up-tabs-elem[data-id="toggle_user_exs"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_user_exs"]').attr('data-state', 1);
+                window.exercisesFilter['user_exs'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="toggle_user_exs"]').removeClass('filtering');
+                delete window.exercisesFilter['user_exs'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
+        case "e_type_main":
+            $('.up-tabs-elem[data-id="e_type_stretch"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="e_type_stretch"]').attr('data-state', 0);
+            delete window.exercisesFilter['e_type'];
+
+            if (state) {
+                $('.up-tabs-elem[data-id="e_type_main"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="e_type_main"]').attr('data-state', 1);
+                window.exercisesFilter['e_type'] = '1';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="e_type_main"]').removeClass('filtering');
+                delete window.exercisesFilter['e_type'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
+        case "e_type_stretch":
+            $('.up-tabs-elem[data-id="e_type_main"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="e_type_main"]').attr('data-state', 0);
+            delete window.exercisesFilter['e_type'];
+
+            if (state) {
+                $('.up-tabs-elem[data-id="e_type_stretch"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="e_type_stretch"]').attr('data-state', 1);
+                window.exercisesFilter['e_type'] = '2';
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            } else {
+                $('.up-tabs-elem[data-id="e_type_stretch"]').removeClass('filtering');
+                delete window.exercisesFilter['e_type'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
             }
             break;
         default:
@@ -2672,13 +2849,17 @@ $(function() {
                     if (cId == "dislike") {
                         $(currentTarget).parent().find('button[data-type="marker"][data-id="like"]').toggleClass('selected', false);
                     }
+                    if (cId == "favorite") {
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
+                    }
+                    if (cId == "favorite_2") {
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
+                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected-2', res.data.value == 1);
+                    }
                     $(currentTarget).toggleClass('selected', res.data.value == 1);
                     if ($(currentTarget).find('input').length > 0) {
                         $(currentTarget).find('input').prop('checked', res.data.value == 1);
-                    }
-                    if ($(currentTarget).find('span.icon-custom').length > 0) { // favorite
-                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite', res.data.value != 1);
-                        $(currentTarget).find('span.icon-custom').toggleClass('icon--favorite-selected', res.data.value == 1);
                     }
                 }
             },

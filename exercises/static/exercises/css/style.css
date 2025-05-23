@@ -37,6 +37,18 @@
 }
 
 
+.col-01 {
+    -ms-flex: 0 0 4.85%;
+    flex: 0 0 4.85%;
+    max-width: 4.85%;
+}
+.col-02 {
+    -ms-flex: 0 0 12%;
+    flex: 0 0 12%;
+    max-width: 12%;
+}
+
+
 .size-w-x {
     width: var(--w-x) !important;
 }
@@ -69,11 +81,11 @@
     height: 85vh !important;
 }
 .folders_list, .folders_nfb_list, .folders_club_list, .folders_users_with_exs_list, .folders_trainer_list {
-    height: 73vh !important;
+    height: 70vh !important;
     overflow-y: auto;
 }
 .exs-list-group {
-    height: 63vh !important;
+    height: 60vh !important;
     overflow-y: auto;
 }
 .exs-list-group.trainer-list {
@@ -81,7 +93,7 @@
     overflow-y: auto;
 }
 .visual-block {
-    height: 82vh !important;
+    height: 78vh !important;
     overflow-y: auto;
 }
 .side-filter-block {
@@ -193,8 +205,12 @@
 .btn-custom {
     color: #5a6268 !important;
     border: 2px solid rgb(100, 100, 100) !important;
+    border-left-width: 1px !important;
+    border-right-width: 1px !important;
     border-radius: 5% !important;
     font-weight: 600;
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
 }
 .btn-custom:hover {
     text-decoration-line: underline;
@@ -1015,4 +1031,9 @@ li.marker--border {
 }
 li.marker--border_btm {
     border-bottom: 3px solid var(--border_btm-value) !important;
+}
+
+.txt-as-ico {
+    font-weight: bold !important;
+    color: black !important;
 }

@@ -187,7 +187,7 @@ DB_club__kairat = {
 }
 
 DATABASES = {
-    'default': DB_localhost,
+    'default': DB_test,
     'club_db__kairat': DB_club__kairat
 }
 

@@ -331,6 +331,12 @@ function RenderExerciseOne(data) {
             }
         } catch(e) {}
 
+        $(exsCard).find('.exs_edit_field[name="field_e_type"]').val(data.field_e_type);
+        try {
+            $(exsCard).find('.btn-fields').find('button[data-id="e_type"]').removeClass('selected3');
+            $(exsCard).find('.btn-fields').find(`button[data-id="e_type"][data-val="${data.field_e_type}"]`).addClass('selected3');
+        } catch(e) {}
+
         try {
             $(exsCard).find(`.exs-types-list > button`).removeClass('active');
             for (let i = 0; i < data.field_types.length; i++) {
@@ -2798,6 +2804,12 @@ $(function() {
             $('#exerciseCard').find('.exs_edit_field[name="field_goal"]').val(val);
         } else if (cId == "category") {
             $(e.currentTarget).toggleClass('selected3', !isActive);
+        } else if (cId == "e_type") {
+            let val = "";
+            if (!isActive) {val = cVal;}
+            $('#exerciseCard').find('.btn-fields').find('button[data-id="e_type"]').removeClass('selected3');
+            $(e.currentTarget).toggleClass('selected3', !isActive);
+            $('#exerciseCard').find('.exs_edit_field[name="field_e_type"]').val(val);
         }
     });
 

@@ -4232,8 +4232,10 @@ table.table-inbox tbody tr.checked {
 
 
 .icon-custom {
+	display: inline-block;
     width: var(--i-w) !important;
     height: var(--i-h) !important;
+	vertical-align: middle;
 }
 .icon--24hours {
 	content: url(../img/icons/24hours.png);
@@ -4258,6 +4260,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--ball-2 {
 	content: url(../img/icons/ball-2.png);
+}
+.icon--ball-2-x {
+	content: url(../img/icons/ball-2-x.png);
 }
 .icon--brush {
 	content: url(../img/icons/brush.png);
@@ -4294,6 +4299,9 @@ table.table-inbox tbody tr.checked {
 }
 .icon--favorite-selected {
 	content: url(../img/icons/favorite_selected.png);
+}
+.icon--favorite-selected-2 {
+	content: url(../img/icons/favorite_selected_2.png);
 }
 .icon--field {
 	content: url(../img/icons/field.png);
