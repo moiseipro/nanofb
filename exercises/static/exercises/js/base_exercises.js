@@ -349,7 +349,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             }
-
             if (!state && !$('.up-tabs-elem[data-id="toggle_favorite"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('filtering');
                 $('.up-tabs-elem[data-id="toggle_favorite"]').addClass('selected3');
@@ -383,7 +382,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             }
-
             if (!state && !$('.up-tabs-elem[data-id="toggle_favorite_2"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_favorite_2"]').addClass('filtering');
                 $('.up-tabs-elem[data-id="toggle_favorite_2"]').addClass('selected3');
@@ -406,8 +404,6 @@ function ToggleUpFilter(id, state) {
             ToggleMarkersInExs();
             break;
         case "goal":
-            $('.up-tabs-elem[data-id="goal_small"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 0);
             if (state) {
                 $('.up-tabs-elem[data-id="goal"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="goal"]').attr('data-state', 1);
@@ -427,19 +423,17 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "goal_small":
-            $('.up-tabs-elem[data-id="goal"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="goal"]').attr('data-state', 0);
             if (state) {
                 $('.up-tabs-elem[data-id="goal_small"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="goal_small"]').attr('data-state', 1);
-                window.exercisesFilter['goal'] = '2';
+                window.exercisesFilter['goal_small'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                delete window.exercisesFilter['goal'];
+                delete window.exercisesFilter['goal_small'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
@@ -451,24 +445,32 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "ball":
-            if (state && !$('.up-tabs-elem[data-id="ball"]').hasClass('with-ball')) {
+            $('.up-tabs-elem[data-id="ball_no"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="ball_no"]').attr('data-state', 0);
+            if (state) {
                 $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 0);
-                $('.up-tabs-elem[data-id="ball"]').addClass('with-ball');
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2-x');
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2');
+                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
                 window.exercisesFilter['ball'] = '1';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
-            } else if (state && $('.up-tabs-elem[data-id="ball"]').hasClass('with-ball')) {
-                $('.up-tabs-elem[data-id="ball"]').addClass('selected3');
-                $('.up-tabs-elem[data-id="ball"]').attr('data-state', 1);
-                $('.up-tabs-elem[data-id="ball"]').removeClass('with-ball');
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2');
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2-x');
+            } else {
+                delete window.exercisesFilter['ball'];
+                for (ind in window.count_exs_calls) {
+                    window.count_exs_calls[ind]['call'].abort();
+                }
+                LoadFolderExercises();
+                CountExsInFolder();
+            }
+            break;
+        case "ball_no":
+            $('.up-tabs-elem[data-id="ball"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="ball"]').attr('data-state', 0);
+            if (state) {
+                $('.up-tabs-elem[data-id="ball_no"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="ball_no"]').attr('data-state', 1);
                 window.exercisesFilter['ball'] = '0';
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
@@ -476,8 +478,6 @@ function ToggleUpFilter(id, state) {
                 LoadFolderExercises();
                 CountExsInFolder();
             } else {
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').removeClass('icon--ball-2-x');
-                $('.up-tabs-elem[data-id="ball"]').find('.icon-custom').addClass('icon--ball-2');
                 delete window.exercisesFilter['ball'];
                 for (ind in window.count_exs_calls) {
                     window.count_exs_calls[ind]['call'].abort();
@@ -566,10 +566,6 @@ function ToggleUpFilter(id, state) {
             }
             break;
         case "toggle_pro":
-            $('.up-tabs-elem[data-id="toggle_u_big"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 0);
-            delete window.exercisesFilter['u_big'];
-
             if (state) {
                 $('.up-tabs-elem[data-id="toggle_pro"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 1);
@@ -591,10 +587,6 @@ function ToggleUpFilter(id, state) {
             ToggleIconsInExs();
             break;
         case "toggle_u_big":
-            $('.up-tabs-elem[data-id="toggle_pro"]').removeClass('selected3');
-            $('.up-tabs-elem[data-id="toggle_pro"]').attr('data-state', 0);
-            delete window.exercisesFilter['pro'];
-
             if (state) {
                 $('.up-tabs-elem[data-id="toggle_u_big"]').addClass('selected3');
                 $('.up-tabs-elem[data-id="toggle_u_big"]').attr('data-state', 1);
@@ -2548,7 +2540,7 @@ $(function() {
         $(e.currentTarget).addClass('active');
         $('#exerciseCopyModal').find('.content-block').addClass('d-none');
         $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
-        if (cId == "copy-move-exercise-2") {
+        if (cId == "copy-move-exercise-2" || cId == "copy-move-exercise-3") {
             cId = "copy-move-exercise";
             $('#exerciseCopyModal').find(`.content-block.${cId}`).removeClass('d-none');
         }

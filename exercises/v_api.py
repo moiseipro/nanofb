@@ -365,6 +365,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
 
     """
     filter_goal = -1
+    filter_goal_small = -1
     filter_ball = -1
     filter_favorite = -1
     filter_favorite_2 = -1
@@ -393,6 +394,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_goal = int(req.GET.get("filter[goal]", -1))
         elif req.method == "POST":
             filter_goal = int(req.POST.get("filter[goal]", -1))
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_goal_small = int(req.GET.get("filter[goal_small]", -1))
+        elif req.method == "POST":
+            filter_goal_small = int(req.POST.get("filter[goal_small]", -1))
     except:
         pass
     try:
@@ -684,10 +692,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if not cur_user.is_superuser:
         f_exercises = f_exercises.filter(visible=True)
     if filter_goal != -1:
-        if filter_goal == 1:
-            f_exercises = f_exercises.filter(field_goal__icontains="g_big")
-        elif filter_goal == 2:
-            f_exercises = f_exercises.filter(field_goal__icontains="g_small")
+        f_exercises = f_exercises.filter(field_goal__icontains="g_big")
+    if filter_goal_small != -1:
+        f_exercises = f_exercises.filter(field_goal__icontains="g_small")
     if filter_ball != -1:
         if filter_ball == 1:
             f_exercises = f_exercises.filter(ref_ball__short_name="true")
