@@ -3,7 +3,7 @@ $(function() {
     try {
         document.articleEditor = CKEDITOR.replace('articleEditor', {
             language: cLang,
-            extraPlugins: ['openlink', 'chart'],
+            extraPlugins: ['openlink', 'chart', 'wordpagebreak'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -13,7 +13,7 @@ $(function() {
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
-                {name: 'new', items: ['Chart']},
+                {name: 'new', items: ['Chart', 'wordpagebreak']},
             ],
             filebrowserBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserImageBrowseUrl: '/methodology/ckeditorbrowse/',

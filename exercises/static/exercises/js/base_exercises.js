@@ -196,6 +196,7 @@ function ToggleUpFilter(id, state) {
                 ToggleFolderTypeUI(window.exercisesFoldersTypeLast);
             } else {
                 ToggleFolderTypeUI("trainer_folder");
+                swal("Внимание", "Для копирования выберите упражнение из списка.", "info");
             }
             LoadAllTeamFolders();
             break;
@@ -1382,7 +1383,7 @@ function LoadAllTeamFolders() {
                                 let isLastElem = subfolder_i == folder.subfolders.length-1;
                                 let shortName = `${shortNameChars[folder_i].toUpperCase()}${subfolder_i+1}`;
                                 htmlFolders += `
-                                    <li class="list-group-item px-1 py-0 ${isLastElem ? 'last-elem' : ''}">
+                                    <li class="list-group-item px-1 py-0 ${isLastElem ? 'last-elem' : ''} d-none">
                                         <div class="trainer-folder-elem d-flex justify-content-between" data-id="${subfolder.id}" data-parent="${folder.id}" data-team="${row.team.id}">
                                             <div class="pull-left">
                                                 <span class="folder-title">${shortName}. ${subfolder.name}</span>

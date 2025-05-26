@@ -724,6 +724,7 @@ $(function() {
 
         if ($(e.currentTarget).find('.trainer-folder-elem-team').length > 0) {
             let cTeamId = $(e.currentTarget).find('.trainer-folder-elem-team').attr('data-team');
+            $('.folders_trainer_list').find(`.trainer-folder-elem`).parent().addClass('d-none');
             $('.folders_trainer_list').find(`.trainer-folder-elem[data-team="${cTeamId}"]`).parent().toggleClass('d-none');
             return;
         }
@@ -920,6 +921,9 @@ $(function() {
         LoadExerciseOneHandler();
         if ($('#moveExs').attr('data-state') == '1' || $('#copyExs').attr('data-state') == '1') {
             AddExerciseToSelectedSlot();
+        }
+        if ($(e.currentTarget).attr('data-folder') == "__is_trainer") {
+            swal("Внимание", "Для копирования теперь выберите папку слева.", "info");
         }
     });
     $('.exercises-list').on('contextmenu', '.exs-elem', (e) => {
