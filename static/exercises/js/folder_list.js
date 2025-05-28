@@ -30,6 +30,9 @@ function SetNewShortName(elem) {
         ToggleFoldersNames();
     } else {
         $(elem).find('div').first().find('.folder-short').text(`${currentShortName}`);
+        let curShortChar = currentShortName[0];
+        $(elem).find('div').first().find('.folder-point').addClass(`folder-color-${curShortChar}`);
+        $(elem).find('div').first().find('.folder-short').addClass(`folder-color-${curShortChar}`);
         $(elem).find('div').first().find('.folder-title').text(`${cName}`);
     }
 }

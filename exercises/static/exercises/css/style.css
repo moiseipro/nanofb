@@ -1037,3 +1037,16 @@ li.marker--border_btm {
     font-weight: bold !important;
     color: black !important;
 }
+
+.folder-color-A {
+    background-color: #7cb3edcd !important;
+}
+.folder-color-B {
+    background-color: #e7ed7ccd !important;
+}
+.folder-color-C {
+    background-color: #7ced80cd !important;
+}
+.folder-color-D {
+    background-color: #edaf7ccd !important;
+}
