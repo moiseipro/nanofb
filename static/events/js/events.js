@@ -884,6 +884,12 @@ $(window).on('load', function (){
         $('#print-training-modal').attr('data-id', id)
         $('#print-training-modal').modal('show')
     })
+    //Открыть окно отправки тренировки на почту
+    $('#event-email-card').on('click', function () {
+        let id = $('#events .hasEvent.selected').attr('data-value')
+        $('#send-email-training-modal').attr('data-id', id)
+        $('#send-email-training-modal').modal('show')
+    })
     // Модальное окно поделиться тренировкой
     $('#trainingShareModal').on('show.bs.modal', (e) => {
         let shared_modal = $('#trainingShareModal');

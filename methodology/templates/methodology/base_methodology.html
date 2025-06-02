@@ -51,8 +51,9 @@
                                 <ul class="list-group folders-group">
                                 </ul>
                             </div>
-                            <div class="viewer-wrapper" id="splitCol_1">
+                            <div class="viewer-wrapper {% if not user.is_superuser %}no-copy{% endif %}" id="splitCol_1">
                                 <div class="article-viewer-block">
+                                    <div class="pages-panel"></div>
                                     <textarea id="articleViewer" name=""></textarea>
                                 </div>
                             </div>
@@ -171,6 +172,9 @@
 {% block custom_scripts %}
     <script src="{% static 'ckeditor_4.20.2/ckeditor.js' %}"></script>
     <script src="{% static 'ckeditor_4.20.2/lang/ru.js' %}"></script>
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-36.0.0-i0g4ar8o2g2v/build/translations/ru.js' %}"></script>
 
     <script src="{% static 'video/js/video_list.js' %}"></script>
     <script src="{% static 'video/js/video_info.js' %}"></script>

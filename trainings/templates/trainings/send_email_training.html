@@ -1,0 +1,105 @@
+{% load i18n %}
+{% load static %}
+
+
+<div class="modal fade" id="send-email-training-modal" data-id="" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 1100px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row w-50 mx-0">
+                    <div class="col-8 px-1">
+                        <input type="text" class="form-control" placeholder="Почтовый ящик">
+                    </div>
+                    <div class="col-4 px-1">
+                        <button id="send-email-training-button" type="button" class="btn btn-primary">Отправить</button>
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <input type="hidden" id="send-email-style-href" name="postId" value="{% static 'trainings/css/send_email_page.css' %}" />
+            </div>
+            <div id="send-email-training-block" class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-12 px-0 border">
+                        <input type="text" class="form-control form-control-sm border-0 font-weight-bold text-center" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-6 px-0 border training-date">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="{% trans "Date" %}">
+                            </div>
+                            <div class="col-3 px-0 border training-time">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="{% trans "Time" %}">
+                            </div>
+                            <div class="col-3 px-0 border training-minutes">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="{% trans "Minutes" %}">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-2 border font-weight-bold">
+                                {% trans "Players" %} / {% trans "Goalkeepers" %}
+                            </div>
+                            <div class="col-3 px-0 border training-players">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder=""> <!--{% trans "Players" %} A - B-->
+                            </div>
+                            <div class="col-3 px-0 border training-goalkeepers">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder=""> <!--{% trans "Goalkeepers" %} A - B-->
+                            </div>
+{#                            <div class="col-3 px-0 border training-players-0">#}
+{#                                <input type="text" class="form-control form-control-sm border-0" placeholder=""> <!--{% trans "Players" %} A-->#}
+{#                            </div>#}
+{#                            <div class="col-3 px-0 border training-players-1">#}
+{#                                <input type="text" class="form-control form-control-sm border-0" placeholder=""> <!--{% trans "Players" %} B-->#}
+{#                            </div>#}
+                        </div>
+                        <div class="row">
+                            <div class="col-6 px-0 border training-trainer-0">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="{% trans "Trainer" %} 1"> <!--{% trans "Trainers" %}-->
+                            </div>
+                            <div class="col-6 px-0 border training-trainer-1">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="{% trans "Trainer" %} 2"> <!--{% trans "Trainers" %}-->
+                            </div>
+{#                            <div class="col-6 px-0 border">#}
+{#                                {% trans "Goalkeepers" %}#}
+{#                            </div>#}
+{#                            <div class="col-3 px-0 border training-goalkeepers-0">#}
+{#                                <input type="text" class="form-control form-control-sm border-0" placeholder=""> <!--{% trans "Goalkeepers" %} A-->#}
+{#                            </div>#}
+{#                            <div class="col-3 px-0 border training-goalkeepers-1">#}
+{#                                <input type="text" class="form-control form-control-sm border-0" placeholder=""> <!--{% trans "Goalkeepers" %} B-->#}
+{#                            </div>#}
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-12 px-0 border training-objective_1">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 px-0 border training-objective_2">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 px-0 border training-objective_3">
+                                <input type="text" class="form-control form-control-sm border-0 font-weight-bold" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 exercise-list">
+
+                    </div>
+                </div>
+                {% include "trainings/training_inventory.html" %}
+                <div id="send-email-players-data-list" class="row"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,10 @@
 $(function() {
     let cLang = $('#select-language').val();
+
     try {
         document.articleEditor = CKEDITOR.replace('articleEditor', {
             language: cLang,
-            extraPlugins: ['openlink', 'chart', 'wordpagebreak'],
+            extraPlugins: ['openlink', 'chart', 'sourcedialog', 'pagebreak'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -13,8 +14,9 @@ $(function() {
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
-                {name: 'new', items: ['Chart', 'wordpagebreak']},
+                {name: 'new', items: ['Chart', 'Source', 'PageBreak']},
             ],
+            height: '70vh',
             filebrowserBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserImageBrowseUrl: '/methodology/ckeditorbrowse/',
             filebrowserUploadUrl: '/methodology/ckeditorupload/',
@@ -33,7 +35,7 @@ $(function() {
         document.articleViewer = CKEDITOR.replace('articleViewer', {
             language: cLang,
             removePlugins: ['elementspath', 'resize'],
-            extraPlugins: ['openlink', 'chart'],
+            extraPlugins: ['openlink', 'chart', 'pagebreak'],
             toolbar: [
                 {name: 'clipboard', groups: ['clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
                 {name: 'editing', groups: ['find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt', 'Iframe']},
@@ -43,9 +45,9 @@ $(function() {
                 {name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
                 {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
-                {name: 'new', items: ['Chart']},
+                {name: 'new', items: ['Chart', 'Source', 'PageBreak']},
             ],
-            height: '83vh',
+            height: '80vh',
             readOnly: true,
             on: {
                 instanceReady: (evt) => {
@@ -122,4 +124,5 @@ $(function() {
             });
         });
     } catch(e) {}
+
 });

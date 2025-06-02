@@ -38,6 +38,13 @@
     cursor: col-resize;
 }
 
+.no-copy {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -ms-user-select: none !important;
+    -moz-user-select: none !important;
+}
+
 
 .folders-group {
     height: 83vh !important;
@@ -80,4 +87,22 @@
 
 .cke_combopanel {
     height: 300px !important;
+}
+
+.pages-panel {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 90vw;
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 1.0rem;
+    padding-left: 0.5rem;
+    user-select: none;
+}
+.page-nav-btn {
+    min-width: 32px !important;
+    min-height: 32px !important;
+    margin-left: .1rem !important;
+    margin-right: .1rem !important;
 }

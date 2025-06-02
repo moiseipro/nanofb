@@ -212,6 +212,8 @@ function RenderArticle(article, toModal=false) {
         try {
             $('.row-header').find('input.article-name').val(article.title);
             document.articleViewer.setData(article.content);
+            InitPagebreakNavigation("articleViewer");
+            DisableCopyInIframe("articleViewer");
         } catch(e) {}
     }
 }
@@ -526,9 +528,100 @@ function ChangeUserParam(elem, key, value) {
     });
 }
 
+function InitPagebreakNavigation(editorName) {
+    let iframe = $(document).find(`iframe.cke_wysiwyg_frame[title*="${editorName}"]`);
+    let container = $('.pages-panel');
+    function buildPageButtons(iframe, container) {
+        let iframeBody = $(iframe.contents().find('body'));
+        container.empty();
+        let pagebreaks = iframeBody.find('div.cke_pagebreak');
+        let pageCount = pagebreaks.length + 1;
+        for (let i = 1; i <= pageCount; i++) {
+            let btn = $(`<button type="button" class="btn btn-sm btn-secondary page-nav-btn mx-1">${i}</button>`);
+            btn.on('click', () => {
+                scrollToPage(i, iframe);
+                highlightPageButton(i, container);
+            });
+            container.append(btn);
+        }
+        highlightPageButton(1, container);
+    }
+    function scrollToPage(pageNum, iframe) {
+        let iframeBody = $(iframe.contents().find('body'));
+        if (pageNum < 1) pageNum = 1;
+        let pagebreaks = iframeBody.find('div.cke_pagebreak');
+        if (pageNum > 1 && pagebreaks.length >= pageNum - 1) {
+            let targetBreak = pagebreaks.eq(pageNum - 2);
+            targetBreak[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            let firstElem = iframeBody.children().first();
+            firstElem[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+    function highlightPageButton(pageNum, container) {
+        container.find('button.page-nav-btn').removeClass('btn-primary');
+        container.find('button.page-nav-btn').addClass('btn-secondary');
+        container.find('button.page-nav-btn').eq(pageNum - 1).addClass('btn-primary');
+        container.find('button.page-nav-btn').eq(pageNum - 1).removeClass('btn-secondary');
+    }
+    buildPageButtons(iframe, container);
+}
+
+function InitHorizontalDragScroller() {
+    const $slider = $('div.pages-panel');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    $slider.on('mousedown', (e) => {
+        isDown = true;
+        $slider.addClass('active');
+        $slider.css('cursor', 'grabbing');
+        startX = e.pageX - $slider.offset().left;
+        scrollLeft = $slider.scrollLeft();
+    });
+    $slider.on('mouseleave mouseup', () => {
+        isDown = false;
+        $slider.css('cursor', 'grab');
+    });
+    $slider.on('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - $slider.offset().left;
+        const walk = (x - startX) * 2;
+        $slider.scrollLeft(scrollLeft - walk);
+    });
+    $slider.on('touchstart', (e) => {
+        startX = e.touches[0].pageX - $slider.offset().left;
+        scrollLeft = $slider.scrollLeft();
+    });
+    $slider.on('touchmove', (e) => {
+        e.preventDefault();
+        const x = e.touches[0].pageX - $slider.offset().left;
+        const walk = (x - startX) * 2;
+        $slider.scrollLeft(scrollLeft - walk);
+    });
+}
+
+function DisableCopyInIframe(editorName) {
+    if (!$('.viewer-wrapper').hasClass('no-copy')) {return;}
+    let iframe = $(document).find(`iframe.cke_wysiwyg_frame[title*="${editorName}"]`);
+    let iframeBody = $(iframe.contents().find('body'));
+    iframeBody[0].style.setProperty('user-select', 'none', 'important');
+    iframeBody[0].style.setProperty('-webkit-user-select', 'none', 'important');
+    iframeBody[0].style.setProperty('-ms-user-select', 'none', 'important');
+    iframeBody[0].style.setProperty('-moz-user-select', 'none', 'important');
+    iframeBody[0].addEventListener('keydown', (e) => {
+        if (e.key === 'u' || e.key === 'c' || e.key === 'F12') {
+            e.preventDefault();
+        }
+    });
+}
+
+
+
 $(function() {
     document.selectedFolders = [];
-    
     $('.row-header').on('click', 'button', (e) => {
         let cId = $(e.currentTarget).attr('data-id');
         let cState = $(e.currentTarget).attr('data-state');
@@ -632,6 +725,22 @@ $(function() {
     });
 
     LoadFolders();
+    InitHorizontalDragScroller();
+
+    $(document).on('copy', (e) => {
+        if (!$('.viewer-wrapper').hasClass('no-copy')) {return;}
+        e.preventDefault();
+    });
+    $(document).on('contextmenu', (e) => {
+        if (!$('.viewer-wrapper').hasClass('no-copy')) {return;}
+        e.preventDefault();
+    });
+    $(document).on('keydown', (e) => {
+        if (!$('.viewer-wrapper').hasClass('no-copy')) {return;}
+        if ((e.key === 'u') || (e.key === 'c') || (e.key === 'F12')) {
+            e.preventDefault();
+        }
+    });
 
     $('#editFolderModal').on('click', '.btn-save', (e) => {
         let cTitle = $('#editFolderModal').find('input[name="f_title"]').val();

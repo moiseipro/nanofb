@@ -1,0 +1,43 @@
+#send-email-training-block input{
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+#send-email-training-block input{
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+#send-email-training-block exercise-send-email-col{
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+#send-email-training-block label{
+    padding: 0px !important;
+    height: calc(1em + 0.5rem + 2px) !important;
+    background: none;
+}
+
+
+#send-email-training-block textarea{
+    background: none;
+}
+
+#send-email-training-block border{
+    border: 1px solid black;
+}
+
+#send-email-training-block textarea{
+    overflow: hidden;
+}
+
+.hide-placeholder::-webkit-input-placeholder{
+    opacity: 0;
+}
+.hide-placeholder::-moz-placeholder{
+    opacity: 0;
+}
+.hide-placeholder:-moz-placeholder{
+    opacity: 0;
+}
+.hide-placeholder:-ms-input-placeholder{
+    opacity: 0;
+}

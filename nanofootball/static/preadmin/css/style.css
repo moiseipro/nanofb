@@ -4282,6 +4282,9 @@ table.table-inbox tbody tr.checked {
 .icon--download {
 	content: url(../img/icons/download.png);
 }
+.icon--email {
+	content: url(../img/icons/email.png);
+}
 .icon--eye {
 	content: url(../img/icons/eye.png);
 }
