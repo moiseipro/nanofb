@@ -1,8 +1,11 @@
 import json
+import base64
 
 from django.core.exceptions import ImproperlyConfigured
+from django.core.validators import validate_email
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q, Count, Subquery, F
-from django.http import QueryDict
+from django.http import QueryDict, HttpResponse
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
@@ -43,6 +46,8 @@ from trainings.serializers import UserTrainingSerializer, UserTrainingExerciseSe
     AdminTrainingLoadSerializer, AdminTrainingMDSerializer
 from users.models import User
 from system_icons.views import get_ui_elements
+
+# import pdfkit
 
 
 class BaseTrainingsPermissions(DjangoModelPermissions):
@@ -371,6 +376,36 @@ class TrainingViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=False, methods=['post'])
+    def send_email(self, request, pk=None):
+
+        email_to = request.data.get('email', request.data)
+        pdf_base64 = request.data.get('pdf_base64', request.data)
+        try:
+            validate_email(email_to)
+        except Exception as e:
+            return Response("email_error", status=status.HTTP_400_BAD_REQUEST)
+        pdf_bytes = None
+        try:
+            pdf_bytes = base64.b64decode(pdf_base64)
+        except (base64.binascii.Error, TypeError) as e:
+            return Response("pdf_error", status=status.HTTP_400_BAD_REQUEST)
+        try:
+            email = EmailMultiAlternatives("Тренировка", "")
+            email.to = [email_to]
+            email.attach('training.pdf', pdf_bytes, 'application/pdf')
+            email.send(fail_silently=False)
+            response = {
+                'status': 'success',
+                'message': _('The message was sent successfully!'),
+            }
+        except Exception as e:
+            print(e)
+            return Response("sending_error", status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_201_CREATED)
+
 
     def get_serializer_class(self):
         if self.request.user.club_id is not None:

@@ -93,12 +93,16 @@
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
-    max-width: 90vw;
-    padding-top: 0.5rem;
+    width: 70vw;
+    max-width: 70vw;
     padding-right: 0.5rem;
-    padding-bottom: 1.0rem;
     padding-left: 0.5rem;
     user-select: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.pages-panel::-webkit-scrollbar {
+    display: none;
 }
 .page-nav-btn {
     min-width: 32px !important;

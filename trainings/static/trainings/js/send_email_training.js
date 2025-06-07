@@ -2,7 +2,43 @@
 $(window).on('load', function () {
     //Распечатать тренировку
     $('#send-email-training-button').on('click', function () {
-        console.log("send")
+        let styleLink = $('#send-email-style-href').val();
+        let cBlock = $('#send-email-training-block')[0];
+        let cEmail = $('#send-email-field').val().trim();
+        if (!cEmail) {
+            swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
+            return;
+        }
+        const opt = {
+            margin: 0.5,
+            filename: 'page.pdf',
+            image: {type: 'jpeg', quality: 0.98},
+            html2canvas: {scale: 2, useCORS: true},
+            jsPDF: {unit: 'in', format: 'a4', orientation: 'portrait'}
+        };
+        html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64data = reader.result.split(',')[1];
+                let data_send = {'email': $('#send-email-field').val(), 'pdf_base64': base64data}
+                ajax_training_action('POST', data_send, 'send email', '', 'send_email').then((data) => {
+                    console.log(data)
+                }).catch((err) => {
+                    if (err.responseText.includes("email_error")) {
+                        swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
+                    }
+                    if (err.responseText.includes("pdf_error")) {
+                        swal("Ошибка", "Не удалось создать PDF файл.", "error");
+                    }
+                    if (err.responseText.includes("sending_error")) {
+                        swal("Ошибка", "Не удалось отправить письмо.", "error");
+                    }
+                })
+            };
+            reader.readAsDataURL(pdfBlob);
+        }).catch(function (err) {
+            swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
+        });
     })
 
     $('#send-email-training-modal').on('show.bs.modal', function (e) {

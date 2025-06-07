@@ -32,13 +32,10 @@ function RenderFolders(folders) {
     for (let i = 0; i < folders.length; i++) {
         let folder = folders[i];
         htmlStr += `
-            <li class="list-group-item p-1 mb-1" data-type="folder">
+            <li class="list-group-item px-1 py-0 mb-1" data-type="folder">
                 <div class="folder-elem d-flex justify-content-between" data-id="${folder.id}" data-parent="" data-title="${folder.title}" data-num="${i+1}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
-                            <span class="folder-point mr-2">
-                                <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                            </span>
                             <span class="folder-title"> 
                                 <span class="elem-num">${(i+1)}. </span>
                                 ${folder.title}
@@ -114,13 +111,10 @@ function RenderArticles(articles) {
         let folderNum = $('.folders-group').find(`.folder-elem[data-id="${article.folder}"]`).attr('data-num');
         let articleNum = $('.folders-group').find(`.article-elem[data-folder="${article.folder}"]`).length;
         let htmlStr = `
-            <li class="list-group-item p-1 ${$(cFolder).hasClass('active') ? '' : 'd-none'}" data-type="article">
+            <li class="list-group-item px-1 py-0 ${$(cFolder).hasClass('active') ? '' : 'd-none'}" data-type="article">
                 <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}" data-num="${folderNum}.${(articleNum+1)}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
-                            <span class="article-point mr-2">
-                                <span class="icon-custom icon--folder1 ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                            </span>
                             <span class="article-title"> 
                                 <span class="elem-num">${folderNum}.${(articleNum+1)}. </span>
                                 ${article.title}

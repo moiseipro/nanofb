@@ -3079,7 +3079,7 @@ msgstr ""
 
 #: .\nanofootball\templates\menu\sidebar.html:19
 msgid "Administration"
-msgstr ""
+msgstr "Admin"
 
 #: .\nanofootball\templates\menu\sidebar.html:27
 #: .\notifications\templates\notifications\forms\notification_send.html:8

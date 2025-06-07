@@ -31,8 +31,11 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_edit_options" title="Дополнительные опции" style="--w-max-x:5%;">
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                     </button>
-                                    <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
-                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;">
+
+                                    <div class="pages-panel"></div>
+                                    <!-- <input name="" class="form-control form-control-sm btn-block my-0 article-name" 
+                                        type="text" value="" placeholder="Название статьи" autocomplete="off" readonly="" style="cursor:default;"> -->
+
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="add_folder" title="Добавить новую папку" style="--w-max-x:5%;">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </button>
@@ -53,7 +56,6 @@
                             </div>
                             <div class="viewer-wrapper {% if not user.is_superuser %}no-copy{% endif %}" id="splitCol_1">
                                 <div class="article-viewer-block">
-                                    <div class="pages-panel"></div>
                                     <textarea id="articleViewer" name=""></textarea>
                                 </div>
                             </div>

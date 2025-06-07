@@ -3273,7 +3273,7 @@ msgstr "Выйти с акаунта"
 
 #: .\nanofootball\templates\menu\sidebar.html:19
 msgid "Administration"
-msgstr "Администрирование"
+msgstr "Админ"
 
 #: .\nanofootball\templates\menu\sidebar.html:27
 #: .\notifications\templates\notifications\forms\notification_send.html:8

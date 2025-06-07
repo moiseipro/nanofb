@@ -990,7 +990,6 @@ tr[data-id="additional_characteristics_data_block"] .select2-selection--multiple
 
 .folders-toggle-list > .list-group-item.selected {
     background-color: #d4d4d4;
-    border: 2px solid rgb(100, 100, 100) !important;
 }
 .folders-toggle-list > .list-group-item span:not(.badge) {
     color: #3f3f3f !important;
