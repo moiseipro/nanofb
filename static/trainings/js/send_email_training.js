@@ -1,7 +1,46 @@
 
+async function replaceSvgImageLinksWithDataUris(element) {
+    async function blobToDataURI(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+    const svgs = element.querySelectorAll('svg');
+    for (const svg of svgs) {
+        const images = svg.querySelectorAll('image');
+        for (const image of images) {
+            // In SVG 2, href is on 'href' attribute. For legacy SVG, might be 'xlink:href'.
+            const hrefAttr = image.getAttribute('href') || image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+            if (!hrefAttr) continue;
+            if (hrefAttr.startsWith('data:')) continue;
+            try {
+                const response = await fetch(hrefAttr, { mode: 'cors' });
+                if (!response.ok) {
+                    console.warn(`Failed to fetch image at ${hrefAttr}: ${response.status} ${response.statusText}`);
+                    continue;
+                }
+                const blob = await response.blob();
+                const dataUri = await blobToDataURI(blob);
+                if (image.hasAttribute('href')) {
+                    image.setAttribute('href', dataUri);
+                } else {
+                    image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataUri);
+                }
+            } catch (error) {
+                console.warn(`Error processing image href ${hrefAttr}:`, error);
+            }
+        }
+    }
+}
+
+
+
 $(window).on('load', function () {
     //Распечатать тренировку
-    $('#send-email-training-button').on('click', function () {
+    $('#send-email-training-button').on('click', async function () {
         let styleLink = $('#send-email-style-href').val();
         let cBlock = $('#send-email-training-block')[0];
         let cEmail = $('#send-email-field').val().trim();
@@ -13,31 +52,50 @@ $(window).on('load', function () {
             margin: 0.5,
             filename: 'page.pdf',
             image: {type: 'jpeg', quality: 0.98},
-            html2canvas: {scale: 2, useCORS: true},
+            html2canvas: {
+                scale: 1, useCORS: true,
+                onclone: (element) => {
+                    const svgElements = Array.from(element.querySelectorAll('svg'));
+                    svgElements.forEach(s => {
+                        const bBox = s.getBBox();
+                        s.setAttribute("x", bBox.x);
+                        s.setAttribute("y", bBox.y);
+                        s.setAttribute("width", bBox.width);
+                        s.setAttribute("height", bBox.height);
+                    })
+                }
+            },
             jsPDF: {unit: 'in', format: 'a4', orientation: 'portrait'}
         };
-        html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64data = reader.result.split(',')[1];
-                let data_send = {'email': $('#send-email-field').val(), 'pdf_base64': base64data}
-                ajax_training_action('POST', data_send, 'send email', '', 'send_email').then((data) => {
-                    console.log(data)
-                }).catch((err) => {
-                    if (err.responseText.includes("email_error")) {
-                        swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
-                    }
-                    if (err.responseText.includes("pdf_error")) {
-                        swal("Ошибка", "Не удалось создать PDF файл.", "error");
-                    }
-                    if (err.responseText.includes("sending_error")) {
-                        swal("Ошибка", "Не удалось отправить письмо.", "error");
-                    }
-                })
-            };
-            reader.readAsDataURL(pdfBlob);
+        $('.page-loader-wrapper').fadeIn();
+        replaceSvgImageLinksWithDataUris(cBlock).then(() => {
+            html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64data = reader.result.split(',')[1];
+                    let data_send = {'email': $('#send-email-field').val(), 'pdf_base64': base64data}
+                    ajax_training_action('POST', data_send, 'send email', '', 'send_email').then((data) => {
+                        console.log(data)
+                    }).catch((err) => {
+                        if (err.responseText.includes("email_error")) {
+                            swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
+                        }
+                        if (err.responseText.includes("pdf_error")) {
+                            swal("Ошибка", "Не удалось создать PDF файл.", "error");
+                        }
+                        if (err.responseText.includes("sending_error")) {
+                            swal("Ошибка", "Не удалось отправить письмо.", "error");
+                        }
+                    })
+                };
+                reader.readAsDataURL(pdfBlob);
+            }).catch(function (err) {
+                $('.page-loader-wrapper').fadeOut();
+                swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
+            });
         }).catch(function (err) {
-            swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
+            $('.page-loader-wrapper').fadeOut();
+            swal("Ошибка", "Ошибка при изменении картинок.", "error");
         });
     })
 
