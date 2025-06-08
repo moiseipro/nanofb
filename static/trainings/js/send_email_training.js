@@ -8,9 +8,9 @@ async function replaceSvgImageLinksWithDataUris(element) {
             reader.readAsDataURL(blob);
         });
     }
-    const svgs = element.querySelectorAll('svg');
-    for (const svg of svgs) {
-        const images = svg.querySelectorAll('image');
+    const items = element.querySelectorAll('div.carousel-item.active');
+    for (const item of items) {
+        const images = item.querySelectorAll('image');
         for (const image of images) {
             // In SVG 2, href is on 'href' attribute. For legacy SVG, might be 'xlink:href'.
             const hrefAttr = image.getAttribute('href') || image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
@@ -28,6 +28,26 @@ async function replaceSvgImageLinksWithDataUris(element) {
                     image.setAttribute('href', dataUri);
                 } else {
                     image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataUri);
+                }
+            } catch (error) {
+                console.warn(`Error processing image href ${hrefAttr}:`, error);
+            }
+        }
+        const imgs = item.querySelectorAll('img');
+        for (const image of imgs) {
+            const hrefAttr = image.getAttribute('src');
+            if (!hrefAttr) continue;
+            if (hrefAttr.startsWith('data:')) continue;
+            try {
+                const response = await fetch(hrefAttr, { mode: 'cors' });
+                if (!response.ok) {
+                    console.warn(`Failed to fetch image at ${hrefAttr}: ${response.status} ${response.statusText}`);
+                    continue;
+                }
+                const blob = await response.blob();
+                const dataUri = await blobToDataURI(blob);
+                if (image.hasAttribute('src')) {
+                    image.setAttribute('src', dataUri);
                 }
             } catch (error) {
                 console.warn(`Error processing image href ${hrefAttr}:`, error);
