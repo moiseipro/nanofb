@@ -89,30 +89,30 @@ $(window).on('load', function () {
         };
         $('.page-loader-wrapper').fadeIn();
         replaceSvgImageLinksWithDataUris(cBlock).then(() => {
-            html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const base64data = reader.result.split(',')[1];
-                    let data_send = {'email': $('#send-email-field').val(), 'pdf_base64': base64data}
-                    ajax_training_action('POST', data_send, 'send email', '', 'send_email').then((data) => {
-                        console.log(data)
-                    }).catch((err) => {
-                        if (err.responseText.includes("email_error")) {
-                            swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
-                        }
-                        if (err.responseText.includes("pdf_error")) {
-                            swal("Ошибка", "Не удалось создать PDF файл.", "error");
-                        }
-                        if (err.responseText.includes("sending_error")) {
-                            swal("Ошибка", "Не удалось отправить письмо.", "error");
-                        }
-                    })
-                };
-                reader.readAsDataURL(pdfBlob);
-            }).catch(function (err) {
-                $('.page-loader-wrapper').fadeOut();
-                swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
-            });
+            // html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
+            //     const reader = new FileReader();
+            //     reader.onloadend = () => {
+            //         const base64data = reader.result.split(',')[1];
+            //         let data_send = {'email': $('#send-email-field').val(), 'pdf_base64': base64data}
+            //         ajax_training_action('POST', data_send, 'send email', '', 'send_email').then((data) => {
+            //             console.log(data)
+            //         }).catch((err) => {
+            //             if (err.responseText.includes("email_error")) {
+            //                 swal("Ошибка", "Пожалуйста, введите корректный email.", "error");
+            //             }
+            //             if (err.responseText.includes("pdf_error")) {
+            //                 swal("Ошибка", "Не удалось создать PDF файл.", "error");
+            //             }
+            //             if (err.responseText.includes("sending_error")) {
+            //                 swal("Ошибка", "Не удалось отправить письмо.", "error");
+            //             }
+            //         })
+            //     };
+            //     reader.readAsDataURL(pdfBlob);
+            // }).catch(function (err) {
+            //     $('.page-loader-wrapper').fadeOut();
+            //     swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
+            // });
         }).catch(function (err) {
             $('.page-loader-wrapper').fadeOut();
             swal("Ошибка", "Ошибка при изменении картинок.", "error");
