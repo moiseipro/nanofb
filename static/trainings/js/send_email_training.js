@@ -59,9 +59,7 @@ async function replaceSvgImageLinksWithDataUris(element) {
 
 
 $(window).on('load', function () {
-    //Распечатать тренировку
     $('#send-email-training-button').on('click', async function () {
-        let styleLink = $('#send-email-style-href').val();
         let cBlock = $('#send-email-training-block')[0];
         let cEmail = $('#send-email-field').val().trim();
         if (!cEmail) {
@@ -69,7 +67,7 @@ $(window).on('load', function () {
             return;
         }
         const opt = {
-            margin: 0.5,
+            margin: 0.1,
             filename: 'page.pdf',
             image: {type: 'jpeg', quality: 0.98},
             html2canvas: {
@@ -85,11 +83,13 @@ $(window).on('load', function () {
                     })
                 }
             },
-            jsPDF: {unit: 'in', format: 'a4', orientation: 'portrait'}
+            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
         };
+        $('#send-email-training-block').addClass("to-send");
         $('.page-loader-wrapper').fadeIn();
         replaceSvgImageLinksWithDataUris(cBlock).then(() => {
             html2pdf().set(opt).from(cBlock).outputPdf('blob').then((pdfBlob) => {
+                $('#send-email-training-block').removeClass("to-send");
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const base64data = reader.result.split(',')[1];
@@ -110,10 +110,12 @@ $(window).on('load', function () {
                 };
                 reader.readAsDataURL(pdfBlob);
             }).catch(function (err) {
+                $('#send-email-training-block').removeClass("to-send");
                 $('.page-loader-wrapper').fadeOut();
                 swal("Ошибка", "Ошибка при генерации PDF. Попробуйте позже.", "error");
             });
         }).catch(function (err) {
+            $('#send-email-training-block').removeClass("to-send");
             $('.page-loader-wrapper').fadeOut();
             swal("Ошибка", "Ошибка при изменении картинок.", "error");
         });

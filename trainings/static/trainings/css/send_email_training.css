@@ -41,3 +41,20 @@
 .hide-placeholder:-ms-input-placeholder{
     opacity: 0;
 }
+
+
+#send-email-training-block.to-send {
+    font-size: 0.85rem !important;
+}
+#send-email-training-block.to-send input {
+    font-size: 0.85rem !important;
+}
+#send-email-training-block.to-send .carousel-control-prev {
+    display: none !important;
+}
+#send-email-training-block.to-send .carousel-control-next {
+    display: none !important;
+}
+#send-email-training-block.to-send .carousel-indicators {
+    display: none !important;
+}
