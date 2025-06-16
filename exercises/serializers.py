@@ -85,7 +85,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = [
-            'id', 'user', 'field_task', 'title', 'videos', 'description'
+            'id', 'user', 'field_task', 'title', 'videos', 'description', 'clone_nfb_id'
         ]
 
 

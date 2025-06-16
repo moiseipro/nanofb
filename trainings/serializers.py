@@ -287,11 +287,15 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.scheme_img",
         read_only=True
     )
+    clone_nfb_id = serializers.IntegerField(
+        source="exercise_id.clone_nfb_id",
+        read_only=True
+    )
 
     class Meta:
         fields = (
             'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'scheme_1', 'scheme_2', 'group',
-            'duration', 'order', 'description', 'additional_json', 'scheme_img'
+            'duration', 'order', 'description', 'additional_json', 'scheme_img', 'clone_nfb_id'
         )
 
 

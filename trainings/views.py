@@ -20,7 +20,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 
 from events.models import UserEvent, ClubEvent, ClubMicrocycles, UserMicrocycles
-from exercises.models import UserExercise, ClubExercise
+from exercises.models import UserExercise, ClubExercise, AdminExercise
 from exercises.v_api import get_exercises_params, get_exercises_tags
 from players.models import UserPlayer, ClubPlayer
 from references.models import UserTeam, UserSeason, ClubTeam, ClubSeason, ExsAdditionalData, UserExsAdditionalData, \
@@ -64,6 +64,26 @@ class BaseTrainingsPermissions(DjangoModelPermissions):
 
 class TrainingViewSet(viewsets.ModelViewSet):
     permission_classes = [BaseTrainingsPermissions]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        exercises = data.get('exercises_info')
+        for t_index in range(len(exercises)):
+            t_exercise = exercises[t_index]
+            if t_exercise['clone_nfb_id'] != None and t_exercise['description'] == '':
+                found_exs = None
+                try:
+                    found_exs = AdminExercise.objects.filter(id=t_exercise['clone_nfb_id'], visible=True).first()
+                except:
+                    pass
+                if found_exs and found_exs.description is not None and request.LANGUAGE_CODE in found_exs.description and \
+                found_exs.description[request.LANGUAGE_CODE] != '':
+                    exercises[t_index]['description'] = found_exs.description[request.LANGUAGE_CODE]
+        print(exercises)
+        data['exercises_info'] = exercises
+        return Response(data)
 
     def perform_create(self, serializer):
         if self.request.user.club_id is not None:
