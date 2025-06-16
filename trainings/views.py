@@ -129,7 +129,7 @@ class TrainingViewSet(viewsets.ModelViewSet):
                 last_additional = previous_training.usertrainingexerciseadditional_set.all()
             else:
                 last_additional = None
-        if previous_training and False:
+        if previous_training:
             last_description = previous_training.description
             last_additional_json = json.dumps(previous_training.additional_json)
         else:
