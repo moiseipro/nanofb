@@ -368,7 +368,7 @@ function create_editor(editors_array) {
             let id = ck_data['id']
             console.log(id)
             CKSource.Editor
-            .create(document.querySelector('#'+id), {
+            .replace(document.querySelector('#'+id), {
                 licenseKey: '',
                 language: cLang,
                 removePlugins: ['Title'],
