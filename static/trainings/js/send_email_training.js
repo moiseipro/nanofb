@@ -83,8 +83,14 @@ $(window).on('load', function () {
                     })
                 }
             },
-            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
+            pagebreak: {
+                mode: ['avoid-all', 'css', 'legacy'],
+                before: '.no-break',
+                avoid: ['.no-break']
+            }
         };
+        $('#send-email-training-block').addClass("to-send");
         $('#send-email-training-block').addClass("to-send");
         $('.page-loader-wrapper').fadeIn();
         replaceSvgImageLinksWithDataUris(cBlock).then(() => {
@@ -204,7 +210,7 @@ function load_training_send_email(training_id) {
             let num = 0;
             for (let exercise of exercises) {
                 minutes_count += exercise.duration
-                html_scheme += '<div class="row" style="border-top: 2px solid black">'
+                html_scheme += '<div class="row no-breako" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 if (exercise.scheme_img) {
