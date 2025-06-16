@@ -367,8 +367,6 @@ function create_editor(editors_array) {
             let data = ck_data['data']
             let id = ck_data['id']
             console.log(id)
-            console.log(CKEDITOR.instances)
-
             CKSource.Editor
             .create(document.querySelector('#'+id), {
                 licenseKey: '',
