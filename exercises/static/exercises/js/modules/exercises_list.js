@@ -610,6 +610,9 @@ $(function() {
 
     // Choose exs folder
     $('.folders_list').on('click', '.list-group-item', (e) => {
+        if ($(e.target).is('i') || $(e.target).hasClass('hidden-control')) {
+            return;
+        }
         let isActive = $(e.currentTarget).hasClass('active');
         let isRoot = $(e.currentTarget).hasClass('root-elem');
         if (isRoot) {
@@ -629,6 +632,9 @@ $(function() {
         }
     });
     $('.folders_nfb_list').on('click', '.list-group-item', (e) => {
+        if ($(e.target).is('i') || $(e.target).hasClass('hidden-control')) {
+            return;
+        }
         let isActive = $(e.currentTarget).hasClass('active');
         let isRoot = $(e.currentTarget).hasClass('root-elem');
         if (isRoot) {
@@ -648,6 +654,9 @@ $(function() {
         }
     });
     $('.folders_club_list').on('click', '.list-group-item', (e) => {
+        if ($(e.target).is('i') || $(e.target).hasClass('hidden-control')) {
+            return;
+        }
         let isActive = $(e.currentTarget).hasClass('active');
         let isRoot = $(e.currentTarget).hasClass('root-elem');
         if (isRoot) {

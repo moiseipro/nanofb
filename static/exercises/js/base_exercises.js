@@ -233,6 +233,8 @@ function ToggleUpFilter(id, state) {
                 $('.exs-panel-filtering').find('.tag-select-search').val(null).trigger('change');
                 $('.exs-panel-filtering').find('.tag-folder-select-search').val(null).trigger('change');
             } catch(e) {}
+            $('.folders-container').find('.badge.hidden-control').addClass('d-none');
+            $('.folders-container').find('.list-group-item').removeClass('c-hidden');
             break;
         case "toggle_watched":
             if (state) {
@@ -817,6 +819,25 @@ function ToggleUpFilter(id, state) {
                 }
                 LoadFolderExercises();
                 CountExsInFolder();
+            }
+            break;
+        case "toggle_hidden_folders":
+            if (state) {
+                $('.folders-container').find('.badge.hidden-control').removeClass('d-none');
+                UpdateHiddenFoldersStorage();
+            } else if (!state && !$('.up-tabs-elem[data-id="toggle_hidden_folders"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_hidden_folders"]').addClass('filtering');
+                $('.up-tabs-elem[data-id="toggle_hidden_folders"]').addClass('selected3');
+                $('.up-tabs-elem[data-id="toggle_hidden_folders"]').attr('data-state', 1);
+                $('.folders-container').find('.badge.hidden-control').each((ind, elem) => {
+                    if ($(elem).hasClass('text-danger')) {
+                        $(elem).parent().parent().parent().parent().addClass('c-hidden');
+                    }
+                });
+            } else if (!state && $('.up-tabs-elem[data-id="toggle_hidden_folders"]').hasClass('filtering')) {
+                $('.up-tabs-elem[data-id="toggle_hidden_folders"]').removeClass('filtering');
+                $('.folders-container').find('.badge.hidden-control').addClass('d-none');
+                $('.folders-container').find('.list-group-item').removeClass('c-hidden');
             }
             break;
         default:
@@ -1728,6 +1749,37 @@ function RenderUsersExsContent(data, withTitles=true) {
         $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html(htmlStr);
     } else {
         $('.folders_div[data-id="users_exs_folders"]').find('ul.list-group').html("Пользователи не были найдены.");
+    }
+}
+
+function UpdateHiddenFoldersStorage(folderType=null, folderId=null) {
+    if (folderType == null || folderId == null) {
+        window.hiddenFolders = null;
+        try {
+            window.hiddenFolders = JSON.parse(localStorage.getItem('exs_hidden_folders'));
+        } catch(e) {}
+        if (!window.hiddenFolders) {
+            window.hiddenFolders = {};
+            $('.folders-container').find('.folders-toggle').each((ind, elem) => {
+                let cId = $(elem).attr('data-id');
+                window.hiddenFolders[cId] = [];
+            });
+        }
+    } else {
+        window.hiddenFolders = JSON.parse(localStorage.getItem('exs_hidden_folders'));
+        if (window.hiddenFolders[folderType].includes(folderId)) {
+            const index = window.hiddenFolders[folderType].indexOf(folderId);
+            if (index > -1) {window.hiddenFolders[folderType].splice(index, 1);}
+        } else {
+            window.hiddenFolders[folderType].push(folderId);
+        }
+    }
+    localStorage.setItem('exs_hidden_folders', JSON.stringify(window.hiddenFolders));
+    $('.folders-container').find('.badge.hidden-control').removeClass('text-danger');
+    for (let key in window.hiddenFolders) {
+        window.hiddenFolders[key].forEach(cId => {
+            $(`.folders_div[data-id="${key}"]`).find(`div[data-id="${cId}"]`).find('.badge.hidden-control').addClass('text-danger');
+        });
     }
 }
 
@@ -4126,6 +4178,13 @@ $(function() {
         $(e.currentTarget).toggleClass('btn-success', !isSelected);
         $(e.currentTarget).toggleClass('btn-secondary', isSelected);
         $(e.currentTarget).text(isSelected ? "Редактировать" : "Сохранить");
+    });
+
+    // Controlling Hidden Folders Storage
+    $('.folders-container').on('click', '.badge.hidden-control', (e) => {
+        let folderType = $('.folders_div.selected').attr('data-id');
+        let folderId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        UpdateHiddenFoldersStorage(folderType, folderId);
     });
 
     // Toggle Marker Modal Ment
