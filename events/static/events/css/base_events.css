@@ -229,12 +229,12 @@ button.event-select.selected{
     margin-right: 2px !important;
 }
 .mc-column.mc-training {
-    min-width: calc(100vw / 3);
-    max-width: calc(100vw / 3);
+    min-width: calc(100vw / 4);
+    max-width: calc(100vw / 4);
 }
 .mc-column.mc-match, .mc-column.mc-rest {
-    min-width: calc(100vw / 10);
-    max-width: calc(100vw / 10);
+    min-width: calc(100vw / 8);
+    max-width: calc(100vw / 8);
 }
 .mc-column .col-12 {
     border: 1px solid #ccc;
