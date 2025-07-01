@@ -336,10 +336,13 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         <input class="form-control form-control-sm w-100" type="text" value="Тактика">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Игра">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Игра G + G">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Игра">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Игра G + G">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${all_load ? all_load : '---'}" disabled="">
                                     </div>
                                 </div>
                             `
@@ -395,6 +398,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     <div class="col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    </div>
                                 </div>
                             `
 
@@ -441,6 +447,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     </div>
                                     <div class="col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
                                     </div>
                                 </div>
                             `

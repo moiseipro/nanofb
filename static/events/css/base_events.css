@@ -217,15 +217,24 @@ button.event-select.selected{
 
 .mc-container {
     width: 100% !important;
-    display: block ruby;
+    display: flex;
     overflow-x: auto;
     margin-top: 10px;
     padding-bottom: 20px;
 }
 .mc-column {
-    width: calc(100% / 7 - 5px);
     border: 1px solid #ccc;
     box-sizing: border-box;
+    white-space: nowrap;
+    margin-right: 2px !important;
+}
+.mc-column.mc-training {
+    min-width: calc(100vw / 3);
+    max-width: calc(100vw / 3);
+}
+.mc-column.mc-match, .mc-column.mc-rest {
+    min-width: calc(100vw / 10);
+    max-width: calc(100vw / 10);
 }
 .mc-column .col-12 {
     border: 1px solid #ccc;
@@ -237,9 +246,12 @@ button.event-select.selected{
 .mc-column:not(.mc-training) input {
     pointer-events: none;
 }
+.mc-column.mc-training .col-12:not(.color-off), .mc-column.mc-training .col-12:not(.color-off) input {
+    background-color: #acc7f0a3;
+}
 .mc-column.mc-match .col-12:not(.color-off), .mc-column.mc-match .col-12:not(.color-off) input {
-    background-color: #acf0aebd;
+    background-color: #acf0ae95;
 }
 .mc-column.mc-rest .col-12:not(.color-off), .mc-column.mc-rest .col-12:not(.color-off) input {
-    background-color: #acc7f0bd;
+    background-color: #f0e8ac97;
 }
