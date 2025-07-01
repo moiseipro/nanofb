@@ -41,6 +41,10 @@
 	background: rgb(239, 225, 136);
 }
 
+.rescalendar_microcycles_cells .green_cell.selected2{
+	background: rgb(105, 153, 230);
+}
+
 .rescalendar_microcycles_cells .green_cell.similar{
 	background: rgb(239, 239, 178);
 }

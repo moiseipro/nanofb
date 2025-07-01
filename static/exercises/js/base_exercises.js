@@ -823,7 +823,7 @@ function ToggleUpFilter(id, state) {
             break;
         case "toggle_hidden_folders":
             if (state) {
-                $('.folders-container').find('.badge.hidden-control').removeClass('d-none');
+                $('.folders-container').find('.badge.hidden-control').parent().removeClass('d-none');
                 UpdateHiddenFoldersStorage();
             } else if (!state && !$('.up-tabs-elem[data-id="toggle_hidden_folders"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_hidden_folders"]').addClass('filtering');
@@ -836,7 +836,7 @@ function ToggleUpFilter(id, state) {
                 });
             } else if (!state && $('.up-tabs-elem[data-id="toggle_hidden_folders"]').hasClass('filtering')) {
                 $('.up-tabs-elem[data-id="toggle_hidden_folders"]').removeClass('filtering');
-                $('.folders-container').find('.badge.hidden-control').addClass('d-none');
+                $('.folders-container').find('.badge.hidden-control').parent().addClass('d-none');
                 $('.folders-container').find('.list-group-item').removeClass('c-hidden');
             }
             break;

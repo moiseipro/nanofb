@@ -143,9 +143,20 @@ $(window).on('load', function (){
     })
 
     $(document).on('click', '.microcycle_cell', function () {
+        let currentSelected = $(this).hasClass('selected')
         $('.microcycle_cell.selected').not($(this)).removeClass('selected')
-        $(this).toggleClass('selected')
-        generateData()
+        $('.microcycle_cell.selected2').not($(this)).removeClass('selected2')
+        if (currentSelected && !$(this).hasClass('selected2')) {
+            $(this).addClass('selected2')
+            $('#events-content').children().addClass('d-none');
+            $('#events-content').find('#microcycle-table-container').removeClass('d-none');
+        } else {
+            $(this).removeClass('selected2')
+            $(this).toggleClass('selected')
+            $('#events-content').children().removeClass('d-none');
+            $('#events-content').find('#microcycle-table-container').addClass('d-none');
+            generateData()
+        }
     })
     $(document).on('click', '.hasEvent', function (event) {
         let data_id = $(this).attr('data-value')

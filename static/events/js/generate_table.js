@@ -80,6 +80,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     }
 
                     $('#events tbody').html('')
+                    $('#microcycle-table-container .mc-container').html('')
                     let skip_row = 0
                     $.each(generated_events, function( index, event ) {
                         if(skip_row != 0){
@@ -91,6 +92,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             event_short_name = event['short_name']
                         let tr_html = ``
                         let td_html = ``
+                        let microcycle_table_html = ``
 
                         let only_date = moment(event['only_date'], 'DD/MM/YYYY')
                         let count_day = 0
@@ -304,6 +306,44 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             <td class="${parseInt($('#favourites-event-filter').attr('data-filter')) > 0 ? '' : 'd-none'} favorites-col"><i class="switch-favorites fa ${event.training.favourites == 1 ? 'fa-star text-success' : (event.training.favourites == 2 ? 'fa-star text-warning' : (event.training.favourites == 3 ? 'fa-star text-danger' : 'fa-star-o'))}" data-switch="${event.training.favourites}"></i></td>
                             `
 
+                            microcycle_table_html += `
+                                <div class="mc-column row mx-0 mc-training">
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Тренировка" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${all_minutes ? all_minutes+'`' : '---'}" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Физ.качества">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Физ.качества">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Техника">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Техника">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Тактика">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Тактика">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Игра">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Игра">
+                                    </div>
+                                </div>
+                            `
+
                         } else if('match' in event && event['match'] != null){
                             event_name = 'm'+(event['match']['m_type']+1)
                             event_class = 'matchClass matchClass'+event['match']['m_type']
@@ -319,6 +359,45 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 <td class="px-0"><button href="${isLite ? '' : '/matches/match?id=' + event.match.event_id}" data-count="${count_m + 1}" class="btn btn-sm btn-block rounded-0 ${event.match.m_type == 0 ? "btn-warning" : "btn-success"} text-dark py-0 event-select" data-id="${event.match.event_id}">${event.short_name ? event.short_name : '---'}</button></td>
                                 <td colspan="5" class="bg-light text-dark" >${event.match.opponent ? event.match.opponent : '---'}</td>
                             `
+
+                            microcycle_table_html += `
+                                <div class="mc-column row mx-0 mc-match">
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Матч" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                </div>
+                            `
+
                         } else {
                             event_class = 'none'
                             //<td>${count_day==0 ? '---' : count_day}</td>
@@ -327,6 +406,45 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     <td>${event['only_date']}</td>
                                     <td colspan="6">---</td>
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
+                        
+                            microcycle_table_html += `
+                                <div class="mc-column row mx-0 mc-rest">
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Отдых" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="col-12 px-0">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                </div>
+                            `
+                        
                         }
                         console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
 
@@ -349,7 +467,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             text: event_short_name
                         })
                         $('#events tbody').append(tr_html)
-                    })
+                        $('#microcycle-table-container .mc-container').prepend(microcycle_table_html)
+                    })                    
                 },
                 error: function(jqXHR, textStatus){
                     //console.log(jqXHR)
