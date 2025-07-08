@@ -8,6 +8,7 @@ from rest_framework import serializers
 
 from clubs.serializers import ClubSerializer
 from exercises.models import UserExercise, ClubExercise
+from trainings.models import UserTraining, ClubTraining
 from notifications.models import NotificationUser
 from players.models import ClubPlayer, UserPlayer
 from references.models import ClubTeam, UserTeam, ClubPaymentInformation, UserPaymentInformation, ClubSeason, UserSeason
@@ -208,6 +209,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     exercises = serializers.SerializerMethodField()
 
+    trainings = serializers.SerializerMethodField()
+
     teams = serializers.SerializerMethodField()
 
     online = serializers.SerializerMethodField()
@@ -277,6 +280,20 @@ class UserManagementSerializer(serializers.ModelSerializer):
         exercise_count = UserExercise.objects.filter(user_id=user.id).count()
         club_exercise_count = ClubExercise.objects.filter(user_id=user.id).count()
         return str(exercise_count) + ' / ' + str(club_exercise_count)
+    
+    def get_trainings(self, user):
+        # tr_count = UserTraining.objects.filter(trainer_user_id=user.id, event_id__date=1).count()
+        tr_count = 0
+        club_tr_count = 0
+        if user.club_id is not None:
+            c_season = ClubSeason.objects.filter(club_id=user.club_id).order_by('-date_with').first()
+            if c_season and isinstance(c_season.date_with, (datetime.date, datetime)) and isinstance(c_season.date_by, (datetime.date, datetime)):
+                club_tr_count = ClubTraining.objects.filter(trainer_user_id=user.id, event_id__date__range=(c_season.date_with, c_season.date_by)).count()
+        else:
+            c_season = UserSeason.objects.filter(user_id=user).order_by('-date_with').first()
+            if c_season and isinstance(c_season.date_with, (datetime.date, datetime)) and isinstance(c_season.date_by, (datetime.date, datetime)):
+                tr_count = UserTraining.objects.filter(trainer_user_id=user.id, event_id__date__range=(c_season.date_with, c_season.date_by)).count()
+        return str(tr_count) + ' / ' + str(club_tr_count)
 
     def get_teams(self, user):
         teams_data = ''
@@ -390,7 +407,7 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'last_name', 'first_name', 'job_title', 'date_birthsday', 'age', 'access_to',
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
-            'region', 'club_id', 'exercises', 'teams', 'online', 'teams_players', 'teams_players_fact',
+            'region', 'club_id', 'exercises', 'trainings', 'teams', 'online', 'teams_players', 'teams_players_fact',
             'notifications_count', 'payment_user', 'marks'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

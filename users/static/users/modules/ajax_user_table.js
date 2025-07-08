@@ -111,6 +111,9 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
             {'data': 'exercises', 'name': 'exercises', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
+            {'data': 'trainings', 'name': 'trainings', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
+                return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
+            }},
             {'data': 'notifications_count', 'name': 'notifications_count', 'defaultContent': "---", sortable: false, searchable: false, render: function (data, type, row, meta) {
                 return `<div class="w-100 text-center" title="${data}"> ${data} </div>`;
             }},
