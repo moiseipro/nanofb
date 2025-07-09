@@ -1344,4 +1344,49 @@ $(function() {
     });
     
 
+    // Open graphics in modal
+    $('.visual-block').on('click', '.carousel-item', (e) => {
+        let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
+        let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
+        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        if (isTrainer) {folderType = "__is_trainer";}
+        let userId = "";
+        if (isUsersExs) {
+            folderType = "__is_user_exs";
+            userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
+        }
+        let id = -1;
+        try {
+            id = parseInt($('.exercises-block').find('.exs-elem.active').attr('data-id'));
+        } catch (e) {}
+        let activeNum = 1; let tempCounter = 1;
+        let tParentId = $(e.currentTarget).parent().parent().attr('id');
+        if (tParentId == "carouselSchema") {
+            activeNum = $('#splitCol_2').find('#carouselSchema').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselVideo") {
+            tempCounter += $('#splitCol_2').find('#carouselSchema').find('.carousel-item:not(.d-none)').length;
+            activeNum = $('#splitCol_2').find('#carouselVideo').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        } else if (tParentId == "carouselAnim") {
+            tempCounter += $('#splitCol_2').find('#carouselSchema').find('.carousel-item:not(.d-none)').length;
+            tempCounter += $('#splitCol_2').find('#carouselVideo').find('.carousel-item:not(.d-none)').length;
+            activeNum = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
+        }
+        console.log('ssdssd')
+        LoadGraphicsModal(id, folderType, activeNum, userId);
+    });
+    $('#exerciseGraphicsModal').on('click', '.video-watched', (e) => {
+        let activeExs = $('.exercises-list').find('.exs-elem.active');
+        if ($(activeExs).length <= 0) {return;}
+        let cId = $(e.currentTarget).attr('data-id');
+        $(activeExs).find(`button.btn-marker[data-type="marker"][data-id="${cId}"]`).first().click();
+    });
+
+    $('.visual-block').on('click', 'button.toggle-description-visual', (e) => {
+        let cId = $(e.currentTarget).attr('data-id');
+        $('.visual-block').find('.description-container-visual').find('button.toggle-description-visual').removeClass('active');
+        $(e.currentTarget).addClass('active');
+        $('.visual-block').find('.description-container-visual').find('.description-panel-visual').addClass('d-none');
+        $('.visual-block').find('.description-container-visual').find(`.description-panel-visual[data-id="${cId}"]`).removeClass('d-none');
+    });
+
 });
