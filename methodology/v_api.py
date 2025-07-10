@@ -390,7 +390,7 @@ def GET_get_articles_all(request, cur_user):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     res_exs = []
     # only admin folders temp:
-    found_articles = AdminArticle.objects.filter(visible=True)
+    found_articles = AdminArticle.objects.filter(visible=True).defer('content')
     for article in found_articles:
         a_title = utils.get_by_language_code(article.title, request.LANGUAGE_CODE)
         a_favorite = False
