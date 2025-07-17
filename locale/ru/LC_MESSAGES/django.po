@@ -3298,6 +3298,9 @@ msgstr "Клуб"
 msgid "Helper"
 msgstr "Помощник"
 
+msgid "Tournaments"
+msgstr "Турниры"
+
 #: .\nanofootball\templates\menu\sidebar.html:70
 msgid "«Client» system"
 msgstr "Система «Клиент»"

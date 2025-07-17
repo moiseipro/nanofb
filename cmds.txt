@@ -33,6 +33,8 @@ python manage.py collectstatic
 django-admin makemessages -l en
 django-admin makemessages -l ru
 django-admin compilemessages
+!!!
+python -m django compilemessages
 --------- Выгрузить переводы в JS
 django-admin makemessages -d djangojs -l en
 django-admin makemessages -d djangojs -l ru

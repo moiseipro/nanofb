@@ -93,7 +93,8 @@ INSTALLED_APPS = [
     'helper_football.apps.HelperFootballConfig',
     'helper_site.apps.HelperSiteConfig',
     'drawer.apps.DrawerConfig',
-    'notifications.apps.NotificationsConfig'
+    'notifications.apps.NotificationsConfig',
+    'tournaments.apps.TournamentsConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

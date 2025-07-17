@@ -53,6 +53,7 @@ urlpatterns = [
     path('helper_site/', include(('helper_site.urls', 'helper_site'), namespace='helper_site')),
     path('drawer/', include(('drawer.urls', 'drawer'), namespace='drawer')),
     path('notifications/', include(('notifications.urls', 'notifications'), namespace='notification')),
+    path('tournaments/', include(('tournaments.urls', 'tournaments'), namespace='tournaments')),
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),

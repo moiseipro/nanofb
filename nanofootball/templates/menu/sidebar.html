@@ -232,6 +232,18 @@
     </a>
 </li>
 {% endif %}
+{% if perms.tournaments.view_userarticle or perms.tournaments.view_clubarticle %}
+<li class="{{ menu_tournaments }}">
+    <a href="{% url 'tournaments:tournaments' %}" class="nav-link" style="padding-left: 16px;">
+        {% if ui_elements.sidebar__tournaments %}
+            {{ ui_elements.sidebar__tournaments }}
+        {% else %}
+            <i class="fa fa-binoculars" aria-hidden="true"></i>
+        {% endif %}
+        <span class="pl-2">{% trans 'Tournaments' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.helper_football.view_userarticle or perms.helper_football.view_clubarticle %}
 <li class="{{ menu_helper_football }}">
     <a href="{% url 'helper_football:helper_football' %}" class="nav-link" style="padding-left: 16px;">
