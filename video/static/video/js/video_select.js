@@ -65,6 +65,8 @@ $(function() {
     });
     $('.video-tags-filter').on('change', function () {
         let data_tag = $(this).val();
+        console.log("xxxx")
+        console.log( data_tag )
         video_table.columns([8]).search(data_tag).draw();
     });
     $('.video-search').on('keyup', function () {
