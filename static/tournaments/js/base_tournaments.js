@@ -836,7 +836,7 @@ $(function() {
     });
     $('.video-tags-filter').on('change', function (){
         let data_tag = $( this ).val();
-        video_table.columns([7]).search(data_tag).draw();
+        video_table.columns([8]).search(data_tag).draw();
     });
     $('.video-search').on('keyup', function (){
         let data_search = $( this ).val();
