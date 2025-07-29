@@ -64,6 +64,8 @@ function RenderFolders(folders) {
                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
                             </span>
                         </a>
+                        <span class="badge badge-pill bg-light d-flex align-items-center articles-counter">
+                        </span>
                     </div>
                 </div>
             </li>
@@ -164,6 +166,10 @@ function RenderArticles(articles) {
             $(lastLiElem).after(htmlStr);
         }
     }
+    $('.folders-group').find('.folder-elem').each((ind, elem) =>{
+        let currentArticlesCount = $('.folders-group').find(`.article-elem[data-folder="${$(elem).attr('data-id')}"]`).length;
+        $(elem).find('.articles-counter').text(currentArticlesCount);
+    });
     ToggleEditOptions();
     UpdateSelectedFolders(true);
     $('.folders-group').find(`.article-elem[data-id="${window.articleForEdit}"]`).parent().trigger('click');
@@ -667,10 +673,13 @@ $(function() {
         let cType = $(e.currentTarget).attr('data-type');
         let isActive = $(e.currentTarget).hasClass('active');
         if (cType == "folder") {
+            $('.folders-group').find('li[data-type="article"]').toggleClass('d-none', true);
+            $('.folders-group').find('li[data-type="folder"]').toggleClass('active', false);
             $('.folders-group').find('li[data-type="article"]').find(`.article-elem[data-folder="${folderId}"]`).parent().toggleClass('d-none', isActive);
             $(e.currentTarget).toggleClass('active', !isActive);
             UpdateSelectedFolders();
         } else if (cType == "article") {
+            $('.row-header').find('input.article-name').val('');
             $('.folders-group').find('li[data-type="article"]').removeClass('active');
             if (!isActive) {
                 LoadArticleOne(articleId);
@@ -844,6 +853,19 @@ $(function() {
     });
     // END For videos' filter
     // end of video controlling
+
+    // Поиск по статьям
+    $('input[name="a_search"]').on('keyup', (e) => {
+        let cVal = $(e.currentTarget).val();
+        $('.folders-group').find('li[data-type="article"]').toggleClass('d-none', true);
+        $('.folders-group').find('li[data-type="folder"]').toggleClass('active', false);
+        let foundArticles = $('.folders-group').find('li[data-type="article"]').filter(function() {
+            let cloned = $(this).find('.article-title').clone();
+            $(cloned).find('.elem-num').remove();
+            return $(cloned).text().includes(cVal) ? cVal != "" : false;
+        });
+        $(foundArticles).toggleClass('d-none', false);
+    });
 
 
     // Toggle left menu

@@ -707,6 +707,7 @@ def folders_api(request):
         except:
             pass
         nfb_folders_status = 0
+        team_folders_status = 0
         nfb_folders_set_status = 0
         all_team_folders_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
@@ -714,6 +715,10 @@ def folders_api(request):
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
         try:
             nfb_folders_status = int(request.GET.get("nfb_folders", 0))
+        except:
+            pass
+        try:
+            team_folders_status = int(request.GET.get("team_folders", 0))
         except:
             pass
         try:
@@ -726,6 +731,8 @@ def folders_api(request):
             pass
         if nfb_folders_status == 1:
             return v_api.GET_nfb_folders(request, cur_user[0])
+        elif team_folders_status == 1:
+            return v_api.GET_team_folders(request, cur_user[0], cur_team)
         elif nfb_folders_set_status == 1:
             return v_api.GET_nfb_folders_set(request, cur_user[0], cur_team)
         elif all_team_folders_status == 1:

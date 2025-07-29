@@ -318,28 +318,28 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                         <input class="form-control form-control-sm w-100" type="text" value="${all_minutes ? all_minutes+'`' : '---'}" disabled="">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Физ.качества">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Физ.качества">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Физ.качества">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Физ.качества">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Техника">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Техника">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Техника">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Техника">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Тактика">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Тактика">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Тактика">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Тактика">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Игра G + G">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Игра G + G">
                                     </div>
                                     <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Игра G + G">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Игра G + G">
                                     </div>
                                     <div class="col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="${all_load ? all_load : '---'}" disabled="">

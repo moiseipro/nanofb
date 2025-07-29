@@ -1046,6 +1046,36 @@ $(window).on('load', function (){
     create_ajax_select2($('#select-microcycle-short_key'), '', '/events/microcycle_short_key_list', $('#references-modal'))
     // create_ajax_select2($('#select-microcycle-block'), gettext('Block'), '/events/microcycle_block_list', $('#references-modal'))
     // create_ajax_select2($('#select-microcycle-block_key'), gettext('Block key'), '/events/microcycle_block_key_list', $('#references-modal'))
+
+    // Генерация datalist#foldersList + авто-сохранение при редактировании параметров тренировки в микро-цикле #2
+    let foldersHtml = "";
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: {'team_folders': 1},
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/exercises/folders_api",
+        success: function (res) {
+            for (let i = 0; i < res.data.folders.length; i++) {
+                let folder = res.data.folders[i];
+                for (let j = 0; j < folder.subfolders.length; j++) {
+                    let subfolder = folder.subfolders[j];
+                    let currentShortName = `${shortNameChars[i].toUpperCase()}${j+1}`;
+                    foldersHtml += `
+                        <option value="${subfolder.name}">${currentShortName}. ${subfolder.name}</option>
+                    `;
+                }
+            }
+        },
+        error: function (res) {
+        },
+        complete: function (res) {
+            $('#foldersList').html(foldersHtml);
+        }
+    });
+
+
 })
 
 function clear_event_form(){

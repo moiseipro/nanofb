@@ -4835,6 +4835,37 @@ def GET_nfb_folders_set(request, cur_user, cur_team):
     return JsonResponse({"data": res_data}, status=200)
 
 
+def GET_team_folders(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get Team folders".
+
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
+    folders = []
+    if request.user.club_id is not None:
+        folders = ClubFolder.objects.filter(
+            Q(club=request.user.club_id, visible=True) &
+            Q(Q(parent=0) | Q(parent__isnull=True))
+        )
+        folders = [entry for entry in folders.values()]
+        for folder in folders:
+            subfolders = ClubFolder.objects.filter(club=request.user.club_id, visible=True, parent=folder['id'])
+            folder['subfolders'] = [entry for entry in subfolders.values()]
+    else:
+        folders = UserFolder.objects.filter(
+            Q(user=cur_user, team=cur_team, visible=True) &
+            Q(Q(parent=0) | Q(parent__isnull=True))
+        )
+        folders = [entry for entry in folders.values()]
+        for folder in folders:
+            subfolders = UserFolder.objects.filter(user=cur_user, team=cur_team, visible=True, parent=folder['id'])
+            folder['subfolders'] = [entry for entry in subfolders.values()]
+    res_data = {'folders': folders, 'type': "team_folders"}
+    return JsonResponse({"data": res_data}, status=200)
+
+
 def GET_all_teams_folders(request, cur_user):
     """
     Return JSON Response as result on GET operation "Get all teams folders" if team_id is None else find all folders by team_id.
