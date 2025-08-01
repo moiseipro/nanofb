@@ -860,7 +860,7 @@ $(function() {
 
     // Поиск по статьям
     function findTextByWordStarts(text, stringToFind) {
-        const regex = new RegExp(`\\b${stringToFind}`, 'i');
+        const regex = new RegExp(`(^|\\s)${stringToFind}`, 'i');
         return text.split('\n').filter(line => regex.test(line));
     }
     $('input[name="a_search"]').on('keyup', (e) => {
