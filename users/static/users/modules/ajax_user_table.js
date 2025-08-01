@@ -32,8 +32,8 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
         },
         ajax: {
             url:'/user/clients/api/?format=datatables',
-            data: function(data){
-                console.log(data)
+            data: function(data) {
+                data.favourite_filter_mode = window.favouriteFilterMode;
             }
         },
         columns: [
@@ -135,7 +135,13 @@ function generate_ajax_users_table(scroll_y = '', pagination = true){
                 let html = `<div class="w-100 text-center ${is_new ? 'text-danger' : ''}" title="${view_date}"> ${view_date} </div>`;
                 return html;
             }},
-
+            {'data': 'marks_favourite', "name": "marks__favourite", orderable: true, className: 'favourite-col', render: function (data, type, row, meta) {
+                let mark_name = 'favourite'
+                let button_html = `<div class="w-100 text-center mark-changer" data-value="${data != null && data ? data : 0}" data-id="${row.id}" data-mark="${mark_name}" title="">`
+                button_html += `<i class="fa fa-star" aria-hidden="true"></i>`
+                button_html += `</div>`
+                return button_html;
+            }},
             {'data': 'access_to', 'name': 'access_to', 'defaultContent': "---", searchable: false, render: function (data, type, row, meta) {
                 let html = `<div class="w-100 text-center"> ${data} </div>`;
                 return html;

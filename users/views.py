@@ -327,6 +327,15 @@ class UserManagementApiView(viewsets.ModelViewSet):
         #users = User.objects.annotate(payment_date='userpaymentinformation__payment_before')
         #User.objects.prefetch_related(Prefetch('notificationuser_set'))
 
+        favourite_filter_mode = self.request.GET.get('favourite_filter_mode', '0')
+        print(f"popa: {favourite_filter_mode}")
+        if favourite_filter_mode == '1':
+            users = users.filter(marks__favourite='1')
+        elif favourite_filter_mode == '2':
+            users = users.filter(marks__favourite='3')
+        elif favourite_filter_mode == '0':
+            pass
+
         return users
 
 

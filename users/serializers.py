@@ -225,6 +225,8 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
     payment_user = serializers.SerializerMethodField()
 
+    marks_favourite = serializers.SerializerMethodField()
+
     def get_license(self, user):
         license_name = ''
         if user.personal.trainer_license is not None:
@@ -400,6 +402,9 @@ class UserManagementSerializer(serializers.ModelSerializer):
 
         return data
 
+    def get_marks_favourite(self, user):
+        return user.marks.get('favourite') if user.marks else None
+
     class Meta:
         model = User
         fields = [
@@ -408,6 +413,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             'trainer_license', 'license', 'license_date', 'flag', 'distributor', 'date_joined', 'club_title',
             'activation', 'club_name', 'club_registration_to', 'is_archive', 'date_joined', 'phone', 'date_last_login',
             'region', 'club_id', 'exercises', 'trainings', 'teams', 'online', 'teams_players', 'teams_players_fact',
-            'notifications_count', 'payment_user', 'marks'
+            'notifications_count', 'payment_user', 'marks', 'marks_favourite'
         ]
         datatables_always_serialize = ('id', 'groups', 'trainer_license', 'club_registration_to', 'is_archive')

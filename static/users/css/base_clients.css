@@ -64,3 +64,10 @@
 .table-settings-block .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field{
     margin-top: 0px !important;
 }
+
+.marks-favourites-filter[data-value="1"] > i {
+    color: #35c735;
+}
+.marks-favourites-filter[data-value="2"] > i {
+    color: #ff4e4e;
+}

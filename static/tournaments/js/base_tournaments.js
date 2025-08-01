@@ -592,6 +592,10 @@ $(function() {
                 $('.row-content').find('.folders-wrapper').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
                 $('.row-content').find('.viewer-wrapper').toggleClass('w-100', !$(e.currentTarget).hasClass('active'));
                 break;
+            case "toggle_search":
+                $(e.currentTarget).toggleClass('active');
+                $('.row-content').find('.form-group-search').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
+                break;
             case "toggle_folders":
                 if (cState == '1') {
                     $(e.currentTarget).attr('data-state', '0');
@@ -836,7 +840,7 @@ $(function() {
     });
     $('.video-tags-filter').on('change', function (){
         let data_tag = $( this ).val();
-        video_table.columns([8]).search(data_tag).draw();
+        video_table.columns([7]).search(data_tag).draw();
     });
     $('.video-search').on('keyup', function (){
         let data_search = $( this ).val();
@@ -855,6 +859,10 @@ $(function() {
     // end of video controlling
 
     // Поиск по статьям
+    function findTextByWordStarts(text, stringToFind) {
+        const regex = new RegExp(`\\b${stringToFind}`, 'i');
+        return text.split('\n').filter(line => regex.test(line));
+    }
     $('input[name="a_search"]').on('keyup', (e) => {
         let cVal = $(e.currentTarget).val();
         $('.folders-group').find('li[data-type="article"]').toggleClass('d-none', true);
@@ -862,7 +870,7 @@ $(function() {
         let foundArticles = $('.folders-group').find('li[data-type="article"]').filter(function() {
             let cloned = $(this).find('.article-title').clone();
             $(cloned).find('.elem-num').remove();
-            return $(cloned).text().includes(cVal) ? cVal != "" : false;
+            return cVal != "" ? findTextByWordStarts($(cloned).text(), cVal).length > 0 : false;
         });
         $(foundArticles).toggleClass('d-none', false);
     });

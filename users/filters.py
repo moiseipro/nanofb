@@ -44,6 +44,15 @@ class GlobalBoolVipFilter(GlobalFilter, filters.CharFilter):
         return qs
 
 
+class GlobalBoolFavouriteFilter(GlobalFilter, filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            if self.distinct:
+                qs = qs.distinct()
+            qs = qs.order_by("-marks__favourite")
+        return qs
+
+
 class GlobalNotificationsFilter(GlobalFilter, filters.CharFilter):
     def filter(self, qs, value):
         if value:
@@ -222,6 +231,16 @@ class GlobalAdminFilter(filters.CharFilter):
     pass
 
 
+def filter_favourite(self, queryset, name, value):
+    if value == '1':
+        return queryset.filter(marks__favourite=1)
+    elif value == '2':
+        return queryset.filter(marks__favourite=3)
+    elif value == '0':
+        return queryset.all()
+    return queryset
+
+
 class UserManagementGlobalFilter(DatatablesFilterSet):
     """Filter name, artist and genre by name with icontains"""
 
@@ -253,8 +272,10 @@ class UserManagementGlobalFilter(DatatablesFilterSet):
     club_id = GlobalClubFilter(field_name='club_id__id', lookup_expr='exact')
     group = GlobalGroupFilter(field_name='group', lookup_expr='exact')
 
+    marks_favourite = GlobalCharFilter(field_name='marks__favourite', method='filter_favourite')
+
     class Meta:
         #model = User
         fields = ['registration_to', 'date_birthsday', 'last_name', 'first_name', 'job_title', 'license', 'p_version',
                   'club_id', 'distributor', 'is_archive', 'online', 'access_to', 'notifications_count', 'group',
-                  'payment_user', 'marks', 'marks.call', 'marks.call2']
+                  'payment_user', 'marks', 'marks.call', 'marks.call2', 'marks_favourite']

@@ -190,6 +190,15 @@
                 {% trans 'Registration' %}
             </label>
         </div>
+        <div class="form-check d-flex align-items-center">
+            <input class="form-check-input toggle-user-column" data-col="favourite-info-col" type="checkbox" value="" id="favourite-check">
+            <label class="form-check-label w-100" for="favourite-check">
+                {% trans 'favourites' as fav %}{{ fav|capfirst }}
+            </label>
+            <div class="marks-favourites-filter mr-4" data-value="0">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+        </div>
 {#        <div class="form-check">#}
 {#            <input class="form-check-input toggle-user-column" data-col="activity-info-col" type="checkbox" value="" id="activity-check">#}
 {#            <label class="form-check-label" for="activity-check">#}

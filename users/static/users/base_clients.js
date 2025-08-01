@@ -164,6 +164,9 @@ $(window).on("load", function () {
         let tr_obj = $(this).closest('tr')
         let current_value = parseInt($(this).attr('data-value')) + 1
         if (isNaN(current_value) || current_value > 3) current_value = 0
+        if ($(this).attr('data-mark') == "favourite") {
+            if (current_value == 2) {current_value ++;}
+        }
         $(this).attr('data-value', current_value)
         let marks = {}
         tr_obj.find('.mark-checker').each(function (index) {
@@ -182,6 +185,16 @@ $(window).on("load", function () {
         ajax_users_action('POST', send_data, 'mark', id, 'edit_user').then(function (data) {
             console.log(data)
         })
+    })
+
+    window.favouriteFilterMode = 0;
+    $('.marks-favourites-filter').on('click', (e) => {
+        try {
+            window.favouriteFilterMode = parseInt($(e.currentTarget).attr('data-value'));
+        } catch (e) {}
+        window.favouriteFilterMode = (window.favouriteFilterMode + 1) % 3;
+        $(e.currentTarget).attr('data-value', window.favouriteFilterMode);
+        users_table.ajax.reload();
     })
 
     $('#add-user-button').on('click', function () {

@@ -21,6 +21,9 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x active" data-id="toggle_article_block" data-state="0" title="Скрыть / показать папки" style="--w-max-x:5%;">
                                         <i class="fa fa-bars" aria-hidden="true"></i>
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_search" data-state="0" title="Свернуть / развернуть поиск" style="--w-max-x:5%;">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block my-0 mx-1 size-max-w-x" data-id="toggle_folders" data-state="0" title="Свернуть / развернуть все папки" style="--w-max-x:5%;">
                                         <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
                                     </button>
@@ -52,6 +55,9 @@
                         </div>
                         <div class="row-content split mt-2">
                             <div class="folders-wrapper px-0" id="splitCol_0">
+                                <div class="form-group form-group-search mb-1 d-none">
+                                    <input name="a_search" type="text" class="form-control form-control-sm" aria-describedby="" placeholder="Найти..." autocomplete="off">
+                                </div>
                                 <ul class="list-group folders-group">
                                 </ul>
                             </div>
