@@ -702,7 +702,8 @@ function ToggleUpFilter(id, state) {
             $('.folders_div[data-id="users_exs_folders"]').toggleClass('d-none', !state);
             $('.folders_div').find('.list-group-item').removeClass('active');
             $('.exs-list-group').html('<li class="list-group-item py-2">Выберите для начала папку.</li>');
-            $('.btn-custom.tgl-off-usrs-exs').toggleClass('d-none', state);
+            $('.btn-custom.tgl-off-usrs-exs').prop('disabled', state);
+            // $('.btn-custom.tgl-off-usrs-exs').toggleClass('d-none', state);
             if (state) {
                 $('.btn-custom:not(.tgl-off-usrs-exs,.empty-panel-usrs-exs)').css('--w-max-x', '3%');
                 $('.up-tabs-elem[data-id="toggle_trainers_exs"]').css('--w-max-x', '3%');
