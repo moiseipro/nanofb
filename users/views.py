@@ -313,6 +313,13 @@ class UserManagementApiView(viewsets.ModelViewSet):
             }
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['post'], url_path='datatables-post')
+    def datatables_post(self, request):
+        """
+        Обработка POST-запросов от DataTables с фильтрами
+        """
+        return self.list(request)
+    
     def perform_update(self, serializer):
         serializer.save()
 
@@ -328,7 +335,8 @@ class UserManagementApiView(viewsets.ModelViewSet):
         #User.objects.prefetch_related(Prefetch('notificationuser_set'))
 
         favourite_filter_mode = self.request.GET.get('favourite_filter_mode', '0')
-        print(f"popa: {favourite_filter_mode}")
+        if favourite_filter_mode == '0':
+            favourite_filter_mode = self.request.POST.get('favourite_filter_mode', '0')
         if favourite_filter_mode == '1':
             users = users.filter(marks__favourite='1')
         elif favourite_filter_mode == '2':
