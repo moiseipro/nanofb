@@ -1,11 +1,11 @@
 $(window).on('load', function () {
     $('.calculate-name').each(function( index ) {
         let name_obj = $(this)
-        //console.log(name_obj.attr('data-value').replace(/\"/g, "`").replace(/\'/g, '"'))
-        let names = $.parseJSON(name_obj.attr('data-value').replace(/\"/g, "`").replace(/\'/g, '"'));
-
-        name_obj.find('.title').text(get_translation_name(names))
-        console.log(get_translation_name(names))
+        try {
+            let names = $.parseJSON(name_obj.attr('data-value').replace(/\"/g, "`").replace(/\'/g, '"'));
+            name_obj.find('.title').text(get_translation_name(names))
+            console.log(get_translation_name(names))
+        } catch(e) {}
     })
 
     let inventoryJson = $('#inventory-data-block').attr('data-json');
