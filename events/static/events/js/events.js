@@ -280,42 +280,52 @@ $(window).on('load', function (){
                         for (let exercise of exercises) {
                             let count_slide = 0
                             let select_html = '', carousel_html = ''
-                            if (exercise.scheme_img) {
-                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
+                            if (exercise.scheme_img && exercise.scheme_img_show_first) {
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                                 count_slide++
                                 carousel_html+= `
-                                    <div class="carousel-item active">
+                                    <div class="carousel-item">
                                         <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
                                             <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
                                         </svg>
                                     </div>`
                             }
                             if(exercise.scheme_1){
-                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                                 count_slide++
                                 carousel_html+= `
-                                    <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
+                                    <div class="carousel-item">
                                         <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
                                             <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" x="0" y="0"></image>
                                         </svg>
                                     </div>`
                             }
                             if(exercise.scheme_2){
-                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                                 count_slide++
                                 carousel_html+= `
-                                    <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
+                                    <div class="carousel-item">
                                         <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
                                             <image data-height="400" data-width="600" height="100%" width="100%" href="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" x="0" y="0"></image>
                                         </svg>
                                     </div>`
                             }
+                            if (exercise.scheme_img && !exercise.scheme_img_show_first) {
+                                select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                                count_slide++
+                                carousel_html+= `
+                                    <div class="carousel-item">
+                                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                            <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                        </svg>
+                                    </div>`
+                            }
                             if(exercise.exercise_scheme){
                                 if(exercise.exercise_scheme['scheme_1']){
-                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                                     count_slide++
                                     carousel_html+= `
-                                        <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
+                                        <div class="carousel-item">
                                             ${exercise.exercise_scheme['scheme_1']}
                                         </div>`
                                 }
@@ -357,6 +367,10 @@ $(window).on('load', function (){
                         }
                     }
                     $('#block-event-info .event-info').html(html_scheme)
+                    $('#block-event-info .event-info').find('.exercise-visual-block').each((ind, elem) => {
+                        $(elem).find('.carousel-indicators').find('li:first').addClass('active')
+                        $(elem).find('.carousel-inner').find('.carousel-item:first').addClass('active')
+                    })
 
                 } else {
                     //$('.training-card-objective').addClass('d-none')
