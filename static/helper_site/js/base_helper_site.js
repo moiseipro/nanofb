@@ -36,9 +36,6 @@ function RenderFolders(folders) {
                 <div class="folder-elem d-flex justify-content-between" data-id="${folder.id}" data-parent="" data-title="${folder.title}" data-num="${i+1}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
-                            <span class="folder-point mr-2">
-                                <span class="icon-custom icon--folder ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                            </span>
                             <span class="folder-title"> 
                                 <span class="elem-num">${(i+1)}. </span>
                                 ${folder.title}
@@ -77,8 +74,8 @@ function RenderFolders(folders) {
     ToggleEditOptions();
 }
 
-function LoadArticles() {
-    let dataToSend = {'get_articles_all': 1};
+function LoadArticles(searchVal="") {
+    let dataToSend = {'get_articles_all': 1, 'search': searchVal};
     let dataRes = [];
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -118,9 +115,6 @@ function RenderArticles(articles) {
                 <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
-                            <span class="article-point mr-2">
-                                <span class="icon-custom icon--folder1 ml-4" style="--i-w: 1em; --i-h: 1em;"></span>
-                            </span>
                             <span class="article-title"> 
                                 <span class="elem-num">${folderNum}.${(articleNum+1)}. </span>
                                 ${article.title}
@@ -711,6 +705,10 @@ $(function() {
                 $('.row-content').find('.folders-wrapper').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
                 $('.row-content').find('.viewer-wrapper').toggleClass('w-100', !$(e.currentTarget).hasClass('active'));
                 break;
+            case "toggle_search":
+                $(e.currentTarget).toggleClass('active');
+                $('.row-content').find('.form-group-search').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
+                break;
             case "toggle_folders":
                 if (cState == '1') {
                     $(e.currentTarget).attr('data-state', '0');
@@ -796,6 +794,12 @@ $(function() {
             $(e.currentTarget).toggleClass('active', !isActive);
             UpdateSelectedFolders();
         } else if (cType == "article") {
+            try {
+                document.articleViewer.setData('');
+                document.articleEditor.setData('');
+            } catch(e) {}
+            $('.row-header').find('input.article-name').val('');
+            $('.pages-panel').html('');
             $('.folders-group').find('li[data-type="article"]').removeClass('active');
             if (!isActive) {
                 LoadArticleOne(articleId);
@@ -969,6 +973,19 @@ $(function() {
     });
     // END For videos' filter
     // end of video controlling
+
+    // Поиск по статьям
+    $('#buttonSearch').on('click', (e) => {
+        let cVal = $('input[name="a_search"]').val();
+        try {
+            document.articleViewer.setData('');
+            document.articleEditor.setData('');
+        } catch(e) {}
+        $('.row-header').find('input.article-name').val('');
+        $('.pages-panel').html('');
+        $('.folders-group').find('li[data-type="article"]').removeClass('active');
+        LoadArticles(cVal);
+    });
 
 
     // Toggle left menu

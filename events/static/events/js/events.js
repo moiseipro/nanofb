@@ -920,6 +920,9 @@ $(window).on('load', function (){
         let shared_modal = $('#trainingShareModal');
         let startDate = getFormattedDateFromTodayWithDelta(1);
         let endDate = getFormattedDateFromTodayWithDelta(8);
+        try {
+            endDate = getFormattedDateFromAnother($('#select-season').find('option[selected]').attr('data-by'));
+        } catch(e) {}
         shared_modal.find('input[name="date"]').val(startDate);
         shared_modal.find('input[name="date"]').attr('min', startDate);
         shared_modal.find('input[name="date"]').attr('max', endDate);
@@ -1387,6 +1390,15 @@ function generateMicrocyclesTable(){
         aloads_table.columns.adjust()
     })
 
+}
+
+function getFormattedDateFromAnother(dateStr="") {
+    let parts = dateStr.split('/');
+    if (parts.length !== 3) {
+        throw new Error('Invalid date format. Expected DD/MM/YYYY.');
+    }
+    let newDateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
+    return newDateStr;
 }
 
 $(function() {

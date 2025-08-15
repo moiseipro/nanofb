@@ -930,6 +930,15 @@ function getFormattedDateFromTodayWithDelta(delta=0) {
         + ("0" + date.getDate()).slice(-2);
 }
 
+function getFormattedDateFromAnother(dateStr="") {
+    let parts = dateStr.split('/');
+    if (parts.length !== 3) {
+        throw new Error('Invalid date format. Expected DD/MM/YYYY.');
+    }
+    let newDateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
+    return newDateStr;
+}
+
 function LoadExerciseFullName() {
     let cId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
     let folderType = $('.folders_div.selected').attr('data-id');

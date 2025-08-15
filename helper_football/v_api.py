@@ -389,8 +389,15 @@ def GET_get_articles_all(request, cur_user):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     res_exs = []
+    search_val = request.GET.get("search", "")
     # only admin folders temp:
-    found_articles = AdminArticle.objects.filter(visible=True)
+    found_articles = []
+    if isinstance(search_val, str) and len(search_val) > 0:
+        found_articles = AdminArticle.objects.filter(visible=True).filter(
+            Q(title__icontains=search_val) | Q(content__icontains=search_val)
+        ).defer('content')
+    else:
+        found_articles = AdminArticle.objects.filter(visible=True).filter().defer('content')
     for article in found_articles:
         a_title = utils.get_by_language_code(article.title, request.LANGUAGE_CODE)
         a_favorite = False

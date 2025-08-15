@@ -3104,6 +3104,9 @@ msgstr ""
 msgid "Tournaments"
 msgstr ""
 
+msgid "Documents"
+msgstr ""
+
 #: .\nanofootball\templates\menu\sidebar.html:70
 msgid "«Client» system"
 msgstr ""

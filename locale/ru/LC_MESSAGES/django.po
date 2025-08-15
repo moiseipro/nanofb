@@ -3301,6 +3301,9 @@ msgstr "Помощник"
 msgid "Tournaments"
 msgstr "Турниры"
 
+msgid "Documents"
+msgstr "Документы"
+
 #: .\nanofootball\templates\menu\sidebar.html:70
 msgid "«Client» system"
 msgstr "Система «Клиент»"

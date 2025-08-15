@@ -74,8 +74,8 @@ function RenderFolders(folders) {
     ToggleEditOptions();
 }
 
-function LoadArticles() {
-    let dataToSend = {'get_articles_all': 1};
+function LoadArticles(searchVal="") {
+    let dataToSend = {'get_articles_all': 1, 'search': searchVal};
     let dataRes = [];
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -765,6 +765,11 @@ $(function() {
             $(e.currentTarget).toggleClass('active', !isActive);
             UpdateSelectedFolders();
         } else if (cType == "article") {
+            try {
+                document.articleViewer.setData('');
+                document.articleEditor.setData('');
+            } catch(e) {}
+            $('.pages-panel').html('');
             $('.folders-group').find('li[data-type="article"]').removeClass('active');
             if (!isActive) {
                 LoadArticleOne(articleId);
@@ -861,20 +866,15 @@ $(function() {
     });
 
     // Поиск по статьям
-    function findTextByWordStarts(text, stringToFind) {
-        const regex = new RegExp(`(^|\\s)${stringToFind}`, 'i');
-        return text.split('\n').filter(line => regex.test(line));
-    }
-    $('input[name="a_search"]').on('keyup', (e) => {
-        let cVal = $(e.currentTarget).val();
-        $('.folders-group').find('li[data-type="article"]').toggleClass('d-none', true);
-        $('.folders-group').find('li[data-type="folder"]').toggleClass('active', false);
-        let foundArticles = $('.folders-group').find('li[data-type="article"]').filter(function() {
-            let cloned = $(this).find('.article-title').clone();
-            $(cloned).find('.elem-num').remove();
-            return cVal != "" ? findTextByWordStarts($(cloned).text(), cVal).length > 0 : false;
-        });
-        $(foundArticles).toggleClass('d-none', false);
+    $('#buttonSearch').on('click', (e) => {
+        let cVal = $('input[name="a_search"]').val();
+        try {
+            document.articleViewer.setData('');
+            document.articleEditor.setData('');
+        } catch(e) {}
+        $('.pages-panel').html('');
+        $('.folders-group').find('li[data-type="article"]').removeClass('active');
+        LoadArticles(cVal);
     });
 
     // Split columns
