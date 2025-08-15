@@ -449,6 +449,10 @@ function RenderExerciseOne(data) {
             $('#exerciseCard').find('.scheme-img > img').attr('src', `/media/${data.scheme_img}`);
         }
 
+        try {
+            $('#exerciseCard').find('#showIntroDrawingFirst').prop('checked', data.scheme_img_show_first);
+        } catch (e) {}
+
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
         $('#carouselSchema').find('.carousel-indicators > li.new-scheme').remove();
         $('#carouselSchema').find('.carousel-item').first().html(data.scheme_data[0]);
@@ -484,13 +488,24 @@ function RenderExerciseOne(data) {
             `);
         }
         if (data.scheme_img) {
-            $('#carouselSchema').find('.carousel-item').first().before(`
-                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                        <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
-                    </svg>
-                </div>
-            `);
+            if (data.scheme_img_show_first) {
+                $('#carouselSchema').find('.carousel-item').first().before(`
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+            } else {
+                $('#carouselSchema').find('.carousel-item').first().after(`
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+            }
+            
             // <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 41vh;">
             $('#carouselSchema').find('.carousel-indicators > li').last().after(`
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
@@ -1005,6 +1020,8 @@ function SaveExerciseOne() {
         selectedFields.push($(elem).attr('data-id')); 
     });
     dataToSend.data['field_fields'] = selectedFields;
+
+    dataToSend.data['scheme_img_show_first'] = $('#exerciseCard').find('#showIntroDrawingFirst').prop('checked');
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({

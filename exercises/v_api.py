@@ -1763,6 +1763,7 @@ def POST_edit_exs(request, cur_user, cur_team):
     field_fields = utils.set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
     c_exs.field_fields = field_fields
     c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
+    c_exs.scheme_img_show_first = request.POST.get("data[scheme_img_show_first]", None) == "true"
 
     if is_can_edit_full:
         video_links_links = utils.set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -2114,6 +2115,7 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
         field_fields = utils.set_value_as_list(request, "data[field_fields]", "data[field_fields][]", [])
         c_exs.field_fields = field_fields
         c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
+        c_exs.scheme_img_show_first = request.POST.get("data[scheme_img_show_first]", None) == "true"
 
         if is_can_edit_full:
             c_exs.tags.clear()
