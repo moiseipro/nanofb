@@ -667,8 +667,13 @@ $(function() {
                 }
                 break;
             case "toggle_search":
-                $(e.currentTarget).toggleClass('active');
-                $('.row-content').find('.form-group-search').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
+                if (!document.articleViewer) {return;}
+                if (document.articleViewer._lastSearchJob) {document.articleViewer.getSelection().removeAllRanges();}
+                document.articleViewer.execCommand('find', {
+                    search: '',
+                    caseSensitive: false,
+                    matchWord: false
+                });
                 break;
             case "toggle_folders":
                 if (cState == '1') {
@@ -865,17 +870,6 @@ $(function() {
         }
     });
 
-    // Поиск по статьям
-    $('#buttonSearch').on('click', (e) => {
-        let cVal = $('input[name="a_search"]').val();
-        try {
-            document.articleViewer.setData('');
-            document.articleEditor.setData('');
-        } catch(e) {}
-        $('.pages-panel').html('');
-        $('.folders-group').find('li[data-type="article"]').removeClass('active');
-        LoadArticles(cVal);
-    });
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
