@@ -393,9 +393,11 @@ def GET_get_articles_all(request, cur_user):
     # only admin folders temp:
     found_articles = []
     if isinstance(search_val, str) and len(search_val) > 0:
+        print(search_val)
         found_articles = AdminArticle.objects.filter(visible=True).filter(
             Q(title__icontains=search_val) | Q(content__icontains=search_val)
         ).defer('content')
+        print(f"poa: {found_articles}")
     else:
         found_articles = AdminArticle.objects.filter(visible=True).filter().defer('content')
     for article in found_articles:

@@ -189,7 +189,32 @@ function LoadArticleOne(id, toModal=false) {
     });
 }
 
+function findTextByWordStarts(text, stringToFind) {
+    const regex = new RegExp(`(^|\\s)${stringToFind}`, 'i');
+    return text.split('\n').filter(line => regex.test(line));
+}
+
 function RenderArticle(article, toModal=false) {
+    function toggleElementInViewer(elem, visible) {
+        if (!visible) {
+            if ($(elem).is('li')) {
+                $(elem).css({
+                    'height': '0',
+                    'line-height': '0',
+                    'padding': '0',
+                    'margin': '0',
+                    'color': 'transparent',
+                    'overflow': 'hidden',
+                    'font-size': '0',
+                });
+            } else {
+                $(elem).css({
+                    'display': 'none',
+                });
+            }
+        }
+    }
+
     if (toModal) {
         $('.article-editor-col').attr('data-id', "");
         $('.article-editor-col').find('input[name="a_title"]').val('');
@@ -209,6 +234,37 @@ function RenderArticle(article, toModal=false) {
             InitPagebreakNavigation("articleViewer");
             DisableCopyInIframe("articleViewer");
         } catch(e) {}
+    }
+    let currentSearchVal = $('input[name="a_search"]').val();
+    if (currentSearchVal.length > 3) {
+        $(document).find('iframe.cke_wysiwyg_frame:first').contents().find('body').children().each((ind, elem) => {
+            let elemsRows = $(elem).find('tr');
+            if (elemsRows.length > 0) {
+                $(elemsRows).each((ind2, row) => {
+                    let elemsItems = $(row).find('li');
+                    if (elemsItems.length > 0) {
+                        $(elemsItems).each((ind3, item) => {
+                            let visible = findTextByWordStarts($(item).text(), currentSearchVal).length > 0;
+                            toggleElementInViewer(item, visible);
+                        });
+                    } else {
+                        let visible = findTextByWordStarts($(row).text(), currentSearchVal).length > 0;
+                        toggleElementInViewer(row, visible);
+                    }
+                });
+            } else {
+                let elemsItems = $(elem).find('li');
+                if (elemsItems.length > 0) {
+                    $(elemsItems).each((ind3, item) => {
+                        let visible = findTextByWordStarts($(item).text(), currentSearchVal).length > 0;
+                        toggleElementInViewer(item, visible);
+                    });
+                } else {
+                    let visible = findTextByWordStarts($(elem).text(), currentSearchVal).length > 0;
+                    toggleElementInViewer(elem, visible);
+                }
+            }
+        });
     }
 }
 
@@ -667,13 +723,8 @@ $(function() {
                 }
                 break;
             case "toggle_search":
-                if (!document.articleViewer) {return;}
-                if (document.articleViewer._lastSearchJob) {document.articleViewer.getSelection().removeAllRanges();}
-                document.articleViewer.execCommand('find', {
-                    search: '',
-                    caseSensitive: false,
-                    matchWord: false
-                });
+                $(e.currentTarget).toggleClass('active');
+                $('.row-content').find('.form-group-search').toggleClass('d-none', !$(e.currentTarget).hasClass('active'));
                 break;
             case "toggle_folders":
                 if (cState == '1') {
@@ -870,6 +921,23 @@ $(function() {
         }
     });
 
+    // Поиск по статьям
+    let searchValOld = "";
+    $('input[name="a_search"]').on('keyup', (e) => {
+        let cVal = $(e.currentTarget).val();
+        if (cVal != searchValOld) {
+            if (cVal.length > 3 || cVal.length == 0) {
+                searchValOld = cVal;
+                try {
+                    document.articleViewer.setData('');
+                    document.articleEditor.setData('');
+                } catch(e) {}
+                $('.pages-panel').html('');
+                $('.folders-group').find('li[data-type="article"]').removeClass('active');
+                LoadArticles(cVal);
+            }
+        }
+    });
 
     // Split columns
     window.dataForSplit = JSON.parse(localStorage.getItem('split_cols__methodology'));
