@@ -16,6 +16,10 @@
 .select2-container--bootstrap4 .select2-results > .select2-results__options {
     max-height: 70vh
 }
+.select2-results__options[id*="videosource_id"] {
+    max-height: 45vh !important
+}
+
 
 .custom-file-label {
     height: auto;

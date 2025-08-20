@@ -4222,7 +4222,7 @@ table.table-inbox tbody tr.checked {
 }
 
 
-.select2-container--default .select2-results > .select2-results__options {
+.select2-container--default .select2-results > .select2-results__options:not([id*="videosource_id"]) {
 	max-height: 90vh !important;
 }
 .select2-container--default .select2-search.select2-search--dropdown {
