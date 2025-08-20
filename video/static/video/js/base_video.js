@@ -12,9 +12,6 @@ function formatState (state) {
 $(window).on('load', function (){
     $('.video-source').select2({
         templateResult: formatState,
-        dropdownCss: {
-            'max-height': '10vh'
-        }
     })
     $('.exercise-folder').select2({
         templateResult: formatState,
