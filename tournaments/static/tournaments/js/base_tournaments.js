@@ -217,7 +217,9 @@ function RenderArticle(article, toModal=false) {
         $('.row-header').find('input.article-name').val('');
         try {
             $('.row-header').find('input.article-name').val(article.title);
-            document.articleViewer.setData(article.content);
+            // document.articleViewer.setData(article.content);
+            $('#articleViewer').html(article.content);
+            UpdateArticleViewer();
         } catch(e) {}
     }
 }

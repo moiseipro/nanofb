@@ -77,3 +77,13 @@
 .cke_combopanel {
     height: 300px !important;
 }
+
+
+div#articleViewer {
+    border: 1px solid #ddd;
+    padding: 10px;
+    min-height: 200px;
+    background: #fff;
+    height: 85vh !important;
+    overflow-y: auto;
+}
