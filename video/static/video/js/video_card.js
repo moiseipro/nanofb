@@ -64,15 +64,15 @@ $('#video-action-form').submit(function (event) {
     let form_Data = new FormData(this)
     form_Data.set("taggit", JSON.stringify($('#video-action-form select[name="taggit"]').val(), null, 2))
     console.log(form_Data.get("note_animation"))
-
-    ajax_video_action($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').done(function (data) {
-        video_table.ajax.reload()
-        cur_edit_data = data
-        $('#cancel-edit-button').click()
-        ajax_video_info(cur_edit_data.id)
+    ajax_video_upload($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').then(function (data) {
+        video_table.ajax.reload();
+        cur_edit_data = data;
+        $('#cancel-edit-button').click();
+        ajax_video_info(cur_edit_data.id);
         if(Cookies.get('page')) video_table.page(parseInt(Cookies.get('page'))).draw(false);
-    })
-
+    }).catch(function (error) {
+        alert('Ошибка загрузки: ' + error);
+    });
     event.preventDefault();
 });
 
@@ -130,6 +130,53 @@ function ajax_video_action(method, data, action = '', id = '', func = '') {
                 $('.page-loader-wrapper').fadeOut();
             }
         })
+}
+function ajax_video_upload(method, data, action = '', id = '') {
+    return new Promise((resolve, reject) => {
+        $('.page-loader-wrapper').show();
+        $('.progress-bar-wrapper').show();
+        $('.progress-fill').css('width', '0%');
+        $('.progress-text').text('0%');
+
+        let xhr = new XMLHttpRequest();
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                let percent = Math.round((event.loaded * 100) / event.total);
+                $('.progress-fill').css('width', percent + '%');
+                $('.progress-text').text(percent + '%');
+            }
+        };
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    let data = JSON.parse(xhr.responseText);
+                    resolve(data);
+                } catch (e) {
+                    reject('Invalid JSON response');
+                }
+            } else {
+                reject('HTTP Error: ' + xhr.status);
+            }
+            setTimeout(() => {
+                $('.page-loader-wrapper').hide();
+                $('.progress-bar-wrapper').hide();
+            }, 1000);
+        };
+        xhr.onerror = function() {
+            reject('Network error');
+            $('.page-loader-wrapper').hide();
+            $('.progress-bar-wrapper').hide();
+        };
+        let url = "/video/api/all/"
+        if(id !== '') url += `${id}/`
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        let csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (csrfToken) {
+            xhr.setRequestHeader('X-CSRFToken', csrfToken.value);
+        }
+        xhr.send(data);
+    });
 }
 
 function ajax_video_delete(row_data) {

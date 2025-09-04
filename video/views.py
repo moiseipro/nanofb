@@ -94,7 +94,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         if 'taggit' in data:
             data_dict['taggit'] = data['taggit']
         if 'file_video' in request.FILES:
-            url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
             fs = FileSystemStorage()
             print(request.FILES)
             file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
@@ -126,7 +126,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                     data_dict['duration'] = content['time']
                 except requests.exceptions.ConnectionError as e:
                     response = "No response"      
-                url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
                 try:
                     response = requests.get(url, json={'id': video_data['id']}, verify=False)
                     content = json.loads(response.content.decode('utf-8'))
@@ -134,7 +134,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 except requests.exceptions.ConnectionError as e:
                     response = "No response"
 
-                url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/change_cover/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
                 if 'file_screen' in request.FILES:
                     fs = FileSystemStorage()
                     file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
@@ -244,7 +244,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 server_id = instance.links['nftv']
             # print(server_id)
             if server_id:
-                url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
                 post_data = {
                     "videos": [
                         {"id": server_id},
@@ -259,7 +259,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             else:
                 is_delete = True
             if is_delete:
-                url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
                 fs = FileSystemStorage()
                 file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
                 file_content_type = request.FILES['file_video'].content_type
@@ -281,14 +281,14 @@ class VideoViewSet(viewsets.ModelViewSet):
 
                 if video_data['success']:
                     data.links['nftv'] = video_data['id']
-                    url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                    url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
                     try:
                         response = requests.get(url, json={'id': video_data['id']}, verify=False)
                         content = json.loads(response.content.decode('utf-8'))
                         data['size'] = content['size']
                     except requests.exceptions.ConnectionError as e:
                         response = "No response"
-        url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        url = 'https://nanofootball.pro/api/change_cover/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
         if 'file_screen' in request.FILES:
             fs = FileSystemStorage()
             file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
@@ -382,7 +382,7 @@ class VideoViewSet(viewsets.ModelViewSet):
                 youtube_id = video.links['youtube']
             print(server_id)
             if server_id or youtube_id:
-                url = 'https://nanofootball.pro/api/download_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+                url = 'https://nanofootball.pro/api/download_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
                 post_data = {
                     "videos": [
                         {"id": server_id},
@@ -416,7 +416,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             # for video in videos_to_update:
             #     c_size = "---"
             #     try:
-            #         url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+            #         url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
             #         response = requests.get(url, json={'id': video.links['nftv']}, verify=False)
             #         content = json.loads(response.content.decode('utf-8'))
             #         c_size = content['size']
@@ -442,7 +442,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 
 def delete_video_nf(video_id):
-    url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+    url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
     post_data = {
         "videos": [
             {"id": video_id},
@@ -464,7 +464,7 @@ def delete_video_obj_nf(video_obj):
     if 'nftv' in instance.links:
         server_id = instance.links['nftv']
     if server_id:
-        url = 'https://nanofootball.pro/api/remove_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+        url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
         post_data = {
             "videos": [
                 {"id": server_id},
@@ -548,7 +548,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
         video.links = {'nftv': '', 'youtube': ''}
         # print(video.links)
         if 'file' in self.request.FILES:
-            url = 'https://nanofootball.pro/api/add_videos/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
+            url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
             fs = FileSystemStorage()
             file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
             file_content_type = self.request.FILES['file'].content_type
@@ -570,7 +570,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
 
             if video_data['success']:
                 video.links['nftv'] = video_data['id']
-                url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
                 try:
                     response = requests.get(url, json={'id': video_data['id']}, verify=False)
                     content = json.loads(response.content.decode('utf-8'))

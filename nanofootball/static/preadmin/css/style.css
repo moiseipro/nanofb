@@ -4133,14 +4133,15 @@ table.table-inbox tbody tr.checked {
 	overflow: hidden;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 	background-color: rgba(0, 0, 0, 0.459);
-
 }
 .lds-roller {
 	display: inline-block;
 	position: relative;
 	width: 120px;
 	height: 120px;
+	margin-bottom: 20px;
 }
   .lds-roller div {
 	animation: lds-roller 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -4219,6 +4220,31 @@ table.table-inbox tbody tr.checked {
 	100% {
 	  transform: rotate(360deg);
 	}
+}
+
+/* progress bar */
+.progress-bar-wrapper {
+	width: 40vw;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.progress-bar {
+    height: 30px;
+    width: 100%;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(-45deg, #3949ab, #2962ff);
+    transition: width 0.2s;
+    width: 0%;
+}
+.progress-text {
+	position: relative;
+  	top: -50%;
+    color: #ffffff;
+    font-size: 22px;
+    pointer-events: none;
 }
 
 
