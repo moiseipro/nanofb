@@ -3861,6 +3861,9 @@ msgstr ""
 msgid "Minutes"
 msgstr ""
 
+msgid "Size"
+msgstr ""
+
 #: .\trainings\templates\trainings\print_training.html:49
 #: .\trainings\templates\trainings\print_training.html:52
 #: .\trainings\templates\trainings\training_card.html:45

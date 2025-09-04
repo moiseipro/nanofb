@@ -88,6 +88,12 @@ class Video(models.Model):
         null=True,
         blank=True
     )
+    size = models.CharField(
+        max_length=100,
+        verbose_name=_('size'),
+        null=True,
+        blank=True
+    )
     note = models.JSONField(
         verbose_name=_('Notes'),
         help_text=_('Notes in json format'),

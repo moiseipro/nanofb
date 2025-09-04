@@ -4215,6 +4215,9 @@ msgstr "Распечатать тренировку"
 msgid "Minutes"
 msgstr "Минуты"
 
+msgid "Size"
+msgstr "Размер"
+
 #: .\trainings\templates\trainings\print_training.html:54
 #: .\trainings\templates\trainings\print_training.html:57
 #: .\trainings\templates\trainings\training_card.html:36

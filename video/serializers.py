@@ -48,7 +48,7 @@ class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
         model = Video
         fields = (
             'id', 'user', 'club', 'videosource_id', 'name', 'duration', 'language', 'music', 'links', 'upload_date', 'taggit',
-            'videosource_name', 'exercises', 'note', 'favourites'
+            'videosource_name', 'exercises', 'size', 'note', 'favourites'
         )
         datatables_always_serialize = ('id', 'taggit', 'exercises')
 
@@ -61,5 +61,5 @@ class VideoUpdateSerializer(TaggitSerializer, serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = (
-            'id', 'user', 'club', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date', 'note'
+            'id', 'user', 'club', 'videosource_id', 'name', 'taggit', 'duration', 'language', 'music', 'links', 'upload_date', 'size', 'note'
         )

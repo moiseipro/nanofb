@@ -66,6 +66,7 @@ function generate_ajax_video_table(scroll_y = '', columnHideClassesOrIds = []){
                 }
             }},
             {'data': 'duration', "searchable": false},
+            {'data': 'size', "searchable": false},
             {'data': 'favourites', "searchable": true, 'name': 'favourites', render: function (row, type, set, meta) {
                 let view_data = ''
                 if(type==='sort'){

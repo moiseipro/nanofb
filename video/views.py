@@ -125,6 +125,13 @@ class VideoViewSet(viewsets.ModelViewSet):
                     content = json.loads(response.content.decode('utf-8'))
                     data_dict['duration'] = content['time']
                 except requests.exceptions.ConnectionError as e:
+                    response = "No response"      
+                url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                try:
+                    response = requests.get(url, json={'id': video_data['id']}, verify=False)
+                    content = json.loads(response.content.decode('utf-8'))
+                    data_dict['size'] = content['size']
+                except requests.exceptions.ConnectionError as e:
                     response = "No response"
 
                 url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
@@ -274,7 +281,13 @@ class VideoViewSet(viewsets.ModelViewSet):
 
                 if video_data['success']:
                     data.links['nftv'] = video_data['id']
-
+                    url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                    try:
+                        response = requests.get(url, json={'id': video_data['id']}, verify=False)
+                        content = json.loads(response.content.decode('utf-8'))
+                        data['size'] = content['size']
+                    except requests.exceptions.ConnectionError as e:
+                        response = "No response"
         url = 'https://nanofootball.pro/api/change_cover/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'
         if 'file_screen' in request.FILES:
             fs = FileSystemStorage()
@@ -398,7 +411,21 @@ class VideoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+            queryset = Video.objects.all()
+            videos_to_update = queryset.filter(size__isnull=True)
+            for video in videos_to_update:
+                c_size = "---"
+                try:
+                    url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                    response = requests.get(url, json={'id': video.links['nftv']}, verify=False)
+                    content = json.loads(response.content.decode('utf-8'))
+                    c_size = content['size']
+                except Exception as e:
+                    pass
+                video.size = c_size
+                video.save(update_fields=['size'])
+            return queryset
+            # return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
         else:
             if self.request.user.club_id is not None:
                 return Video.objects.filter(club=self.request.user.club_id)
@@ -543,7 +570,13 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
 
             if video_data['success']:
                 video.links['nftv'] = video_data['id']
-
+                url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+                try:
+                    response = requests.get(url, json={'id': video_data['id']}, verify=False)
+                    content = json.loads(response.content.decode('utf-8'))
+                    video['size'] = content['size']
+                except requests.exceptions.ConnectionError as e:
+                    response = "No response"
         if form.data['youtube_link']:
             id_video = extract.video_id(form.data['youtube_link'])
             if id_video:
