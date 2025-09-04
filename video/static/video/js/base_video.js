@@ -86,7 +86,7 @@ $('.exercise-folder').on('change', function (){
 $('.video-tags-filter').on('change', function (){
     let data_tag = $( this ).val()
     console.log(data_tag)
-    video_table.columns([8]).search(data_tag).draw()
+    video_table.columns([9]).search(data_tag).draw()
 })
 
 $('#search-video-table').on('change', function () {
