@@ -411,21 +411,21 @@ class VideoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            queryset = Video.objects.all()
-            videos_to_update = queryset.filter(size__isnull=True)[:500]
-            for video in videos_to_update:
-                c_size = "---"
-                try:
-                    url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
-                    response = requests.get(url, json={'id': video.links['nftv']}, verify=False)
-                    content = json.loads(response.content.decode('utf-8'))
-                    c_size = content['size']
-                except Exception as e:
-                    pass
-                video.size = c_size
-                video.save(update_fields=['size'])
-            return queryset
-            # return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+            # queryset = Video.objects.all()
+            # videos_to_update = queryset.filter(size__isnull=True)[:500]
+            # for video in videos_to_update:
+            #     c_size = "---"
+            #     try:
+            #         url = 'https://nanofootball.pro/api/video_info/hydheuCdF4q6tB9RB5rYhGUQx7VnQ5VSS7X5tws7'   
+            #         response = requests.get(url, json={'id': video.links['nftv']}, verify=False)
+            #         content = json.loads(response.content.decode('utf-8'))
+            #         c_size = content['size']
+            #     except Exception as e:
+            #         pass
+            #     video.size = c_size
+            #     video.save(update_fields=['size'])
+            # return queryset
+            return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
         else:
             if self.request.user.club_id is not None:
                 return Video.objects.filter(club=self.request.user.club_id)
