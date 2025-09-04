@@ -412,7 +412,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             queryset = Video.objects.all()
-            videos_to_update = queryset.filter(size__isnull=True)
+            videos_to_update = queryset.filter(size__isnull=True)[:100]
             for video in videos_to_update:
                 c_size = "---"
                 try:
