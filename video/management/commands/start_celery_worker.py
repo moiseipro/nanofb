@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand):
     help = 'Запускает Celery Worker и перезапускает его при падении'
     def handle(self, *args, **options):
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nanofb.settings')
         manage_py = os.path.join(os.getcwd(), 'manage.py')
         if platform.system() == 'Windows':
             pool = 'solo'
