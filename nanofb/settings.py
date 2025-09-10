@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(8i@$r9s^-es5gveieq%!ao9d&fvq(=*&s^s2w&c$!kgon&hdh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'nanofb.pythonanywhere.com', '127.0.0.1', 'localhost', '91.245.227.74',
