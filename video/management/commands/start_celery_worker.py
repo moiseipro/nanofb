@@ -9,7 +9,6 @@ class Command(BaseCommand):
     help = 'Запускает Celery Worker и перезапускает его при падении'
     def handle(self, *args, **options):
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nanofb.settings')
-        manage_py = os.path.join(os.getcwd(), 'manage.py')
         if platform.system() == 'Windows':
             pool = 'solo'
             self.stdout.write(self.style.WARNING('Windows: используем --pool=solo'))
