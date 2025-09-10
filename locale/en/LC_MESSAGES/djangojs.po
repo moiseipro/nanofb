@@ -1179,3 +1179,9 @@ msgstr ""
 #: .\static\video\js\video_card.js:98 .\video\static\video\js\video_card.js:98
 msgid "Video action \""
 msgstr ""
+
+
+msgid "Uploading to server"
+msgstr ""
+msgid "Uploading to nanofootball.pro"
+msgstr ""

@@ -1,13 +1,11 @@
-import imp
 import io
 import os
-import zipfile
-from itertools import islice, chain
-
 import requests
 import json
-
-from django.http import Http404, QueryDict, HttpResponse, FileResponse
+import time
+from django.apps import apps
+from django.conf import settings
+from django.http import Http404, QueryDict, HttpResponse, FileResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_duration
 from django.db.models import Q, Count, F
@@ -21,11 +19,12 @@ from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework_datatables.django_filters.backends import DatatablesFilterBackend
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, DjangoModelPermissions
-from django.core.files.storage import FileSystemStorage
-from requests_toolbelt.multipart.encoder import MultipartEncoder
+from django.core.files.storage import FileSystemStorage, default_storage
+from django.core.cache import cache
+from requests_toolbelt.multipart.encoder import MultipartEncoder, MultipartEncoderMonitor
 from rest_framework.response import Response
 from taggit.models import Tag
-
+from .tasks import upload_video_to_nanofootball
 from exercises.models import ExerciseVideo, AdminExercise, AdminFolder
 from exercises.serializers import ExerciseVideoSerializer
 from video.filters import VideoGlobalFilter
@@ -49,6 +48,7 @@ class VideoPermissions(DjangoModelPermissions):
         'DELETE': ['%(app_label)s.delete_%(model_name)s'],
     }
 
+VIDEO_SERVER_API = "hawG6EvFymKKXFbv1easxP4D7fec990ygdu7csAwxftcdHH0jtM2LZ8qpUpg0TXVEwEKhfpi3DvFXuZDv6iwD8vxGpbnRouM0vJP"
 
 # API REST
 class VideoViewSet(viewsets.ModelViewSet):
@@ -59,11 +59,47 @@ class VideoViewSet(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated, VideoPermissions]
         return [permission() for permission in permission_classes]
 
+    @action(detail=False, methods=['get'], url_path='upload_status/(?P<upload_id>[^/.]+)')
+    def upload_status(self, request, upload_id):
+        cache_key = f"video_upload_progress_{upload_id}"
+        status_data = cache.get(cache_key)
+        if not status_data:
+            return Response({'error': 'Upload not found or expired'}, status=status.HTTP_404_NOT_FOUND)
+        if status_data['status'] == 'complete':
+            video_data = status_data['video_data']
+            video_data['links'] = json.dumps(video_data['links'])
+            video_data['note'] = json.dumps(video_data['note'])
+            query_dict = QueryDict('', mutable=True)
+            query_dict.update(video_data)
+            if status_data['upload_mode'] == "create":
+                instance = None
+            else:
+                app_label = status_data['app_label']
+                model_name = status_data['model_name']
+                instance_id = status_data['instance_id']
+                Model = apps.get_model(app_label, model_name)
+                instance = Model.objects.get(pk=instance_id)
+            serializer = VideoUpdateSerializer(
+                instance=instance,
+                data=query_dict,
+                partial=True
+            )
+            if serializer and serializer.is_valid():
+                if status_data['upload_mode'] == "create":
+                    self.perform_create(serializer)
+                    return Response({'status': "complete", 'data': serializer.data}, status=status.HTTP_201_CREATED)
+                elif status_data['upload_mode'] == "update":
+                    serializer.save()
+                    return Response({'status': "complete", 'data': serializer.data}, status=status.HTTP_202_ACCEPTED)
+                return Response({'status': "failed", 'error': "Bad upload_mode"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status_data, status=status.HTTP_200_OK)
+
     def create(self, request, *args, **kwargs):
         note_video = False
         note_animation = False
         data = request.data
-        print(data)
         links = {'nftv': '', 'youtube': ''}
         data_dict = dict(
             name=data['name'],
@@ -85,110 +121,81 @@ class VideoViewSet(viewsets.ModelViewSet):
             note_animation = True
         if 'note_video' in data:
             note_video = True
-        note = json.dumps({'video': note_video, 'animation': note_animation})
-        data_dict['note'] = note
+        data_dict['note'] = {'video': note_video, 'animation': note_animation}
         if 'music' in data:
             data_dict['music'] = data['music']
         else:
             data_dict['music'] = 'off'
         if 'taggit' in data:
             data_dict['taggit'] = data['taggit']
-        if 'file_video' in request.FILES:
-            url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
-            fs = FileSystemStorage()
-            print(request.FILES)
-            file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
-            file_content_type = request.FILES['file_video'].content_type
-
-            with fs.open(file_name, 'rb') as file:
-                mp_encoder = MultipartEncoder(
-                    fields={
-                        'folder-type': '',
-                        'user-file': (file_name, file, file_content_type)
-                    }
-                )
-                print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
-                content = response.json()
-                if 'data' in content:
-                    video_data = content['data'][0]
-                else:
-                    video_data = content
-                print(content)
-            fs.delete(file_name)
-
-            if video_data['success']:
-                links['nftv'] = video_data['id']
-                url = 'https://nanofootball.pro/video/length/' + video_data['id']
-                try:
-                    response = requests.get(url, verify=False)
-                    content = json.loads(response.content.decode('utf-8'))
-                    data_dict['duration'] = content['time']
-                except requests.exceptions.ConnectionError as e:
-                    response = "No response"      
-                url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
-                try:
-                    response = requests.get(url, json={'id': video_data['id']}, verify=False)
-                    content = json.loads(response.content.decode('utf-8'))
-                    data_dict['size'] = content['size']
-                except requests.exceptions.ConnectionError as e:
-                    response = "No response"
-
-                url = 'https://nanofootball.pro/api/change_cover/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
-                if 'file_screen' in request.FILES:
-                    fs = FileSystemStorage()
-                    file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
-                    file_content_type = request.FILES['file_screen'].content_type
-                    with fs.open(file_name, 'rb') as file:
-                        mp_encoder = MultipartEncoder(
-                            fields={
-                                'id': video_data['id'],
-                                'type': 'file',
-                                'user-cover': (file_name, file, file_content_type)
-                            }
-                        )
-                        # print(mp_encoder)
-                        response = requests.post(url, data=mp_encoder,
-                                                 headers={'Content-Type': mp_encoder.content_type}, verify=False)
-                        content = response.json()
-                        print(content)
-
-                    fs.delete(file_name)
-                elif 'second_screensaver' in data:
-                    if data['second_screensaver'] == '':
-                        data['second_screensaver'] = "1"
-                    mp_encoder = MultipartEncoder(
-                        fields={
-                            'id': video_data['id'],
-                            'type': 'frame',
-                            'time': data['second_screensaver']
-                        }
-                    )
-                    response = requests.post(url, data=mp_encoder,
-                                             headers={'Content-Type': mp_encoder.content_type}, verify=False)
-                    content = response.json()
-                    print(content)
-
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
             if id_video:
                 links['youtube'] = id_video
-
-        print(links)
-        if links['nftv'] or links['youtube']:
+        if links['youtube']:
             data_dict['links'] = json.dumps(links)
-
             query_dict = QueryDict('', mutable=True)
             query_dict.update(data_dict)
-            print(query_dict)
             serializer = self.get_serializer(data=query_dict)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        else:
-            return Response({'empty_load': 'You cant create an object without links to the video'}, status=status.HTTP_423_LOCKED)
-
+        if 'file_video' not in request.FILES:
+            return Response(
+                {'error': 'No video file provided'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # Подготовка к загрузке
+        file_obj = request.FILES['file_video']
+        file_name = file_obj.name
+        content_type = file_obj.content_type
+        file_path = default_storage.save(f"tmp_uploads/{int(time.time())}_{file_name}", file_obj)
+        full_file_path = os.path.join(settings.MEDIA_ROOT, file_path)
+        cover_file_path = None
+        full_cover_file_path = None
+        cover_content_type = None
+        if 'file_screen' in request.FILES:
+            cover_obj = request.FILES['file_screen']
+            cover_name = cover_obj.name
+            cover_file_path = default_storage.save(f"tmp_uploads/{int(time.time())}_{cover_name}", cover_obj)
+            full_cover_file_path = os.path.join(settings.MEDIA_ROOT, cover_file_path)
+            cover_content_type = cover_obj.content_type
+        second_screensaver = data.get('second_screensaver', None)
+        upload_id = f"upload_{request.user.id}_{hash(file_name)}_{int(time.time())}"
+        cache_key = f"video_upload_progress_{upload_id}"
+        cache.set(cache_key, {'progress': 0, 'status': 'queued'}, timeout=600)
+        task_data = {
+            'name': data_dict['name'],
+            'duration': data_dict['duration'],
+            'language': data_dict['language'],
+            'videosource_id': data_dict['videosource_id'],
+            'user': data_dict['user'],
+            'club': data_dict['club'],
+            'note': data_dict['note'],
+            'music': data_dict['music'],
+            'taggit': data_dict.get('taggit'),
+            'links': links.copy()
+        }
+        upload_video_to_nanofootball.delay(
+            upload_mode="create",
+            instance_id=None,
+            app_label=None,
+            model_name=None,
+            file_path=full_file_path,
+            file_name=file_name,
+            content_type=content_type,
+            video_data_dict=task_data,
+            cache_key=cache_key,
+            second_screensaver=second_screensaver,
+            cover_file_path=full_cover_file_path,
+            cover_content_type=cover_content_type
+        )
+        return Response({
+            'upload_id': upload_id,
+            'status': 'upload started, polling required',
+        }, status=status.HTTP_202_ACCEPTED)
+    
     def perform_update(self, serializer):
         music = False
         note_video = False
@@ -200,16 +207,14 @@ class VideoViewSet(viewsets.ModelViewSet):
         if 'note_video' in self.request.data:
             note_video = True
         note = {'video': note_video, 'animation': note_animation}
-        print(note)
         if 'music' in self.request.data:
             music = True
         if 'duration' in self.request.data and self.request.data['duration'] == '00:00:00' and instance.links['nftv'] != '':
             # print(serializer)
             url = 'https://nanofootball.pro/video/length/' + instance.links['nftv']
             try:
-                response = requests.get(url, verify=False)
+                response = requests.get(url, verify=False, proxies=None)
                 content = json.loads(response.content.decode('utf-8'))
-                print(content)
                 if 'time' in content:
                     duration = content['time']
             except requests.exceptions.ConnectionError as e:
@@ -224,7 +229,6 @@ class VideoViewSet(viewsets.ModelViewSet):
         data = request.data
         instance = self.get_object()
         data.links = instance.links
-
         if request.user.is_superuser:
             pass
         else:
@@ -234,61 +238,93 @@ class VideoViewSet(viewsets.ModelViewSet):
             else:
                 if request.user != instance.user:
                     return Response({'access_error': 'You can\'t edit this video.'}, status=status.HTTP_423_LOCKED)
-        
-        print(data)
         if 'file_video' in request.FILES:
             is_delete = False
             server_id = None
-            # print(instance.links)
             if 'nftv' in instance.links:
                 server_id = instance.links['nftv']
-            # print(server_id)
             if server_id:
-                url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+                url = f'https://nanofootball.pro/api/remove_videos/{VIDEO_SERVER_API}'
                 post_data = {
                     "videos": [
                         {"id": server_id},
                     ]
                 }
-                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False, proxies=None)
                 content = response.json()
-                # print(content)
                 video_data = content['data'][0]
                 is_delete = video_data['success'] or 'error' in video_data and video_data[
                     'error'] == 'not found by this ids'
             else:
                 is_delete = True
             if is_delete:
-                url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
-                fs = FileSystemStorage()
-                file_name = fs.save(request.FILES['file_video'].name, self.request.FILES['file_video'])
-                file_content_type = request.FILES['file_video'].content_type
-                print(request.FILES)
-                with fs.open(file_name, 'rb') as file:
-                    mp_encoder = MultipartEncoder(
-                        fields={
-                            'folder-type': '',
-                            'user-file': (file_name, file, file_content_type)
-                        }
-                    )
-                    # print(mp_encoder)
-                    response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
-                    content = response.json()
-                    video_data = content['data'][0]
-                    # print(content)
-
-                fs.delete(file_name)
-
-                if video_data['success']:
-                    data.links['nftv'] = video_data['id']
-                    url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
-                    try:
-                        response = requests.get(url, json={'id': video_data['id']}, verify=False)
-                        content = json.loads(response.content.decode('utf-8'))
-                        data['size'] = content['size']
-                    except requests.exceptions.ConnectionError as e:
-                        response = "No response"
-        url = 'https://nanofootball.pro/api/change_cover/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+                # Подготовка к загрузке
+                file_obj = request.FILES['file_video']
+                file_name = file_obj.name
+                content_type = file_obj.content_type
+                file_path = default_storage.save(f"tmp_uploads/{int(time.time())}_{file_name}", file_obj)
+                full_file_path = os.path.join(settings.MEDIA_ROOT, file_path)
+                cover_file_path = None
+                full_cover_file_path = None
+                cover_content_type = None
+                if 'file_screen' in request.FILES:
+                    cover_obj = request.FILES['file_screen']
+                    cover_name = cover_obj.name
+                    cover_file_path = default_storage.save(f"tmp_uploads/{int(time.time())}_{cover_name}", cover_obj)
+                    full_cover_file_path = os.path.join(settings.MEDIA_ROOT, cover_file_path)
+                    cover_content_type = cover_obj.content_type
+                second_screensaver = data.get('second_screensaver', None)
+                upload_id = f"upload_{request.user.id}_{hash(file_name)}_{int(time.time())}"
+                cache_key = f"video_upload_progress_{upload_id}"
+                cache.set(cache_key, {'progress': 0, 'status': 'queued'}, timeout=600)
+                data_dict = dict(
+                    name=data['name'],
+                    duration=data['duration'],
+                    language=data['language'],
+                    videosource_id=data['videosource_id']
+                )
+                note_video = False
+                note_animation = False
+                if 'note_animation' in data:
+                    note_animation = True
+                if 'note_video' in data:
+                    note_video = True
+                data_dict['note'] = {'video': note_video, 'animation': note_animation}
+                if 'music' in data:
+                    data_dict['music'] = data['music']
+                else:
+                    data_dict['music'] = 'off'
+                if 'taggit' in data:
+                    data_dict['taggit'] = data['taggit']
+                task_data = {
+                    'name': data_dict['name'],
+                    'duration': data_dict['duration'],
+                    'language': data_dict['language'],
+                    'videosource_id': data_dict['videosource_id'],
+                    'note': data_dict['note'],
+                    'music': data_dict['music'],
+                    'taggit': data_dict.get('taggit'),
+                    'links': data.links,
+                }
+                upload_video_to_nanofootball.delay(
+                    upload_mode="update",
+                    instance_id=instance.id,
+                    app_label=instance._meta.app_label,
+                    model_name=instance._meta.model_name,
+                    file_path=full_file_path,
+                    file_name=file_name,
+                    content_type=content_type,
+                    video_data_dict=task_data,
+                    cache_key=cache_key,
+                    second_screensaver=second_screensaver,
+                    cover_file_path=full_cover_file_path,
+                    cover_content_type=cover_content_type,
+                )
+                return Response({
+                    'upload_id': upload_id,
+                    'status': 'upload started, polling required',
+                }, status=status.HTTP_202_ACCEPTED)
+        url = f'https://nanofootball.pro/api/change_cover/{VIDEO_SERVER_API}'
         if 'file_screen' in request.FILES:
             fs = FileSystemStorage()
             file_name = fs.save(request.FILES['file_screen'].name, self.request.FILES['file_screen'])
@@ -301,12 +337,9 @@ class VideoViewSet(viewsets.ModelViewSet):
                         'user-cover': (file_name, file, file_content_type)
                     }
                 )
-                # print(mp_encoder)
                 response = requests.post(url, data=mp_encoder,
-                                         headers={'Content-Type': mp_encoder.content_type}, verify=False)
+                                         headers={'Content-Type': mp_encoder.content_type}, verify=False, proxies=None)
                 content = response.json()
-                print(content)
-
             fs.delete(file_name)
         elif 'second_screensaver' in data and 'nftv' in data.links and data.links['nftv'] != '':
             second_screensaver = data['second_screensaver']
@@ -320,20 +353,16 @@ class VideoViewSet(viewsets.ModelViewSet):
                 }
             )
             response = requests.post(url, data=mp_encoder,
-                                     headers={'Content-Type': mp_encoder.content_type}, verify=False)
+                                     headers={'Content-Type': mp_encoder.content_type}, verify=False, proxies=None)
             content = response.json()
-            print(content)
-
         if 'youtube_link' in data and data['youtube_link']:
             id_video = extract.video_id(data['youtube_link'])
             if id_video:
                 data.links['youtube'] = id_video
         serializer = self.get_serializer(instance, data=data, partial=partial)
         serializer.is_valid(raise_exception=True)
-
         self.perform_update(serializer)
-        print(serializer.data)
-        return Response(serializer.data)
+        return Response({'status': "complete", 'data': serializer.data}, status=status.HTTP_202_ACCEPTED)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -382,14 +411,14 @@ class VideoViewSet(viewsets.ModelViewSet):
                 youtube_id = video.links['youtube']
             print(server_id)
             if server_id or youtube_id:
-                url = 'https://nanofootball.pro/api/download_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+                url = f'https://nanofootball.pro/api/download_videos/{VIDEO_SERVER_API}'
                 post_data = {
                     "videos": [
                         {"id": server_id},
                         {"youtube_id": youtube_id}
                     ]
                 }
-                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
+                response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False, proxies=None)
                 print(response)
                 buffer = io.BytesIO(response.content)
                 # zip_file = zipfile.ZipFile(buffer, 'r')
@@ -416,7 +445,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             # for video in videos_to_update:
             #     c_size = "---"
             #     try:
-            #         url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
+            #         url = f'https://nanofootball.pro/api/video_info/{VIDEO_SERVER_API}'   
             #         response = requests.get(url, json={'id': video.links['nftv']}, verify=False)
             #         content = json.loads(response.content.decode('utf-8'))
             #         c_size = content['size']
@@ -442,13 +471,13 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 
 def delete_video_nf(video_id):
-    url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+    url = f'https://nanofootball.pro/api/remove_videos/{VIDEO_SERVER_API}'
     post_data = {
         "videos": [
             {"id": video_id},
         ]
     }
-    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
+    response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False, proxies=None)
     content = response.json()
     print(content)
     video_data = content['data'][0]
@@ -464,13 +493,13 @@ def delete_video_obj_nf(video_obj):
     if 'nftv' in instance.links:
         server_id = instance.links['nftv']
     if server_id:
-        url = 'https://nanofootball.pro/api/remove_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+        url = f'https://nanofootball.pro/api/remove_videos/{VIDEO_SERVER_API}'
         post_data = {
             "videos": [
                 {"id": server_id},
             ]
         }
-        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False)
+        response = requests.post(url, json=post_data, headers={'Content-Type': 'application/json'}, verify=False, proxies=None)
         content = response.json()
         print(content)
         video_data = content['data'][0]
@@ -548,7 +577,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
         video.links = {'nftv': '', 'youtube': ''}
         # print(video.links)
         if 'file' in self.request.FILES:
-            url = 'https://nanofootball.pro/api/add_videos/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'
+            url = f'https://nanofootball.pro/api/add_videos/{VIDEO_SERVER_API}'
             fs = FileSystemStorage()
             file_name = fs.save(self.request.FILES['file'].name, self.request.FILES['file'])
             file_content_type = self.request.FILES['file'].content_type
@@ -561,7 +590,7 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
                     }
                 )
                 print(mp_encoder)
-                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False)
+                response = requests.post(url, data=mp_encoder, headers={'Content-Type': mp_encoder.content_type}, verify=False, proxies=None)
                 content = response.json()
                 video_data = content['data'][0]
                 print(content)
@@ -570,9 +599,9 @@ class CreateVideoView(LoginRequiredMixin, CreateView):
 
             if video_data['success']:
                 video.links['nftv'] = video_data['id']
-                url = 'https://nanofootball.pro/api/video_info/WjR6VRTQL4Am2JPb7VsaW4bTEUKaeEc9FHAVCfc8'   
+                url = f'https://nanofootball.pro/api/video_info/{VIDEO_SERVER_API}'   
                 try:
-                    response = requests.get(url, json={'id': video_data['id']}, verify=False)
+                    response = requests.get(url, json={'id': video_data['id']}, verify=False, proxies=None)
                     content = json.loads(response.content.decode('utf-8'))
                     video['size'] = content['size']
                 except requests.exceptions.ConnectionError as e:
@@ -591,7 +620,7 @@ def parse_video(request):
 
     if request.method == "GET":
         response = requests.get(
-            f'https://nanofootball.pro/api/token/3F4AwFqWHk3GYGJuDRWh/?&folders[]="Z13"', verify=False)  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
+            f'https://nanofootball.pro/api/token/3F4AwFqWHk3GYGJuDRWh/?&folders[]="Z13"', verify=False, proxies=None)  # ?&folders[]="Z10"&folders[]="Z11"&folders[]="Z12"&folders[]="Z13"&folders[]="Z14"&folders[]="Z15"&folders[]="Z16"&folders[]="Z17"&folders[]="Z18"&folders[]="Z19"&folders[]="Z20"&folders[]="Z21"&folders[]="Z22"&folders[]="Z23"&folders[]="Z24"&folders[]="Z25"&folders[]="Z26"&folders[]="Z27"&folders[]="Z28"&folders[]="Z29"&folders[]="Z30"&folders[]="Z31"&folders[]="Z32"&folders[]="Z33"&folders[]="Z34"&folders[]="Z35"&folders[]="Z36"&folders[]="Z37"
         context_page['content'] = json.loads(response.content.decode('utf-8'))
         videos = []
         sources = []

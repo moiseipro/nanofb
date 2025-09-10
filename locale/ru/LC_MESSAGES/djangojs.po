@@ -1464,3 +1464,9 @@ msgstr "Тип тренировки"
 
 #~ msgid "Group D (Individual)"
 #~ msgstr "Группа D (Индивидуальная)"
+
+
+msgid "Uploading to server"
+msgstr "Загрузка на сервер"
+msgid "Uploading to nanofootball.pro"
+msgstr "Загрузка на nanofootball.pro"

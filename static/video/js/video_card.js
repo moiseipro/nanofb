@@ -63,7 +63,6 @@ $('#video-action-form').submit(function (event) {
     let formData = $(this).serializeArray()
     let form_Data = new FormData(this)
     form_Data.set("taggit", JSON.stringify($('#video-action-form select[name="taggit"]').val(), null, 2))
-    console.log(form_Data.get("note_animation"))
     ajax_video_upload($(this).attr('method'), form_Data, 'update', cur_edit_data ? cur_edit_data.id : '').then(function (data) {
         video_table.ajax.reload();
         cur_edit_data = data;
@@ -136,31 +135,33 @@ function ajax_video_upload(method, data, action = '', id = '') {
         $('.page-loader-wrapper').show();
         $('.progress-bar-wrapper').show();
         $('.progress-fill').css('width', '0%');
-        $('.progress-text').text('0%');
+        $('.progress-text').text(`${gettext('Uploading to server')}... 0%`);
 
         let xhr = new XMLHttpRequest();
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
                 let percent = Math.round((event.loaded * 100) / event.total);
                 $('.progress-fill').css('width', percent + '%');
-                $('.progress-text').text(percent + '%');
+                $('.progress-text').text(`${gettext('Uploading to server')}... ${percent}%`);
             }
         };
         xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 try {
-                    let data = JSON.parse(xhr.responseText);
-                    resolve(data);
+                    let response = JSON.parse(xhr.responseText);
+                    if (response.upload_id) {
+                        startRemoteUploadPolling(response.upload_id);
+                    } else {
+                        $('.page-loader-wrapper').hide();
+                        $('.progress-bar-wrapper').hide();
+                        resolve(response.data);
+                    }
                 } catch (e) {
-                    reject('Invalid JSON response');
+                    reject(`Invalid JSON response, ${e}`);
                 }
             } else {
                 reject('HTTP Error: ' + xhr.status);
             }
-            setTimeout(() => {
-                $('.page-loader-wrapper').hide();
-                $('.progress-bar-wrapper').hide();
-            }, 1000);
         };
         xhr.onerror = function() {
             reject('Network error');
@@ -176,6 +177,61 @@ function ajax_video_upload(method, data, action = '', id = '') {
             xhr.setRequestHeader('X-CSRFToken', csrfToken.value);
         }
         xhr.send(data);
+
+        function startRemoteUploadPolling(uploadId) {
+            $('.progress-fill').css('width', '0%');
+            $('.progress-text').text(`${gettext('Uploading to nanofootball.pro')}... 0%`);
+            let pollCount = 0;
+            const maxQueuedRetries = 20;
+            let pollInterval;
+            const poll = () => {
+                $.getJSON(`/video/upload_status/${uploadId}/`, function(status) {
+                    pollCount++;
+                    if (status.status === 'complete') {
+                        clearInterval(pollInterval);
+                        resolve(status.data);
+                        hideLoader();
+                    } else if (status.status === 'failed') {
+                        clearInterval(pollInterval);
+                        reject('Remote upload failed: ' + (status.error || 'Unknown error'));
+                        hideLoader();
+                    } else if (status.status === 'uploading' || status.status === 'uploaded') {
+                        pollCount = 0;
+                        const percent = status.progress || 0;
+                        $('.progress-fill').css('width', percent + '%');
+                        $('.progress-text').text(`${gettext('Uploading to nanofootball.pro')}... ${percent}%`);
+                    } else if (status.status === 'queued' || status.status === 'starting') {
+                        if (pollCount >= maxQueuedRetries) {
+                            clearInterval(pollInterval);
+                            reject(`Upload cancelled: Remote server did not start processing after ${maxQueuedRetries} attempts.`);
+                            hideLoader();
+                        } else {
+                            $('.progress-text').text(`Waiting for remote server... ${pollCount}/${maxQueuedRetries}`);
+                        }
+                    } else {
+                        clearInterval(pollInterval);
+                        reject('Unknown status: ' + status.status);
+                        hideLoader();
+                    }
+                })
+                .fail(function() {
+                    pollCount++;
+                    if (pollCount >= maxQueuedRetries) {
+                        clearInterval(pollInterval);
+                        reject('Upload cancelled: Connection failed repeatedly.');
+                        hideLoader();
+                    }
+                });
+            };
+            poll();
+            pollInterval = setInterval(poll, 800);
+            function hideLoader() {
+                setTimeout(() => {
+                    $('.page-loader-wrapper').hide();
+                    $('.progress-bar-wrapper').hide();
+                }, 500);
+            }
+        }
     });
 }
 

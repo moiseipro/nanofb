@@ -4721,3 +4721,9 @@ msgstr ""
 #: .\video\templates\video\video_card.html:141
 msgid "Animation"
 msgstr ""
+
+
+msgid "Uploading to server"
+msgstr ""
+msgid "Uploading to nanofootball.pro"
+msgstr ""

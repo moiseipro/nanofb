@@ -10,6 +10,7 @@ router.register(r'exercises', views.VideoExerciseViewSet, basename='video_list_e
 
 urlpatterns = [
     path('api/', include(router.urls), name='api_video'),
+    path('upload_status/<str:upload_id>/', views.VideoViewSet.as_view({'get': 'upload_status'}), name='upload_status'),
 
     path('', views.BaseVideoView.as_view(extra_context=extra_context), name="base_video"),
     path('<int:pk>', views.VideoDetailView.as_view(extra_context=extra_context), name="view_video"),

@@ -51,6 +51,10 @@ https://medium.com/@mahdi04/simple-async-django-app-with-celery-and-rabbitmq-ad4
 https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
 
 
+--------- Чистка REDIS CACHE
+redis-cli FLUSHALL
+
+
 --------- Locust tests:
 python -m locust -f test_1.py
 // at localhost:8089

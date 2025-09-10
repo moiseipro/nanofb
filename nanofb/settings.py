@@ -15,7 +15,6 @@ from django.utils.translation import gettext_lazy as _
 from . import email_props
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -324,3 +323,12 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+
+# Настройки Celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# Дополнительно (на всякий случай)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
