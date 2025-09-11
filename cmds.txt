@@ -50,6 +50,14 @@ celery -A celery worker -l info (в папке: nanofb, где лежит фай
 https://medium.com/@mahdi04/simple-async-django-app-with-celery-and-rabbitmq-ad4b1692c380
 https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html
 
+--------- REDIS + CELERY
+sudo systemctl status redis
+sudo nano /etc/systemd/system/celery_worker.service
+sudo systemctl daemon-reexec
+sudo systemctl enable celery_worker.service
+sudo systemctl start celery_worker.service
+sudo systemctl status celery_worker
+sudo journalctl -u celery_worker -f
 
 --------- Чистка REDIS CACHE
 redis-cli FLUSHALL

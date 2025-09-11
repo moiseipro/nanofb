@@ -1472,17 +1472,19 @@ function RenderVideoUser() {
         formData.append('name', createRandomName());
         cMethod = "POST";
     }
+    const csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+    formData.append('csrfmiddlewaretoken', csrfToken);
     formData.append('file_video', $('#fileVideoUser')[0].files[0]);
     formData.append('second_screensaver', '3');
     formData.append('duration', '');
     formData.append('language', '');
     formData.append('videosource_id', '');
     formData.append('taggit', '');
-    ajax_video_action(cMethod, formData, 'update', videoId != -1 ? videoId : '').done((data) => {
+    ajax_video_upload(cMethod, formData, 'update', videoId != -1 ? videoId : '').then(function (data) {
         $('#exerciseCard').find('#fileVideoUser').val('');
         SetVideoId(data.id);
         RenderVideoUser();
-    });
+    }).catch(function (error) {alert('Ошибка загрузки: ' + error);});
 }
 
 function DeleteVideoUser() {

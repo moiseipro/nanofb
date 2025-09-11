@@ -69,9 +69,7 @@ $('#video-action-form').submit(function (event) {
         $('#cancel-edit-button').click();
         ajax_video_info(cur_edit_data.id);
         if(Cookies.get('page')) video_table.page(parseInt(Cookies.get('page'))).draw(false);
-    }).catch(function (error) {
-        alert('Ошибка загрузки: ' + error);
-    });
+    }).catch(function (error) {alert('Ошибка загрузки: ' + error);});
     event.preventDefault();
 });
 

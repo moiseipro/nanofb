@@ -1352,7 +1352,10 @@
                             {% else %}
                             <div class="row">
                                 <div class="col-12 d-flex justify-content-center mt-2">
-                                    <div><input type="file" id="fileVideoUser" accept=".MP4,.avi"></div>
+                                    <div>
+                                        <input type="file" id="fileVideoUser" accept=".MP4,.avi">
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    </div>
                                     <div>
                                         <button type="button" class="btn btn-sm btn-primary" name="fileVideoUserUpload" title="Загрузить">
                                             Загрузить видео
