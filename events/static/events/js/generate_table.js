@@ -6,6 +6,10 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
     $('.page-loader-wrapper').fadeIn();
     if(url) url+="/"
+
+    mcButtonActive = $('#event-mc-active-button').hasClass('active')
+    mc7ButtonActive = $('#event-mc7-active-button').hasClass('active')
+
     $.ajax({
         headers:{"X-CSRFToken": csrftoken },
         url: '/events/'+url+'api/microcycles/',
@@ -14,6 +18,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
         success: function(data){
             if (baseMicrocycle.length > 0){
                 newMicrocycle = baseMicrocycle
+                if (!mc7ButtonActive) {newMicrocycle = []}
             } else {
                 microcycle_arr = data['results']
                 for (var microcycle of microcycle_arr) {
@@ -32,9 +37,8 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         href: '#empty'
                     })
                 }
+                if (!mcButtonActive) {newMicrocycle = []}
             }
-            console.log(newMicrocycle)
-            //console.log(newMicrocycle)
             $.ajax({
                 headers:{"X-CSRFToken": csrftoken },
                 url: '/events/'+url+'api/action/',
@@ -42,7 +46,6 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                 dataType: "JSON",
                 data: send_data,
                 success: function(data){
-                    console.log(data)
                     let events_data = data;
                     let num_tr = 1, num_m = 1, count_tr = 0, count_m = 0, max_m = 0, event_date = '', event_time = '', event_class=''
                     let last_date = moment(send_data['to_date'], 'YYYY-MM-DD')
@@ -50,11 +53,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     let generated_events = []
 
                     let days = last_date.diff(first_date, 'days')+1
-                    //console.log(days)
                     if(days!=0) {
                         for (let i = 0; i < days; i++){
                             let isSame = false
-                            //console.log(last_date.format('DD/MM/YYYY'))
                             for (let event of events_data) {
                                 let cur_date = moment(event['only_date'], 'DD/MM/YYYY')
                                 if(cur_date.isSame(last_date)){
@@ -307,41 +308,41 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             `
 
                             microcycle_table_html += `
-                                <div class="mc-column row mx-0 mc-training">
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                <div class="mc-column row mx-0 mc-training" event_id="${event['id']}">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Тренировка" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Тренировка" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="${all_minutes ? all_minutes+'`' : '---'}" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${all_minutes ? all_minutes+'`' : '---'}" readonly="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Физ.качества">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Физ.качества">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Техника">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Техника">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Тактика">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Тактика">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Игра G + G">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0">
-                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="Игра G + G">
+                                    <div class="mc-cell col-12 px-0">
+                                        <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
+                                    <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="${all_load ? all_load : '---'}" disabled="">
                                     </div>
                                 </div>
@@ -364,41 +365,41 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                             `
 
                             microcycle_table_html += `
-                                <div class="mc-column row mx-0 mc-match">
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                <div class="mc-column row mx-0 mc-match" event_id="${event['id']}">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Матч" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Матч" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" readonly="">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
+                                    <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
                                     </div>
                                 </div>
@@ -414,53 +415,50 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                 ` //<a href="#" class="btn btn-sm btn-block btn-secondary py-0 disabled">${/*gettext('Recreation')*/'---'}</a>
                         
                             microcycle_table_html += `
-                                <div class="mc-column row mx-0 mc-rest">
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" disabled="">
+                                <div class="mc-column row mx-0 mc-rest" event_id="r_${event['only_date']}">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="${event['only_date']}" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="Отдых" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="Отдых" readonly="">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
-                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" readonly="">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0">
+                                    <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
                                     </div>
-                                    <div class="col-12 px-0 color-off">
+                                    <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
                                     </div>
                                 </div>
                             `
                         
                         }
-                        console.log(event['only_date']+"   "+moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY'))
-
                         tr_html += `<tr id="${event['only_date']==moment().format('DD/MM/YYYY') ? 'current_day' : ''}" class="${event_id.length>0 ? 'hasEvent' : ''} ${event_class} ${event['only_date']==moment(event['only_date'], 'DD/MM/YYYY').endOf('month').format('DD/MM/YYYY') ? "month_top_border" : ''}" data-value="${event_id}" data-microcycle-days="${microcycle_days}" data-microcycle-day="${count_day}" data-mcd="${mcd}" data-unfilled="${!isFilled ? '1' : '0'}" data-video="${hasVideo ? '1' : '0'}" data-name="${microcycle_name}" data-block="${exercise_shorts}" data-load="${training_load}" data-objective_1="${objectives}" style="${isCurrentDate ? 'border-top: 2px solid #dc3545!important' : ''}">`
                         tr_html += td_html
                         tr_html += `</tr>`
-
 
                         event_date = event['only_date']
                         event_time = event['time']
@@ -480,7 +478,6 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                     })                    
                 },
                 error: function(jqXHR, textStatus){
-                    //console.log(jqXHR)
                     swal(gettext('Event save'), gettext('Error when action the event!'), "error");
                 },
                 complete: function () {
@@ -537,6 +534,11 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                         console.log(html_data)
                         $('#microcycle-row table tbody').html(html_data)
                         $('#microcycle-row').removeClass('d-none')
+
+                        if (!mcButtonActive && !mc7ButtonActive) {
+                            $('#microcycle-row').addClass('d-none')
+                        }
+
                     } else {
                         $('#microcycle-row').addClass('d-none')
                     }
@@ -553,6 +555,7 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
 
                     local_filters_events()
                     resize_events_table()
+                    setMarkersToMCTable()
 
 
                     //console.log(Cookies.get('event_id') + " " +$('#events .hasEvent .event-select[data-id="'+Cookies.get('event_id')+'"]').length)

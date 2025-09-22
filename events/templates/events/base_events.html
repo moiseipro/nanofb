@@ -49,6 +49,9 @@
                                 <div class="col px-1">
                                     <button id="clear-events-filters" class="btn btn-block btn-reset-filter btn-md font-weight-bold" title="{% trans "Resetting all filtering and calendar" %}"><i class="fa fa-repeat" aria-hidden="true"></i></button>
                                 </div>
+                                <div class="col px-1">
+                                    <button id="toggle-planning-marker" class="btn btn-block btn-lightgray btn-md font-weight-bold" title="{% trans 'Toggle marker for planning' %}"><i class="fa fa-eyedropper" aria-hidden="true"></i></button>
+                                </div>
                             </div>
                         </div>
                         <div id="rescalendar-control-buttons" class="col-2 p-0" style="">
@@ -79,6 +82,9 @@
 {#                                <div class="col px-1">#}
 {#                                    <button id="event-video-modal-button" title="{% trans 'Video of selected event' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold" data-toggle="modal" data-target="#training-video-modal"><b class="text-info">V</b></button>#}
 {#                                </div>#}
+                                <div class="col px-1">
+                                    <button id="event-mc-active-button" title="{% trans 'MC' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'MC' %}</button>
+                                </div>
                                 <div class="col px-1">
                                     <button id="event-mc7-active-button" title="{% trans 'MC 7' %}" class="btn btn-block btn-lightgray btn-md font-weight-bold">{% trans 'MC 7' %}</button>
                                 </div>
@@ -268,6 +274,7 @@
     {% include 'trainings/print_training.html' %}
     {% include 'trainings/send_email_training.html' %}
     {% include 'events/modules/references_modal.html' %}
+    {% include 'events/modules/marker_settings_modal.html' %}
     {% include 'events/forms/create_event.html' %}
     {% include 'events/forms/edit_event.html' %}
     {% include 'events/forms/event_copy.html' %}

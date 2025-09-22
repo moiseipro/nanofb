@@ -140,14 +140,9 @@ var startDate, endDate, startSeason, endSeason;
                 }
 
                 if(empty_count!=0) html2 += '<td colspan="'+empty_count+'" class="microcycle_cell empty_cell">' + '---' + '</td>'
-
                 if( obj_data.title ){ title = ' title="' + obj_data.name + '" '; }
                 if( obj_data.customClass ){ customClass = obj_data.customClass }
-
-
                 if(filled_count!=0)html2 += '<td colspan="'+filled_count+'" data-start="'+obj_data.startDate+'" data-end="'+obj_data.endDate+'" data-id="'+obj_data.id+'" data-toggle="tooltip" '+title+' data-html="true" class="microcycle_cell ' + customClass + '">' + day_count + '</td>';
-
-
                 if(i==0){
                     empty_days_count = arr_dates.length-j
                     if(empty_days_count!=0) html2 += '<td colspan="'+empty_days_count+'" class="microcycle_cell empty_cell">' + '---' + '</td>'

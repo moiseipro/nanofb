@@ -642,6 +642,9 @@ $(window).on('load', function (){
         $('#filters-row').toggleClass('d-none', calendar_active)
         $('#left-filters-row').toggleClass('d-none', calendar_active)
         $('#rescalendar-control-buttons .rescalendar_move_button').toggleClass('d-none', !calendar_active)
+        $('#events-content').children().removeClass('d-none');
+        $('#events-content').find('#microcycle-table-container').addClass('d-none')
+
 
         hide_training_card()
         $('#events-content').removeClass('d-none')
@@ -1000,7 +1003,12 @@ $(window).on('load', function (){
     })
     
     $('#event-mc7-active-button').on( 'click', function () {
-        if ($(this).hasClass('active')){
+        $('#event-mc-active-button').removeClass('active')
+        $('.microcycle-show-number.selected').removeClass('selected')
+        $('#events-content').children().removeClass('d-none');
+        $('#events-content').find('#microcycle-table-container').addClass('d-none')
+        baseMicrocycle = []
+        if ($(this).hasClass('active')) {
             $(this).removeClass('active')
             $('.microcycle-show-number.selected').removeClass('selected')
             baseMicrocycle = []
@@ -1031,6 +1039,67 @@ $(window).on('load', function (){
         }
         generateData()
     })
+    $('#event-mc-active-button').on( 'click', function () {
+        $('#event-mc7-active-button').removeClass('active')
+        $('.microcycle-show-number.selected').removeClass('selected')
+        $('#events-content').children().removeClass('d-none');
+        $('#events-content').find('#microcycle-table-container').addClass('d-none')
+        baseMicrocycle = []
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active')
+            $('.microcycle-show-number.selected').removeClass('selected')
+        } else {
+            $(this).addClass('active')
+        }
+        generateData()
+
+    })
+
+    $('#microcycle-table-container').on('contextmenu', '.mc-cell', (e) => {
+        e.preventDefault();
+        let currentMarker = {
+            'f_color': $('#eventsMarkerModal').find('input[name="f_color"]:checked').val(),
+            'border': $('#eventsMarkerModal').find('input[name="border"]:checked').val(),
+        };
+        let markerData = {};
+        try {
+            markerData = JSON.parse(localStorage.getItem("events_mc_markers"));
+            if (!markerData) {markerData = {};}
+        } catch(e) {}
+        let eventId = $(e.currentTarget).parent().attr('event_id')
+        let indexElem = $(e.currentTarget).index()
+        let fID = `${eventId}__${indexElem}`;
+
+        if (markerData.hasOwnProperty(fID)) {
+            delete markerData[fID];
+            Object.keys(currentMarker).forEach(key => {
+                let keyAsCSS = `--${key}-v`;
+                $(e.currentTarget).removeClass(`m--${key}`);
+                $(e.currentTarget).css(keyAsCSS, '');
+            });
+        } else {
+            markerData[fID] = currentMarker;
+            Object.keys(currentMarker).forEach(key => {
+                let keyAsCSS = `--${key}-v`;
+                if (currentMarker[key] != "") {
+                    $(e.currentTarget).addClass(`m--${key}`);
+                    $(e.currentTarget).css(keyAsCSS, currentMarker[key]);
+                } else {
+                    $(e.currentTarget).removeClass(`m--${key}`);
+                    $(e.currentTarget).css(keyAsCSS, '');
+                }
+            });
+        }
+        localStorage.setItem("events_mc_markers", JSON.stringify(markerData));
+    });
+    $('#toggle-planning-marker').on( 'click', function () {
+        if ($('#events-content').find('#microcycle-table-container').hasClass('d-none')) {
+            swal(gettext('Warning!'), gettext('First, go into planning mode. To do this, double-click on the microcycle cell.'), "warning");
+            return;
+        }
+        $('#eventsMarkerModal').modal('show');
+    })
+
     
     $('a[data-toggle="pill"]').on('shown.bs.tab', function (event) {
          resize_events_table()
@@ -1399,6 +1468,29 @@ function getFormattedDateFromAnother(dateStr="") {
     }
     let newDateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
     return newDateStr;
+}
+
+function setMarkersToMCTable () {
+    let markerData = {};
+    try {
+        markerData = JSON.parse(localStorage.getItem("events_mc_markers"));
+    } catch(e) {}
+    $('#microcycle-table-container .mc-column').each((ind, elem) => {
+        $(elem).find('.mc-cell').each((ind2, elem2) => {
+            let eventId = $(elem).attr('event_id')
+            let fID = `${eventId}__${ind2}`;
+            if (markerData.hasOwnProperty(fID)) {
+                let currentMarker = markerData[fID]
+                Object.keys(currentMarker).forEach(key => {
+                    let keyAsCSS = `--${key}-v`;
+                    if (currentMarker[key] != "") {
+                        $(elem2).addClass(`m--${key}`);
+                        $(elem2).css(keyAsCSS, currentMarker[key]);
+                    }
+                });
+            }
+        })
+    })
 }
 
 $(function() {

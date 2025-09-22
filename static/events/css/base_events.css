@@ -243,9 +243,6 @@ button.event-select.selected{
 .mc-column .col-12 input {
     text-align: center;
 }
-.mc-column:not(.mc-training) input {
-    pointer-events: none;
-}
 .mc-column.mc-training .col-12:not(.color-off), .mc-column.mc-training .col-12:not(.color-off) input {
     background-color: #acc7f0a3;
 }
@@ -254,4 +251,15 @@ button.event-select.selected{
 }
 .mc-column.mc-rest .col-12:not(.color-off), .mc-column.mc-rest .col-12:not(.color-off) input {
     background-color: #f0e8ac97;
+}
+
+
+.mc-cell.m--f_color {
+    color: var(--f_color-v);
+}
+.mc-cell.m--f_color > input {
+    color: var(--f_color-v);
+}
+.mc-cell.m--border {
+    border: 3px solid var(--border-v) !important;
 }
