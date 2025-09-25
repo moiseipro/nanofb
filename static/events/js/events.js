@@ -922,10 +922,10 @@ $(window).on('load', function (){
     $('#trainingShareModal').on('show.bs.modal', (e) => {
         let shared_modal = $('#trainingShareModal');
         let startDate = getFormattedDateFromTodayWithDelta(1);
-        let endDate = getFormattedDateFromTodayWithDelta(8);
-        try {
-            endDate = getFormattedDateFromAnother($('#select-season').find('option[selected]').attr('data-by'));
-        } catch(e) {}
+        let endDate = getFormattedDateFromTodayWithDelta(3);
+        // try {
+        //     endDate = getFormattedDateFromAnother($('#select-season').find('option[selected]').attr('data-by'));
+        // } catch(e) {}
         shared_modal.find('input[name="date"]').val(startDate);
         shared_modal.find('input[name="date"]').attr('min', startDate);
         shared_modal.find('input[name="date"]').attr('max', endDate);

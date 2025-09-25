@@ -13,7 +13,7 @@ async function ajax_share(method = 'POST', data,) {
 
          },
          error: function (res) {
-             if (res.responseJSON.type == "date") {
+             if (res.responseJSON.type == "date" || res.responseJSON.type == "date_max") {
                  swal(gettext("Error"), gettext("Date entered incorrectly")+'!', "error");
              } else if (res.responseJSON.type == "link") {
                  swal(gettext("Error"), gettext("Unable to create shared link")+'!', "error");

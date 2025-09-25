@@ -47,6 +47,11 @@
     flex: 0 0 12%;
     max-width: 12%;
 }
+.col-04 {
+    -ms-flex: 0 0 22.5%;
+    flex: 0 0 22.5%;
+    max-width: 22.5%;
+}
 
 
 .size-w-x {
@@ -378,6 +383,17 @@
     border-width: 2px;
 }
 
+.btn-custom.folders-toggle.selected {
+    border: 2px solid rgb(100, 100, 100) !important;
+    background-color: #f3aa51 !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    color: #000000 !important;
+    opacity: 0.9;
+}
+.btn-custom.folders-toggle:disabled {
+    opacity: 0.4 !important;
+}
 
 .btn-custom.b-c-blue2.selected3 {
     background-color: #9ee2f9 !important;

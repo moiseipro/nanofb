@@ -287,7 +287,8 @@ LANGUAGES = (
     ('pt', _('Portuguese')),
     ('es', _('Spanish')),
     ('de', _('German')),
-    ('fr', _('French'))
+    ('fr', _('French')),
+    ('it', _('Italian')),
 )
 
 LOCALE_PATHS = (

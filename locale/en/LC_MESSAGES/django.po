@@ -2605,6 +2605,10 @@ msgstr ""
 #: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr ""
+msgid "MC"
+msgstr "Microcycles"
+msgid "MC 7"
+msgstr "Weekly microcycles"
 
 #: .\events\templates\events\base_events.html:121
 #: .\events\templates\events\base_events.html:124

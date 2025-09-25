@@ -242,6 +242,7 @@ function CountExsInFoldersByType() {
     // $(`.folders-toggle`).find('.exs_counter').html('');
     // $(`.folders-toggle[data-id="${currentFolderId}"]`).find('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
     $(`.folders-toggle-container`).find('.exs_counter').html(res > 0 ? `${res}` : "...");
+    $(`.btns-tabs-first`).find('.exs_counter').html(res > 0 ? `${res}` : "...");
 }
 
 function CountAllExsInList() {
@@ -249,6 +250,7 @@ function CountAllExsInList() {
     // $(`.folders-toggle`).find('.exs_counter').html('');
     // $(`.folders-toggle[data-id="toggle_trainer"]`).find('.exs_counter').html(res > 0 ? `(${res})` : "(...)");
     $(`.folders-toggle-container`).find('.exs_counter').html(res > 0 ? `${res}` : "...");
+    $(`.btns-tabs-first`).find('.exs_counter').html(res > 0 ? `${res}` : "...");
     
     let tagsElems = $('.tag-select-search').find('option');
     for (let i = 0; i < tagsElems.length; i++) {

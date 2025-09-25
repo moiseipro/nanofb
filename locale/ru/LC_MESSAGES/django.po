@@ -2687,10 +2687,6 @@ msgstr "Показать/скрыть календарь"
 msgid "Calendar"
 msgstr "Календарь"
 
-#: .\events\templates\events\base_events.html:83
-msgid "MC 7"
-msgstr ""
-
 #: .\events\templates\events\base_events.html:86 .\trainings\models.py:253
 msgid "Quick list of players"
 msgstr "Упрощенный список игроков"
@@ -2823,6 +2819,10 @@ msgstr "Скачать презентацию"
 #: .\events\templates\events\lite_events.html:101
 msgid "MC days"
 msgstr "Дни МЦ"
+msgid "MC"
+msgstr "Микроциклы"
+msgid "MC 7"
+msgstr "Недельные микроциклы"
 
 #: .\events\templates\events\lite_events.html:120
 #: .\events\templates\events\lite_events.html:123

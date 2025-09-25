@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django.utils import timezone
 import json
 import random
@@ -43,7 +43,7 @@ def date_from_string(request, name, def_value = None):
             res = None
         else:
             res = t_date.strftime(format_yyyymmdd)
-    return res   
+    return res, t_date
 
 
 def generate_link_str(length=10):
@@ -67,7 +67,7 @@ def check_link_expiration(c_link):
 def POST_add_link(request, cur_user):
     c_id = -1
     c_type = request.POST.get("type", "")
-    c_expire_date = date_from_string(request, "expire_date", None)
+    c_expire_date, c_expire_date_as_date = date_from_string(request, "expire_date", None)
     c_options = {}
     try:
         c_id = int(request.POST.get("id", -1))
@@ -79,6 +79,13 @@ def POST_add_link(request, cur_user):
         pass
     if not c_expire_date:
         return JsonResponse({"errors": "Expire date not correct.", "type": "date"}, status=400)
+    if "training" in c_type:
+        now = datetime.now()
+        now = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        t_date_normalized = c_expire_date_as_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        max_allowed_date = now + timedelta(days=3)
+        if t_date_normalized > max_allowed_date:
+            return JsonResponse({"errors": "The date has been exceeded. Maximum 3 days from the current day.", "type": "date_max"}, status=400)
     c_dict = {
         'user': cur_user,
         'expiration_date': c_expire_date,

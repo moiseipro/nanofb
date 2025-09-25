@@ -13,6 +13,9 @@ function ToggleFolderTypeUI(fType="") {
     $('.up-tabs-elem[data-id="team_folders"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "team_folders");
     $('.up-tabs-elem[data-id="toggle_trainer"]').closest('li').find('.exs_counter').toggleClass('d-none', fType != "trainer_folder");
 
+    $('.up-tabs-elem[data-id="nfb_folders"]').find('.exs_counter').toggleClass('d-none', fType != "nfb_folders");
+    $('.up-tabs-elem[data-id="team_folders"]').find('.exs_counter').toggleClass('d-none', fType != "team_folders");
+
     $('.folders_nfb_list').toggleClass('d-none', fType != "nfb_folders");
     $('.folders_club_list').toggleClass('d-none', fType != "club_folders");
     $('.folders_list').toggleClass('d-none', fType != "team_folders");
@@ -694,7 +697,8 @@ function ToggleUpFilter(id, state) {
             }
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').toggleClass('selected3', state);
             $('.up-tabs-elem[data-id="toggle_trainers_exs"]').attr('data-state', state ? 1 : 0);
-            $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', state);
+            // $('.up-tabs-elem.folders-toggle').toggleClass('c-hidden', state);
+            $('.up-tabs-elem.folders-toggle').prop('disabled', state);
             $('.btn[data-id="users_exs_folders"]').toggleClass('d-none', !state);
             $('.folders-toggle-container').find('li.folders-toggle-li').toggleClass('c-hidden', state);
             $('.folders-toggle-container').find('li.folders-toggle-user-exs-li').toggleClass('d-none', !state);
@@ -866,6 +870,9 @@ function CheckLastExs() {
 
         $('.up-tabs-elem.folders-toggle').closest('li').find('.exs_counter').addClass('d-none');
         $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).closest('li').find('.exs_counter').removeClass('d-none');
+
+        $('.up-tabs-elem.folders-toggle').find('.exs_counter').addClass('d-none');
+        $(`.up-tabs-elem[data-id="${window.lastExercise.type}"]`).find('.exs_counter').removeClass('d-none');
         
         $('.toggle-filter-content').toggleClass('btn-custom-outline-blue', window.lastExercise.type == "team_folders");
         $('.toggle-filter-content').toggleClass('btn-custom-outline-red', window.lastExercise.type == "club_folders");
@@ -930,15 +937,6 @@ function getFormattedDateFromTodayWithDelta(delta=0) {
         + ("0" + date.getDate()).slice(-2);
 }
 
-function getFormattedDateFromAnother(dateStr="") {
-    let parts = dateStr.split('/');
-    if (parts.length !== 3) {
-        throw new Error('Invalid date format. Expected DD/MM/YYYY.');
-    }
-    let newDateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
-    return newDateStr;
-}
-
 function LoadExerciseFullName() {
     let cId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
     let folderType = $('.folders_div.selected').attr('data-id');
@@ -981,6 +979,16 @@ function RenderExerciseFullName(data) {
         } catch(e) {}
         document.descriptionEditorAdmin[langCode].setData(cVal);
         $(elem).val(cVal);
+    });
+}
+
+function GenerateAjaxSaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
+    return $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: {'edit_exs_full_name': 1, 'exs': exsId, 'f_type': folderType, key, value, lang},
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "exercises_api",
     });
 }
 
@@ -1806,6 +1814,7 @@ $(function() {
     if (selectedTeam && selectedTeam != "") {
         let tText = $('#select-team').find(`option[value="${selectedTeam}"]`).text();
         $('.folders-container').find('.folders-toggle[data-id="team_folders"]').find('span').text(`"${tText}"`);
+        $('.btns-tabs-first').find('.folders-toggle[data-id="team_folders"]').find('span.team-name').text(`"${tText}"`);
     }
 
     // Toggle upper buttons panel
@@ -3065,6 +3074,7 @@ $(function() {
                     $(tId).next().find('.ck-content.ck-editor__editable').removeClass('borders-off');
                     document.descriptionEditorAdmin[$(elem).val()].editing.view.document.on('change:isFocused', (evt, data, isFocused) => {
                         if (isFocused == false) {
+                            return
                             let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
                             let folderType = $('.folders_div.selected').attr('data-id');
                             let cVal = document.descriptionEditorAdmin[$(elem).val()].getData();
@@ -3115,13 +3125,13 @@ $(function() {
         //     console.error(err);
         // });
     });
-    $('#exerciseLangTitleModal').on('change', 'input.exs-title', (e) => {
-        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-        let folderType = $('.folders_div.selected').attr('data-id');
-        let cVal = $(e.currentTarget).val();
-        let cLangCode = $(e.currentTarget).attr('data-lang');
-        SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
-    });
+    // $('#exerciseLangTitleModal').on('change', 'input.exs-title', (e) => {
+    //     let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+    //     let folderType = $('.folders_div.selected').attr('data-id');
+    //     let cVal = $(e.currentTarget).val();
+    //     let cLangCode = $(e.currentTarget).attr('data-lang');
+    //     SaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode);
+    // });
     $('#exerciseLangTitleModal').on('click', '.change-title-pos-prev', (e) => {
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
         let folderType = $('.folders_div.selected').attr('data-id');
@@ -3164,6 +3174,35 @@ $(function() {
         $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', false);
         $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
     });
+    $('#exerciseLangTitleModal').on('click', '.btn-save', (e) => {
+        let requestFactories = [];
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div.selected').attr('data-id');
+        $('#exerciseLangTitleModal').find('#collapse__exs_title tr:not(.d-none)').find('input.exs-title:visible').each((ind, elem) => {
+            let cVal = $(elem).val();
+            let cLangCode = $(elem).attr('data-lang');
+            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode));
+        });
+        let langs = $($('#exerciseLangTitleModal').find('select.toggle-langs')).val();
+        for (let i = 0; i < langs.length; i++) {
+            let cLangCode = langs[i];
+            let cValTitle =  $('#exerciseLangTitleModal').find(`input.exs-title[data-lang="${cLangCode}"]`).val();
+            let cValDescription = document.descriptionEditorAdmin[langs[i]].getData();
+            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'title', cValTitle, cLangCode));
+            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'description', cValDescription, cLangCode));
+        }
+        console.log( requestFactories )
+        $('.page-loader-wrapper').fadeIn();
+        let requests = requestFactories.map(fn => fn());
+        $.when(...requests).done((...responses) => {
+            // const data = responses.map(r => r[0]);
+            $('.page-loader-wrapper').fadeOut();
+            swal("Готово", "Упражнение успешно изменено.", "success");
+        }).fail((jqXHR, textStatus, errorThrown) => {
+            $('.page-loader-wrapper').fadeOut();
+            swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
+        });
+    });
 
     
     // Save & Load current folders mode
@@ -3199,6 +3238,9 @@ $(function() {
 
             $('.up-tabs-elem.folders-toggle').closest('li').find('.exs_counter').addClass('d-none');
             $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).closest('li').find('.exs_counter').removeClass('d-none');
+
+            $('.up-tabs-elem.folders-toggle').find('.exs_counter').addClass('d-none');
+            $(`.up-tabs-elem[data-id="${cFoldersSettings.type}"]`).find('.exs_counter').removeClass('d-none');
 
             $('.folders-block > div.folders-container > div.folders_div').addClass('d-none');
             $('.folders-block > div.folders-container > div.folders_div').removeClass('selected');

@@ -49,9 +49,12 @@
 
                                         <div class="col-12 p-0 btn-group-custom">
                                             <div class="row mx-0">
-                                                <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem" id="toggleExsEditPanel" title="Редактировать упражнение">
-                                                        редактор
+                                                <div class="col-04 px-0">
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100" data-id="nfb_folders" title="Структура папок N.F." data-state="0">
+                                                        <span class="d-flex w-100 justify-content-between align-items-center px-2">
+                                                            <span class="flex-grow-1 text-center">Nano-Football</span>
+                                                            <span class="badge badge-dark exs_counter" title="Кол-во упражнений в папке" style="font-size: 0.8rem; color: #eaeaea;">...</span>
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
@@ -62,6 +65,11 @@
                                                 <div class="col-02 px-0">
                                                     <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение">
                                                         копировать
+                                                    </button>
+                                                </div>
+                                                <div class="col-01 px-0">
+                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem" id="toggleExsEditPanel" title="Редактировать упражнение">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
@@ -100,28 +108,13 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem {% if user.is_superuser %}w-titles{% endif %}" data-id="toggle_trainers_exs" title="Упражнения тренеров">
+                                                        <span class="icon-custom icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-01 px-0">
                                                     <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="clear_filter" title="Очистить фильтры">
-                                                        <i class="fa fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: balck;"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_hidden_folders" title="Скрыть папки">
-                                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
+                                                        <i class="fa fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: black;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
@@ -131,9 +124,12 @@
                                                 </div>
                                             </div>
                                             <div class="row mx-0">
-                                                <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem up-tab-custom tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" data-state="0">
-                                                        папки
+                                                <div class="col-04 px-0">
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100" data-id="team_folders" title="Структура папок выбранной команды" data-state="0">
+                                                        <span class="d-flex w-100 justify-content-between align-items-center px-2">
+                                                            <span class="team-name flex-grow-1 text-center">Team</span>
+                                                            <span class="badge badge-dark exs_counter" title="Кол-во упражнений в папке" style="font-size: 0.8rem; color: #eaeaea;">...</span>
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
@@ -144,6 +140,11 @@
                                                 <div class="col-02 px-0">
                                                     <button type="button" class="btn btn-secondary btn-custom custom-blue btn-block up-tabs-elem tgl-off-usrs-exs" id="copyExsNew" title="Скопировать упражнение / упражнения">
                                                         копировать 2
+                                                    </button>
+                                                </div>
+                                                <div class="col-01 px-0">
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem up-tab-custom tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" data-state="0">
+                                                        <i class="fa fa-folder-open-o" aria-hidden="true" style="color: black;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
@@ -188,23 +189,8 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem {% if user.is_superuser %}w-titles{% endif %}" data-id="toggle_trainers_exs" title="Упражнения тренеров">
-                                                        <span class="icon-custom icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
-                                                    </button>
-                                                </div>
-                                                <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_hidden_folders" title="Скрыть папки">
+                                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
@@ -1263,7 +1249,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-save" data-dismiss="modal">Сохранить</button>
+                        <button type="button" class="btn btn-primary btn-save">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
