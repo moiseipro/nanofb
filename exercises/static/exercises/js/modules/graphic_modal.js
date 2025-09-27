@@ -139,8 +139,6 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
         animationWatched_2 = $(activeExs).find('button.btn-marker[data-id="animation_2_watched"] > input').prop('checked');
     }
     window.videoPlayerClones = [];
-    console.log("sdda asdasda")
-    console.log(data)
     let htmlStr = `
         ${data && data.scheme_img_show_first ? `
             ${data && data.scheme_img ? `

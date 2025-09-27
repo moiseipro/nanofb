@@ -1778,7 +1778,7 @@ function UpdateHiddenFoldersStorage(folderType=null, folderId=null) {
         } catch(e) {}
         if (!window.hiddenFolders) {
             window.hiddenFolders = {};
-            $('.folders-container').find('.folders-toggle').each((ind, elem) => {
+            $('.card-inside').find('.folders-toggle').each((ind, elem) => {
                 let cId = $(elem).attr('data-id');
                 window.hiddenFolders[cId] = [];
             });
@@ -2754,7 +2754,7 @@ $(function() {
         $('#exerciseShareModal').find('.link-qrcode').html('');
 
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        let folderType = $('.card-inside').find('.folders-toggle.selected').first().attr('data-id');
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -2800,7 +2800,7 @@ $(function() {
             return;
         }
         let exsId = $('.exercises-block').find('.exs-elem.active').attr('data-id');
-        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        let folderType = $('.card-inside').find('.folders-toggle.selected').first().attr('data-id');
         let expireDate = $('#exerciseShareModal').find('input[name="date"]').val();
         let options = {};
         $('#exerciseShareModal').find('input[type="checkbox"]:visible').each((ind, elem) => {

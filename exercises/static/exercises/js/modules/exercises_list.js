@@ -1348,7 +1348,7 @@ $(function() {
     $('.visual-block').on('click', '.carousel-item', (e) => {
         let isTrainer = $('.up-tabs-elem[data-id="toggle_trainer"]').length > 0 && $('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected');
         let isUsersExs = $('.btn[data-id="users_exs_folders"]').length > 0 && !$('.btn[data-id="users_exs_folders"]').hasClass('d-none');
-        let folderType = $('.folders-container').find('.folders-toggle.selected').first().attr('data-id');
+        let folderType = $('.card-inside').find('.folders-toggle.selected').first().attr('data-id');
         if (isTrainer) {folderType = "__is_trainer";}
         let userId = "";
         if (isUsersExs) {
