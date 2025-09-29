@@ -969,6 +969,7 @@ function RenderExerciseFullName(data) {
         try {
             cVal = data['title'][langCode];
         } catch(e) {}
+        if (cVal == undefined || cVal == null) {cVal = "";}
         $(elem).val(cVal);
     });
     $('#exerciseLangTitleModal').find('div.exs-description').each((ind, elem) => {
@@ -977,6 +978,7 @@ function RenderExerciseFullName(data) {
         try {
             cVal = data['description'][langCode];
         } catch(e) {}
+        if (cVal == undefined || cVal == null) {cVal = "";}
         document.descriptionEditorAdmin[langCode].setData(cVal);
         $(elem).val(cVal);
     });
@@ -3777,25 +3779,25 @@ $(function() {
 
     $('#getExsDuplicates').on('click', (e) => {
         let isSelected = $(e.currentTarget).hasClass('selected3');
-        let folder = $('.folders_div').find('.list-group-item.active');
-        if (folder.length == 0) {
-            swal("Внимание", "Выберите любую папку с упражнениями.", "info");
-            $(e.currentTarget).toggleClass('selected3', !isSelected);
-            $(e.currentTarget).attr('data-state', isSelected ? '0' : '1');
-            return;
-        }
+        $('.folders_div').find('.list-group-item:visible').removeClass('active');
+        $('.folders_div').find('.list-group-item:visible').find('.folder-exs-counter').text('...');
+        $('.folders-container').toggleClass('c-disabled', isSelected);
+        $('.folders-toggle').toggleClass('btn-disabled', isSelected);
         if (isSelected) {
+            $('.folders_div').find('.list-group-item:visible').first().addClass('active');
             window.exercisesFilter['exs_duplicated'] = '1';
             for (ind in window.count_exs_calls) {
                 window.count_exs_calls[ind]['call'].abort();
             }
             LoadFolderExercises();
         } else {
+            $('.folders_div').find('.list-group-item:visible').first().addClass('active');
             delete window.exercisesFilter['exs_duplicated'];
             for (ind in window.count_exs_calls) {
                 window.count_exs_calls[ind]['call'].abort();
             }
             LoadFolderExercises();
+            CountExsInFolder();
         }
     });
 

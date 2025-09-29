@@ -986,11 +986,13 @@ class EventsView(LoginRequiredMixin, TemplateView):
         team = self.request.session['team']
         if self.request.user.club_id is not None:
             context['teams_list'] = ClubTeam.objects.filter(id=team)
+            context['teams_list'] = self.request.teams_list
             if len(ClubTeam.objects.filter(id=team)) > 0:
                 context['trainers_list'] = ClubTeam.objects.get(id=team).users.all()
                 print(context['trainers_list'])
         else:
             context['teams_list'] = UserTeam.objects.filter(id=team)
+            context['teams_list'] = self.request.teams_list
             context['trainers_list'] = User.objects.filter(id=self.request.user.pk)
             print(context['trainers_list'])
         return context

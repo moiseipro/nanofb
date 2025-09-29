@@ -1065,3 +1065,9 @@ li.marker--border_btm {
 .folder-color-D {
     background-color: #edaf7ccd !important;
 }
+
+
+.folders-container.c-disabled {
+    pointer-events: none !important;
+    opacity: 0.6;
+}

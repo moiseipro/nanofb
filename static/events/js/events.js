@@ -528,7 +528,9 @@ $(window).on('load', function (){
         clear_event_form()
     })
     $('#match-form #select_team').on('change', function () {
-        $('#match-form #input_opponent').val($(this).val())
+        let teamVal = $(this).val()
+        $('#match-form #input_opponent').val(teamVal)
+        $('#match-form #input_opponent').prop('readonly', teamVal != "")
     })
     // Отправка формы создания события
     $('#form-event').on('submit', function(e) {
@@ -537,16 +539,13 @@ $(window).on('load', function (){
         let date = moment(send_data['date']).format('DD/MM/YYYY')
         let method = $(this).attr('method')
         send_data['date'] = date+' '+send_data['time']
-        console.log(send_data)
         $('#event-link').html('');
         if (send_data['event_type'] == '5'){
             send_data['event_type'] = '1'
             let training_form = $('#form-event-modal .event_type_block[data-type*="'+send_data['event_type']+'"] form');
             let training_data = getFormData(training_form)
             if(training_data.players == "" || training_data.goalkepeers == "" || !("aload" in training_data)) return false;
-            console.log(training_data)
             send_data = $.extend(send_data, training_data);
-            console.log(send_data)
             ajax_event_action(method, send_data, 'create').then(function( data ) { //cur_edit_data ? cur_edit_data.id : 0
                 console.log(data)
                 if('status' in data && data['status'] == 'event_type_full') return;
@@ -1011,31 +1010,71 @@ $(window).on('load', function (){
         if ($(this).hasClass('active')) {
             $(this).removeClass('active')
             $('.microcycle-show-number.selected').removeClass('selected')
-            baseMicrocycle = []
         } else {
             $(this).addClass('active')
-            startDate = moment().startOf('year').startOf('week');
-            endDate = moment().endOf('week');
-            var diffDays = endDate.diff(startDate, 'days')
-            baseMicrocycle = []
-            console.log(startDate.format('DD/MM/YYYY') + "-" + endDate.format('DD/MM/YYYY') + " " + diffDays)
-            let date_with = startDate.clone()
-            let date_by = startDate.clone();
-            for (let i = diffDays+1; i > 0; i-=7) {
-                date_with = startDate.clone().add(i-6, 'days')
-                date_by = startDate.clone().add(i, 'days')
-                let days = date_by.diff(date_with, 'days')+1
-                baseMicrocycle.push({
-                    id: i,
-                    name: i,
-                    block: i,
-                    startDate: date_with.format('DD/MM/YYYY'),
-                    endDate: date_by.format('DD/MM/YYYY'),
-                    days: days,
-                    customClass: 'green_cell',
-                    href: '#empty'
-                })
+
+            let currentSeasonDateVal = $('#select-season').val();
+            let currentSeasonDateWithStr = $('#select-season').find(`option[value="${currentSeasonDateVal}"]`).attr('data-with');
+            let currentSeasonDateByStr = $('#select-season').find(`option[value="${currentSeasonDateVal}"]`).attr('data-by');
+
+            moment.updateLocale('en', { week: { dow: 1 } });
+            let startDate = moment(currentSeasonDateWithStr, 'DD/MM/YYYY');
+            let endDate = moment(currentSeasonDateByStr, 'DD/MM/YYYY');
+            // Находим начало недели для endDate (обычно понедельник или воскресенье — зависит от настроек moment)
+            let endOfWeek = endDate.clone().endOf('week');
+            let startOfWeek = startDate.clone().startOf('week'); // начало недели от стартовой даты
+            // Разница в днях между началом первой недели и концом последней
+            let diffDays = endOfWeek.diff(startOfWeek, 'days');
+            let currentDate = startOfWeek.clone();
+            let idCounter = 1;
+            // Проходим по неделям от первой до последней
+            while (currentDate.isSameOrBefore(endOfWeek, 'day')) {
+                let weekStart = currentDate.clone();
+                let weekEnd = currentDate.clone().add(6, 'days'); // конец недели (7 дней)
+                // Обрезаем начало и конец, если выходят за пределы сезона
+                let intervalStart = weekStart.isAfter(startDate, 'day') ? weekStart : startDate.clone();
+                let intervalEnd = weekEnd.isBefore(endDate, 'day') ? weekEnd : endDate.clone();
+                // Только если интервал пересекается с сезоном
+                if (intervalEnd.isSameOrAfter(intervalStart, 'day')) {
+                    let days = intervalEnd.diff(intervalStart, 'days') + 1;
+                    baseMicrocycle.push({
+                        id: idCounter++,
+                        name: idCounter - 1,
+                        block: idCounter - 1,
+                        startDate: intervalStart.format('DD/MM/YYYY'),
+                        endDate: intervalEnd.format('DD/MM/YYYY'),
+                        days: days,
+                        customClass: 'green_cell',
+                        href: '#empty'
+                    });
+                }
+                // Переход к следующей неделе
+                currentDate.add(7, 'days');
             }
+            baseMicrocycle.reverse()
+
+
+            // startDate = moment().startOf('year').startOf('week');
+            // endDate = moment().endOf('week');
+            // let diffDays = endDate.diff(startDate, 'days')
+            // baseMicrocycle = []
+            // let date_with = startDate.clone()
+            // let date_by = startDate.clone();
+            // for (let i = diffDays+1; i > 0; i-=7) {
+            //     date_with = startDate.clone().add(i-6, 'days')
+            //     date_by = startDate.clone().add(i, 'days')
+            //     let days = date_by.diff(date_with, 'days')+1
+            //     baseMicrocycle.push({
+            //         id: i,
+            //         name: i,
+            //         block: i,
+            //         startDate: date_with.format('DD/MM/YYYY'),
+            //         endDate: date_by.format('DD/MM/YYYY'),
+            //         days: days,
+            //         customClass: 'green_cell',
+            //         href: '#empty'
+            //     })
+            // }
         }
         generateData()
     })
