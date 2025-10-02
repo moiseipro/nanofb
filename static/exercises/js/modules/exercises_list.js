@@ -289,22 +289,22 @@ function RenderFolderExercises(id, tExs) {
                         </button>
                     ` : `
                     `}
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_video == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_video" style="--w-x:24px; --h-x:24px; background-color: #0058ff82;" title="Видео">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_video == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_video" style="--w-x:24px; --h-x:24px;" title="Видео">
                         <input type="checkbox" value="" ${exElem.opt_has_video == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_animation == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_animation" style="--w-x:24px; --h-x:24px; background-color: #0058ff82;" title="Анимация">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_animation == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_animation" style="--w-x:24px; --h-x:24px; border-right: 2px solid black !important;" title="Анимация">
                         <input type="checkbox" value="" ${exElem.opt_has_animation == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_description == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_description" style="--w-x:24px; --h-x:24px; background-color: #ff8f0082;" title="Описание">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_description == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_description" style="--w-x:24px; --h-x:24px;" title="Описание">
                         <input type="checkbox" value="" ${exElem.opt_has_description == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_description_2 == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_description_2" style="--w-x:24px; --h-x:24px; background-color: #ff8f0082;" title="Описание #2">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_description_2 == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_description_2" style="--w-x:24px; --h-x:24px; border-right: 2px solid black !important;" title="Описание #2">
                         <input type="checkbox" value="" ${exElem.opt_has_description_2 == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_scheme == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_scheme" style="--w-x:24px; --h-x:24px; background-color: #00ff4482;" title="Рисунок">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_scheme == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_scheme" style="--w-x:24px; --h-x:24px;" title="Рисунок">
                         <input type="checkbox" value="" ${exElem.opt_has_scheme == true ? 'checked' : ''}>
                     </button>
-                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_scheme_2 == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_scheme_2" style="--w-x:24px; --h-x:24px; background-color: #00ff4482;" title="Рисунок #2">
+                    <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.opt_has_scheme_2 == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="opt_has_scheme_2" style="--w-x:24px; --h-x:24px; border-right: 2px solid black !important;" title="Рисунок #2">
                         <input type="checkbox" value="" ${exElem.opt_has_scheme_2 == true ? 'checked' : ''}>
                     </button>
                     <button type="button" class="btn btn-secondary1 btn-sm btn-custom btn-empty elem-flex-center size-w-x size-h-x ${exElem.visible == true ? 'selected' : ''}" data-type="icons" data-info="admin_options" data-id="visible" style="--w-x:24px; --h-x:24px;" title="Видно всем">

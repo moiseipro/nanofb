@@ -4,14 +4,14 @@
 
 <form id="match-form">
     <div class="form-group row mb-0">
-        <label for="select_team" class="col-md-4 col-form-label">{% trans "Team" %} 2</label>
-        <div class="col-md-8 d-flex">
-            <select name="" class="custom-select flex-grow-1" id="select_team" required>
+        <label for="input_opponent" class="col-md-6 col-form-label">{% trans "Opponent" %}</label>
+        <div class="col-md-6 d-flex">
+            <!-- <select name="" class="custom-select flex-grow-1" id="select_team" required>
                 <option value="">{% trans '---' %}</option>
                 {% for team in teams_list %}
                     <option value="{{ team.name }}">{{ team.name }}</option>
                 {% endfor %}
-            </select>
+            </select> -->
             <input type="text" name="opponent" class="form-control flex-grow-1" id="input_opponent" placeholder="">
         </div>
     </div>

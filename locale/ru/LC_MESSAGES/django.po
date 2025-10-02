@@ -5443,3 +5443,6 @@ msgid "Uploading to nanofootball.pro"
 msgstr "Загрузка на nanofootball.pro"
 msgid "Toggle marker for planning"
 msgstr "Маркер в режиме планирования"
+
+msgid "Opponent"
+msgstr "Соперник"

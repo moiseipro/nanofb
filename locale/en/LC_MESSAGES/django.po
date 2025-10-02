@@ -4733,3 +4733,6 @@ msgid "Uploading to nanofootball.pro"
 msgstr ""
 msgid "Toggle marker for planning"
 msgstr ""
+
+msgid "Opponent"
+msgstr ""
