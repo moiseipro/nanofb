@@ -243,7 +243,9 @@ class AbstractExercise(models.Model):
     opt_has_video = models.BooleanField(default=False)
     opt_has_animation = models.BooleanField(default=False)
     opt_has_description = models.BooleanField(default=False)
+    opt_has_description_2 = models.BooleanField(default=False)
     opt_has_scheme = models.BooleanField(default=False)
+    opt_has_scheme_2 = models.BooleanField(default=False)
 
     field_age_a = models.IntegerField(null=True, blank=True)
     field_age_b = models.IntegerField(null=True, blank=True)
