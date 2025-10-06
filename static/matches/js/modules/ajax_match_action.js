@@ -1,6 +1,6 @@
 async function ajax_match_action(method, data, action = '', id = '', func = '') {
 
-    let url = "/match/api/action/"
+    let url = "/matches/api/action/"
     if(id !== '') url += `${id}/`
     if(func !== '') url += `${func}/`
 

@@ -617,9 +617,9 @@ $(window).on('load', function (){
                 let match_form = $('#form-event-edit-modal .event_type_block[data-type*="2"] form');
                 let match_data = getFormData(match_form)
                 console.log(match_data)
-                // ajax_match_action('PUT', match_data, 'save', data.id).then(function (data_mch) {
-                //     generateData()
-                // })
+                ajax_match_action('PUT', match_data, 'save', data.id).then(function (data_mch) {
+                    generateData()
+                })
             } else {
                 generateData()
             }

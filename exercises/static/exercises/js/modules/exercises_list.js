@@ -96,6 +96,7 @@ function LoadFolderExercises() {
     let fType = $('.folders-block').find('.folders_div.selected').attr('data-id');
     let folderElemStr = isClub ? '.folder-club-elem' : '.folder-elem';
     let cFolderId = !isNfbExs ? $(activeRow).find(folderElemStr).attr('data-id') : $(activeNfbRow).find('.folder-nfb-elem').attr('data-id');
+    exercises = {"nfb": {}};
     let tExs = !isNfbExs ? exercises : exercises['nfb'];
     if (cFolderId in tExs) {
         RenderFolderExercises(cFolderId, tExs);
@@ -389,6 +390,7 @@ function LoadExerciseOneHandler(checkHoveredAsActive = false) {
     try {
         LoadContentInCardModalForEdit(cId, folderType, userId);
     } catch(e) {}
+
 }
 
 function RenderExerciseOne(data) {
@@ -413,6 +415,7 @@ function RenderExerciseOne(data) {
         let folderType = data.nfb ? "folder_nfb" : "folder_default";
 
         $(exsCard).attr('data-exs', data.id);
+
         // $(exsCard).find('#saveExs').toggleClass('d-none', data.nfb);
 
         // $(exsCard).find('.btn-only-edit').prop('disabled', false);

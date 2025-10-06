@@ -259,6 +259,10 @@ function RenderExerciseOne(data) {
     if (data && data.id) {
         $(exsCard).attr('data-exs', data.id);
 
+        let currentExsElement = $('.exs-list-group').find('li.exs-elem.active');
+        if (currentExsElement.length > 0) {
+            $(currentExsElement).find('.title').text(data.title);
+        }
         // $('.exercise-card-header').toggleClass('disabled', data.copied_from_nfb == true);
 
         ToggleFoldersType(data);

@@ -824,7 +824,14 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(tags_folder__lowercase_name__in=[count_for_tag]).distinct()
         else:
             f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
-    if not to_count:
+        f_exercises = f_exercises.only("id")
+    if to_count:
+        f_exercises = f_exercises.only("id")
+    else:
+        f_exercises = f_exercises.defer("description", "description_trainer",
+                                        "scheme_data", "scheme_1", "scheme_2", "scheme_1_old", "scheme_2_old",
+                                        "scheme_img"
+        )
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         if isinstance(f_exercises, list):
             f_exercises_list = []

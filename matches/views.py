@@ -308,6 +308,7 @@ class MatchViewSet(viewsets.ModelViewSet):
             team = ClubTeam.objects.get(pk=self.request.session['team'])
         else:
             team = UserTeam.objects.get(pk=self.request.session['team'])
+        print(team)
         serializer.save(team_id=team, trainer_user_id=self.request.user)
 
     def get_serializer_class(self):
