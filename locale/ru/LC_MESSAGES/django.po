@@ -5446,3 +5446,6 @@ msgstr "Маркер в режиме планирования"
 
 msgid "Opponent"
 msgstr "Соперник"
+
+msgid "Abstract"
+msgstr "Конспект"
