@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.db.models import Q, Value, Count, Case, When, IntegerField
 from django.forms.models import model_to_dict
 from users.models import User
-from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory, ExerciseTagFolder
+from exercises.models import UserFolder, ClubFolder, AdminFolder, UserExercise, ClubExercise, AdminExercise, TrainerExercise, ExerciseVideo, ExerciseTag, ExerciseTagCategory, ExerciseTagFolder, ExerciseTagShortCategories
 from exercises.models import UserExerciseParam, UserExerciseParamTeam
 from exercises.models import AdminExerciseAdditionalParams, UserExerciseAdditionalParams, ClubExerciseAdditionalParams, ExerciseAdditionalParamValue
 from references.models import ExsGoal, ExsBall, ExsTeamCategory, ExsAgeCategory, ExsTrainPart, ExsCognitiveLoad
@@ -263,7 +263,7 @@ def get_exs_video_data2(data, exs, folder_type, club_id):
     return data
 
 
-def get_tags_of_exercise(exs, use_lower=False, tags_folder=False):
+def get_tags_of_exercise(exs, use_lower=False, tags_folder=False, tags_short_categories=False):
     """
     Return tags of exercise.
 
@@ -279,7 +279,9 @@ def get_tags_of_exercise(exs, use_lower=False, tags_folder=False):
     """
     data = []
     tags = []
-    if tags_folder:
+    if tags_short_categories:
+        tags = exs.tags_short_categories.all()
+    elif tags_folder:
         tags = exs.tags_folder.all()
     else:
         tags = exs.tags.all()
@@ -345,7 +347,7 @@ def get_exs_additional_params(data, exs, folder_type, user, club_id, lang_code):
     return data
 
 
-def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cur_team=None, to_count=False, count_for_tag=None, exercise_id=-1, tags_folder=False):
+def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cur_team=None, to_count=False, count_for_tag=None, exercise_id=-1, tags_folder=False, tags_short_categories=False):
     """
     Return list of exercise objects. If filter options exist then current list will be filtered.
     Filter options are defined via next parameters of request: filter["filter_name"].
@@ -376,6 +378,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     filter_search = ""
     filter_tags = []
     filter_tags_folder = []
+    filter_tags_short_categories = []
     filter_video_source = -1
     filter_age = -1
     filter_players = -1
@@ -472,6 +475,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             filter_tags_folder = req.GET.getlist("filter[tags_folder][]")
         elif req.method == "POST":
             filter_tags_folder = req.POST.getlist("filter[tags_folder][]")
+    except:
+        pass
+    try:
+        if req.method == "GET":
+            filter_tags_short_categories = req.GET.getlist("filter[tags_short_categories][]")
+        elif req.method == "POST":
+            filter_tags_short_categories = req.POST.getlist("filter[tags_short_categories][]")
     except:
         pass
     try:
@@ -708,6 +718,11 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if len(filter_tags_folder) > 0:
         for f_tag in filter_tags_folder:
             f_exercises = f_exercises.filter(tags_folder__lowercase_name__icontains=f_tag)
+    if len(filter_tags_short_categories) > 0:
+        q_objects = Q()
+        for f_tag in filter_tags_short_categories:
+            q_objects |= Q(tags_short_categories__lowercase_name__icontains=f_tag)
+        f_exercises = f_exercises.filter(q_objects)
     if filter_new_exs != -1:
         enddate = datetime.date.today()
         startdate = enddate - datetime.timedelta(days=30)
@@ -820,7 +835,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         else:
             f_exercises = f_exercises.filter(field_e_type__icontains="stretch")
     if count_for_tag:
-        if tags_folder:
+        if tags_short_categories:
+            f_exercises = f_exercises.filter(tags_short_categories__lowercase_name__in=[count_for_tag]).distinct()
+        elif tags_folder:
             f_exercises = f_exercises.filter(tags_folder__lowercase_name__in=[count_for_tag]).distinct()
         else:
             f_exercises = f_exercises.filter(tags__lowercase_name__in=[count_for_tag]).distinct()
@@ -1010,7 +1027,7 @@ def check_video(id):
     return None
 
 
-def get_exercises_tags(request, user, team, only_visible=False, tags_folder=False):
+def get_exercises_tags(request, user, team, only_visible=False, tags_folder=False, tags_short_categories=False):
     """
     Return data of Exercises' tags.
 
@@ -1032,7 +1049,9 @@ def get_exercises_tags(request, user, team, only_visible=False, tags_folder=Fals
         query_nfb_str &= Q(visible=True)
         query_club_str &= Q(visible=True)
         query_user_str &= Q(visible=True)
-    if tags_folder:
+    if tags_short_categories:
+        tags['nfb'] = ExerciseTagShortCategories.objects.filter(query_nfb_str)
+    elif tags_folder:
         tags['nfb'] = ExerciseTagFolder.objects.filter(query_nfb_str)
     else:
         tags['nfb'] = ExerciseTag.objects.filter(query_nfb_str)
@@ -1050,13 +1069,17 @@ def get_exercises_tags(request, user, team, only_visible=False, tags_folder=Fals
                 current_num = tags_counter['-1']
             setattr(tag, 'c_num', current_num)
     if request.user.club_id is not None:
-        if tags_folder:
+        if tags_short_categories:
+            tags['self'] = ExerciseTagShortCategories.objects.filter(query_club_str)
+        elif tags_folder:
             tags['self'] = ExerciseTagFolder.objects.filter(query_club_str)
         else:
             tags['self'] = ExerciseTag.objects.filter(query_club_str)
             tags['categories']['self'] = ExerciseTagCategory.objects.filter(query_club_str)
     else:
-        if tags_folder:
+        if tags_short_categories:
+            tags['self'] = ExerciseTagShortCategories.objects.filter(query_user_str)
+        elif tags_folder:
             tags['self'] = ExerciseTagFolder.objects.filter(query_user_str)
         else:
             tags['self'] = ExerciseTag.objects.filter(query_user_str)
@@ -1884,6 +1907,42 @@ def POST_edit_exs(request, cur_user, cur_team):
                 pass
             if f_tag is not None:
                 c_exs.tags_folder.add(f_tag)
+        c_exs.tags_short_categories.clear()
+        tags_arr = utils.set_value_as_list(request, "data[tags_short_categories]", "data[tags_short_categories][]", [])
+        for c_tag in tags_arr:
+            c_tag_lower = c_tag.lower()
+            f_tag = None
+            try:
+                if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
+                    f_tag = ExerciseTagShortCategories.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTagShortCategories(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == utils.FOLDER_NFB:
+                    f_tag = ExerciseTagShortCategories.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTagShortCategories(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+                elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
+                    f_tag = ExerciseTagShortCategories.objects.filter(
+                        Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                    )
+                    if f_tag.exists() and f_tag[0].id != None:
+                        f_tag = f_tag[0]
+                    else:
+                        f_tag = ExerciseTagShortCategories(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                        f_tag.save()
+            except:
+                pass
+            if f_tag is not None:
+                c_exs.tags_short_categories.add(f_tag)
+        pass
     c_exs = set_exs_additional_params(request, c_exs, folder_type)
     try:
         c_exs.save()
@@ -2195,6 +2254,42 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
                     pass
                 if f_tag is not None:
                     c_exs.tags_folder.add(f_tag)
+            c_exs.tags_short_categories.clear()
+            tags_arr = utils.set_value_as_list(request, "data[tags_short_categories]", "data[tags_short_categories][]", [])
+            for c_tag in tags_arr:
+                c_tag_lower = c_tag.lower()
+                f_tag = None
+                try:
+                    if folder_type == utils.FOLDER_TEAM and request.user.club_id is None:
+                        f_tag = ExerciseTagShortCategories.objects.filter(
+                            Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, user=cur_user, lowercase_name=c_tag_lower)
+                        )
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTagShortCategories(is_nfb=False, user=cur_user, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                    elif folder_type == utils.FOLDER_NFB:
+                        f_tag = ExerciseTagShortCategories.objects.filter(is_nfb=True, lowercase_name=c_tag_lower)
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTagShortCategories(is_nfb=True, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                    elif folder_type == utils.FOLDER_CLUB or folder_type == utils.FOLDER_TEAM and request.user.club_id is not None:
+                        f_tag = ExerciseTagShortCategories.objects.filter(
+                            Q(is_nfb=True, lowercase_name=c_tag_lower) | Q(is_nfb=False, club=request.user.club_id, lowercase_name=c_tag_lower)
+                        )
+                        if f_tag.exists() and f_tag[0].id != None:
+                            f_tag = f_tag[0]
+                        else:
+                            f_tag = ExerciseTagShortCategories(is_nfb=False, club=request.user.club_id, name=c_tag, lowercase_name=c_tag_lower)
+                            f_tag.save()
+                except:
+                    pass
+                if f_tag is not None:
+                    c_exs.tags_short_categories.add(f_tag)
+            pass
     elif edit_mode == "description":
         c_exs.description = utils.set_by_language_code(c_exs.description, request.LANGUAGE_CODE, request.POST.get("data[description]", ""))
         c_exs.description_trainer = utils.set_by_language_code(c_exs.description_trainer, request.LANGUAGE_CODE, request.POST.get("data[description_trainer]", ""))
@@ -2570,6 +2665,11 @@ def POST_count_exs_in_tags_filter(request, cur_user, cur_team):
         tags_folder = int(request.POST.get("tags_folder", -1))
     except:
         pass
+    tags_short_categories = -1
+    try:
+        tags_short_categories = int(request.POST.get("tags_short_categories", -1))
+    except:
+        pass
     found_exercises = 0
     if not util_check_access(cur_user, {
         'perms_user': ["exercises.view_userexercise"], 
@@ -2577,7 +2677,7 @@ def POST_count_exs_in_tags_filter(request, cur_user, cur_team):
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     try:
-        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True, tag, exercise_id, tags_folder==1).count()
+        found_exercises = get_excerises_data(folder_id, folder_type, request, cur_user, cur_team, True, tag, exercise_id, tags_folder==1, tags_short_categories==1).count()
     except Exception as e:
         print(e)
         pass
@@ -3069,6 +3169,108 @@ def POST_change_order_exs_tag_folder_one(request, cur_user):
                 found_param = ExerciseTagFolder.objects.filter(id=t_id, is_nfb=False, club=request.user.club_id).first()
             else:
                 found_param = ExerciseTagFolder.objects.filter(id=t_id, is_nfb=False, user=cur_user).first()
+        if found_param and found_param.id != None:
+            found_param.order = t_order
+            try:
+                found_param.save()
+                logs_arr.append(f'Folder [{found_param.id}] is order changed: {t_order}')
+            except Exception as e:
+                logs_arr.append(f'Folder [{found_param.id}] -> ERROR / Not access or another reason')
+    return JsonResponse({"success": status, "type": c_type, "logs": logs_arr}, status=200)
+
+
+def POST_edit_exs_tag_short_categories_one(request, cur_user):
+    status = False
+    c_type = request.POST.get("type", "")
+    c_id = -1
+    delete_status = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        delete_status = int(request.POST.get("delete", -1))
+    except:
+        pass
+    c_name = request.POST.get("name", "")
+    lowercase_name = c_name.lower()
+    c_short_name = request.POST.get("short_name", "")
+    if c_type == "nfb":
+        if cur_user.is_superuser:
+            c_tag = ExerciseTagShortCategories.objects.filter(id=c_id, is_nfb=True).first()
+            if delete_status != 1:
+                if c_tag:
+                    c_tag.name = c_name
+                    c_tag.lowercase_name = lowercase_name
+                    c_tag.short_name = c_short_name
+                else:
+                    c_tag = ExerciseTagShortCategories(is_nfb=True, name=c_name, lowercase_name=lowercase_name, short_name=c_short_name)
+                try:
+                    c_tag.save()
+                    status = True
+                except Exception as e:
+                    pass
+            else:
+                if c_tag:
+                    try:
+                        c_tag.delete()
+                        status = True
+                    except Exception as e:
+                        pass
+    elif c_type == "self":
+        c_tag = None
+        if request.user.club_id is not None:
+            c_tag = ExerciseTagShortCategories.objects.filter(id=c_id, is_nfb=False, club=request.user.club_id).first()
+        else:
+            c_tag = ExerciseTagShortCategories.objects.filter(id=c_id, is_nfb=False, user=cur_user).first()
+        if delete_status != 1:
+            if c_tag:
+                c_tag.name = c_name
+                c_tag.lowercase_name = lowercase_name
+                c_tag.short_name = c_short_name
+            else:
+                if request.user.club_id is not None:
+                    c_tag = ExerciseTagShortCategories(is_nfb=False, club=request.user.club_id, name=c_name, lowercase_name=lowercase_name, short_name=c_short_name)
+                else:
+                    c_tag = ExerciseTagShortCategories(is_nfb=False, user=cur_user, name=c_name, lowercase_name=lowercase_name, short_name=c_short_name)
+            try:
+                c_tag.save()
+                status = True
+            except Exception as e:
+                pass
+        else:
+            if c_tag:
+                try:
+                    c_tag.delete()
+                    status = True
+                except Exception as e:
+                    pass  
+    return JsonResponse({"success": status, "type": c_type}, status=200)
+
+
+def POST_change_order_exs_tag_short_categories_one(request, cur_user):
+    status = True
+    ids_data = request.POST.getlist("ids_arr[]", [])
+    ordering_data = request.POST.getlist("order_arr[]", [])
+    c_type = request.POST.get("type", "")
+    logs_arr = []
+    for c_ind in range(len(ids_data)):
+        t_id = -1
+        t_order = 0
+        try:
+            t_id = int(ids_data[c_ind])
+            t_order = int(ordering_data[c_ind])
+        except:
+            pass
+        found_param = None
+        if c_type == "nfb":
+            if cur_user.is_superuser:
+                found_param = ExerciseTagShortCategories.objects.filter(id=t_id, is_nfb=True).first()
+        elif c_type == "self":
+            if request.user.club_id is not None:
+                found_param = ExerciseTagShortCategories.objects.filter(id=t_id, is_nfb=False, club=request.user.club_id).first()
+            else:
+                found_param = ExerciseTagShortCategories.objects.filter(id=t_id, is_nfb=False, user=cur_user).first()
         if found_param and found_param.id != None:
             found_param.order = t_order
             try:
@@ -4158,8 +4360,9 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
          res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, exs_user.club_id)
     else:
         res_exs = get_exs_video_data2(res_exs, c_exs[0], folder_type, request.user.club_id)
-    res_exs['tags'] = get_tags_of_exercise(c_exs[0], tags_folder=False)
-    res_exs['tags_folder'] = get_tags_of_exercise(c_exs[0], tags_folder=True)
+    res_exs['tags'] = get_tags_of_exercise(c_exs[0], tags_folder=False, tags_short_categories=False)
+    res_exs['tags_folder'] = get_tags_of_exercise(c_exs[0], tags_folder=True, tags_short_categories=False)
+    res_exs['tags_short_categories'] = get_tags_of_exercise(c_exs[0], tags_folder=False, tags_short_categories=True)
     if is_as_object:
         return res_exs
     else:
@@ -4271,7 +4474,7 @@ def GET_get_exs_graphic_content(request, cur_user, cur_team):
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
-def GET_get_exs_all_tags(request, cur_user, cur_team, tags_folder=False):
+def GET_get_exs_all_tags(request, cur_user, cur_team, tags_folder=False, tags_short_categories=False):
     """
     Return JSON Response as result on GET operation "Get all exercises' tags".
 
@@ -4291,7 +4494,7 @@ def GET_get_exs_all_tags(request, cur_user, cur_team, tags_folder=False):
             'perms_club': ["exercises.view_clubexercise"]
         }):
             return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    tags = get_exercises_tags(request, cur_user, cur_team, tags_folder=tags_folder)
+    tags = get_exercises_tags(request, cur_user, cur_team, tags_folder=tags_folder, tags_short_categories=tags_short_categories)
     for entry in tags['nfb']:
         data['nfb'].append({
             'id': entry.id,
@@ -4312,7 +4515,7 @@ def GET_get_exs_all_tags(request, cur_user, cur_team, tags_folder=False):
             'color': entry.category.color if hasattr(entry, 'category') and getattr(entry, 'category') is not None else "",
             'c_num': getattr(entry, 'c_num') if hasattr(entry, 'c_num') else ""
         })
-    if not tags_folder:
+    if not tags_folder and not tags_short_categories:
         for entry in tags['categories']['nfb']:
             data['categories']['nfb'].append({
                 'id': entry.id,

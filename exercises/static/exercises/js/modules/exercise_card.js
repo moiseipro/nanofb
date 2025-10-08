@@ -399,6 +399,7 @@ function RenderExerciseOne(data) {
         window.changedData = false;
 
         $(exsCard).find('.exs_edit_field[name="tags_folder"]').val(data.tags_folder).trigger('change');
+        $(exsCard).find('.exs_edit_field[name="tags_short_categories"]').val(data.tags_short_categories).trigger('change');
 
         // // CheckMultiRows(exsCard, data.additional_data, '.exs_edit_field[name="additional_data[]"]', 'additional_data');
         // CheckMultiRows(exsCard, data.keyword, '.exs_edit_field[name="keyword[]"]', 'keyword');
@@ -2026,6 +2027,35 @@ $(function() {
         templateSelection: templateSelect3Result,
         templateResult: templateSelect3Result,
         placeholder: "Тэги #2",
+    })
+    .on('select2:open', e => {
+        $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '50vh');
+    })
+    .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+    .on('select2:select', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')))
+    .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+    .on('select2:unselect', e => $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop')));
+
+
+    let templateSelect4Result = (state) => {
+        if (!state.id) {
+            return state.text;
+        }
+        let text = state.text;
+        let color = $(state.element).attr('data-color');
+        let tagClass = $(state.element).attr('data-tag-class');
+        let tagNum = $(state.element).attr('data-tag-num');
+        let $state = $(`
+            <span class="${tagClass} d-none" style="--color: ${color};">${tagNum}</span>
+            <span>${text}</span>
+        `);
+        return $state;
+    };
+    $('#exerciseCard').find('.exs_edit_field[name="tags_short_categories"]').select2({
+        closeOnSelect: false,
+        templateSelection: templateSelect4Result,
+        templateResult: templateSelect4Result,
+        placeholder: "Тэги #3",
     })
     .on('select2:open', e => {
         $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '50vh');

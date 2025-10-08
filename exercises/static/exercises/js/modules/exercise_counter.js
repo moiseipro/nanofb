@@ -81,6 +81,13 @@ function CountExsInTagsFilterAjaxReq(data, tagElem) {
                     $('.exs-panel-filtering').find('.tag-folder-select-search').select2('open');
                 }
             } catch {}
+            try {
+                let status = $('.exs-panel-filtering').find('.tag-short-categories-select-search').attr('data-status');
+                if (status == "open") {
+                    $('.exs-panel-filtering').find('.tag-short-categories-select-search').select2('close');
+                    $('.exs-panel-filtering').find('.tag-short-categories-select-search').select2('open');
+                }
+            } catch {}
         }
     });
 }
@@ -187,6 +194,23 @@ function CountExsInFolder(useFilter = true, skipFolders = false) {
         });
     }
 
+    tagsElems = $('.tag-short-categories-select-search').find('option');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let tag = $(tagElem).attr('value');
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': tag, 
+            'type': folderType, 'folder': folderId, 'exercise': exerciseId,
+            'tags_short_categories': 1,
+            'filter': window.exercisesFilter
+        };
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
+
     let callsList = window.count_exs_calls.map(obj => obj.call);
     if (useFilter) {
         $.when.apply($, callsList).then(() => {
@@ -276,6 +300,23 @@ function CountAllExsInList() {
             'count_exs_in_tags_filter': 1, 'tag': tag, 
             'type': "__is_trainer",
             'tags_folder': 1,
+            'filter': window.exercisesFilter
+        };
+        window.count_exs_calls.push({
+            'data': data,
+            'folderElem': tagElem,
+            'call': CountExsInTagsFilterAjaxReq(data, tagElem)
+        });
+    }
+
+    tagsElems = $('.tag-short-categories-select-search').find('option');
+    for (let i = 0; i < tagsElems.length; i++) {
+        let tagElem = $(tagsElems[i]);
+        let tag = $(tagElem).attr('value');
+        let data = {
+            'count_exs_in_tags_filter': 1, 'tag': tag, 
+            'type': "__is_trainer",
+            'tags_short_categories': 1,
             'filter': window.exercisesFilter
         };
         window.count_exs_calls.push({

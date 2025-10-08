@@ -130,6 +130,21 @@ class ExerciseTagFolder(CustomTag):
         abstract = False
 
 
+class ExerciseTagShortCategories(CustomTag):
+    is_nfb = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
+    visible = models.BooleanField(default=True)
+    short_name = models.CharField(
+        max_length=10,
+        help_text='Короткий ключ для поиска',
+    )
+
+    objects = models.Manager()
+    class Meta(CustomTag.Meta):
+        abstract = False
+
+
 class ExerciseFeature(models.Model):
     value = models.CharField(max_length=255, null=True, blank=True)
     ref = models.ForeignKey(ExsFeatures, on_delete=models.CASCADE, null=True, blank=True, related_name='ref_default')
@@ -264,6 +279,7 @@ class AbstractExercise(models.Model):
     field_e_type = models.CharField(max_length=30, null=True, blank=True)
     tags = models.ManyToManyField(ExerciseTag)
     tags_folder = models.ManyToManyField(ExerciseTagFolder)
+    tags_short_categories = models.ManyToManyField(ExerciseTagShortCategories)
     features = models.ManyToManyField(ExerciseFeature)
     objects = models.Manager()
 

@@ -55,8 +55,9 @@ def exercises(request):
     found_nfb_folders = []
     refs = {}
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
-    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False)
-    exs_tags_folder = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, True)
+    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False, False)
+    exs_tags_folder = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, True, False)
+    exs_tags_short_categories = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False, True)
     exs_features = v_api.get_exercises_features(request, cur_user[0], cur_team)
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
@@ -76,6 +77,7 @@ def exercises(request):
         'impersonate_is_superuser': impersonate_is_superuser,
         'exercises_tags': exs_tags,
         'exercises_tags_folder': exs_tags_folder,
+        'exercises_tags_short_categories': exs_tags_short_categories,
         'exercises_features': exs_features,
         'video_params': video_params,
         'show_club_folders': is_show_club_folders,
@@ -180,8 +182,9 @@ def exercise(request):
         found_admin_exercise = AdminExercise.objects.filter(id=nfb_id).first()
         is_can_edit_exs_full = found_admin_exercise == None
     found_folders, found_club_folders, found_nfb_folders, refs = v_api.get_exercises_params(request, cur_user[0], cur_team)
-    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False)
-    exs_tags_folder = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, True)
+    exs_tags = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False, False)
+    exs_tags_folder = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, True, False)
+    exs_tags_short_categories = v_api.get_exercises_tags(request, cur_user[0], cur_team, True, False, True)
     exs_additional_params = v_api.get_exercises_additional_params(request, cur_user[0])
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
@@ -204,6 +207,7 @@ def exercise(request):
         'menu_exercises': 'active',
         'exercises_tags': exs_tags,
         'exercises_tags_folder': exs_tags_folder,
+        'exercises_tags_short_categories': exs_tags_short_categories,
         'exercises_additional_params': exs_additional_params,
         'can_edit_exs': is_can_edit_exs,
         'can_edit_exs_full': is_can_edit_exs_full,
@@ -360,6 +364,8 @@ def exercises_api(request):
         change_exs_tag_category_status = 0
         edit_exs_tag_folder_one_status = 0
         change_order_exs_tag_folder_one_status = 0
+        edit_exs_tag_short_categories_one_status = 0
+        change_order_exs_tag_short_categories_one_status = 0
         edit_exs_admin_options_status = 0
         edit_exs_full_name_status = 0
         edit_all_exs_titles_status = 0
@@ -451,6 +457,14 @@ def exercises_api(request):
         except:
             pass
         try:
+            edit_exs_tag_short_categories_one_status = int(request.POST.get("edit_exs_tag_short_categories_one", 0))
+        except:
+            pass
+        try:
+            change_order_exs_tag_short_categories_one_status = int(request.POST.get("change_order_exs_tag_short_categories_one", 0))
+        except:
+            pass
+        try:
             edit_exs_admin_options_status = int(request.POST.get("edit_exs_admin_options", 0))
         except:
             pass
@@ -538,6 +552,10 @@ def exercises_api(request):
             return v_api.POST_edit_exs_tag_folder_one(request, cur_user[0])
         elif change_order_exs_tag_folder_one_status == 1:
             return v_api.POST_change_order_exs_tag_folder_one(request, cur_user[0])
+        elif edit_exs_tag_short_categories_one_status == 1:
+            return v_api.POST_edit_exs_tag_short_categories_one(request, cur_user[0])
+        elif change_order_exs_tag_short_categories_one_status == 1:
+            return v_api.POST_change_order_exs_tag_short_categories_one(request, cur_user[0])
         elif edit_exs_admin_options_status == 1:
             return v_api.POST_edit_exs_admin_options(request, cur_user[0], cur_team)
         elif edit_exs_full_name_status == 1:
@@ -598,6 +616,10 @@ def exercises_api(request):
         except:
             pass
         try:
+            get_exs_all_tags_short_categories_status = int(request.GET.get("get_exs_all_tags_short_categories", 0))
+        except:
+            pass
+        try:
             get_exs_full_name_status = int(request.GET.get("get_exs_full_name", 0))
         except:
             pass
@@ -620,9 +642,11 @@ def exercises_api(request):
         elif get_exs_graphic_content_status == 1:
             return v_api.GET_get_exs_graphic_content(request, cur_user[0], cur_team)
         elif get_exs_all_tags_status == 1:
-            return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team, tags_folder=False)
+            return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team, tags_folder=False, tags_short_categories=False)
         elif get_exs_all_tags_folder_status == 1:
-            return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team, tags_folder=True)
+            return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team, tags_folder=True, tags_short_categories=False)
+        elif get_exs_all_tags_short_categories_status == 1:
+            return v_api.GET_get_exs_all_tags(request, cur_user[0], cur_team, tags_folder=False, tags_short_categories=True)
         elif get_exs_full_name_status == 1:
             return v_api.GET_get_exs_full_name(request, cur_user[0], cur_team)
         elif get_exs_all_features_status == 1:

@@ -234,7 +234,12 @@ function ToggleUpFilter(id, state) {
             $('.user-search').val('').trigger('change');
             try {
                 $('.exs-panel-filtering').find('.tag-select-search').val(null).trigger('change');
+            } catch(e) {}
+            try {
                 $('.exs-panel-filtering').find('.tag-folder-select-search').val(null).trigger('change');
+            } catch(e) {}
+            try {
+                $('.exs-panel-filtering').find('.tag-short-categories-select-search').val(null).trigger('change');
             } catch(e) {}
             $('.folders-container').find('.badge.hidden-control').addClass('d-none');
             $('.folders-container').find('.list-group-item').removeClass('c-hidden');
@@ -4154,6 +4159,13 @@ $(function() {
                     for (let i = dataToSend.data['tags_folder'].length-1; i >= 0; i--) {
                         if (Array.isArray(dataToSend.data['tags_folder'][i])) {
                             dataToSend.data['tags_folder'].splice(i, 1);
+                        }
+                    }
+                }
+                if (Array.isArray(dataToSend.data['tags_short_categories'])) {
+                    for (let i = dataToSend.data['tags_short_categories'].length-1; i >= 0; i--) {
+                        if (Array.isArray(dataToSend.data['tags_short_categories'][i])) {
+                            dataToSend.data['tags_short_categories'].splice(i, 1);
                         }
                     }
                 }

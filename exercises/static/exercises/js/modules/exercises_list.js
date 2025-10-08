@@ -607,6 +607,15 @@ function ToggleTagsFolderSearch(tags) {
     CountExsInFolder();
 }
 
+function ToggleTagsShortCategoriesSearch(tags) {
+    window.exercisesFilter["tags_short_categories"] = tags;
+    for (ind in window.count_exs_calls) {
+        window.count_exs_calls[ind]['call'].abort();
+    }
+    LoadFolderExercises();
+    CountExsInFolder();
+}
+
 
 
 $(function() {
@@ -1318,6 +1327,63 @@ $(function() {
         .on('select2:unselect', e => {
             $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
             ToggleTagsFolderSearch($(e.currentTarget).val());
+        });
+    } catch (err) {console.log(err)}
+
+    try {
+        let templateSelect4Result = (state) => {
+            if (!state.id) {
+                return state.text;
+            }
+            let text = state.text;
+            let tagCount = $(state.element).attr('data-tag-count');
+            let tagVisible = $(state.element).attr('data-visible');
+            let $state = $(`
+                <div class="row mx-0 ${tagVisible == '1' ? '' : 'd-none'}">
+                    <div class="col-9">
+                        <span class="">${text}</span>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
+                        <span class="counter">${tagCount}</span>
+                    </div>
+                </div>
+            `);
+            return $state;
+        };
+        let templateSelect4Selection = (state) => {
+            if (!state.id) {
+                return state.text;
+            }
+            let text = state.text;
+            let $state = $(`
+                <span class="font-weight-bold">${text}</span>
+            `);
+            return $state;
+        };
+        $('.exs-panel-filtering').find('.tag-short-categories-select-search').select2({
+            closeOnSelect: false,
+            templateSelection: templateSelect4Selection,
+            templateResult: templateSelect4Result,
+            placeholder: "Тэги #3",
+        })
+        .on('select2:open', e => {
+            $(e.currentTarget).attr('data-status', 'open')
+            $('.exs-list-group').addClass('overflow-hidden')
+            $('.select2-container--bootstrap4 .select2-results > .select2-results__options').css('--vh-value', '70vh');
+        })
+        .on('select2:close', e => {
+            $(e.currentTarget).attr('data-status', 'close')
+            $('.exs-list-group').removeClass('overflow-hidden')
+        })
+        .on('select2:selecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:select', e => {
+            $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
+            ToggleTagsShortCategoriesSearch($(e.currentTarget).val());
+        })
+        .on('select2:unselecting', e => $(e.currentTarget).data('scrolltop', $('.select2-results__options').scrollTop()))
+        .on('select2:unselect', e => {
+            $('.select2-results__options').scrollTop($(e.currentTarget).data('scrolltop'));
+            ToggleTagsShortCategoriesSearch($(e.currentTarget).val());
         });
     } catch (err) {console.log(err)}
 

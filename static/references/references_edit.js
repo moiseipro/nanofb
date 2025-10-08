@@ -102,6 +102,9 @@ $(window).on('load', function (){
     $('#exsTagsFolderRef').on('click', (e) => {
         $('#exerciseTagsFolderModal').modal();
     });
+    $('#exsTagsShortCategoriesRef').on('click', (e) => {
+        $('#exerciseTagsShortCategoriesModal').modal();
+    });
     $('#exsFeaturesRef').on('click', (e) => {
         $('#exerciseFeaturesModal').modal();
     });
