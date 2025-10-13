@@ -1,4 +1,13 @@
 $(window).on('load', function () {
+
+    $('.carousel-inner').find('.carousel-item:first').addClass('active');
+    $('.carousel-indicators').find('li:first').addClass('active');
+    $('.carouselShareSchema').find('.carousel-indicators').each((index, elem) => {
+        $(elem).find('li').each((index2, elem2) => {
+            $(elem2).attr('data-slide-to', index2);
+        });
+    });
+    
     $('.calculate-name').each(function( index ) {
         let name_obj = $(this)
         try {
@@ -26,7 +35,6 @@ $(window).on('load', function () {
     })
 
     let playerJson = $('#players-data-block').attr('data-json');
-    console.log(playerJson.replace(/\'/g, '"'))
     if (playerJson != 'None'){
         let player = $.parseJSON(playerJson.replace(/\'/g, '"').toLowerCase())
         if(player != null && player.length > 0){
@@ -34,9 +42,6 @@ $(window).on('load', function () {
             $('#players-data-block').html(players_html)
         }
     }
-
-
-
 
     let items = $('.video-js');
     items.each(function( index ) {

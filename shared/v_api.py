@@ -262,6 +262,7 @@ def GET_get_link(request, cur_user=None):
                             }
                     data['training'] = UserTrainingSerializer(c_data).data
                     for _exercise in data['training']['exercises_info']:
+                        _exercise['description'] = _exercise['exercise_data']['description']
                         if _exercise['exercise_id'] in cloned_data:
                             _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
                             _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']
@@ -287,6 +288,7 @@ def GET_get_link(request, cur_user=None):
                             }
                     data['training'] = ClubTrainingSerializer(c_data).data
                     for _exercise in data['training']['exercises_info']:
+                        _exercise['description'] = _exercise['exercise_data']['description']
                         if _exercise['exercise_id'] in cloned_data:
                             _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
                             _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']
@@ -312,6 +314,7 @@ def GET_get_link(request, cur_user=None):
                             }
                     data['training'] = LiteTrainingSerializer(c_data).data
                     for _exercise in data['training']['exercises_info']:
+                        _exercise['description'] = _exercise['exercise_data']['description']
                         if _exercise['exercise_id'] in cloned_data:
                             _exercise['scheme_1'] = cloned_data[_exercise['exercise_id']]['scheme_1']
                             _exercise['scheme_2'] = cloned_data[_exercise['exercise_id']]['scheme_2']

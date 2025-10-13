@@ -137,7 +137,6 @@ function load_training_send_email(training_id) {
     let data_send = {}
 
     ajax_training_action('GET', data_send, 'view card', training_id).then(function (data) {
-        console.log(data)
         let training = data;
         let exercises = training.exercises_info;
         $('#send-email-training-block .training-time input').val(training.event_time)
@@ -213,42 +212,56 @@ function load_training_send_email(training_id) {
                 html_scheme += '<div class="row no-breako" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
-                if (exercise.scheme_img) {
-                    select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class="active"></li>`
-                    count_slide++
-                    carousel_html+= `
-                        <div class="carousel-item active">
-                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                                <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
-                            </svg>
-                        </div>`
+                if (exercise.scheme_img_show_first) {
+                    if (exercise.scheme_img) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
                 }
-                if(exercise.scheme_1){
-                    select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img ? 'active': ''}"></li>`
+                if (exercise.scheme_1) {
+                    select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                     count_slide++
                     carousel_html+= `
-                        <div class="carousel-item ${!exercise.scheme_img ? 'active': ''}">
+                        <div class="carousel-item">
                             <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_1}" alt="scheme" width="100%" height="100%">
                         </div>`
                 }
-                if(exercise.scheme_2){
-                    select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}"></li>`
+                if (exercise.scheme_2) {
+                    select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                     count_slide++
                     carousel_html+= `
-                        <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 ? 'active': ''}">
+                        <div class="carousel-item">
                             <img src="https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${exercise.scheme_2}" alt="scheme" width="100%" height="100%">
                         </div>`
                 }
-                if(exercise.exercise_scheme){
-                    if(exercise.exercise_scheme['scheme_1']){
-                        select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class="${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}"></li>`
+                if (!exercise.scheme_img_show_first) {
+                    if (exercise.scheme_img) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                         count_slide++
                         carousel_html+= `
-                            <div class="carousel-item ${!exercise.scheme_img && !exercise.scheme_1 && !exercise.scheme_2  ? 'active': ''}">
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
+                }
+                if (exercise.exercise_scheme) {
+                    if (exercise.exercise_scheme['scheme_1']) {
+                        select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
                                 ${exercise.exercise_scheme['scheme_1']}
                             </div>`
                     }
-                    if(exercise.exercise_scheme['scheme_2']){
+                    if (exercise.exercise_scheme['scheme_2']) {
                         select_html += `<li data-target="#carouselTrainingsend-emailSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                         count_slide++
                         carousel_html+= `
@@ -282,10 +295,8 @@ function load_training_send_email(training_id) {
 
 
                 if (exercise.additional_json != null && Object.keys(exercise.additional_json).length > 0) {
-                    console.log(Object.keys(exercise.additional_json).length)
                     for (let number of Object.keys(exercise.additional_json)) {
                         let additional = exercise.additional_json[number];
-                        console.log(additional)
                         if ((additional.note != null && additional.note != '') || (additional.name != null && additional.name != '')){
                             additional_data += `<div class="col-4">`
 
@@ -315,7 +326,7 @@ function load_training_send_email(training_id) {
                         </div>
 
                         <div class="col-12 px-0 align-self-start">
-                            <textarea id="CKeditor-${num}" class="ck-editor-view-block" style="max-height: 500px; min-height: 60px; height: 150px">
+                            <textarea id="CKeditor-email-${num}" class="ck-editor-view-block" style="max-height: 500px; min-height: 60px; height: 150px">
                                 
                             </textarea>
                         </div>
@@ -328,7 +339,7 @@ function load_training_send_email(training_id) {
                     </div>
                 </div>
                 `
-                ck_editor_data.push({'id': `CKeditor-${num}`, 'data': exercise.description ? exercise.description : ''})
+                ck_editor_data.push({'id': `CKeditor-email-${num}`, 'data': exercise.description ? exercise.description : ''})
                 html_scheme += '</div>'
                 html_scheme += '<div class="row">'
                 html_scheme += `
@@ -343,7 +354,14 @@ function load_training_send_email(training_id) {
         }
         $('#send-email-training-block .training-minutes input').val(minutes_count)
         $('#send-email-training-block .exercise-list').html(html_scheme)
-        create_editor(ck_editor_data)
+        $('#send-email-training-block .exercise-list .carousel-inner').find('.carousel-item:first').addClass('active')
+        $('#send-email-training-block .exercise-list').find('.carousel-indicators').each((index, elem) => {
+            $(elem).find('li:first').addClass('active')
+            $(elem).find('li').each((index2, elem2) => {
+                $(elem2).attr('data-slide-to', index2)
+            })
+        })
+        create_editor_email(ck_editor_data)
     })
 }
 
@@ -358,15 +376,13 @@ function resize_textarea() {
     });
 }
 
-function create_editor(editors_array) {
+function create_editor_email(editors_array) {
     //Создание редакторов
     let cLang = $('#select-language').val();
     try {
-        console.log(editors_array)
         for (let ck_data of editors_array) {
             let data = ck_data['data']
             let id = ck_data['id']
-            console.log(id)
             CKSource.Editor
             .create(document.querySelector('#'+id), {
                 licenseKey: '',
@@ -405,7 +421,5 @@ function create_editor(editors_array) {
             })
         }
 
-    } catch(e) {
-        console.log(e)
-    }
+    } catch(e) {console.error(e)}
 }
