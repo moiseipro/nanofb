@@ -138,7 +138,7 @@ function ToggleUpperButtonsPanel(isActive) {
     $('.right-col-card').toggleClass('short', setColumnsShort);
 }
 
-function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "", userId = "") {
+function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "", userId = "", languageForDescription= "") {
     let searchParams = new URLSearchParams(window.location.search);
     let chosenSection = searchParams.get('section');
     if (!exsID) {
@@ -164,7 +164,7 @@ function LoadExerciseOne(exsID = null, fromNFB = 0, folderType = "", userId = ""
         window.parent.postMessage("exercise_loaded", '*');
     }
     if (!exsID) {return;}
-    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType, 'user_id': userId};
+    let data = {'get_exs_one': 1, 'exs': exsID, 'get_nfb': fromNFB, 'f_type': folderType, 'user_id': userId, 'lang_description': languageForDescription};
     $('.page-loader-wrapper').fadeIn();
     let tCall = $.ajax({
         headers:{"X-CSRFToken": csrftoken},

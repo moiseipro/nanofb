@@ -850,6 +850,10 @@ function ToggleUpFilter(id, state) {
                 $('.folders-container').find('.list-group-item').removeClass('c-hidden');
             }
             break;
+        case "set_description_language":
+            $('.up-tabs-elem[data-id="set_description_language"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="set_description_language"]').attr('data-state', 0);
+            break;
         default:
             break;
     }
@@ -4211,6 +4215,25 @@ $(function() {
     // Toggle Marker Modal Ment
     $('#toggleMarkerModal').on('click', (e) => {
         $('#exerciseMarkerModal').modal('show');
+    });
+
+    // Language Description Selection Control
+    function setButtonFlag(langCode) {
+        let foundElem = $('.btns-tabs-first').find('[data-id="set_description_language"]').parent().find(`button[name="language_set_description"][value="${langCode}"]`);
+        let flag = '🌍';
+        if (foundElem.length > 0) {
+            flag = $(foundElem).attr('data-flag');
+        }
+        $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected', langCode);
+        $('.btns-tabs-first').find('[data-id="set_description_language"]').html(flag);
+    }
+    let currentLang = $('#select-language').val();
+    setButtonFlag(currentLang);
+
+    $('.btns-tabs-first').on('click', 'button[name="language_set_description"]', (e) => {
+        let value = $(e.currentTarget).attr('value');
+        setButtonFlag(value);
+        LoadExerciseOneHandler();
     });
     
 

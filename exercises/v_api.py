@@ -4042,6 +4042,7 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
     """
     exs_id = -1
     folder_type = request.GET.get("f_type", "")
+    lang_description = request.GET.get("lang_description", "")
     try:
         exs_id = int(request.GET.get("exs", -1))
     except:
@@ -4313,8 +4314,12 @@ def GET_get_exs_one(request, cur_user, cur_team, additional={}):
         else:
             return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     res_exs['title'] = utils.get_by_language_code(res_exs['title'], request.LANGUAGE_CODE)
-    res_exs['description'] = utils.get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
-    res_exs['description_trainer'] = utils.get_by_language_code(res_exs['description_trainer'], request.LANGUAGE_CODE)
+    if lang_description != "":
+        res_exs['description'] = utils.get_by_language_code(res_exs['description'], lang_description)
+        res_exs['description_trainer'] = utils.get_by_language_code(res_exs['description_trainer'], lang_description)
+    else:
+        res_exs['description'] = utils.get_by_language_code(res_exs['description'], request.LANGUAGE_CODE)
+        res_exs['description_trainer'] = utils.get_by_language_code(res_exs['description_trainer'], request.LANGUAGE_CODE)
     res_exs['scheme_data'] = get_exs_scheme_data(res_exs['scheme_data'])
     res_exs['video_data'] = get_exs_video_data(res_exs['video_data'])
     res_exs['animation_data'] = get_exs_animation_data(res_exs['animation_data'])

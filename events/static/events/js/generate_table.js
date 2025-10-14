@@ -342,6 +342,17 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100 tr-param" type="text" list="foldersList" value="">
                                     </div>
+                                    <div class="mc-cell col-12 px-0 color-off d-flex">
+                                        <button class="btn btn-sm btn-outline-success flex-fill mr-1" title="Сохранить запись">
+                                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning flex-fill mr-1" title="Изменить запись">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger flex-fill" title="Очистить запись">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                     <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="${all_load ? all_load : '---'}" disabled="">
                                     </div>
@@ -402,6 +413,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
                                     </div>
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
+                                    </div>
                                 </div>
                             `
 
@@ -448,6 +462,9 @@ function generate_table(send_data = {}, calendar = false, isLite = false, url = 
                                     </div>
                                     <div class="mc-cell col-12 px-0">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;">
+                                    </div>
+                                    <div class="mc-cell col-12 px-0 color-off">
+                                        <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">
                                     </div>
                                     <div class="mc-cell col-12 px-0 color-off">
                                         <input class="form-control form-control-sm w-100" type="text" value="&nbsp;" disabled="">

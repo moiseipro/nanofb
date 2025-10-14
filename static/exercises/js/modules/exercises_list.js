@@ -383,7 +383,8 @@ function LoadExerciseOneHandler(checkHoveredAsActive = false) {
         folderType = "__is_user_exs";
         userId = $('.folders_users_with_exs_list').find('.list-group-item.active > div').attr('data-id');
     }
-    LoadExerciseOne(cId, fromNFB, folderType, userId);
+    let languageForDescription = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
+    LoadExerciseOne(cId, fromNFB, folderType, userId, languageForDescription);
     if (folderType != "__is_trainer" && folderType != "__is_user_exs") {
         CountExsInFolder(true, true);
     }
