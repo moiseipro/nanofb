@@ -921,7 +921,7 @@ $(window).on('load', function (){
     $('#trainingShareModal').on('show.bs.modal', (e) => {
         let shared_modal = $('#trainingShareModal');
         let startDate = getFormattedDateFromTodayWithDelta(1);
-        let endDate = getFormattedDateFromTodayWithDelta(3);
+        let endDate = getFormattedDateFromTodayWithDelta(7);
         // try {
         //     endDate = getFormattedDateFromAnother($('#select-season').find('option[selected]').attr('data-by'));
         // } catch(e) {}

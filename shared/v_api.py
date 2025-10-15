@@ -83,7 +83,7 @@ def POST_add_link(request, cur_user):
         now = datetime.now()
         now = now.replace(hour=0, minute=0, second=0, microsecond=0)
         t_date_normalized = c_expire_date_as_date.replace(hour=0, minute=0, second=0, microsecond=0)
-        max_allowed_date = now + timedelta(days=3)
+        max_allowed_date = now + timedelta(days=7)
         if t_date_normalized > max_allowed_date:
             return JsonResponse({"errors": "The date has been exceeded. Maximum 3 days from the current day.", "type": "date_max"}, status=400)
     c_dict = {

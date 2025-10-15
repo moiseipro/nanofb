@@ -66,7 +66,12 @@ function generate_ajax_video_table(scroll_y = '', columnHideClassesOrIds = []){
                 }
             }},
             {'data': 'duration', "searchable": false},
-            {'data': 'size', "searchable": false},
+            {'data': 'size', "searchable": false, render: function (row, type, set, meta) {
+                if (type === 'display') {
+                    return (row != null ? parseFloat(row).toFixed(2) : '0.00') + ' MB';
+                }
+                return row;
+            }},
             {'data': 'favourites', "searchable": true, 'name': 'favourites', render: function (row, type, set, meta) {
                 let view_data = ''
                 if(type==='sort'){
