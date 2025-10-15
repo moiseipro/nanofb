@@ -42,7 +42,6 @@ class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
     note = serializers.JSONField()
 
     taggit = TagListSerializerField()
-    size = serializers.SerializerMethodField()
 
     class Meta:
         model = Video
@@ -51,16 +50,6 @@ class VideoSerializer(TaggitSerializer, serializers.ModelSerializer):
             'videosource_name', 'exercises', 'size', 'note', 'favourites'
         )
         datatables_always_serialize = ('id', 'taggit', 'exercises')
-    
-    def get_size(self, obj):
-        if not obj.size:
-            return 0.0
-        try:
-            size_str = str(obj.size).strip()
-            match = re.search(r'(\d+\.?\d*)', size_str)
-            return float(match.group(1)) if match else 0.0
-        except:
-            return 0.0
 
 
 class VideoUpdateSerializer(TaggitSerializer, serializers.ModelSerializer):

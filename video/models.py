@@ -94,6 +94,7 @@ class Video(models.Model):
         null=True,
         blank=True
     )
+    size_mb = models.FloatField(null=True, blank=True)
     note = models.JSONField(
         verbose_name=_('Notes'),
         help_text=_('Notes in json format'),

@@ -139,6 +139,13 @@ def upload_video_to_nanofootball(upload_mode, instance_id, app_label, model_name
             print(size_resp, size_resp.json())
             if size_resp.status_code == 200:
                 video_data_dict['size'] = size_resp.json().get('size')
+                video_data_dict['size_mb'] = None
+                match = re.search(r'[\d.]+', video_data_dict['size'])
+                if match:
+                    try:
+                        video_data_dict['size_mb'] = float(match.group())
+                    except Exception as e:
+                        pass
         except Exception as e:
             print(f"ERR: {e}")
             pass

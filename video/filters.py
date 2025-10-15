@@ -86,10 +86,7 @@ class VideoGlobalFilter(DatatablesFilterSet):
         field_name='duration',
         lookup_expr='icontains'
     )
-    size = filters.CharFilter(
-        field_name='size',
-        lookup_expr='icontains'
-    )
+    size = filters.NumberFilter(field_name='size_mb')
     favourites = filters.CharFilter(
         field_name='favourites',
         lookup_expr='icontains'
