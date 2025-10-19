@@ -987,20 +987,22 @@ $(window).on('load', function (){
         };
         ajax_share('POST', dataToSend).then(function (res) {
             if (res.success) {
-                 $('#trainingShareModal').find('.link-text > a').text(res.data.link);
-                 $('#trainingShareModal').find('.link-text > a').attr('href', res.data.link);
-                 $('#trainingShareModal').find('button.btn-share').attr('data-link', res.data.link);
-                 new QRCode($('#trainingShareModal').find('.link-qrcode')[0], {
+                $('#trainingShareModal').find('.link-text > a').text(res.data.link);
+                $('#trainingShareModal').find('.link-text > a').attr('href', res.data.link);
+                $('#trainingShareModal').find('button.btn-share').attr('data-link', res.data.link);
+                $('#trainingShareModal').find('.btn-share-out').attr('data-link', res.data.link);
+                $('#trainingShareModal').find('.btn-share-out').removeClass('d-none');
+                new QRCode($('#trainingShareModal').find('.link-qrcode')[0], {
                     text: res.data.link,
                     width: 150,
                     height: 150,
                     colorDark : "#000000",
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
-                 });
-                 copyToClipboardv2(res.data.link);
-                 swal(gettext("Ready"), gettext('Link copied')+` (${res.data.link})!`, "success");
-             }
+                });
+                copyToClipboardv2(res.data.link);
+                swal(gettext("Ready"), gettext('Link copied')+` (${res.data.link})!`, "success");
+            }
         })
     })
     // Поделиться тренировкой через внешние источники
