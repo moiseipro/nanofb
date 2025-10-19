@@ -5449,3 +5449,6 @@ msgstr "Соперник"
 
 msgid "Abstract"
 msgstr "Конспект"
+
+msgid "Send with"
+msgstr "Отправить через"

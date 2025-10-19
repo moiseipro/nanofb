@@ -28,9 +28,9 @@ function load_training_print(training_id) {
     let data_send = {}
 
     ajax_training_action('GET', data_send, 'view card', training_id).then(function (data) {
-        console.log(data)
         let training = data;
         let exercises = training.exercises_info;
+        $('#print-training-block .training-date input').val(training.event_date)
         $('#print-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
             $('#print-training-block .training-players input').val(
@@ -101,7 +101,7 @@ function load_training_print(training_id) {
             let num = 0;
             for (let exercise of exercises) {
                 minutes_count += exercise.duration
-                html_scheme += '<div class="row" style="border-top: 2px solid black">'
+                html_scheme += '<div class="row no-break-inside" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 if (exercise.scheme_img_show_first) {
@@ -233,7 +233,7 @@ function load_training_print(training_id) {
                 `
                 ck_editor_data.push({'id': `CKeditor-print-${num}`, 'data': exercise.description ? exercise.description : ''})
                 html_scheme += '</div>'
-                html_scheme += '<div class="row">'
+                html_scheme += '<div class="row no-break-inside">'
                 html_scheme += `
                     <div class="col-2 text-center">---</div>
                     <div class="col-2 text-center">---</div>

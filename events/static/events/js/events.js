@@ -944,13 +944,15 @@ $(window).on('load', function (){
             'type': `training_${type}`,
         };
 
+        $('#trainingShareModal').find('.btn-share-out').addClass('d-none');
         ajax_share('GET', dataToSend).then(function (res) {
-            console.log(res)
             if (res.success) {
                 shared_modal.find('.create-block').addClass('d-none');
                 shared_modal.find('.link-text > a').text(res.data.link);
                 shared_modal.find('.link-text > a').attr('href', res.data.link);
                 shared_modal.find('button.btn-share').attr('data-link', res.data.link);
+                $('#trainingShareModal').find('.btn-share-out').attr('data-link', res.data.link);
+                $('#trainingShareModal').find('.btn-share-out').removeClass('d-none');
                 new QRCode(shared_modal.find('.link-qrcode')[0], {
                     text: res.data.link,
                     width: 150,
@@ -965,8 +967,11 @@ $(window).on('load', function (){
     // Поделиться тренировкой
     $('#trainingShareModal').on('click', '.btn-share', (e) => {
         let cLink = $(e.currentTarget).attr('data-link');
+        $('#trainingShareModal').find('.btn-share-out').addClass('d-none');
         if (cLink && cLink != "") {
-            copyToClipboard(cLink);
+            $('#trainingShareModal').find('.btn-share-out').attr('data-link', cLink);
+            $('#trainingShareModal').find('.btn-share-out').removeClass('d-none');
+            copyToClipboardv2(cLink);
             swal(gettext("Ready"), gettext('Link copied')+` (${cLink})!`, "success");
             return;
         }
@@ -980,9 +985,7 @@ $(window).on('load', function (){
             'type': `training_${type}`,
             'expire_date': expireDate,
         };
-
         ajax_share('POST', dataToSend).then(function (res) {
-            console.log(res)
             if (res.success) {
                  $('#trainingShareModal').find('.link-text > a').text(res.data.link);
                  $('#trainingShareModal').find('.link-text > a').attr('href', res.data.link);
@@ -995,10 +998,16 @@ $(window).on('load', function (){
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
                  });
-                 copyToClipboard(res.data.link);
+                 copyToClipboardv2(res.data.link);
                  swal(gettext("Ready"), gettext('Link copied')+` (${res.data.link})!`, "success");
              }
         })
+    })
+    // Поделиться тренировкой через внешние источники
+    $('#trainingShareModal').on('click', '.btn-share-out', (e) => {
+        let cText = $(e.currentTarget).attr('data-link')
+        let cMessenger = $(e.currentTarget).attr('data-messanger')
+        shareTo(cMessenger, cText)
     })
     
     $('#event-mc7-active-button').on( 'click', function () {

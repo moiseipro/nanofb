@@ -134,8 +134,9 @@
                                                             {% get_available_languages as LANGUAGES %}
                                                             {% get_language_info_list for LANGUAGES as languages %}
                                                             {% for language in languages %}
-                                                                <button type="button" name="language_set_description" value="{{ language.code }}" data-flag="{{ language.code|flag_emoji }}" class="dropdown-item">
-                                                                    {{ language.code|flag_emoji }}&nbsp;{{ language.name_local }}
+                                                                <button type="button" name="language_set_description" value="{{ language.code }}" class="dropdown-item">
+                                                                    <span class="fi fi-{{ language.code }} mr-1">&nbsp;</span>
+                                                                    {{ language.name_local }}
                                                                 </button>
                                                             {% endfor %}
                                                         </div>

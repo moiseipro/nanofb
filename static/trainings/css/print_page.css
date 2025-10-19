@@ -13,3 +13,44 @@
 .ck.ck-editor__top{
     display: none;
 }
+
+
+@media print {
+    /* Запрещаем разрывать элементы внутри (например, блоки, поля) */
+    .no-break-inside {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    /* Принудительно начинать с новой страницы (если нужно) */
+    .page-break-before {
+        page-break-before: always;
+        break-before: always;
+    }
+    /* Принудительный разрыв после элемента */
+    .page-break-after {
+        page-break-after: always;
+        break-after: always;
+    }
+    /* Опционально: убедиться, что длинные блоки могут переноситься */
+    body, html {
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+    /* Отключаем отображение ненужных элементов */
+    .no-print {
+        display: none !important;
+    }
+    /* Убедись, что контент может переноситься по страницам */
+    #print-training-block {
+        overflow: visible !important;
+    }
+    /* Если у тебя есть таблицы — разрешаем им разбиваться */
+    table {
+        page-break-inside: auto;
+    }
+    tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+}

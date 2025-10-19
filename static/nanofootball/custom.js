@@ -15,6 +15,30 @@ function resizeBlockJS(obj, aspectRatio = 9 / 16) {
 
 $(document).ready(function() {
     //Отправка формы смены языка по изменению select
+    let templateSelectLanguage = (state) => {
+        if (!state.id) {
+            return state.text;
+        }
+        const flagsValuesReplacer = {
+            'en': "us",
+        };
+        let text = state.text;
+        let flagVal = $(state.element).attr('value').toLowerCase();
+        flagVal = flagsValuesReplacer[flagVal] ?? flagVal;
+        let $state = $(`
+            <div class="row mx-0">
+                <div class="col-12 px-0">
+                    <span class="fi fi-${flagVal} mr-1">&nbsp;</span>
+                    <span class="">${text}</span>
+                </div>
+            </div>
+        `);
+        return $state;
+    };
+    $('#select-language').select2({
+        templateResult: templateSelectLanguage,
+        templateSelection: templateSelectLanguage,
+    });
     $('#select-language').on('change', function() {
         console.log(this.form)
         this.form.submit();
@@ -247,19 +271,71 @@ function getFormattedDateFromTodayWithDelta(delta=0) {
         + ("0" + date.getDate()).slice(-2);
 }
 
-function getFormattedDateFromAnother(dateStr="") {
-    let parts = dateStr.split('/');
-    if (parts.length !== 3) {
-        throw new Error('Invalid date format. Expected DD/MM/YYYY.');
-    }
-    let newDateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
-    return newDateStr;
-}
-
 function copyToClipboard(text) {
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val(text).select();
     document.execCommand("copy");
     $temp.remove();
+}
+
+function copyToClipboardv2(text) {
+    // Способ 1: Используем современный Clipboard API (рекомендуется)
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).catch(err => {
+            console.error('Ошибка Clipboard API:', err);
+            fallbackCopyText(text);
+        });
+    } else {
+        // Способ 2: Fallback — используем document.execCommand (для старых браузеров или HTTP)
+        fallbackCopyText(text);
+    }
+}
+function fallbackCopyText(text) {
+    const $temp = $('<textarea>');
+    $('body').append($temp);
+    $temp.val(text).select();
+    try {
+        const success = document.execCommand('copy');
+        if (!success) {
+            console.error('Не удалось скопировать текст (execCommand)');
+        }
+    } catch (err) {
+        console.error('Ошибка при копировании:', err);
+    }
+    $temp.remove();
+}
+
+
+function shareTo(messenger, text) {
+    const shareUrl = getShareUrl(messenger, text);
+    if (shareUrl) {
+        window.open(shareUrl, '_blank', 'noopener,noreferrer');
+    }
+}
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+function getShareUrl(messenger, text) {
+    const cText = encodeURIComponent(text);
+    switch (messenger) {
+        case 'vk':
+            return `https://vk.com/share.php?url=${cText}&title=${cText}&description=${cText}`;
+        case 'whatsapp':
+            return isMobile()
+                ? `whatsapp://send?text=${cText}` 
+                : `https://web.whatsapp.com/send?text=${cText}`;
+        case 'telegram':
+            return `tg://msg_url?url=${cText}`;
+        case 'sms':
+            return isMobile()
+                ? (navigator.vendor.includes('Apple') 
+                    ? `sms:&body=${cText}` 
+                    : `sms:?body=${cText}`)
+                : `sms:?body=${cText}`;
+        case 'email':
+            return `mailto:?subject=${cText}&body=${cText}`;
+        default:
+            return null;
+    }
 }

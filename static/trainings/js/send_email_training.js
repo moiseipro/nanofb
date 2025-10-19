@@ -85,9 +85,14 @@ $(window).on('load', function () {
             },
             jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
             pagebreak: {
-                mode: ['avoid-all', 'css', 'legacy'],
-                before: '.no-break',
-                avoid: ['.no-break']
+                mode: ['css', 'legacy'],
+                before: '.page-break-before',
+                avoid: [
+                    '.no-break-inside',
+                    '.exercise-list > .row',
+                    '.inventory-data-rows',
+                    '.carousel-item'
+                ]
             }
         };
         $('#send-email-training-block').addClass("to-send");
@@ -139,6 +144,7 @@ function load_training_send_email(training_id) {
     ajax_training_action('GET', data_send, 'view card', training_id).then(function (data) {
         let training = data;
         let exercises = training.exercises_info;
+        $('#send-email-training-block .training-date input').val(training.event_date)
         $('#send-email-training-block .training-time input').val(training.event_time)
         if(training.players_count != null){
             $('#send-email-training-block .training-players input').val(
@@ -209,7 +215,7 @@ function load_training_send_email(training_id) {
             let num = 0;
             for (let exercise of exercises) {
                 minutes_count += exercise.duration
-                html_scheme += '<div class="row no-breako" style="border-top: 2px solid black">'
+                html_scheme += '<div class="row no-breako no-break-inside" style="border-top: 2px solid black">'
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 if (exercise.scheme_img_show_first) {

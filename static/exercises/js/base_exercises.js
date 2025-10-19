@@ -4219,13 +4219,25 @@ $(function() {
 
     // Language Description Selection Control
     function setButtonFlag(langCode) {
-        let foundElem = $('.btns-tabs-first').find('[data-id="set_description_language"]').parent().find(`button[name="language_set_description"][value="${langCode}"]`);
-        let flag = '🌍';
-        if (foundElem.length > 0) {
-            flag = $(foundElem).attr('data-flag');
-        }
+        const flagsValuesReplacer = {
+            'en': "us",
+        };
+        $('.btns-tabs-first').find('[data-id="set_description_language"]').parent().find(`button[name="language_set_description"]`).each((index, elem) => {
+            let elemLangCode = $(elem).attr('value').toLowerCase();
+            elemLangCode = flagsValuesReplacer[elemLangCode] ?? elemLangCode;
+            let fiElem = $(elem).find('span.fi');
+            const currentClasses = fiElem.attr('class').split(' ');
+            const flagClass = currentClasses.find(cls => cls.startsWith('fi-'));
+            if (flagClass) {
+                fiElem.removeClass(flagClass).addClass(`fi-${elemLangCode}`);
+            }
+        });
+        let langCodeToSpan = langCode.toLowerCase();
+        langCodeToSpan = flagsValuesReplacer[langCodeToSpan] ?? langCodeToSpan;
         $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected', langCode);
-        $('.btns-tabs-first').find('[data-id="set_description_language"]').html(flag);
+        $('.btns-tabs-first').find('[data-id="set_description_language"]').html(`
+            <span class="fi fi-${langCodeToSpan}">&nbsp;</span>   
+        `);
     }
     let currentLang = $('#select-language').val();
     setButtonFlag(currentLang);
