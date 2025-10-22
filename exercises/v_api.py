@@ -845,6 +845,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
     if to_count:
         f_exercises = f_exercises.only("id")
     else:
+        languages_exists_dict = {}
+        for obj in f_exercises:
+            languages_exists_dict[obj.id] = {}
+            if obj.description:
+                for lang in obj.description.keys():
+                    if obj.description[lang].strip() != "":
+                        languages_exists_dict[obj.id][lang] = 1
         f_exercises = f_exercises.defer("description", "description_trainer",
                                         "scheme_data", "scheme_1", "scheme_2", "scheme_1_old", "scheme_2_old",
                                         "scheme_img"
@@ -855,6 +862,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         else:
             f_exercises_list = [entry for entry in f_exercises.values()]
         for exercise in f_exercises_list:
+            exercise['languages_exists'] = languages_exists_dict[exercise['id']]
             exercise['search_title'] = utils.get_by_language_code(exercise['title'], req.LANGUAGE_CODE).lower()
             exercise['has_video_1'] = False
             exercise['has_video_2'] = False
@@ -3978,6 +3986,7 @@ def GET_get_exs_all(request, cur_user, cur_team):
             'trainings_count': exercise['trainings_count'],
             'in_trainer_folder': exercise['in_trainer_folder'],
             'trainer_exs_copied': exercise['trainer_exs_copied'],
+            'langs_exists': exercise['languages_exists'],
         }
         videos_arr = get_exs_video_data(exercise['video_data'])
         anims_arr = get_exs_video_data(exercise['animation_data'])

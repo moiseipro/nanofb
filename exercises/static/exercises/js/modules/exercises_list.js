@@ -199,8 +199,12 @@ function RenderFolderExercises(id, tExs) {
                 }
             });
         } catch(e) {}
+        let languagesExistsClass = "";
+        for (let key in exElem.langs_exists) {
+            languagesExistsClass += `l-${key} `;
+        }
         exsHtml += `
-        <li class="exs-elem list-group-item py-0 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''} ${markerClass}" data-id="${exElem.id}" data-folder="${exElem.folder}" style="${markerCSS}">
+        <li class="exs-elem list-group-item py-0 px-0 ${exElem.clone_nfb_id ? 'nf-cloned' : ''} ${exElem.blocked ? 'exs-blocked' : ''} ${markerClass} ${languagesExistsClass}" data-id="${exElem.id}" data-folder="${exElem.folder}" style="${markerCSS}">
             <div class="row w-100">
                 <div class="col-12 d-flex px-0">
                     <span class="ml-3 w-100">
@@ -352,6 +356,7 @@ function RenderFolderExercises(id, tExs) {
 
     ToggleIconsInExs();
     ToggleMarkersInExs();
+    CountExsWithLanguages();
 
     try {
         RenderSelectedExercisesForDelete();
@@ -615,6 +620,21 @@ function ToggleTagsShortCategoriesSearch(tags) {
     }
     LoadFolderExercises();
     CountExsInFolder();
+}
+
+function CountExsWithLanguages() {
+    let changeOrderSelected = $('.btns-tabs-first').find('button[name="language_set_description"][value="_change_order"]').hasClass('selected');
+    let exsAllCount = $('.exs-list-group').find(`li.exs-elem`).length;
+    $('.btns-tabs-first').find('button[name="language_set_description"]').each((ind, elem) => {
+        let cLangCode = $(elem).attr('value');
+        if (cLangCode != "_change_order") {
+            let exsCount = $('.exs-list-group').find(`li.exs-elem.l-${cLangCode}`).length;
+            if (changeOrderSelected) {
+                exsCount = exsAllCount - exsCount;
+            }
+            $(elem).find('.e-counter').text(exsCount);
+        }
+    });
 }
 
 

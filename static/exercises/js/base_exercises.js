@@ -4244,6 +4244,13 @@ $(function() {
 
     $('.btns-tabs-first').on('click', 'button[name="language_set_description"]', (e) => {
         let value = $(e.currentTarget).attr('value');
+        if (value == "_change_order") {
+            let selected = $(e.currentTarget).hasClass('selected');
+            $(e.currentTarget).toggleClass('selected', !selected);
+            $(e.currentTarget).find('span.ml-auto').text(selected ? "счётчики+" : "счётчики-");
+            CountExsWithLanguages();
+            value = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
+        }
         setButtonFlag(value);
         LoadExerciseOneHandler();
     });

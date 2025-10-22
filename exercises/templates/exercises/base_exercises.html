@@ -45,6 +45,34 @@
                                                 <i class="fa fa-user" aria-hidden="true"></i>
                                                 EXS
                                             </button>
+                                            <div class="btn-group dropright mx-1">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-secondary btn-custom btn-block up-tabs-elem"
+                                                        data-id="set_description_language"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        title="Выбрать язык для описания"
+                                                >
+                                                    LG
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-dark">
+                                                    <button type="button" name="language_set_description" value="_change_order" class="dropdown-item">
+                                                        <span class="fi fi-none">&nbsp;</span>
+                                                        <span class="ml-auto text-muted">счётчики+</span>
+                                                    </button>
+                                                    {% get_current_language as LANGUAGE_CODE %}
+                                                    {% get_available_languages as LANGUAGES %}
+                                                    {% get_language_info_list for LANGUAGES as languages %}
+                                                    {% for language in languages %}
+                                                        <button type="button" name="language_set_description" value="{{ language.code }}" class="dropdown-item d-flex">
+                                                            <span class="fi fi-{{ language.code }} mr-1">&nbsp;</span>
+                                                            {{ language.name_local }}
+                                                            <span class="ml-auto text-muted e-counter">0</span>
+                                                        </button>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="col-12 p-0 btn-group-custom">
@@ -118,29 +146,9 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <div class="btn-group dropleft w-100">
-                                                        <button type="button"
-                                                                class="btn btn-secondary btn-custom btn-block up-tabs-elem"
-                                                                data-id="set_description_language"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                                title="Выбрать язык для описания"
-                                                        >
-                                                            LG
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-dark">
-                                                            {% get_current_language as LANGUAGE_CODE %}
-                                                            {% get_available_languages as LANGUAGES %}
-                                                            {% get_language_info_list for LANGUAGES as languages %}
-                                                            {% for language in languages %}
-                                                                <button type="button" name="language_set_description" value="{{ language.code }}" class="dropdown-item">
-                                                                    <span class="fi fi-{{ language.code }} mr-1">&nbsp;</span>
-                                                                    {{ language.name_local }}
-                                                                </button>
-                                                            {% endfor %}
-                                                        </div>
-                                                    </div>
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
+                                                        &nbsp;
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="row mx-0">
