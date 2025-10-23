@@ -57,9 +57,13 @@
                                                     LG
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-dark">
-                                                    <button type="button" name="language_set_description" value="_change_order" class="dropdown-item">
+                                                    <button type="button" name="language_set_description" value="_option_change_order" class="dropdown-item">
                                                         <span class="fi fi-none">&nbsp;</span>
                                                         <span class="ml-auto text-muted">счётчики+</span>
+                                                    </button>
+                                                    <button type="button" name="language_set_description" value="_option_set_filter" class="dropdown-item">
+                                                        <span class="fi fi-none">&nbsp;</span>
+                                                        <span class="ml-auto text-muted">Фильтр: ВЫКЛ</span>
                                                     </button>
                                                     {% get_current_language as LANGUAGE_CODE %}
                                                     {% get_available_languages as LANGUAGES %}

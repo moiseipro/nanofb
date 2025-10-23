@@ -357,6 +357,7 @@ function RenderFolderExercises(id, tExs) {
     ToggleIconsInExs();
     ToggleMarkersInExs();
     CountExsWithLanguages();
+    FilterExercisesByLangRender();
 
     try {
         RenderSelectedExercisesForDelete();
@@ -623,11 +624,11 @@ function ToggleTagsShortCategoriesSearch(tags) {
 }
 
 function CountExsWithLanguages() {
-    let changeOrderSelected = $('.btns-tabs-first').find('button[name="language_set_description"][value="_change_order"]').hasClass('selected');
+    let changeOrderSelected = $('.btns-tabs-first').find('button[name="language_set_description"][value="_option_change_order"]').hasClass('selected');
     let exsAllCount = $('.exs-list-group').find(`li.exs-elem`).length;
     $('.btns-tabs-first').find('button[name="language_set_description"]').each((ind, elem) => {
         let cLangCode = $(elem).attr('value');
-        if (cLangCode != "_change_order") {
+        if (!cLangCode.includes("_option_")) {
             let exsCount = $('.exs-list-group').find(`li.exs-elem.l-${cLangCode}`).length;
             if (changeOrderSelected) {
                 exsCount = exsAllCount - exsCount;
@@ -635,6 +636,16 @@ function CountExsWithLanguages() {
             $(elem).find('.e-counter').text(exsCount);
         }
     });
+}
+
+function FilterExercisesByLangRender() {
+    $('.exs-list-group').find(`li.exs-elem`).removeClass('by-lang-hidden');
+    let changeOrderSelected = $('.btns-tabs-first').find('button[name="language_set_description"][value="_option_change_order"]').hasClass('selected');
+    let currentLang = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
+    let isFilterActive = $('.btns-tabs-first').find('button[name="language_set_description"][value="_option_set_filter"]').hasClass('selected');
+    if (isFilterActive) {
+        $('.exs-list-group').find(`li.exs-elem:not(.l-${currentLang})`).addClass('by-lang-hidden');
+    }
 }
 
 

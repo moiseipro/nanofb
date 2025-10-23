@@ -338,7 +338,7 @@ class UserManagementApiView(viewsets.ModelViewSet):
         if favourite_filter_mode == '0':
             favourite_filter_mode = self.request.POST.get('favourite_filter_mode', '0')
         if favourite_filter_mode == '1':
-            users = users.filter(marks__favourite='1')
+            users = users.filter(marks__favourite__in=['1', '3'])
         elif favourite_filter_mode == '2':
             users = users.filter(marks__favourite='3')
         elif favourite_filter_mode == '0':

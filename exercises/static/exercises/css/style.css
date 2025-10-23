@@ -146,6 +146,9 @@
 .exs-elem.already-copied {
     opacity: 0.6;
 }
+.exs-elem.by-lang-hidden {
+    display: none !important;
+}
 
 .vert-line-left {
     border-left: 2px solid black;

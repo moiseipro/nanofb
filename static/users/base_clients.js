@@ -186,17 +186,7 @@ $(window).on("load", function () {
             console.log(data)
         })
     })
-
-    window.favouriteFilterMode = 0;
-    $('.marks-favourites-filter').on('click', (e) => {
-        try {
-            window.favouriteFilterMode = parseInt($(e.currentTarget).attr('data-value'));
-        } catch (e) {}
-        window.favouriteFilterMode = (window.favouriteFilterMode + 1) % 3;
-        $(e.currentTarget).attr('data-value', window.favouriteFilterMode);
-        users_table.ajax.reload();
-    })
-
+    
     $('#add-user-button').on('click', function () {
         if(!$('#add-user-form').valid()) return
         let personal = $('#add-user-form').serializeArray()

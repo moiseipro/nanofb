@@ -4243,15 +4243,22 @@ $(function() {
     setButtonFlag(currentLang);
 
     $('.btns-tabs-first').on('click', 'button[name="language_set_description"]', (e) => {
+        e.stopPropagation();
         let value = $(e.currentTarget).attr('value');
-        if (value == "_change_order") {
+        if (value == "_option_change_order") {
             let selected = $(e.currentTarget).hasClass('selected');
             $(e.currentTarget).toggleClass('selected', !selected);
             $(e.currentTarget).find('span.ml-auto').text(selected ? "счётчики+" : "счётчики-");
+            value = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
             CountExsWithLanguages();
+        } else if (value == "_option_set_filter") {
+            let selected = $(e.currentTarget).hasClass('selected');
+            $(e.currentTarget).toggleClass('selected', !selected);
+            $(e.currentTarget).find('span.ml-auto').text(selected ? "Фильтр: ВЫКЛ" : "Фильтр: ВКЛ");
             value = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
         }
         setButtonFlag(value);
+        FilterExercisesByLangRender();
         LoadExerciseOneHandler();
     });
     

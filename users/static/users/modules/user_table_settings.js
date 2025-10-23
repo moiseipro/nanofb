@@ -154,13 +154,29 @@ $(window).on("load", function () {
     })
 
     // Настройки показа колонок в таблице пользователей
+    window.favouriteFilterMode = 0;
     $('.toggle-user-column').on('change', function () {
+        let isReloadTable = false
         let checkbox = $(this);
-        console.log(checkbox.is(':checked'))
-
         let col_data = checkbox.attr('data-col')
+        if (col_data == "favourite-info-col") {
+            if (!checkbox.is(':checked')) {
+                if (!checkbox.hasClass('filter')) {
+                    checkbox.prop('checked', true)
+                    checkbox.addClass('filter')
+                    window.favouriteFilterMode = 1
+                } else {
+                    checkbox.prop('checked', false)
+                    checkbox.removeClass('filter')
+                    window.favouriteFilterMode = 0
+                }
+                $('.marks-favourites-filter').attr('data-value', window.favouriteFilterMode)
+                isReloadTable = true
+            }
+        }
         users_table.columns( '.'+col_data ).visible( checkbox.is(':checked') );
         check_active_filters()
+        if (isReloadTable) {users_table.ajax.reload()}
     })
 
     //Загрузка сохраненных фильтров
