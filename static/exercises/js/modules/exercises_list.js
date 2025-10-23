@@ -644,7 +644,11 @@ function FilterExercisesByLangRender() {
     let currentLang = $('.btns-tabs-first').find('[data-id="set_description_language"]').attr('data-selected');
     let isFilterActive = $('.btns-tabs-first').find('button[name="language_set_description"][value="_option_set_filter"]').hasClass('selected');
     if (isFilterActive) {
-        $('.exs-list-group').find(`li.exs-elem:not(.l-${currentLang})`).addClass('by-lang-hidden');
+        if (changeOrderSelected) {
+            $('.exs-list-group').find(`li.exs-elem.l-${currentLang}`).addClass('by-lang-hidden');
+        } else {
+            $('.exs-list-group').find(`li.exs-elem:not(.l-${currentLang})`).addClass('by-lang-hidden');
+        }
     }
 }
 
@@ -900,26 +904,26 @@ $(function() {
         if (e.which == 38 && window.canChangeExs) { // up
             if (activeElem.length > 0) {
                 $(activeElem).removeClass('active');
-                if ($(activeElem).prev().length > 0) {
-                    $(activeElem).prev().addClass('active');
+                if ($(activeElem).prevAll(':visible').first().length > 0) {
+                    $(activeElem).prevAll(':visible').first().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked):visible').last().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').last().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked):visible').last().addClass('active');
             }
             loadExs = true;
         }
         if (e.which == 40 && window.canChangeExs) { // down
             if (activeElem.length > 0) {
                 $(activeElem).removeClass('active');
-                if ($(activeElem).next().length > 0) {
-                    $(activeElem).next().addClass('active');
+                if ($(activeElem).nextAll(':visible').first().length > 0) {
+                    $(activeElem).nextAll(':visible').first().addClass('active');
                 } else {
-                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
+                    $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked):visible').first().addClass('active');
                 }
             } else {
-                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked)').first().addClass('active');
+                $(currentList).find('.list-group-item.exs-elem:not(.exs-blocked):visible').first().addClass('active');
             }
             loadExs = true;
         }
