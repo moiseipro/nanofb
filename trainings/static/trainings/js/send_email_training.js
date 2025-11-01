@@ -219,7 +219,27 @@ function load_training_send_email(training_id) {
                 let count_slide = 0
                 let select_html = '', carousel_html = ''
                 if (exercise.scheme_img_show_first) {
-                    if (exercise.scheme_img) {
+                    if (exercise.scheme_img && !exercise.scheme_img_change_order) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
+                    if (exercise.scheme_img_2) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
+                    if (exercise.scheme_img && exercise.scheme_img_change_order) {
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                         count_slide++
                         carousel_html+= `
@@ -247,7 +267,27 @@ function load_training_send_email(training_id) {
                         </div>`
                 }
                 if (!exercise.scheme_img_show_first) {
-                    if (exercise.scheme_img) {
+                    if (exercise.scheme_img && !exercise.scheme_img_change_order) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
+                    if (exercise.scheme_img_2) {
+                        select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
+                        count_slide++
+                        carousel_html+= `
+                            <div class="carousel-item">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="${exercise.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>`
+                    }
+                    if (exercise.scheme_img && exercise.scheme_img_change_order) {
                         select_html += `<li data-target="#carouselTrainingSchema-${exercise.id}" data-slide-to="${count_slide}" class=""></li>`
                         count_slide++
                         carousel_html+= `

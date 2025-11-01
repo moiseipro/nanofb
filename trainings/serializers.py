@@ -287,8 +287,16 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
         source="exercise_id.scheme_img",
         read_only=True
     )
+    scheme_img_2 = serializers.ImageField(
+        source="exercise_id.scheme_img_2",
+        read_only=True
+    )
     scheme_img_show_first = serializers.BooleanField(
         source="exercise_id.scheme_img_show_first",
+        read_only=True
+    )
+    scheme_img_change_order = serializers.BooleanField(
+        source="exercise_id.scheme_img_change_order",
         read_only=True
     )
     clone_nfb_id = serializers.IntegerField(
@@ -299,7 +307,8 @@ class TrainingExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id', 'training_id', 'exercise_id', 'exercise_name', 'exercise_scheme', 'scheme_1', 'scheme_2', 'group',
-            'duration', 'order', 'description', 'additional_json', 'scheme_img', 'scheme_img_show_first', 'clone_nfb_id'
+            'duration', 'order', 'description', 'additional_json', 'scheme_img', 'scheme_img_2',
+            'scheme_img_show_first', 'scheme_img_change_order', 'clone_nfb_id'
         )
 
 

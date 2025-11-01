@@ -91,7 +91,7 @@ function RenderAnalyticsTable(data) {
         $(elem).text(`${currentShortName}`);
     });
     $('#analytics').find('tbody').html('');
-    if (data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
+    if ('players' in data && data['players'] && typeof data['players'] === "object" && !Array.isArray(data['players'])) {
         let tmpHtml = "";
         let foldersInHeader = [];
         $('#analytics').find('th.h-folder').each((ind, elem) => {

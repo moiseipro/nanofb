@@ -141,13 +141,37 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
     window.videoPlayerClones = [];
     let htmlStr = `
         ${data && data.scheme_img_show_first ? `
-            ${data && data.scheme_img ? `
-                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                        <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
-                    </svg>
-                </div>
-            ` : ``}
+            ${data && data.scheme_img_change_order ? `
+                ${data && data.scheme_img_2 ? `
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+                ${data && data.scheme_img ? `
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+            ` : `
+                ${data && data.scheme_img ? `
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+                ${data && data.scheme_img_2 ? `
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+            `}
         ` : ''}
         ${data && data.scheme_1 && data.scheme_1 != "" ? `
             <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
@@ -164,13 +188,37 @@ function RenderGraphicsModal(data = null, activeNum = 1) {
             </div>
         ` : ''}
         ${data && !data.scheme_img_show_first ? `
-            ${data && data.scheme_img ? `
-                <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                    <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                        <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
-                    </svg>
-                </div>
-            ` : ``}
+            ${data && data.scheme_img_change_order ? `
+                ${data && data.scheme_img_2 ? `
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+                ${data && data.scheme_img ? `
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+            ` : `
+                ${data && data.scheme_img ? `
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+                ${data && data.scheme_img_2 ? `
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                ` : ``}
+            `}
         ` : ''}
         <div class="carousel-item">
             ${data && data.scheme_data && data.scheme_data[0] ? data.scheme_data[0] : `

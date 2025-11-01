@@ -246,7 +246,9 @@ class AbstractExercise(models.Model):
     scheme_1_old = models.CharField(max_length=30, null=True, blank=True)
     scheme_2_old = models.CharField(max_length=30, null=True, blank=True)
     scheme_img = models.ImageField(upload_to=upload_location_scheme, null=True, blank=True)
+    scheme_img_2 = models.ImageField(upload_to=upload_location_scheme, null=True, blank=True)
     scheme_img_show_first = models.BooleanField(default=False)
+    scheme_img_change_order = models.BooleanField(default=False)
     video_data = models.JSONField(null=True, blank=True)
     animation_data = models.JSONField(null=True, blank=True) # {'data': {'custom': "<t>...</t>", default: ["id_1", "id_2"...]}}
     old_id = models.IntegerField(null=True, blank=True) # from old site

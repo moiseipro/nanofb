@@ -453,9 +453,15 @@ function RenderExerciseOne(data) {
         if (data.scheme_img) {
             $('#exerciseCard').find('.scheme-img > img').attr('src', `/media/${data.scheme_img}`);
         }
+        if (data.scheme_img_2) {
+            $('#exerciseCard').find('.scheme-img-2 > img').attr('src', `/media/${data.scheme_img_2}`);
+        }
 
         try {
             $('#exerciseCard').find('#showIntroDrawingFirst').prop('checked', data.scheme_img_show_first);
+        } catch (e) {}
+        try {
+            $('#exerciseCard').find('#changeOrderBetweenIntros').prop('checked', data.scheme_img_change_order);
         } catch (e) {}
 
         $('#carouselSchema').find('.carousel-item.new-scheme').remove();
@@ -492,31 +498,172 @@ function RenderExerciseOne(data) {
                 <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
             `);
         }
-        if (data.scheme_img) {
-            if (data.scheme_img_show_first) {
-                $('#carouselSchema').find('.carousel-item').first().before(`
-                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
-                        </svg>
-                    </div>
-                `);
+        if (data.scheme_img_show_first) {
+            if (data.scheme_img_change_order) {
+                if (data.scheme_img) {
+                    let foundElem = $('#carouselSchema').find('.carousel-item.new-scheme').length > 0 ? 
+                        $('#carouselSchema').find('.carousel-item.new-scheme').first() : 
+                        $('#carouselSchema').find('.carousel-item').first();
+                    $(foundElem).before(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+                if (data.scheme_img_2) {
+                    let foundElem = $('#carouselSchema').find('.carousel-item.new-scheme').length > 0 ? 
+                        $('#carouselSchema').find('.carousel-item.new-scheme').first() : 
+                        $('#carouselSchema').find('.carousel-item').first();
+                    $(foundElem).before(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
             } else {
-                $('#carouselSchema').find('.carousel-item').first().after(`
-                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
-                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
-                        </svg>
-                    </div>
-                `);
+                if (data.scheme_img_2) {
+                    let foundElem = $('#carouselSchema').find('.carousel-item.new-scheme').length > 0 ? 
+                        $('#carouselSchema').find('.carousel-item.new-scheme').first() : 
+                        $('#carouselSchema').find('.carousel-item').first();
+                    $(foundElem).before(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+                if (data.scheme_img) {
+                    let foundElem = $('#carouselSchema').find('.carousel-item.new-scheme').length > 0 ? 
+                        $('#carouselSchema').find('.carousel-item.new-scheme').first() : 
+                        $('#carouselSchema').find('.carousel-item').first();
+                    $(foundElem).before(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
             }
-            
-            // <img class="img-lazyload d-none" src="/media/${data.scheme_img}" alt="scheme" style="width: 28vw; height: 41vh;">
-            $('#carouselSchema').find('.carousel-indicators > li').last().after(`
-                <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
-            `);
-            carouselIndicatorNum ++;
+        } else {
+            if (data.scheme_img_change_order) {
+                if (data.scheme_img_2) {
+                    if ($('#carouselSchema').find('.carousel-item.new-scheme').length > 0) {
+                        $('#carouselSchema').find('.carousel-item.new-scheme').last().after(`
+                            <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    } else {
+                        $('#carouselSchema').find('.carousel-item').first().before(`
+                            <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    }
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+                if (data.scheme_img) {
+                    if ($('#carouselSchema').find('.carousel-item.new-scheme').length > 0) {
+                        $('#carouselSchema').find('.carousel-item.new-scheme').last().after(`
+                            <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    } else {
+                        $('#carouselSchema').find('.carousel-item').first().before(`
+                            <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    }
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+            } else {
+                if (data.scheme_img) {
+                    if ($('#carouselSchema').find('.carousel-item.new-scheme').length > 0) {
+                        $('#carouselSchema').find('.carousel-item.new-scheme').last().after(`
+                            <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    } else {
+                        $('#carouselSchema').find('.carousel-item').first().before(`
+                            <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    }
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+                if (data.scheme_img_2) {
+                    if ($('#carouselSchema').find('.carousel-item.new-scheme').length > 0) {
+                        $('#carouselSchema').find('.carousel-item.new-scheme').last().after(`
+                            <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    } else {
+                        $('#carouselSchema').find('.carousel-item').first().before(`
+                            <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                    <image data-height="400" data-width="600" height="100%" width="100%" href="/media/${data.scheme_img_2}" x="0" y="0"></image>
+                                </svg>
+                            </div>
+                        `);
+                    }
+                    $('#carouselSchema').find('.carousel-indicators > li').last().after(`
+                        <li class="new-scheme" data-target="#carouselSchema" data-slide-to="${carouselIndicatorNum}"></li>
+                    `);
+                    carouselIndicatorNum ++;
+                }
+            }
         }
+
 
         $('#carouselSchema').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
             $(elem).on('load', (e) => {
@@ -1027,6 +1174,7 @@ function SaveExerciseOne() {
     dataToSend.data['field_fields'] = selectedFields;
 
     dataToSend.data['scheme_img_show_first'] = $('#exerciseCard').find('#showIntroDrawingFirst').prop('checked');
+    dataToSend.data['scheme_img_change_order'] = $('#exerciseCard').find('#changeOrderBetweenIntros').prop('checked');
 
     $('.page-loader-wrapper').fadeIn();
     $.ajax({
@@ -2876,9 +3024,10 @@ $(function() {
     $('#exerciseCard').on('click', '[name="fileSchemeUpload"]', (e) => {
         let searchParams = new URLSearchParams(window.location.search);
         let folderType = searchParams.get('type');
+        let imgTypeNumber = $(e.currentTarget).parent().attr('data-num');
         let exsId = $('#exerciseCard').attr('data-exs');
         let dataToSend = new FormData();
-        let fileImg = $('#exerciseCard').find('#fileSchemePic')[0].files[0];
+        let fileImg = $(e.currentTarget).parent().find('input[name="file_scheme"]')[0].files[0];
         if (fileImg) {
             dataToSend.append('file_image', fileImg);
         } else {
@@ -2888,6 +3037,7 @@ $(function() {
         dataToSend.append('create_exs_drawing_pic', 1);
         dataToSend.append('exs', exsId);
         dataToSend.append('type', folderType);
+        dataToSend.append('img_type', imgTypeNumber);
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
@@ -2899,13 +3049,13 @@ $(function() {
             url: "exercises_api",
             success: function (res) {
                 if (res.success) {
-                    $('#exerciseCard').find('.scheme-img > img').attr('src', res.data);
+                    $(e.currentTarget).parent().find('.scheme-img > img').attr('src', res.data);
                     swal("Готово", "Рисунок успешно добавлен.", "success").
                     then(() => {
                         window.location.reload();
                     });
                 }
-                $('#exerciseCard').find('#fileSchemePic').val('');
+                $(e.currentTarget).parent().find('input[name="file_scheme"]').val('');
             },
             error: function (res) {
                 let optionalInfo = "";
@@ -2923,8 +3073,9 @@ $(function() {
     $('#exerciseCard').on('click', '[name="fileSchemeDelete"]', (e) => {
         let searchParams = new URLSearchParams(window.location.search);
         let folderType = searchParams.get('type');
+        let imgTypeNumber = $(e.currentTarget).parent().attr('data-num');
         let exsId = $('#exerciseCard').attr('data-exs');
-        let data = {'delete_exs_drawing_pic': 1, 'type': folderType, 'exs': exsId};
+        let data = {'delete_exs_drawing_pic': 1, 'type': folderType, 'img_type': imgTypeNumber, 'exs': exsId};
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},

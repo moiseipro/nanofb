@@ -852,9 +852,9 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
                 for lang in obj.description.keys():
                     if obj.description[lang].strip() != "":
                         languages_exists_dict[obj.id][lang] = 1
-        f_exercises = f_exercises.defer("description", "description_trainer",
-                                        "scheme_data", "scheme_1", "scheme_2", "scheme_1_old", "scheme_2_old",
-                                        "scheme_img"
+        f_exercises = f_exercises.defer(
+            "description", "description_trainer", "scheme_data", "scheme_1", "scheme_2",
+            "scheme_1_old", "scheme_2_old", "scheme_img", "scheme_img_2", "scheme_img_show_first", "scheme_img_change_order"
         )
         last_name = cur_user.personal.last_name.lower().replace(' ', '')
         if isinstance(f_exercises, list):
@@ -1527,6 +1527,7 @@ def POST_copy_exs(request, cur_user, cur_team, from_folder=None):
                 res_data['err'].append(str(e))
             try:
                 new_exs.scheme_img = None
+                new_exs.scheme_img_2 = None
                 new_exs.save()
             except:
                 res_data['err'].append(str(e))
@@ -1802,6 +1803,7 @@ def POST_edit_exs(request, cur_user, cur_team):
     c_exs.field_fields = field_fields
     c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
     c_exs.scheme_img_show_first = request.POST.get("data[scheme_img_show_first]", None) == "true"
+    c_exs.scheme_img_change_order = request.POST.get("data[scheme_img_change_order]", None) == "true"
 
     if is_can_edit_full:
         video_links_links = utils.set_value_as_list(request, "data[video_links_link[]]", "data[video_links_link[]][]", [])
@@ -2190,6 +2192,7 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
         c_exs.field_fields = field_fields
         c_exs.field_e_type = request.POST.get("data[field_e_type]", None)
         c_exs.scheme_img_show_first = request.POST.get("data[scheme_img_show_first]", None) == "true"
+        c_exs.scheme_img_change_order = request.POST.get("data[scheme_img_change_order]", None) == "true"
 
         if is_can_edit_full:
             c_exs.tags.clear()
@@ -3684,9 +3687,14 @@ def POST_copy_scheme_from_exs_to_exs(request, cur_user, cur_team):
 
 def POST_create_exs_drawing_pic(request, cur_user, cur_team):
     exs_id = -1
+    img_type = 1
     folder_type = request.POST.get("type", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        img_type = int(request.POST.get("img_type", 1))
     except:
         pass
     c_img = request.FILES.get('file_image')
@@ -3718,9 +3726,16 @@ def POST_create_exs_drawing_pic(request, cur_user, cur_team):
     img_url = ""
     if c_exs is not None:
         try:
-            c_exs.scheme_img = c_img
-            c_exs.save()
-            img_url = c_exs.scheme_img.url
+            if img_type == 1:
+                c_exs.scheme_img = c_img
+                c_exs.save()
+                img_url = c_exs.scheme_img.url
+            elif img_type == 2:
+                c_exs.scheme_img_2 = c_img
+                c_exs.save()
+                img_url = c_exs.scheme_img_2.url
+            else:
+                return JsonResponse({"err": f"Cant find correct image's type number. ({e})", "success": False}, status=400)
         except Exception as e:
             return JsonResponse({"err": f"Cant add image to exercise. ({e})", "success": False}, status=400)
     else:
@@ -3730,9 +3745,14 @@ def POST_create_exs_drawing_pic(request, cur_user, cur_team):
 
 def POST_delete_exs_drawing_pic(request, cur_user, cur_team):
     exs_id = -1
+    img_type = 1
     folder_type = request.POST.get("type", "")
     try:
         exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    try:
+        img_type = int(request.POST.get("img_type", 1))
     except:
         pass
     c_exs = None
@@ -3763,7 +3783,12 @@ def POST_delete_exs_drawing_pic(request, cur_user, cur_team):
     img_url = ""
     if c_exs is not None:
         try:
-            c_exs.scheme_img.delete(save=True)
+            if img_type == 1:
+                c_exs.scheme_img.delete(save=True)
+            elif img_type == 2:
+                c_exs.scheme_img_2.delete(save=True)
+            else:
+                return JsonResponse({"err": f"Cant find correct image's type number. ({e})", "success": False}, status=400)
             c_exs.save()
         except Exception as e:
             return JsonResponse({"err": f"Cant delete image from exercise. ({e})", "success": False}, status=400)

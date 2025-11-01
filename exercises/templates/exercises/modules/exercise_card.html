@@ -1237,7 +1237,7 @@
                                 </div>
                                 <div class="col-12 drawer-panel" data-panel="upload">
                                     <div class="row w-100 d-flex justify-content-center">
-                                        <div class="col-12 d-flex justify-content-center mb-2">
+                                        <div class="col-12 d-flex justify-content-center">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="showIntroDrawingFirst">
                                                 <label class="form-check-label" for="showIntroDrawingFirst">
@@ -1245,20 +1245,32 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex justify-content-center">
-                                            <div>
-                                                <input type="file" id="fileSchemePic" name="file_scheme" class="mt-1" accept=".jpg, .jpeg, .png, .gif, .bmp">
-                                            </div>
-                                            <div>
-                                                <button type="button" class="btn btn-sm btn-primary" name="fileSchemeUpload" title="Загрузить">
-                                                    Загрузить рисунок
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-danger" name="fileSchemeDelete" title="Удалить">
-                                                    Удалить рисунок
-                                                </button>
+                                        <div class="col-12 d-flex justify-content-center mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="changeOrderBetweenIntros">
+                                                <label class="form-check-label" for="changeOrderBetweenIntros">
+                                                    Поменять местами заставки в отображении
+                                                </label>
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex justify-content-center scheme-img">
+                                        <div class="col-6 scheme-img" data-num="1">
+                                            <input type="file" id="fileSchemePic" name="file_scheme" class="mt-1" accept=".jpg, .jpeg, .png, .gif, .bmp">
+                                            <button type="button" class="btn btn-sm btn-primary" name="fileSchemeUpload" title="Загрузить">
+                                                Загрузить рисунок
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" name="fileSchemeDelete" title="Удалить">
+                                                Удалить рисунок
+                                            </button>
+                                            <img src="" alt="..." class="" style="height: 50vh;">
+                                        </div>
+                                        <div class="col-6 scheme-img-2" data-num="2">
+                                            <input type="file" id="fileSchemePic2" name="file_scheme" class="mt-1" accept=".jpg, .jpeg, .png, .gif, .bmp">
+                                            <button type="button" class="btn btn-sm btn-primary" name="fileSchemeUpload" title="Загрузить">
+                                                Загрузить рисунок
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" name="fileSchemeDelete" title="Удалить">
+                                                Удалить рисунок
+                                            </button>
                                             <img src="" alt="..." class="" style="height: 50vh;">
                                         </div>
                                     </div>
