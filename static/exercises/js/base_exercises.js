@@ -2205,24 +2205,137 @@ $(function() {
 
 
     $('#createExercise').on('click', (e) => {
-        let folderType = $('.folders_div.selected').attr('data-id');
-        if ($(e.currentTarget).hasClass('usr-dft') && folderType == "nfb_folders") {
-            $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
+        $('#exerciseCreateModal').modal('show');
+        // let folderType = $('.folders_div.selected').attr('data-id');
+        // if ($(e.currentTarget).hasClass('usr-dft') && folderType == "nfb_folders") {
+        //     $(e.currentTarget).removeClass('selected3');
+        //     swal("Внимание", "Выберите папки <Команда> для добавления упражнения.", "info");
+        //     return;
+        // }
+        // if ($('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected')) {
+        //     $(e.currentTarget).removeClass('selected3');
+        //     swal("Внимание", "Отключите упражнения тренера.", "info");
+        //     return;
+        // }
+        // let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
+        // // window.location.href = cLink;
+        // $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
+        // $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
+        // $('#exerciseCardModalForEdit').modal('show');
+        // $('#exerciseCardModalForEdit').find('.btn-change-exs').addClass('d-none');
+        // $(e.currentTarget).addClass('selected3');
+    });
+
+    function SetFoldersTypeInCreateModal(fType) {
+        $('#exerciseCreateModal').find(`.set-folders-type`).removeClass('active');
+        $('#exerciseCreateModal').find(`.set-folders-type[data-type="${fType}"]`).addClass('active');
+        $('#exerciseCreateModal').find(`.folders-container`).addClass('d-none');
+        $('#exerciseCreateModal').find(`.folders-container[data-type="${fType}"]`).removeClass('d-none');
+    }
+    $('#exerciseCreateModal').on('show.bs.modal', (e) => {
+        let defaultFoldersType = "team";
+        SetFoldersTypeInCreateModal(defaultFoldersType);
+        $('#exerciseCreateModal').find('select').val('');
+        $('#exerciseCreateModal').find('input').val('');
+    });
+    $('#exerciseCreateModal').on('click', '.set-folders-type', (e) => {
+        let cType = $(e.currentTarget).attr('data-type');
+        SetFoldersTypeInCreateModal(cType);
+    });
+    $('#exerciseCreateModal').on('change', '[name="folder_parent"]', (e) => {
+        let tId = $(e.currentTarget).val();
+        $('#exerciseCardModal').find('[name="folder_main"]').val('');
+        $('#exerciseCardModal').find('[name="folder_main"]').find('option').addClass('d-none');
+        $('#exerciseCardModal').find('[name="folder_main"]').find(`option[data-parent=${tId}]`).removeClass('d-none');
+    });
+    const shortNameChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    $('#exerciseCreateModal').find('.folders-container[data-type="team"] > select[name="folder_parent"] > option[data-name]').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
+    });
+    $('#exerciseCreateModal').find('.folders-container[data-type="nfb"] > select[name="folder_parent"] > option[data-name]').each((ind, elem) => {
+        try {
+            let currentShortName = shortNameChars[ind].toUpperCase();
+            let currentName = $(elem).attr('data-name');
+            $(elem).attr('data-short', currentShortName);
+            $(elem).text(`${currentShortName}. ${currentName}`);
+        } catch(e) {}
+    });
+    $('#exerciseCreateModal').on('change', 'select[name="folder_parent"]', (e) => {
+        let cType = $(e.currentTarget).parent().attr('data-type');
+        let cId = $(e.currentTarget).val();
+        let cShort = $('#exerciseCreateModal').find(`.folders-container[data-type="${cType}"] > select[name="folder_parent"] > option[value="${cId}"]`).attr('data-short');
+        $('#exerciseCreateModal').find(`.folders-container[data-type="${cType}"] > select[name="folder_main"]`).val('');
+        $('#exerciseCreateModal').find(`.folders-container[data-type="${cType}"] > select[name="folder_main"] > option`).each((ind, elem) => {
+            $(elem).toggleClass('d-none', !($(elem).attr('data-parent') == cId));
+        });
+        $('#exerciseCreateModal').find(`.folders-container[data-type="${cType}"] > select[name="folder_main"] > option:not(.d-none)`).each((ind, elem) => {
+            let cName = $(elem).attr('data-name');
+            $(elem).text(`${cShort}${(ind+1)}. ${cName}`);
+        });
+    });
+    $('#exerciseCreateModal').on('click', '.btn-save', (e) => {
+        let fType = $('#exerciseCreateModal').find('.folders-container:visible').attr('data-type');
+        let folderType = fType == "team" ? "team_folders" : "nfb_folders";
+        let fParent = $('#exerciseCreateModal').find(`.folders-container[data-type="${fType}"] > select[name="folder_parent"]`).val();
+        let fMain = $('#exerciseCreateModal').find(`.folders-container[data-type="${fType}"] > select[name="folder_main"]`).val();
+        let fTitle = $('#exerciseCreateModal').find('input[name="title"]').val();
+        if (fParent.replaceAll(' ', '') == "" || fMain.replaceAll(' ', '') == "") {
+            swal("Внимание", "Выберите папку для упражнения.", "info");
             return;
         }
-        if ($('.up-tabs-elem[data-id="toggle_trainer"]').hasClass('selected')) {
-            $(e.currentTarget).removeClass('selected3');
-            swal("Внимание", "Отключите упражнения тренера.", "info");
+        if (fTitle.replaceAll(' ', '') == "") {
+            swal("Внимание", "Название упражнения не должно быть пустым.", "info");
             return;
         }
-        let cLink = `/exercises/exercise?id=new&type=${folderType}&section=card`;
-        // window.location.href = cLink;
-        $('#exerciseCardModalForEdit').find('iframe').addClass('d-none');
-        $('#exerciseCardModalForEdit').find('iframe').attr('src', cLink);
-        $('#exerciseCardModalForEdit').modal('show');
-        $('#exerciseCardModalForEdit').find('.btn-change-exs').addClass('d-none');
-        $(e.currentTarget).addClass('selected3');
+        let dataToSend = {
+            'create_exs_express': 1, 'type': folderType, 'title': fTitle,
+            'folder_parent': fParent, 'folder_main': fMain
+        };
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: dataToSend,
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    swal("Готово", "Упражнение успешно создано.", "success")
+                    .then(async (value) => {
+                        $('#exerciseCreateModal').modal('hide');
+                        $('.page-loader-wrapper').fadeIn();
+                        $(`.folders-toggle[data-id="${res.data.folder_type}"]`).click();
+                        $(`.folders_div.selected li.list-group-item > div[data-id="${res.data.folder_id}"]`).click();
+                        await new Promise(resolve => {
+                            $(document).one('ajaxSuccess', (event, xhr, settings) => {
+                                if (settings.url.includes('/exercises_api?get_exs_all=1')) {resolve();}
+                            });
+                        });
+                        $('.page-loader-wrapper').fadeIn();
+                        $(`.exs-list-group > .exs-elem[data-id="${res.data.id}"]`).click();
+                        await new Promise(resolve => {
+                            $(document).one('ajaxSuccess', (event, xhr, settings) => {
+                                if (settings.url.includes('/exercises_api?get_exs_one=1')) {resolve();}
+                            });
+                        });
+                    });
+                } else {
+                    swal("Ошибка", `При создании упражнения произошла ошибка (${res.err}).`, "error");
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось создать.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
     });
 
 

@@ -2316,6 +2316,84 @@ def POST_edit_exs_custom(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_create_exs_express(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise custom using description or card". Editing exercise's object, UserExerciseParamTeam's object.
+    Only user with adminstrator status can edit NFB exercises.
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    folder_id = -1
+    folder_type = request.POST.get("type", "")
+    try:
+        folder_id = int(request.POST.get("folder_main", -1))
+    except:
+        pass
+    found_team = None
+    res_data = {'id': None, 'folder_id': None, 'folder_type': None}
+    is_success = False
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == utils.FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_folder = None
+        if request.user.club_id is not None:
+            c_folder = ClubFolder.objects.filter(id=folder_id, club=request.user.club_id)
+        else:
+            c_folder = UserFolder.objects.filter(id=folder_id, user=cur_user)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise(user=cur_user, folder=c_folder[0], club=request.user.club_id, team=found_team[0])
+        else:
+            c_exs = UserExercise(user=cur_user, folder=c_folder[0])
+        try:
+            c_exs.title = utils.set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("title", ""))
+            c_exs.save()
+            res_data = {
+                'id': c_exs.id, 'folder_id': c_exs.folder.id, 'folder_type': folder_type
+            }
+            is_success = True
+        except Exception as e:
+            return JsonResponse({"err": "Can't create the exs.", "success": False}, status=200)
+    elif folder_type == utils.FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_folder = AdminFolder.objects.filter(id=folder_id, visible=True)
+        if not c_folder.exists() or c_folder[0].id == None:
+            return JsonResponse({"err": "Folder not found.", "success": False}, status=400)
+        c_exs = AdminExercise(folder=c_folder[0])
+        try:
+            c_exs.title = utils.set_by_language_code(c_exs.title, request.LANGUAGE_CODE, request.POST.get("title", ""))
+            c_exs.save()
+            res_data = {
+                'id': c_exs.id, 'folder_id': c_exs.folder.id, 'folder_type': folder_type
+            }
+            is_success = True
+        except Exception as e:
+            return JsonResponse({"err": "Can't create the exs.", "success": False}, status=200)
+    return JsonResponse({"data": res_data, "success": is_success}, status=200)
+
+
 def POST_delete_exs(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Delete exercise".

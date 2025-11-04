@@ -596,6 +596,67 @@
             </div>
         </div>
 
+        <div class="modal fade" id="exerciseCreateModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCreateModalLbl" aria-hidden="true" data-exs="">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header row mx-0">
+                        <div class="col-12 float-left">
+                            <h5 class="modal-title">Создание упражнения</h5>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex mb-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary set-folders-type mx-1" data-type="team">Команда</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary set-folders-type mx-1" {% if not user.is_superuser %}disabled=""{% endif %} data-type="nfb">Nanofootball</button>
+                        </div>
+                        <div class="folders-container" data-type="team">
+                            <select name="folder_parent" class="form-control form-control-sm" required="" autocomplete="off">
+                                <option value="">---</option>
+                                {% for folder in folders %}
+                                    {% if folder.root %}
+                                        <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <select name="folder_main" class="form-control form-control-sm" required="" autocomplete="off">
+                                <option value="" data-parent="-1">---</option>
+                                {% for folder in folders %}
+                                    {% if not folder.root %}
+                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="folders-container" data-type="nfb">
+                            <select name="folder_parent" class="form-control form-control-sm" required="" autocomplete="off">
+                                <option value="">---</option>
+                                {% for folder in nfb_folders %}
+                                    {% if folder.root %}
+                                        <option value="{{ folder.id }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <select name="folder_main" class="form-control form-control-sm" required="" autocomplete="off">
+                                <option value="" data-parent="-1">---</option>
+                                {% for folder in nfb_folders %}
+                                    {% if not folder.root %}
+                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}" data-name="{{ folder.name }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="">
+                            <input name="title" class="form-control form-control-sm text-center" type="text" value="" placeholder="Название упражнения" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-success btn-save">Сохранить</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="exerciseCardModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true" data-exs="">
             <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
                 <div class="modal-content">

@@ -350,6 +350,7 @@ def exercises_api(request):
         move_exs_status = 0
         edit_exs_status = 0 
         edit_exs_custom_status = 0 
+        create_exs_express_status = 0 
         delete_exs_status = 0
         edit_exs_user_params_status = 0
         count_exs_status = 0
@@ -398,6 +399,10 @@ def exercises_api(request):
             pass
         try:
             edit_exs_custom_status = int(request.POST.get("edit_exs_custom", 0))
+        except:
+            pass
+        try:
+            create_exs_express_status = int(request.POST.get("create_exs_express", 0))
         except:
             pass
         try:
@@ -524,6 +529,8 @@ def exercises_api(request):
             return v_api.POST_edit_exs(request, cur_user[0], cur_team)
         elif edit_exs_custom_status == 1:
             return v_api.POST_edit_exs_custom(request, cur_user[0], cur_team)
+        elif create_exs_express_status == 1:
+            return v_api.POST_create_exs_express(request, cur_user[0], cur_team)
         elif delete_exs_status == 1:
             return v_api.POST_delete_exs(request, cur_user[0], cur_team)
         elif edit_exs_user_params_status == 1:
