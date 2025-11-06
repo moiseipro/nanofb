@@ -100,7 +100,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem" id="toggleExsEditPanel" title="Редактировать упражнение">
+                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem {% if user.is_superuser %}is-admin{% endif %}" id="toggleExsEditPanel" title="Редактировать упражнение">
                                                         <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
                                                     </button>
                                                 </div>
