@@ -89,14 +89,6 @@
     height: 75vh !important;
     overflow-y: auto;
 }
-.exs-list-group {
-    height: 60vh !important;
-    overflow-y: auto;
-}
-.exs-list-group.trainer-list {
-    height: 67vh !important;
-    overflow-y: auto;
-}
 .visual-block {
     height: 78vh !important;
     overflow-y: auto;
@@ -113,6 +105,21 @@
     height: 78vh !important;
     overflow-y: auto;
 }
+
+.exercises-block {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.header-exercises-block {
+    flex-shrink: 0;
+    padding: 1rem;
+}
+.wrapper-exercises-block {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
 
 .left-col-card {
     height: 82vh !important;

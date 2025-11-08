@@ -510,7 +510,7 @@
         </div>
     </div>
     <div class="px-1 exercises-block" id="splitCol_1">
-        <div class="row">
+        <div class="row px-0 header-exercises-block">
             <div class="col-12 d-flex">
                 <button type="button" class="btn btn-sm btn-custom custom-gray2 up-tabs-elem folders-toggle size-w-x mt-2 ml-2 d-none" data-id="trainer_folders" style="--w-x:97%;">
                     <div class="">
@@ -552,7 +552,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 px-0">
+                    <div class="col-12 px-0">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-folder-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags_folder.nfb %}
@@ -563,7 +563,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 px-0">
+                    <div class="col-12 px-0">
                         <div class="ml-3 mt-1">
                             <select class="select w-100 custom-select custom-select-sm tag-short-categories-select-search" multiple data-tags="true" data-theme="bootstrap4" style="width: 100%;" title="Поиск по тэгам">
                                 {% for tag in exercises_tags_short_categories.nfb %}
@@ -602,11 +602,13 @@
                     <button type="button" class="btn btn-sm btn-danger btn-cancel">Отменить</button>
                 </div>
             </div>
+            <div class="selected-exercise-panel mb-2"></div>
         </div>
-        <div class="selected-exercise-panel mb-2"></div>
-        <ul class="exs-list-group list-group list-group-flush">
-            <li class="list-group-item py-2">Выберите для начала папку.</li>
-        </ul>
+        <div class="wrapper-exercises-block px-1">
+            <ul class="exs-list-group list-group list-group-flush">
+                <li class="list-group-item py-2">Выберите для начала папку.</li>
+            </ul>
+        </div>
     </div>
     <div class="pr-1" id="splitCol_2">
         <div class="row mx-0 visual-block overflow-hidden-off">
