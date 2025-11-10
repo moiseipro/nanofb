@@ -3469,10 +3469,6 @@ $(function() {
         ToggleMarkersInExs();
     }
     $('#toggleExsEditPanel').on('click', (e) => {
-        if (!$(e.currentTarget).hasClass('is-admin')) {
-            swal("Внимание!", "Данная функция временно недоступна.", "info");
-            return;
-        }
         $('.exs-edit-block').toggleClass('d-none');
         $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
         // $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
