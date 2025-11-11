@@ -369,6 +369,7 @@ def exercises_api(request):
         change_order_exs_tag_short_categories_one_status = 0
         edit_exs_admin_options_status = 0
         edit_exs_full_name_status = 0
+        edit_exs_auto_translate_status = 0
         edit_all_exs_titles_status = 0
         move_video_from_exs_to_exs_status = 0
         copy_scheme_from_exs_to_exs_status = 0
@@ -478,6 +479,10 @@ def exercises_api(request):
         except:
             pass
         try:
+            edit_exs_auto_translate_status = int(request.POST.get("edit_exs_auto_translate", 0))
+        except:
+            pass
+        try:
             edit_all_exs_titles_status = int(request.POST.get("edit_all_exs_titles", 0))
         except:
             pass
@@ -567,6 +572,8 @@ def exercises_api(request):
             return v_api.POST_edit_exs_admin_options(request, cur_user[0], cur_team)
         elif edit_exs_full_name_status == 1:
             return v_api.POST_edit_exs_full_name(request, cur_user[0], cur_team)
+        elif edit_exs_auto_translate_status == 1:
+            return v_api.POST_edit_exs_auto_translate(request, cur_user[0], cur_team)
         elif edit_all_exs_titles_status == 1:
             return v_api.POST_edit_all_exs_titles(request, cur_user[0], cur_team)
         elif move_video_from_exs_to_exs_status == 1:

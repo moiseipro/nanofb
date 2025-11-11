@@ -1283,7 +1283,7 @@
                                         Описание упражнения
                                     </button>
                                 </div>
-                                <div class="col-12" style="height: 60vh !important; overflow-y: auto;">
+                                <div class="col-12" style="height: 55vh !important; overflow-y: auto;">
                                     <div id="collapse__exs_title" class="collapse show" data-parent="#accordion__lang_title">
                                         <div class="card-body">
                                             <table class="table table-sm table-bordered" style="table-layout: fixed;">
@@ -1294,7 +1294,7 @@
                                                 </colgroup>
                                                 <tbody>
                                                     {% for language in languages %}
-                                                        <tr class="" data-lang="{{ language.code }}">
+                                                        <tr class="" data-lang="{{ language.code }}" data-type="title">
                                                             <td class="text-center">
                                                                 {{ language.name_local }} ({{ language.code }})
                                                             </td>
@@ -1325,7 +1325,7 @@
                                                 </colgroup>
                                                 <tbody>
                                                     {% for language in languages %}
-                                                        <tr class="" data-lang="{{ language.code }}">
+                                                        <tr class="" data-lang="{{ language.code }}" data-type="description">
                                                             <td class="text-center">
                                                                 {{ language.name_local }} ({{ language.code }})
                                                             </td>
@@ -1344,6 +1344,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-info btn-autotranslate" title="Для авто-перевода выберите ячейку, которую нужно перевести.">Авто-перевод</button>
                         <button type="button" class="btn btn-primary btn-save">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>

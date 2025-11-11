@@ -902,6 +902,7 @@ $(function() {
         let loadExs = false;
         let isGraphicsModalOpen = $('#exerciseGraphicsModal').hasClass('show');
         if (e.which == 38 && window.canChangeExs) { // up
+            if ($('.modal.show').length > 0) {return;}
             if (activeElem.length > 0) {
                 $(activeElem).removeClass('active');
                 if ($(activeElem).prevAll(':visible').first().length > 0) {
@@ -915,6 +916,7 @@ $(function() {
             loadExs = true;
         }
         if (e.which == 40 && window.canChangeExs) { // down
+            if ($('.modal.show').length > 0) {return;}
             if (activeElem.length > 0) {
                 $(activeElem).removeClass('active');
                 if ($(activeElem).nextAll(':visible').first().length > 0) {
@@ -956,6 +958,7 @@ $(function() {
     $(document).keypress((e) => {
         if (e.which == 13 && window.canChangeExs) { // enter
             if ($('.folders-container').hasClass('d-none')) {return;}
+            if ($('.modal.show').length > 0) {return;}
             $('.visual-block').find('.carousel-item:visible').first().trigger('click');
         }
     });

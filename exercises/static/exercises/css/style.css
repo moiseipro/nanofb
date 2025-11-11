@@ -1081,3 +1081,8 @@ li.marker--border_btm {
     pointer-events: none !important;
     opacity: 0.6;
 }
+
+
+#exerciseLangTitleModal tr.selected {
+    background-color: #008bba68;
+}

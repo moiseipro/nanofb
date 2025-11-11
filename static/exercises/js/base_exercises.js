@@ -3327,6 +3327,46 @@ $(function() {
             swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
         });
     });
+    $('#exerciseLangTitleModal').on('click', 'tr', (e) => {
+        let selected = $(e.currentTarget).hasClass('selected');
+        $('#exerciseLangTitleModal').find('tr').removeClass('selected');
+        $(e.currentTarget).toggleClass('selected', !selected);
+    });
+    $('#exerciseLangTitleModal').on('click', '.btn-autotranslate', (e) => {
+        let selectedRow = $('#exerciseLangTitleModal').find('tr.selected').first();
+        if (selectedRow.length == 0) {
+            swal("Внимание", "Выберите сначала ячейку с текстом, который хотите перевести.", "warning");
+            return;
+        }
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div.selected').attr('data-id');
+        let cLang = $(selectedRow).attr('data-lang');
+        let cType = $(selectedRow).attr('data-type');
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'edit_exs_auto_translate': 1, 'exs': exsId, 'f_type': folderType, 'lang': cLang, 'text_type': cType},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadExerciseFullName();
+                    swal("Готово", "Упражнение успешно обновлено.", "success");
+                } else {
+                    swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
 
     
     // Save & Load current folders mode
