@@ -4374,6 +4374,7 @@ $(function() {
     function setButtonFlag(langCode) {
         const flagsValuesReplacer = {
             'en': "us",
+            'zh-hans': "cn",
         };
         $('.btns-tabs-first').find('[data-id="set_description_language"]').parent().find(`button[name="language_set_description"]`).each((index, elem) => {
             let elemLangCode = $(elem).attr('value').toLowerCase();

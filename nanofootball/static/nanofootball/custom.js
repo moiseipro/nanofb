@@ -21,6 +21,7 @@ $(document).ready(function() {
         }
         const flagsValuesReplacer = {
             'en': "us",
+            'zh-hans': "cn",
         };
         let text = state.text;
         let flagVal = $(state.element).attr('value').toLowerCase();
