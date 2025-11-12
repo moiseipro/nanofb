@@ -289,8 +289,8 @@ LANGUAGES = (
     ('de', _('German')),
     ('fr', _('French')),
     ('it', _('Italian')),
-    ('zh', _('Chinese')),
-    ('ar', _('Arabic')),
+    # ('zh', _('Chinese')),
+    # ('ar', _('Arabic')),
 )
 
 LOCALE_PATHS = (
