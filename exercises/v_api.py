@@ -3518,6 +3518,7 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
     except:
         pass
     lang = request.POST.get("lang", "")
+    languages_to_edit = request.POST.getlist("languages_to_edit[]", [])
     key = request.POST.get("text_type", "")
     c_exs = None
     if not cur_user.is_superuser:
@@ -3562,8 +3563,7 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
         c_text = utils.get_by_language_code(elem_to_updated, lang)
         model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
         tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
-        target_langs = list(elem_to_updated.keys())
-        for target_lang in target_langs:
+        for target_lang in languages_to_edit:
             if target_lang.strip().lower() == '' or target_lang.strip().lower() == lang.strip().lower():
                 continue
             tokenizer.src_lang = lang

@@ -3342,10 +3342,14 @@ $(function() {
         let folderType = $('.folders_div.selected').attr('data-id');
         let cLang = $(selectedRow).attr('data-lang');
         let cType = $(selectedRow).attr('data-type');
+        let langs = [];
+        $(selectedRow).parent().find('tr:not(.selected):visible').each((index, row) => {
+            langs.push( $(row).attr('data-lang') );
+        });
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
-            data: {'edit_exs_auto_translate': 1, 'exs': exsId, 'f_type': folderType, 'lang': cLang, 'text_type': cType},
+            data: {'edit_exs_auto_translate': 1, 'exs': exsId, 'f_type': folderType, 'lang': cLang, 'languages_to_edit': langs, 'text_type': cType},
             type: 'POST', // GET или POST
             dataType: 'json',
             url: "exercises_api",
