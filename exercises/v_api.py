@@ -3563,12 +3563,17 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
         c_text = utils.get_by_language_code(elem_to_updated, lang)
         model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
         tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
+        languages_codes_replacer = {'zh-hans': "zh"}
         for target_lang in languages_to_edit:
-            if target_lang.strip().lower() == '' or target_lang.strip().lower() == lang.strip().lower():
+            lang_code_lower = target_lang.strip().lower()
+            if lang_code_lower == '' or lang_code_lower == lang.strip().lower():
                 continue
+            lang_for_tokenizer = target_lang
+            if lang_code_lower in languages_codes_replacer:
+                lang_for_tokenizer = languages_codes_replacer[lang_code_lower]
             tokenizer.src_lang = lang
             inputs = tokenizer(c_text, return_tensors="pt", padding=True, truncation=True, max_length=1024)
-            forced_bos_token_id = tokenizer.lang_code_to_id[target_lang]
+            forced_bos_token_id = tokenizer.lang_code_to_id[lang_for_tokenizer]
             outputs = model.generate(
                 **inputs,
                 forced_bos_token_id=forced_bos_token_id,
