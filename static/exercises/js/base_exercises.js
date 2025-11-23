@@ -1049,14 +1049,6 @@ function ToggleTagsView() {
     }
 }
 
-function ToggleLangsRowsInModal() {
-    let langs = $($('#exerciseLangTitleModal').find('select.toggle-langs')).val();
-    $('#exerciseLangTitleModal').find(`tr`).addClass('d-none');
-    langs.forEach(lang => {
-        $('#exerciseLangTitleModal').find(`tr[data-lang="${lang}"]`).removeClass('d-none');
-    });
-}
-
 function LoadContentInCardModalForEdit(id = -1, f_type = "team_folders", user_id = "") {
     let data = {'get_exs_graphic_content': 1, 'exs': id, 'f_type': f_type, 'user_id': user_id};
     let resData = null;
@@ -3178,7 +3170,11 @@ $(function() {
 
     // Toggle lang modal
     $('.exercises-block').on('click', 'button[data-type="icons"][data-id="lang"]', (e) => {
-        let exsId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        let currentExsElem = $(e.currentTarget).parent().parent().parent();
+        if(!$(currentExsElem).hasClass('active')) {
+            $(currentExsElem).click();
+        }
+        let exsId = $(currentExsElem).attr('data-id');
         $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
         $('#exerciseLangTitleModal').modal('show');
         LoadExerciseFullName();
@@ -3217,6 +3213,21 @@ $(function() {
             });
             watchdog_descriptionEditorAdmin
             .create(document.querySelector(tId), {
+                toolbar: [
+                    'heading', 'pageBreak', '|',
+                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                    'bulletedList', 'numberedList', 'todoList', '|',
+                    'outdent', 'indent', '|',
+                    'undo', 'redo',
+                    '-',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                    'alignment', 'horizontalLine', '|',
+                    'link', 'insertTable', 'blockQuote', '|',
+                    'mediaEmbed', 'insertImage', '|',
+                    'exportPdf', 'exportWord', '|',
+                    'findAndReplace', 'selectAll', 'scayt', '|',
+                    'showBlocks'
+                ],
                 licenseKey: '',
                 language: cLang,
                 removePlugins: ['Title'],
@@ -3286,77 +3297,88 @@ $(function() {
         $(nextRow).find('input.exs-title').val(cVal);
         SaveExerciseFullName(exsId, folderType, 'title', nextVal, cLangCode, {'lang': nextLangCode, 'value': cVal});
     });
-    ToggleLangsRowsInModal();
-    $('#exerciseLangTitleModal').on('change', 'select.toggle-langs', (e) => {
-        ToggleLangsRowsInModal();
+    $('#exerciseLangTitleModal').on('click', 'button[data-toggle="collapse"]', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        $('#exerciseLangTitleModal').find('button[data-toggle="collapse"]').removeClass('active');
+        $('#exerciseLangTitleModal').find('button.b-autotranslate').prop('disabled', isActive);
+        $(e.currentTarget).toggleClass('active', !isActive);
+        $(e.currentTarget).parent().find('button.b-autotranslate').prop('disabled', true);
     });
-    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-all', (e) => {
-        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', true);
-        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
-    });
-    $('#exerciseLangTitleModal').on('click', 'button.toggle-langs-reset', (e) => {
-        $('#exerciseLangTitleModal').find('select.toggle-langs > option').prop('selected', false);
-        $('#exerciseLangTitleModal').find('select.toggle-langs').trigger('change');
+    $('#exerciseLangTitleModal').on('click', 'button.b-autotranslate', (e) => {
+        let targetLang = $(e.currentTarget).attr('data-lang');
+        let openedBlock = $('#exerciseLangTitleModal').find('.collapse.show');
+        if ($(openedBlock).length == 0) {
+            swal("Ошибка", "Язык, с которого нужно перевести, не найден.", "error");
+            return;
+        }
+        let sourceLang = $(openedBlock).attr('data-lang');
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div.selected').attr('data-id');
+        swal({
+            title: `Внимание`,
+            text: `Вы точно хотите перевести название и описание упражнения с "${sourceLang}" на "${targetLang}"?`,
+            icon: "warning",
+            buttons: ["Отмена", "Подтвердить"],
+            dangerMode: true,
+        })
+        .then((flag) => {
+            if (flag) {
+                $('.page-loader-wrapper').fadeIn();
+                $.ajax({
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'edit_exs_auto_translate': 1, 'exs': exsId, 'f_type': folderType, 'lang': sourceLang,
+                        'languages_to_edit': [targetLang]
+                    },
+                    type: 'POST', // GET или POST
+                    dataType: 'json',
+                    url: "exercises_api",
+                    success: function (res) {
+                        if (res.success) {
+                            LoadExerciseFullName();
+                            swal("Готово", "Упражнение успешно обновлено.", "success");
+                        } else {
+                            swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                            console.log(res);
+                        }
+                    },
+                    error: function (res) {
+                        swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                        console.log(res);
+                    },
+                    complete: function (res) {
+                        $('.page-loader-wrapper').fadeOut();
+                    }
+                });
+            }
+        });
     });
     $('#exerciseLangTitleModal').on('click', '.btn-save', (e) => {
         let requestFactories = [];
         let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
         let folderType = $('.folders_div.selected').attr('data-id');
-        $('#exerciseLangTitleModal').find('#collapse__exs_title tr:not(.d-none)').find('input.exs-title:visible').each((ind, elem) => {
-            let cVal = $(elem).val();
+        let translations = {'title': {}, 'description': {}};
+        $('#exerciseLangTitleModal').find('.collapse').each((ind, elem) => {
             let cLangCode = $(elem).attr('data-lang');
-            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'title', cVal, cLangCode));
-        });
-        let langs = $($('#exerciseLangTitleModal').find('select.toggle-langs')).val();
-        for (let i = 0; i < langs.length; i++) {
-            let cLangCode = langs[i];
-            let cValTitle =  $('#exerciseLangTitleModal').find(`input.exs-title[data-lang="${cLangCode}"]`).val();
-            let cValDescription = document.descriptionEditorAdmin[langs[i]].getData();
-            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'title', cValTitle, cLangCode));
-            requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'description', cValDescription, cLangCode));
-        }
-        console.log( requestFactories )
-        $('.page-loader-wrapper').fadeIn();
-        let requests = requestFactories.map(fn => fn());
-        $.when(...requests).done((...responses) => {
-            // const data = responses.map(r => r[0]);
-            $('.page-loader-wrapper').fadeOut();
-            swal("Готово", "Упражнение успешно изменено.", "success");
-        }).fail((jqXHR, textStatus, errorThrown) => {
-            $('.page-loader-wrapper').fadeOut();
-            swal("Ошибка", "Упражнение не удалось создать / изменить.", "error");
-        });
-    });
-    $('#exerciseLangTitleModal').on('click', 'tr', (e) => {
-        let selected = $(e.currentTarget).hasClass('selected');
-        $('#exerciseLangTitleModal').find('tr').removeClass('selected');
-        $(e.currentTarget).toggleClass('selected', !selected);
-    });
-    $('#exerciseLangTitleModal').on('click', '.btn-autotranslate', (e) => {
-        let selectedRow = $('#exerciseLangTitleModal').find('tr.selected').first();
-        if (selectedRow.length == 0) {
-            swal("Внимание", "Выберите сначала ячейку с текстом, который хотите перевести.", "warning");
-            return;
-        }
-        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
-        let folderType = $('.folders_div.selected').attr('data-id');
-        let cLang = $(selectedRow).attr('data-lang');
-        let cType = $(selectedRow).attr('data-type');
-        let langs = [];
-        $(selectedRow).parent().find('tr:not(.selected):visible').each((index, row) => {
-            langs.push( $(row).attr('data-lang') );
+            let cValTitle =  $(elem).find('input.exs-title').val();
+            let cValDescription = document.descriptionEditorAdmin[cLangCode].getData();
+            translations['title'][cLangCode] = cValTitle;
+            translations['description'][cLangCode] = cValDescription;
+            // requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'title', cValTitle, cLangCode));
+            // requestFactories.push(() => GenerateAjaxSaveExerciseFullName(exsId, folderType, 'description', cValDescription, cLangCode));
         });
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},
-            data: {'edit_exs_auto_translate': 1, 'exs': exsId, 'f_type': folderType, 'lang': cLang, 'languages_to_edit': langs, 'text_type': cType},
+            data: {
+                'edit_exs_full_name': 1, 'exs': exsId, 'f_type': folderType, 'translations': JSON.stringify(translations),
+            },
             type: 'POST', // GET или POST
             dataType: 'json',
             url: "exercises_api",
             success: function (res) {
                 if (res.success) {
-                    LoadExerciseFullName();
-                    swal("Готово", "Упражнение успешно обновлено.", "success");
+                    swal("Готово", "Упражнение успешно изменено.", "success");
                 } else {
                     swal("Ошибка", "Упражнение не удалось обновить.", "error");
                     console.log(res);
@@ -3371,7 +3393,7 @@ $(function() {
             }
         });
     });
-
+    
     
     // Save & Load current folders mode
     window.addEventListener("beforeunload", (e) => {
@@ -3506,7 +3528,7 @@ $(function() {
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
         $('.exs-edit-block').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") != '1');
         $('#toggleExsEditPanel').toggleClass('selected3', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
-        // $('.btns-tabs-first').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
+        $('.btns-tabs-first').toggleClass('d-none', sessionStorage.getItem("exercises__exs_edit_panel") == '1');
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
         $('.folders-block').find('button.edit-exercise.d-e-nf').toggleClass('d-none', folderType == "nfb_folders");
@@ -3515,7 +3537,7 @@ $(function() {
     $('#toggleExsEditPanel').on('click', (e) => {
         $('.exs-edit-block').toggleClass('d-none');
         $(e.currentTarget).toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
-        // $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
+        $('.btns-tabs-first').toggleClass('d-none', !$('.exs-edit-block').hasClass('d-none'));
         let folderType = $('.folders_div.selected').attr('data-id');
         $('.exs-edit-block').find('.d-e-nf:not(.d-no)').toggleClass('d-none', folderType == "nfb_folders");
         sessionStorage.setItem("exercises__exs_edit_panel", $('.exs-edit-block').hasClass('d-none') ? 0 : 1);
@@ -3524,7 +3546,7 @@ $(function() {
     $('.exs-edit-block').on('click', 'button[data-dismiss="panel"]', (e) => {
         $('.exs-edit-block').addClass('d-none');
         $('#toggleExsEditPanel').toggleClass('selected3', !$('.exs-edit-block').hasClass('d-none'));
-        // $('.btns-tabs-first').removeClass('d-none');
+        $('.btns-tabs-first').removeClass('d-none');
         sessionStorage.setItem("exercises__exs_edit_panel", 0);
     });
     $('.exs-edit-block').on('click', '.btn-o-modal', (e) => {

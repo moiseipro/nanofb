@@ -30,9 +30,9 @@
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:3%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:3%;">
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:3%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
-                                            </button>
+                                            </button> -->
                                             <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExsNF" title="Скопировать упражнение в NF" style="--w-max-x:3%;">
                                                 <i class="fa fa-clone" aria-hidden="true"></i>
                                                 NF
@@ -1246,105 +1246,42 @@
                         <h5 class="modal-title">Настройка заголовка и описания</h5>
                     </div>
                     <div class="modal-body">
-                        <div id="accordion__lang_title">
-                            <div class="row">
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <select name="" class="select w-100 custom-select custom-select-sm toggle-langs" multiple data-tags="true" data-theme="bootstrap4">
-                                                {% for language in languages %}
-                                                <option value="{{ language.code }}"
-                                                    {% if language.code == "en"  or language.code == "ru" %}
-                                                        selected
-                                                    {% endif %}
-                                                >
-                                                    {{ language.name_local }} ({{ language.code }})
-                                                </option>
-                                                {% endfor %}
-                                            </select>
+                        <div class="row" id="collapse_parent">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <div class="col-12 bg-light my-1">
+                                <button class="btn btn-sm btn-outline-dark w-25" type="button" data-toggle="collapse" data-target="#collapse__{{ language.code }}" aria-expanded="false" aria-controls="collapse__{{ language.code }}">
+                                    {{ language.name_local }} ({{ language.code }})
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" type="button" title="Всё заполнено" data-lang="{{ language.code }}">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" type="button" title="Основной язык" data-lang="{{ language.code }}">
+                                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary b-autotranslate" type="button" disabled="disabled" title="Авто-перевод" data-lang="{{ language.code }}">
+                                    <i class="fa fa-globe" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <div class="collapse" id="collapse__{{ language.code }}" data-parent="#collapse_parent" data-lang="{{ language.code }}">
+                                    <div class="card card-body row">
+                                        <div class="col-12">
+                                            <input name="" class="form-control form-control-sm text-center exs-title" 
+                                                type="text" value="" data-lang="{{ language.code }}" autocomplete="off" placeholder="Название упражнения">
                                         </div>
-                                        <div class="col-3 px-0">
-                                            <button type="button" class="btn btn-secondary toggle-langs-all">
-                                                Выбрать всё
-                                            </button>
-                                            <button type="button" class="btn btn-secondary toggle-langs-reset">
-                                                Убрать всё
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse__exs_title" aria-expanded="true" aria-controls="collapse__exs_title">
-                                        Название упражнения
-                                    </button>
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse__exs_description" aria-expanded="false" aria-controls="collapse__exs_description">
-                                        Описание упражнения
-                                    </button>
-                                </div>
-                                <div class="col-12" style="height: 55vh !important; overflow-y: auto;">
-                                    <div id="collapse__exs_title" class="collapse show" data-parent="#accordion__lang_title">
-                                        <div class="card-body">
-                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
-                                                <colgroup>
-                                                    <col span="1" style="width: 20%;">
-                                                    <col span="1" style="width: 70%;">
-                                                    <col span="1" style="width: 10%;">
-                                                </colgroup>
-                                                <tbody>
-                                                    {% for language in languages %}
-                                                        <tr class="" data-lang="{{ language.code }}" data-type="title">
-                                                            <td class="text-center">
-                                                                {{ language.name_local }} ({{ language.code }})
-                                                            </td>
-                                                            <td>
-                                                                <input name="" class="form-control form-control-sm text-center exs-title" 
-                                                                    type="text" value="" data-lang="{{ language.code }}" autocomplete="off">
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-sm btn-secondary change-title-pos-prev" title="Сменить название с предыдущим полем">
-                                                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
-                                                                </button>
-                                                                <button type="button" class="btn btn-sm btn-secondary change-title-pos-next" title="Сменить название с следующим полем">
-                                                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div id="collapse__exs_description" class="collapse" data-parent="#accordion__lang_title">
-                                        <div class="card-body">
-                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
-                                                <colgroup>
-                                                    <col span="1" style="width: 25%;">
-                                                    <col span="1" style="width: 75%;">
-                                                </colgroup>
-                                                <tbody>
-                                                    {% for language in languages %}
-                                                        <tr class="" data-lang="{{ language.code }}" data-type="description">
-                                                            <td class="text-center">
-                                                                {{ language.name_local }} ({{ language.code }})
-                                                            </td>
-                                                            <td>
-                                                                <div id="descriptionEditor__admin_{{ language.code }}" class="ckeditor w-100 exs-description" name="" data-lang="{{ language.code }}">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
+                                        <div class="col-12">
+                                            <div id="descriptionEditor__admin_{{ language.code }}" class="ckeditor w-100 exs-description" name="" data-lang="{{ language.code }}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-info btn-autotranslate" title="Для авто-перевода выберите ячейку, которую нужно перевести.">Авто-перевод</button>
                         <button type="button" class="btn btn-primary btn-save">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>

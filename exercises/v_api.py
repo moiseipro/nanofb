@@ -18,6 +18,7 @@ from video.views import delete_video_obj_nf
 from trainings.models import UserTraining, ClubTraining, UserTrainingExercise, ClubTrainingExercise
 import re
 import requests
+import json
 from transformers import M2M100Tokenizer, M2M100ForConditionalGeneration
 import nanofootball.utils as utils
 
@@ -3451,6 +3452,12 @@ def POST_edit_exs_full_name(request, cur_user, cur_team):
     key = request.POST.get("key", "")
     value = request.POST.get("value", "")
     lang = request.POST.get("lang", "")
+    translations = request.POST.get("translations", None)
+    try:
+        translations = json.loads(translations)
+    except Exception as e:
+        print(e)
+        pass
     c_exs = None
     if not cur_user.is_superuser:
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
@@ -3489,6 +3496,13 @@ def POST_edit_exs_full_name(request, cur_user, cur_team):
         c_exs.title = utils.set_by_language_code(c_exs.title, lang, value)
     elif key == "description":
         c_exs.description = utils.set_by_language_code(c_exs.description, lang, value)
+    elif isinstance(translations, dict):
+        if 'title' in translations:
+            for key in translations['title']:
+                c_exs.title = utils.set_by_language_code(c_exs.title, key, translations['title'][key])
+        if 'description' in translations:
+            for key in translations['description']:
+                c_exs.description = utils.set_by_language_code(c_exs.description, key, translations['description'][key])
     try:
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is added / edited successfully.'
@@ -3519,7 +3533,6 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
         pass
     lang = request.POST.get("lang", "")
     languages_to_edit = request.POST.getlist("languages_to_edit[]", [])
-    key = request.POST.get("text_type", "")
     c_exs = None
     if not cur_user.is_superuser:
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
@@ -3554,16 +3567,13 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
     else:
         if c_exs.exists() and c_exs[0].id != None:
             c_exs = c_exs[0]
-    elem_to_updated = None
-    if key == "title":
-        elem_to_updated = c_exs.title
-    elif key == "description":
-        elem_to_updated = c_exs.description
     try:
-        c_text = utils.get_by_language_code(elem_to_updated, lang)
-        model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
-        tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
+        # model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+        model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_1.2B")
+        tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_1.2B")
         languages_codes_replacer = {'zh-hans': "zh"}
+        c_text_title = utils.get_by_language_code(c_exs.title, lang)
+        c_text_description = utils.get_by_language_code(c_exs.description, lang)
         for target_lang in languages_to_edit:
             lang_code_lower = target_lang.strip().lower()
             if lang_code_lower == '' or lang_code_lower == lang.strip().lower():
@@ -3572,17 +3582,27 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
             if lang_code_lower in languages_codes_replacer:
                 lang_for_tokenizer = languages_codes_replacer[lang_code_lower]
             tokenizer.src_lang = lang
-            inputs = tokenizer(c_text, return_tensors="pt", padding=True, truncation=True, max_length=1024)
             forced_bos_token_id = tokenizer.lang_code_to_id[lang_for_tokenizer]
+            inputs = tokenizer(c_text_title, return_tensors="pt", padding=True, truncation=True, max_length=512)
             outputs = model.generate(
                 **inputs,
                 forced_bos_token_id=forced_bos_token_id,
-                max_length=1024,
-                num_beams=4,
+                max_length=512,
+                num_beams=2,
                 early_stopping=True
             )
             translated = tokenizer.decode(outputs[0], skip_special_tokens=True)
-            elem_to_updated = utils.set_by_language_code(elem_to_updated, target_lang, translated)
+            c_exs.title = utils.set_by_language_code(c_exs.title, target_lang, translated)
+            inputs = tokenizer(c_text_description, return_tensors="pt", padding=True, truncation=True, max_length=512)
+            outputs = model.generate(
+                **inputs,
+                forced_bos_token_id=forced_bos_token_id,
+                max_length=512,
+                num_beams=2,
+                early_stopping=True
+            )
+            translated = tokenizer.decode(outputs[0], skip_special_tokens=True)
+            c_exs.description = utils.set_by_language_code(c_exs.description, target_lang, translated)
         c_exs.save()
         res_data = f'Exs with id: [{c_exs.id}] is edited successfully.'
     except Exception as e:
