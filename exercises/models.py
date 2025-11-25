@@ -256,6 +256,8 @@ class AbstractExercise(models.Model):
     clone_archive_id = models.IntegerField(null=True, blank=True)
 
     video_links = models.JSONField(null=True, blank=True) # [{'link': "", 'name': "", 'note': ""}, ...]
+    languages_complete = models.JSONField(null=True, blank=True)
+    language_main = models.CharField(max_length=10, null=True, blank=True)
 
     opt_has_video = models.BooleanField(default=False)
     opt_has_animation = models.BooleanField(default=False)

@@ -3610,6 +3610,78 @@ def POST_edit_exs_auto_translate(request, cur_user, cur_team):
     return JsonResponse({"data": res_data, "success": True}, status=200)
 
 
+def POST_edit_exs_language_param(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on POST operation "Edit exercise name or description by auto-translate".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :param cur_team: The current team, that is selected by the user.
+    :type cur_team: [int]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]] or JsonResponse[{"errors": [str]}, status=[int]]
+
+    """
+    exs_id = -1
+    folder_type = request.POST.get("f_type", "")
+    try:
+        exs_id = int(request.POST.get("exs", -1))
+    except:
+        pass
+    lang = request.POST.get("lang", "")
+    key = request.POST.get("key", "")
+    c_exs = None
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    if request.user.club_id is not None:
+        found_team = ClubTeam.objects.filter(id=cur_team, club_id=request.user.club_id)
+    else:
+        found_team = UserTeam.objects.filter(id=cur_team, user_id=cur_user)
+    if folder_type == utils.FOLDER_TEAM:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_userexercise", "exercises.add_userexercise"], 
+            'perms_club': ["exercises.change_clubexercise", "exercises.add_clubexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        if request.user.club_id is not None:
+            c_exs = ClubExercise.objects.filter(id=exs_id, club=request.user.club_id, team=found_team[0])
+        else:
+            c_exs = UserExercise.objects.filter(id=exs_id, user=cur_user)
+    elif folder_type == utils.FOLDER_NFB:
+        if not util_check_access(cur_user, {
+            'perms_user': ["exercises.change_adminexercise", "exercises.add_adminexercise"], 
+            'perms_club': ["exercises.change_adminexercise", "exercises.add_adminexercise"]
+        }):
+            return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+        c_exs = AdminExercise.objects.filter(id=exs_id)
+    elif folder_type == utils.FOLDER_CLUB:
+        if not found_team or not found_team.exists() or found_team[0].id == None:
+            return JsonResponse({"err": "Team not found.", "success": False}, status=400)
+    if c_exs == None:
+            return JsonResponse({"err": "Exercise not found.", "success": False}, status=400)
+    else:
+        if c_exs.exists() and c_exs[0].id != None:
+            c_exs = c_exs[0]
+    try:
+        if key == "main":
+            c_exs.language_main = lang
+        elif key == "complete":
+            c_val = utils.get_by_language_code(c_exs.languages_complete, lang)
+            if c_val == '1' or c_val == '':
+                c_exs.languages_complete = utils.set_by_language_code(c_exs.languages_complete, lang, '0')
+            elif c_val == '0':
+                c_exs.languages_complete = utils.set_by_language_code(c_exs.languages_complete, lang, '1')
+        c_exs.save()
+        res_data = f'Exs with id: [{c_exs.id}] is edited successfully.'
+    except Exception as e:
+        return JsonResponse({"err": "Can't edit the exs.", "exception": e, "success": False}, status=200)
+    return JsonResponse({"data": res_data, "success": True}, status=200)
+
+
 def POST_edit_all_exs_titles(request, cur_user, cur_team):
     """
     Return JSON Response as result on POST operation "Edit all exercises' titles from folder".
@@ -4803,6 +4875,8 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
             res_exs['description_trainer'] = c_exs.description_trainer
+            res_exs['languages_complete'] = c_exs.languages_complete
+            res_exs['language_main'] = c_exs.language_main
     elif folder_type == utils.FOLDER_NFB:
         c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
@@ -4810,6 +4884,8 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
             res_exs['description_trainer'] = c_exs.description_trainer
+            res_exs['languages_complete'] = c_exs.languages_complete
+            res_exs['language_main'] = c_exs.language_main
     elif folder_type == utils.FOLDER_CLUB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
@@ -4823,6 +4899,8 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['title'] = c_exs.title
             res_exs['description'] = c_exs.description
             res_exs['description_trainer'] = c_exs.description_trainer
+            res_exs['languages_complete'] = c_exs.languages_complete
+            res_exs['language_main'] = c_exs.language_main
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     return JsonResponse({"data": res_exs, "success": True}, status=200)

@@ -1242,8 +1242,18 @@
         <div class="modal fade" id="exerciseLangTitleModal" tabindex="-1" role="dialog" aria-labelledby="exerciseLangTitleModalLbl" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document" data-exs="" style="max-width: 70vw !important;">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Настройка заголовка и описания</h5>
+                    <div class="modal-header justify-content-end">
+                        <button class="btn btn-secondary mx-1 btn-listen" type="button" title="Прослушать выбранный текст">
+                            <i class="fa fa-microphone" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-secondary mx-1 btn-prev" type="button" title="Предыдущее">
+                            <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-secondary mx-1 btn-next" type="button" title="Следующее">
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary mx-1 btn-save">Сохранить</button>
+                        <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Отмена</button>
                     </div>
                     <div class="modal-body">
                         <div class="row" id="collapse_parent">
@@ -1254,10 +1264,10 @@
                                 <button class="btn btn-sm btn-outline-dark w-25" type="button" data-toggle="collapse" data-target="#collapse__{{ language.code }}" aria-expanded="false" aria-controls="collapse__{{ language.code }}">
                                     {{ language.name_local }} ({{ language.code }})
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary" type="button" title="Всё заполнено" data-lang="{{ language.code }}">
+                                <button class="btn btn-sm btn-outline-secondary language-complete" type="button" title="Всё заполнено" data-lang="{{ language.code }}">
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary" type="button" title="Основной язык" data-lang="{{ language.code }}">
+                                <button class="btn btn-sm btn-outline-primary language-main" type="button" title="Основной язык" data-lang="{{ language.code }}">
                                     <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                                 </button>
                                 <button class="btn btn-sm btn-primary b-autotranslate" type="button" disabled="disabled" title="Авто-перевод" data-lang="{{ language.code }}">
@@ -1280,10 +1290,6 @@
                             </div>
                             {% endfor %}
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-save">Сохранить</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
             </div>

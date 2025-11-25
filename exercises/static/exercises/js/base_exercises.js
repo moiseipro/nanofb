@@ -991,6 +991,27 @@ function RenderExerciseFullName(data) {
         document.descriptionEditorAdmin[langCode].setData(cVal);
         $(elem).val(cVal);
     });
+    $('#exerciseLangTitleModal').find('button.language-complete').each((ind, elem) => {
+        let langCode = $(elem).attr('data-lang');
+        $(elem).removeClass('btn-outline-danger btn-outline-success active');
+        $(elem).addClass('btn-outline-secondary');
+        let cVal = "";
+        try {
+            cVal = data['languages_complete'][langCode];
+        } catch(e) {}
+        if (cVal == undefined || cVal == null) {cVal = "";}
+        if (cVal == '0') {
+            $(elem).removeClass('btn-outline-secondary btn-outline-success');
+            $(elem).addClass('btn-outline-danger active');
+        } else if (cVal == '1') {
+            $(elem).removeClass('btn-outline-secondary btn-outline-danger');
+            $(elem).addClass('btn-outline-success active');
+        }
+    });
+    $('#exerciseLangTitleModal').find('button.language-main').each((ind, elem) => {
+        let langCode = $(elem).attr('data-lang');
+        $(elem).toggleClass('active', langCode == data['language_main']);
+    });
 }
 
 function GenerateAjaxSaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
@@ -1804,6 +1825,15 @@ function UpdateHiddenFoldersStorage(folderType=null, folderId=null) {
     }
 }
 
+async function waitForAjaxSuccess(urlIncludes="") {
+    await new Promise(resolve => {
+        $(document).one('ajaxSuccess', (event, xhr, settings) => {
+            if (settings.url.includes(urlIncludes)) {resolve();}
+            else {waitForAjaxSuccess(urlIncludes).then(resolve);}
+        });
+    });
+}
+
 
 
 $(function() {
@@ -2303,16 +2333,10 @@ $(function() {
                         $('.page-loader-wrapper').fadeIn();
                         $(`.folders-toggle[data-id="${res.data.folder_type}"]`).click();
                         $(`.folders_div.selected li.list-group-item > div[data-id="${res.data.folder_id}"]`).click();
-                        await new Promise(resolve => {
-                            $(document).one('ajaxSuccess', (event, xhr, settings) => {
-                                if (settings.url.includes('/exercises_api?get_exs_all=1')) {resolve();}
-                            });
-                        });
-                        $('.page-loader-wrapper').fadeIn();
-                        $(`.exs-list-group > .exs-elem[data-id="${res.data.id}"]`).click();
-                        await new Promise(resolve => {
-                            $(document).one('ajaxSuccess', (event, xhr, settings) => {
-                                if (settings.url.includes('/exercises_api?get_exs_one=1')) {resolve();}
+                        waitForAjaxSuccess("/exercises_api?get_exs_all=1").then(() => {
+                            $('.page-loader-wrapper').fadeIn();
+                            $(`.exs-list-group > .exs-elem[data-id="${res.data.id}"]`).click();
+                            waitForAjaxSuccess("/exercises_api?get_exs_one=1").then(() => {
                             });
                         });
                     });
@@ -3303,6 +3327,116 @@ $(function() {
         $('#exerciseLangTitleModal').find('button.b-autotranslate').prop('disabled', isActive);
         $(e.currentTarget).toggleClass('active', !isActive);
         $(e.currentTarget).parent().find('button.b-autotranslate').prop('disabled', true);
+    });
+    $('#exerciseLangTitleModal').on('click', 'button.language-complete, button.language-main', (e) => {
+        let cLang = $(e.currentTarget).attr('data-lang');
+        let cKey = $(e.currentTarget).hasClass('language-complete') ? "complete" : "main";
+        let exsId = $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs');
+        let folderType = $('.folders_div.selected').attr('data-id');
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {
+                'edit_exs_language_param': 1, 'exs': exsId, 'f_type': folderType, 'lang': cLang, 'key': cKey,
+            },
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "exercises_api",
+            success: function (res) {
+                if (res.success) {
+                    LoadExerciseFullName();
+                } else {
+                    swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                    console.log(res);
+                }
+            },
+            error: function (res) {
+                swal("Ошибка", "Упражнение не удалось обновить.", "error");
+                console.log(res);
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+    $('#exerciseLangTitleModal').on('click', '.btn-prev, .btn-next', (e) => {
+        let currentList = '.exs-list-group';
+        let activeElem = $(currentList).find('.list-group-item.exs-elem.active');
+        let loadExs = false;
+        if ($(e.currentTarget).hasClass('btn-prev')) {
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).prev().length > 0) {
+                    $(activeElem).prev().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+                }
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').last().addClass('active');
+            }
+            loadExs = true;
+        }
+        if ($(e.currentTarget).hasClass('btn-next')) {
+            if (activeElem.length > 0) {
+                $(activeElem).removeClass('active');
+                if ($(activeElem).next().length > 0) {
+                    $(activeElem).next().addClass('active');
+                } else {
+                    $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+                }
+            } else {
+                $(currentList).find('.list-group-item.exs-elem').first().addClass('active');
+            }
+            loadExs = true;
+        }
+        if (loadExs && $(currentList).find('.list-group-item.exs-elem.active').length > 0) {
+            $('#exerciseLangTitleModal').addClass('loading');
+            LoadExerciseOneHandler();
+            waitForAjaxSuccess("/exercises_api?get_exs_one=1").then(() => {
+                let exsId = $('.exs-list-group').find('.list-group-item.active').attr('data-id');
+                $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
+                LoadExerciseFullName();
+                waitForAjaxSuccess("/exercises_api?get_exs_full_name=1").then(() => {
+                    $('#exerciseLangTitleModal').removeClass('loading');
+                });
+            });
+        }
+    });
+    window.languageSelectedText = {'text': "", 'element': ""};
+    function getSelectedTextAndElement() {
+        let selectedText = "";
+        let selectedElement = null;
+        if (window.getSelection) {
+            const selection = window.getSelection();
+            selectedText = selection.toString();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                selectedElement = range.commonAncestorContainer;
+                if (selectedElement.nodeType === 3) {
+                    selectedElement = $(selectedElement).parent()[0];
+                }
+            }
+        } else if (document.selection && document.selection.type != "Control") {
+            const selection = document.selection.createRange();
+            selectedText = selection.text;
+            selectedElement = selection.parentElement();
+        }
+        window.languageSelectedText['text'] = selectedText;
+        window.languageSelectedText['element'] = selectedElement;
+    }
+    $('#exerciseLangTitleModal').on('mouseup', function() {
+        getSelectedTextAndElement();
+    });
+    $('#exerciseLangTitleModal').on('click', '.btn-listen', (e) => {
+        if (window.languageSelectedText['text'] == "") {
+            swal("Внимание", "Выделите текст для прослушивания.", "warning");
+            return;
+        }
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(window.languageSelectedText['text']);
+            window.speechSynthesis.speak(utterance);
+        } else {
+            swal("Ошибка", "Web Speech API не поддерживается в этом браузере.", "error");
+        }
     });
     $('#exerciseLangTitleModal').on('click', 'button.b-autotranslate', (e) => {
         let targetLang = $(e.currentTarget).attr('data-lang');
