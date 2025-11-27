@@ -1012,6 +1012,23 @@ function RenderExerciseFullName(data) {
         let langCode = $(elem).attr('data-lang');
         $(elem).toggleClass('active', langCode == data['language_main']);
     });
+    let schema = $('.visual-block').find('#carouselSchema').clone();
+    $(schema).attr('id', "carouselSchemaModalLang");
+    $(schema).find('[href="#carouselSchema"]').attr('href', "#carouselSchemaModalLang");
+    $('#exerciseLangTitleModal').find('.exs-graphic-content').html('');
+    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(schema);
+    let video = $('.visual-block').find('#carouselVideo').clone();
+    $(video).attr('id', "carouselVideoModalLang");
+    $(video).find('.video-js').attr('id', "carousel_video_div_cloned");
+    $(video).find('video').attr('id', "carousel_video_video_cloned");
+    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(video);
+    videojs($(video).find('video')[0], {
+        preload: 'auto',
+        autoplay: false,
+        controls: true,
+        aspectRatio: '16:9',
+        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+    });
 }
 
 function GenerateAjaxSaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
@@ -3195,13 +3212,19 @@ $(function() {
     // Toggle lang modal
     $('.exercises-block').on('click', 'button[data-type="icons"][data-id="lang"]', (e) => {
         let currentExsElem = $(e.currentTarget).parent().parent().parent();
+        let exsId = $(currentExsElem).attr('data-id');
         if(!$(currentExsElem).hasClass('active')) {
             $(currentExsElem).click();
+            waitForAjaxSuccess("/exercises_api?get_exs_one=1").then(() => {
+                $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
+                $('#exerciseLangTitleModal').modal('show');
+                LoadExerciseFullName();
+            });
+        } else {
+            $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
+            $('#exerciseLangTitleModal').modal('show');
+            LoadExerciseFullName();
         }
-        let exsId = $(currentExsElem).attr('data-id');
-        $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
-        $('#exerciseLangTitleModal').modal('show');
-        LoadExerciseFullName();
     });
     document.descriptionEditorAdmin = {};
     $('#select-language').find('option').each((ind, elem) => {
@@ -3486,6 +3509,20 @@ $(function() {
                 });
             }
         });
+    });
+    $('#exerciseLangTitleModal').on('click', '.btn-complete-filter', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        let cVal = $(e.currentTarget).attr('data-value');
+        $('#exerciseLangTitleModal').find('.btn-complete-filter').removeClass('active');
+        $(e.currentTarget).toggleClass('active', !isActive);
+
+        for (ind in window.count_exs_calls) {
+            window.count_exs_calls[ind]['call'].abort();
+        }
+        if (!isActive) {window.exercisesFilter['language_complete'] = cVal;}
+        else {delete window.exercisesFilter['language_complete'];}
+        LoadFolderExercises();
+        CountExsInFolder();
     });
     $('#exerciseLangTitleModal').on('click', '.btn-save', (e) => {
         let requestFactories = [];

@@ -1240,9 +1240,18 @@
         </div>
 
         <div class="modal fade" id="exerciseLangTitleModal" tabindex="-1" role="dialog" aria-labelledby="exerciseLangTitleModalLbl" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document" data-exs="" style="max-width: 70vw !important;">
+            <div class="modal-dialog modal-xl" role="document" data-exs="" style="max-width: 90vw !important;">
                 <div class="modal-content">
                     <div class="modal-header justify-content-end">
+                        <button class="btn btn-outline-secondary mx-1 btn-complete-filter" type="button" data-value="2">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-outline-danger mx-1 btn-complete-filter" type="button" data-value="0">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-outline-success mx-1 btn-complete-filter" type="button" data-value="1">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
                         <button class="btn btn-secondary mx-1 btn-listen" type="button" title="Прослушать выбранный текст">
                             <i class="fa fa-microphone" aria-hidden="true"></i>
                         </button>
@@ -1256,39 +1265,44 @@
                         <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Отмена</button>
                     </div>
                     <div class="modal-body">
-                        <div class="row" id="collapse_parent">
-                            {% get_available_languages as LANGUAGES %}
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                            <div class="col-12 bg-light my-1">
-                                <button class="btn btn-sm btn-outline-dark w-25" type="button" data-toggle="collapse" data-target="#collapse__{{ language.code }}" aria-expanded="false" aria-controls="collapse__{{ language.code }}">
-                                    {{ language.name_local }} ({{ language.code }})
-                                </button>
-                                <button class="btn btn-sm btn-outline-secondary language-complete" type="button" title="Всё заполнено" data-lang="{{ language.code }}">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary language-main" type="button" title="Основной язык" data-lang="{{ language.code }}">
-                                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-sm btn-primary b-autotranslate" type="button" disabled="disabled" title="Авто-перевод" data-lang="{{ language.code }}">
-                                    <i class="fa fa-globe" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col-12">
-                                <div class="collapse" id="collapse__{{ language.code }}" data-parent="#collapse_parent" data-lang="{{ language.code }}">
-                                    <div class="card card-body row">
-                                        <div class="col-12">
-                                            <input name="" class="form-control form-control-sm text-center exs-title" 
-                                                type="text" value="" data-lang="{{ language.code }}" autocomplete="off" placeholder="Название упражнения">
-                                        </div>
-                                        <div class="col-12">
-                                            <div id="descriptionEditor__admin_{{ language.code }}" class="ckeditor w-100 exs-description" name="" data-lang="{{ language.code }}">
+                        <div class="row mx-0">
+                            <div class="col-8">
+                                <div class="row" id="collapse_parent">
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                    <div class="col-12 bg-light my-1">
+                                        <button class="btn btn-sm btn-outline-dark w-25" type="button" data-toggle="collapse" data-target="#collapse__{{ language.code }}" aria-expanded="false" aria-controls="collapse__{{ language.code }}">
+                                            {{ language.name_local }} ({{ language.code }})
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary language-complete" type="button" title="Всё заполнено" data-lang="{{ language.code }}">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary language-main" type="button" title="Основной язык" data-lang="{{ language.code }}">
+                                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-primary b-autotranslate" type="button" disabled="disabled" title="Авто-перевод" data-lang="{{ language.code }}">
+                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="collapse" id="collapse__{{ language.code }}" data-parent="#collapse_parent" data-lang="{{ language.code }}">
+                                            <div class="card card-body row">
+                                                <div class="col-12">
+                                                    <input name="" class="form-control form-control-sm text-center exs-title" 
+                                                        type="text" value="" data-lang="{{ language.code }}" autocomplete="off" placeholder="Название упражнения">
+                                                </div>
+                                                <div class="col-12">
+                                                    <div id="descriptionEditor__admin_{{ language.code }}" class="ckeditor w-100 exs-description" name="" data-lang="{{ language.code }}">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                            {% endfor %}
+                            <div class="col-4 exs-graphic-content"></div>
                         </div>
                     </div>
                 </div>
