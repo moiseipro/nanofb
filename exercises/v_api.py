@@ -848,14 +848,13 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
             f_exercises = f_exercises.filter(field_e_type__icontains="stretch")
     if filter_language_complete != -1:
         if filter_language_complete != 2:
-            json_snippet = json.dumps(filter_language_complete)
-            f_exercises = f_exercises.filter(languages_complete__contains=json_snippet).distinct()
+            f_exercises = f_exercises.filter(
+                Q(**{f'languages_complete__{key}': f'{filter_language_complete}' for key in f_exercises.values_list('languages_complete', flat=True)})
+            ).distinct()
         else:
-            json_snippet_0 = json.dumps(0)
-            json_snippet_1 = json.dumps(1)
             f_exercises = f_exercises.exclude(
-                Q(languages_complete__contains=json_snippet_0) |
-                Q(languages_complete__contains=json_snippet_1)
+                Q(**{f'languages_complete__{key}': '0' for key in f_exercises.values_list('languages_complete', flat=True)}) |
+                Q(**{f'languages_complete__{key}': '1' for key in f_exercises.values_list('languages_complete', flat=True)})
             ).distinct()
     if count_for_tag:
         if tags_short_categories:
