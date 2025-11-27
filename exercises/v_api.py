@@ -847,15 +847,23 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         else:
             f_exercises = f_exercises.filter(field_e_type__icontains="stretch")
     if filter_language_complete != -1:
+        all_language_keys = set()
+        for lang_dict in f_exercises.values_list('languages_complete', flat=True):
+            if isinstance(lang_dict, dict):
+                all_language_keys.update(lang_dict.keys())
+        q_objects = Q()
         if filter_language_complete != 2:
-            c_val = str(filter_language_complete)
-            f_exercises = f_exercises.filter(
-                Q(**{f'languages_complete__{key}__in': ['0', '1'] for key in f_exercises.values_list('languages_complete', flat=True)})
-            ).distinct()
+            for key in all_language_keys:
+                q_objects |= Q(**{f'languages_complete__{key}__in': [f'{filter_language_complete}']})
+            q_objects &= Q(languages_complete__isnull=False)
+            if q_objects:
+                f_exercises = f_exercises.filter(q_objects).distinct()
         else:
-            f_exercises = f_exercises.exclude(
-                Q(**{f'languages_complete__{key}__in': ['0', '1'] for key in f_exercises.values_list('languages_complete', flat=True)})
-            ).distinct()
+            for key in all_language_keys:
+                q_objects |= Q(**{f'languages_complete__{key}__in': ['0', '1']})
+            if q_objects:
+                f_exercises = f_exercises.exclude(q_objects).distinct()
+        print(q_objects)
     if count_for_tag:
         if tags_short_categories:
             f_exercises = f_exercises.filter(tags_short_categories__lowercase_name__in=[count_for_tag]).distinct()
