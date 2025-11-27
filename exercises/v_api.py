@@ -850,7 +850,7 @@ def get_excerises_data(folder_id=-1, folder_type="", req=None, cur_user=None, cu
         if filter_language_complete != 2:
             c_val = str(filter_language_complete)
             f_exercises = f_exercises.filter(
-                Q(**{f'languages_complete__{key}': f'{c_val}' for key in f_exercises.values_list('languages_complete', flat=True)})
+                Q(**{f'languages_complete__{key}': '1' for key in f_exercises.values_list('languages_complete', flat=True)})
             ).distinct()
         else:
             f_exercises = f_exercises.exclude(
