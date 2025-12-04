@@ -1485,7 +1485,6 @@ $(function() {
             tempCounter += $('#splitCol_2').find('#carouselVideo').find('.carousel-item:not(.d-none)').length;
             activeNum = $('#splitCol_2').find('#carouselAnim').find('.carousel-item').index($(e.currentTarget)) + tempCounter;
         }
-        console.log('ssdssd')
         LoadGraphicsModal(id, folderType, activeNum, userId);
     });
     $('#exerciseGraphicsModal').on('click', '.video-watched', (e) => {

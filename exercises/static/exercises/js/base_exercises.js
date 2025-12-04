@@ -1022,7 +1022,7 @@ function RenderExerciseFullName(data) {
     $(video).find('.video-js').attr('id', "carousel_video_div_cloned");
     $(video).find('video').attr('id', "carousel_video_video_cloned");
     $('#exerciseLangTitleModal').find('.exs-graphic-content').append(video);
-    videojs($(video).find('video')[0], {
+    videojs($('#exerciseLangTitleModal').find('.exs-graphic-content video')[0], {
         preload: 'auto',
         autoplay: false,
         controls: true,
