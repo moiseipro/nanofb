@@ -1017,11 +1017,18 @@ function RenderExerciseFullName(data) {
     $(schema).find('[href="#carouselSchema"]').attr('href', "#carouselSchemaModalLang");
     $('#exerciseLangTitleModal').find('.exs-graphic-content').html('');
     $('#exerciseLangTitleModal').find('.exs-graphic-content').append(schema);
-    let video = $('.visual-block').find('#carouselVideo').clone();
-    $(video).attr('id', "carouselVideoModalLang");
-    $(video).find('.video-js').attr('id', "carousel_video_div_cloned");
-    $(video).find('video').attr('id', "carousel_video_video_cloned");
-    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(video);
+    let video = $('.visual-block').find('#carouselVideo video').clone();
+    $(video).attr('id', "carousel_video_video_cloned");
+    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(`
+        <div id="" class="carousel slide carousel-video" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner">
+                <div class="carousel-item video-item active" title="">
+                </div>
+            </div>
+        </div>
+    `);                  
+    $('#exerciseLangTitleModal').find('.exs-graphic-content').find('.video-item').append(video);
+    console.log( $('#exerciseLangTitleModal').find('.exs-graphic-content video')[0] )
     videojs($('#exerciseLangTitleModal').find('.exs-graphic-content video')[0], {
         preload: 'auto',
         autoplay: false,
