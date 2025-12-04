@@ -1028,7 +1028,7 @@ function RenderExerciseFullName(data) {
         controls: true,
         aspectRatio: '16:9',
         youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    });
+    }).load();
 }
 
 function GenerateAjaxSaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
