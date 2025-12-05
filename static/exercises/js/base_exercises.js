@@ -1012,30 +1012,262 @@ function RenderExerciseFullName(data) {
         let langCode = $(elem).attr('data-lang');
         $(elem).toggleClass('active', langCode == data['language_main']);
     });
-    let schema = $('.visual-block').find('#carouselSchema').clone();
-    $(schema).attr('id', "carouselSchemaModalLang");
-    $(schema).find('[href="#carouselSchema"]').attr('href', "#carouselSchemaModalLang");
-    $('#exerciseLangTitleModal').find('.exs-graphic-content').html('');
-    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(schema);
-    let video = $('.visual-block').find('#carouselVideo video').clone();
-    $(video).attr('id', "carousel_video_video_cloned");
-    $('#exerciseLangTitleModal').find('.exs-graphic-content').append(`
-        <div id="" class="carousel slide carousel-video" data-ride="carousel" data-interval="false">
-            <div class="carousel-inner">
-                <div class="carousel-item video-item active" title="">
-                </div>
+
+    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').remove();
+    $('#carouselSchemaLangTitle').find('.carousel-indicators > li.new-scheme').remove();
+    $('#carouselSchemaLangTitle').find('.carousel-item').first().html(data.scheme_data[0]);
+    $('#carouselSchemaLangTitle').find('.carousel-item').last().html(data.scheme_data[1]);
+    let carouselIndicatorNum = 2;
+    if (data.scheme_2 && data.scheme_2 != "") {
+        let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_2}`;
+        $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+            <div class="carousel-item new-scheme" title="Рисунок 2 (новый)" data-type="scheme_2">
+                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <image data-height="400" data-width="600" height="100%" width="100%" href="${link}" x="0" y="0"></image>
+                </svg>
             </div>
-        </div>
-    `);                  
-    $('#exerciseLangTitleModal').find('.exs-graphic-content').find('.video-item').append(video);
-    console.log( $('#exerciseLangTitleModal').find('.exs-graphic-content video')[0] )
-    videojs($('#exerciseLangTitleModal').find('.exs-graphic-content video')[0], {
-        preload: 'auto',
-        autoplay: false,
-        controls: true,
-        aspectRatio: '16:9',
-        youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
-    }).load();
+        `);
+        // <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+        $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+            <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+        `);
+        carouselIndicatorNum ++;
+    }
+    if (data.scheme_1 && data.scheme_1 != "") {
+        let link = `https://nanofootballdraw.ru/api/canvas-draw/v1/canvas/render?id=${data.scheme_1}`;
+        $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+            <div class="carousel-item new-scheme" title="Рисунок 1 (новый)" data-type="scheme_1">
+                <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                    <image data-height="400" data-width="600" height="100%" width="100%" href="${link}" x="0" y="0"></image>
+                </svg>
+            </div>
+        `);
+        // <img class="img-lazyload d-none" src="${link}" alt="scheme" width="100%" height="100%">
+        $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+            <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+        `);
+    }
+    if (data.scheme_img_show_first) {
+        if (data.scheme_img_change_order) {
+            if (data.scheme_img) {
+                let foundElem = $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0 ? 
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').first() : 
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first();
+                $(foundElem).before(`
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+            if (data.scheme_img_2) {
+                let foundElem = $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0 ? 
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').first() : 
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first();
+                $(foundElem).before(`
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+        } else {
+            if (data.scheme_img_2) {
+                let foundElem = $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0 ? 
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').first() : 
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first();
+                $(foundElem).before(`
+                    <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+            if (data.scheme_img) {
+                let foundElem = $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0 ? 
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').first() : 
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first();
+                $(foundElem).before(`
+                    <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                        <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                        </svg>
+                    </div>
+                `);
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+        }
+    } else {
+        if (data.scheme_img_change_order) {
+            if (data.scheme_img_2) {
+                if ($('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0) {
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').last().after(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                } else {
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                }
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+            if (data.scheme_img) {
+                if ($('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0) {
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').last().after(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                } else {
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                }
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+        } else {
+            if (data.scheme_img) {
+                if ($('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0) {
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').last().after(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                } else {
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+                        <div class="carousel-item new-scheme" title="Рисунок (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                }
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+            if (data.scheme_img_2) {
+                if ($('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').length > 0) {
+                    $('#carouselSchemaLangTitle').find('.carousel-item.new-scheme').last().after(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                } else {
+                    $('#carouselSchemaLangTitle').find('.carousel-item').first().before(`
+                        <div class="carousel-item new-scheme" title="Рисунок 2 (новый / картинка)" data-type="scheme_pic">
+                            <svg class="d-block bg-success mx-auto" height="100%" preserveAspectRatio="none" style="" viewBox="0 0 600 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <image data-height="400" data-width="600" height="100%" width="100%" href="${data.scheme_img_2}" x="0" y="0"></image>
+                            </svg>
+                        </div>
+                    `);
+                }
+                $('#carouselSchemaLangTitle').find('.carousel-indicators > li').last().after(`
+                    <li class="new-scheme" data-target="#carouselSchemaLangTitle" data-slide-to="${carouselIndicatorNum}"></li>
+                `);
+                carouselIndicatorNum ++;
+            }
+        }
+    }
+    $('#carouselSchemaLangTitle').find('.carousel-item').find('.img-lazyload').each((index, elem) => {
+        $(elem).on('load', (e) => {
+            $(e.currentTarget).removeClass('d-none');
+            $(e.currentTarget).prev().addClass('d-none');
+        });
+    });
+    try {
+        if (window.videoPlayerLangTitle == null) {
+            window.videoPlayerLangTitle = videojs('video-player-lng-title', {
+                preload: 'auto',
+                autoplay: false,
+                controls: true,
+                aspectRatio: '16:9',
+                youtube: { "iv_load_policy": 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0, 'controls': 0 },
+            });
+        }
+    } catch (e) {}
+    $('#carouselVideoLangTitle').find('.carousel-item').removeClass('d-none');
+    $('#carouselVideoLangTitle').find('.carousel-indicators > li').removeClass('d-none');
+    $('#carouselVideoLangTitle').find('.carousel-control-prev').removeClass('d-none');
+    $('#carouselVideoLangTitle').find('.carousel-control-next').removeClass('d-none');
+    let video_link = null;
+    let anim_link = null;
+    try {
+        if (Array.isArray(data.video_links) && data.video_links.length == 2) {
+            video_link = data.video_links[0]['link'];
+            anim_link = data.video_links[1]['link'];
+        }
+    } catch(e) {}
+    console.log(data)
+    if (data.video_1 && data.video_1.id && data.video_1.id != -1) {
+        $('#carouselVideoLangTitle').find('.carousel-item').first().removeClass('d-none');
+        RenderVideo(data.video_1.id, "", window.videoPlayerLangTitle);
+    } else if (video_link && video_link != "") {
+        $('#carouselVideoLangTitle').find('.carousel-item').first().removeClass('d-none');
+        RenderVideo(0, "", window.videoPlayerLangTitle, video_link);
+    } else if (data.animation_1 && data.animation_1.id && data.animation_1.id != -1) {
+        $('#carouselVideoLangTitle').find('.carousel-item').first().removeClass('d-none');
+        RenderVideo(data.animation_1.id, "", window.videoPlayerLangTitle);
+    } else if (anim_link && anim_link != "") {
+        $('#carouselVideoLangTitle').find('.carousel-item').first().removeClass('d-none');
+        RenderVideo(0, "", window.videoPlayerLangTitle, anim_link);
+    } else {
+        $('#carouselVideoLangTitle').find('.carousel-item').first().addClass('d-none');
+        $('#carouselVideoLangTitle').find('.carousel-indicators > li').first().addClass('d-none');
+        $('#carouselVideoLangTitle').find('.carousel-control-prev').addClass('d-none');
+        $('#carouselVideoLangTitle').find('.carousel-control-next').addClass('d-none');
+    }
+    $('#carouselSchemaLangTitle').find('.carousel-item').removeClass('active');
+    $('#carouselSchemaLangTitle').find('.carousel-item:not(.d-none)').first().addClass('active');
+    $('#carouselSchemaLangTitle').find('.carousel-indicators > li').removeClass('active');
+    $('#carouselSchemaLangTitle').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
+    $('#carouselVideoLangTitle').find('.carousel-item').removeClass('active');
+    $('#carouselVideoLangTitle').find('.carousel-item:not(.d-none)').first().addClass('active');
+    $('#carouselVideoLangTitle').find('.carousel-indicators > li').removeClass('active');
+    $('#carouselVideoLangTitle').find('.carousel-indicators > li:not(.d-none)').first().addClass('active');
 }
 
 function GenerateAjaxSaveExerciseFullName(exsId, folderType, key, value, lang, additional={}) {
@@ -3223,9 +3455,11 @@ $(function() {
         if(!$(currentExsElem).hasClass('active')) {
             $(currentExsElem).click();
             waitForAjaxSuccess("/exercises_api?get_exs_one=1").then(() => {
-                $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
-                $('#exerciseLangTitleModal').modal('show');
-                LoadExerciseFullName();
+                setTimeout(() => {
+                    $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);
+                    $('#exerciseLangTitleModal').modal('show');
+                    LoadExerciseFullName();
+                }, 250);
             });
         } else {
             $('#exerciseLangTitleModal').find('.modal-dialog[role="document"]').attr('data-exs', exsId);

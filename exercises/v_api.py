@@ -4905,6 +4905,17 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['description_trainer'] = c_exs.description_trainer
             res_exs['languages_complete'] = c_exs.languages_complete
             res_exs['language_main'] = c_exs.language_main
+            res_exs['scheme_data'] = get_exs_scheme_data(c_exs.scheme_data)
+            res_exs['scheme_1'] = c_exs.scheme_1
+            res_exs['scheme_2'] = c_exs.scheme_2
+            res_exs['scheme_img'] = c_exs.scheme_img.url if c_exs.scheme_img else ""
+            res_exs['scheme_img_2'] = c_exs.scheme_img_2.url if c_exs.scheme_img_2 else ""
+            res_exs['video_data'] = get_exs_video_data(c_exs.video_data)
+            res_exs['animation_data'] = get_exs_animation_data(c_exs.animation_data)
+            res_exs = get_exs_video_data2(res_exs, c_exs, folder_type, request.user.club_id)
+            res_exs['video_links'] = c_exs.video_links
+            res_exs['scheme_img_show_first'] = c_exs.scheme_img_show_first
+            res_exs['scheme_img_change_order'] = c_exs.scheme_img_change_order
     elif folder_type == utils.FOLDER_NFB:
         c_exs = AdminExercise.objects.filter(id=exs_id, visible=True)
         if c_exs.exists() and c_exs[0].id != None:
@@ -4914,6 +4925,17 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['description_trainer'] = c_exs.description_trainer
             res_exs['languages_complete'] = c_exs.languages_complete
             res_exs['language_main'] = c_exs.language_main
+            res_exs['scheme_data'] = get_exs_scheme_data(c_exs.scheme_data)
+            res_exs['scheme_1'] = c_exs.scheme_1
+            res_exs['scheme_2'] = c_exs.scheme_2
+            res_exs['scheme_img'] = c_exs.scheme_img.url if c_exs.scheme_img else ""
+            res_exs['scheme_img_2'] = c_exs.scheme_img_2.url if c_exs.scheme_img_2 else ""
+            res_exs['video_data'] = get_exs_video_data(c_exs.video_data)
+            res_exs['animation_data'] = get_exs_animation_data(c_exs.animation_data)
+            res_exs = get_exs_video_data2(res_exs, c_exs, folder_type, request.user.club_id)
+            res_exs['video_links'] = c_exs.video_links
+            res_exs['scheme_img_show_first'] = c_exs.scheme_img_show_first
+            res_exs['scheme_img_change_order'] = c_exs.scheme_img_change_order
     elif folder_type == utils.FOLDER_CLUB:
         if not util_check_access(cur_user, {
             'perms_user': ["exercises.view_userexercise"], 
@@ -4929,6 +4951,17 @@ def GET_get_exs_full_name(request, cur_user, cur_team):
             res_exs['description_trainer'] = c_exs.description_trainer
             res_exs['languages_complete'] = c_exs.languages_complete
             res_exs['language_main'] = c_exs.language_main
+            res_exs['scheme_data'] = get_exs_scheme_data(c_exs.scheme_data)
+            res_exs['scheme_1'] = c_exs.scheme_1
+            res_exs['scheme_2'] = c_exs.scheme_2
+            res_exs['scheme_img'] = c_exs.scheme_img.url if c_exs.scheme_img else ""
+            res_exs['scheme_img_2'] = c_exs.scheme_img_2.url if c_exs.scheme_img_2 else ""
+            res_exs['video_data'] = get_exs_video_data(c_exs.video_data)
+            res_exs['animation_data'] = get_exs_animation_data(c_exs.animation_data)
+            res_exs = get_exs_video_data2(res_exs, c_exs, folder_type, request.user.club_id)
+            res_exs['video_links'] = c_exs.video_links
+            res_exs['scheme_img_show_first'] = c_exs.scheme_img_show_first
+            res_exs['scheme_img_change_order'] = c_exs.scheme_img_change_order
     else:
         return JsonResponse({"errors": "Exercise not found.", "success": False}, status=400)
     return JsonResponse({"data": res_exs, "success": True}, status=200)

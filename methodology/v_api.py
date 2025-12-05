@@ -400,6 +400,7 @@ def GET_get_articles_all(request, cur_user):
         print(f"poa: {found_articles}")
     else:
         found_articles = AdminArticle.objects.filter(visible=True).filter().defer('content')
+    
     for article in found_articles:
         a_title = utils.get_by_language_code(article.title, request.LANGUAGE_CODE)
         a_favorite = False
@@ -445,7 +446,10 @@ def GET_get_article_one(request, cur_user):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
     data_res = {}
     # only admin folders temp:
-    found_article = AdminArticle.objects.filter(id=article_id, visible=True).first()
+    if cur_user.is_superuser:
+        found_article = AdminArticle.objects.filter(id=article_id, visible=True).first()
+    else:
+        found_article = AdminArticle.objects.filter(id=article_id, visible=True, completed=True).first()
     if found_article:
         a_title = utils.get_by_language_code(found_article.title, request.LANGUAGE_CODE)
         a_content = utils.get_by_language_code(found_article.content, request.LANGUAGE_CODE)
@@ -457,4 +461,3 @@ def GET_get_article_one(request, cur_user):
             'completed': found_article.completed,
         }
     return JsonResponse({"data": data_res, "success": True}, status=200)
-
