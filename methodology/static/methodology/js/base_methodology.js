@@ -111,7 +111,7 @@ function RenderArticles(articles) {
         let folderNum = $('.folders-group').find(`.folder-elem[data-id="${article.folder}"]`).attr('data-num');
         let articleNum = $('.folders-group').find(`.article-elem[data-folder="${article.folder}"]`).length;
         let htmlStr = `
-            <li class="list-group-item px-1 py-0 ${$(cFolder).hasClass('active') ? '' : 'd-none'} ${article.completed ? 'not-completed' : ''}" data-type="article">
+            <li class="list-group-item px-1 py-0 ${$(cFolder).hasClass('active') ? '' : 'd-none'} ${article.completed ? '' : 'not-completed'}" data-type="article">
                 <div class="article-elem d-flex justify-content-between" data-id="${article.id}" data-folder="${article.folder}" data-parent="" data-title="${article.title}" data-favor="${article.favorite ? 1 : 0}" data-num="${folderNum}.${(articleNum+1)}">
                     <div class="col-12 d-flex px-0">
                         <span class="w-100">
