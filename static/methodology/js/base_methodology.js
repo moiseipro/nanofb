@@ -594,6 +594,7 @@ function InitPagebreakNavigation(editorName) {
             btn.on('click', () => {
                 scrollToPage(i, iframe);
                 highlightPageButton(i, container);
+                window.canSwitchPage = true;
             });
             container.append(btn);
         }
@@ -610,6 +611,16 @@ function InitPagebreakNavigation(editorName) {
             let firstElem = iframeBody.children().first();
             firstElem[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+        
+        let container = $('.pages-panel');
+        let cBtn = $(container).find('button.page-nav-btn').eq(pageNum - 1);
+        let targetPositionLeft = cBtn.position().left + container.scrollLeft();
+        let containerWidth = container.width();
+        let targetWidth = cBtn.outerWidth(true);
+        let newScrollLeft = targetPositionLeft - (containerWidth / 2) + (targetWidth / 2);
+        container.animate({
+            scrollLeft: newScrollLeft
+        }, 250);
     }
     function highlightPageButton(pageNum, container) {
         container.find('button.page-nav-btn').removeClass('btn-primary');
@@ -669,6 +680,25 @@ function DisableCopyInIframe(editorName) {
             e.preventDefault();
         }
     });
+}
+
+function ChangeSelectedPage(dir) {
+    let currentPage = $('.pages-panel').find('.page-nav-btn.btn-primary');
+    if (currentPage.length > 0) {
+        if (dir == "right") {
+            let nextElem = $(currentPage).nextAll('.page-nav-btn.btn-secondary').first();
+            if (nextElem.length == 0) {
+                nextElem = $('.pages-panel').find('.page-nav-btn.btn-secondary').first();
+            }
+            $(nextElem).trigger('click');
+        } else if (dir == "left") {
+            let prevElem = $(currentPage).prevAll('.page-nav-btn.btn-secondary').first();
+            if (prevElem.length == 0) {
+                prevElem = $('.pages-panel').find('.page-nav-btn.btn-secondary').last();
+            }
+            $(prevElem).trigger('click');
+        }
+    } else {window.canSwitchPage = true;}
 }
 
 
@@ -913,7 +943,8 @@ $(function() {
     });
 
     window.canSwitchArticle = true;
-    $(document).keydown((e) => {
+    window.canSwitchPage = true;
+    $(document).keyup((e) => {
         if (e.which == 38 && window.canSwitchArticle) { // up
             window.canSwitchArticle = false;
             ChangeSelectedArticle("up");
@@ -921,6 +952,14 @@ $(function() {
         if (e.which == 40 && window.canSwitchArticle) { // down
             window.canSwitchArticle = false;
             ChangeSelectedArticle("down");
+        }
+        if (e.which == 37 && window.canSwitchPage) { // left
+            window.canSwitchPage = false;
+            ChangeSelectedPage("left");
+        }
+        if (e.which == 39 && window.canSwitchPage) { // right
+            window.canSwitchPage = false;
+            ChangeSelectedPage("right");
         }
     });
 

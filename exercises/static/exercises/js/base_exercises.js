@@ -854,6 +854,11 @@ function ToggleUpFilter(id, state) {
             $('.up-tabs-elem[data-id="set_description_language"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="set_description_language"]').attr('data-state', 0);
             break;
+        case "change_icons_color":
+            $('.up-tabs-elem[data-id="change_icons_color"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="change_icons_color"]').attr('data-state', 0);
+            ChangeIconsColor();
+            break;
         default:
             break;
     }
@@ -2088,6 +2093,26 @@ async function waitForAjaxSuccess(urlIncludes="") {
             else {waitForAjaxSuccess(urlIncludes).then(resolve);}
         });
     });
+}
+
+function removeClassesStartingWith(element, prefix) {
+    $(element).removeClass(function(index, className) {
+        let regex = new RegExp("\\b" + prefix + "\\S+", "g");
+        return (className.match(regex) || []).join(' ');
+    });
+}
+
+function ChangeIconsColor() {
+    let cColor = $('.up-tabs-elem[data-id="change_icons_color"]').attr('data-value');
+    const availableColors = ['black', 'red', 'blue', 'white', 'green', 'yellow', 'purple'];
+    let foundIndex = availableColors.findIndex((x) => x == cColor);
+    foundIndex = (foundIndex + 1 < availableColors.length) ? foundIndex + 1 : 0;
+    let newColor = availableColors[foundIndex];
+    $('.up-tabs-elem[data-id="change_icons_color"]').attr('data-value', newColor);
+    removeClassesStartingWith($('.up-tabs-elem').find('.icon-custom'), 'ic-');
+    $('.up-tabs-elem').find('.icon-custom').addClass(`ic-${newColor}`);
+    $('.up-tabs-elem').attr('style', `color: ${newColor} !important`);
+    $('.up-tabs-elem').find('i.fa').attr('style', `color: ${newColor} !important`);
 }
 
 

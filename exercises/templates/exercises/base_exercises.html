@@ -152,9 +152,15 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
+                                                    {% if user.is_superuser %}
+                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="change_icons_color" title="Сменить цвет иконок" data-value="black">
+                                                        <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                                                    </button>
+                                                    {% else %}
                                                     <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
                                                         &nbsp;
                                                     </button>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="row mx-0">

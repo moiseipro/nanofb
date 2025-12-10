@@ -4263,161 +4263,391 @@ table.table-inbox tbody tr.checked {
     height: var(--i-h) !important;
 	vertical-align: middle;
 }
+.ic-red {
+	background-color: red !important; 
+}
+.ic-blue {
+	background-color: blue !important; 
+}
+.ic-white {
+	background-color: white !important; 
+}
+.ic-green {
+	background-color: green !important; 
+}
+.ic-yellow {
+	background-color: yellow !important; 
+}
+.ic-purple {
+	background-color: purple !important; 
+}
+
 .icon--24hours {
-	content: url(../img/icons/24hours.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/24hours.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/24hours.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--analytics {
-	content: url(../img/icons/analytics.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/analytics.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/analytics.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--arrow-left {
-	content: url(../img/icons/arrow_left.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/arrow_left.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/arrow_left.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--arrow-right {
-	content: url(../img/icons/arrow_right.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/arrow_right.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/arrow_right.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--ball {
-	content: url(../img/icons/ball.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/ball.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/ball.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--ball-x {
-	content: url(../img/icons/ball-x.png);
+	content: url(../img/icons/svg/ball-x.svg);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/ball-x.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/ball-x.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--ball-x2 {
-	content: url(../img/icons/ball-x2.png);
+	content: url(../img/icons/svg/ball-x2.svg);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/ball-x2.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/ball-x2.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--ball-2 {
-	content: url(../img/icons/ball-2.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/ball-2.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/ball-2.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--ball-2-x {
-	content: url(../img/icons/ball-2-x.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/ball-2-x.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/ball-2-x.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--brush {
-	content: url(../img/icons/brush.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/brush.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/brush.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--chart {
-	content: url(../img/icons/chart.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/chart.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/chart.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--copy {
-	content: url(../img/icons/copy.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/copy.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/copy.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--dexterity {
-	content: url(../img/icons/dexterity.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/dexterity.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/dexterity.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--dislike {
-	content: url(../img/icons/dislike.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/dislike.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/dislike.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--download {
-	content: url(../img/icons/download.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/download.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/download.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--email {
-	content: url(../img/icons/email.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/email.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/email.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--eye {
-	content: url(../img/icons/eye.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/eye.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/eye.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--eye-not {
-	content: url(../img/icons/eye_not.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/eye_not.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/eye_not.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--eye-2 {
-	content: url(../img/icons/eye-2.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/eye-2.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/eye-2.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--eye-2-not {
-	content: url(../img/icons/eye-2-not.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/eye-2-not.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/eye-2-not.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--favorite {
-	content: url(../img/icons/favorite.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/favorite.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/favorite.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--favorite-selected {
-	content: url(../img/icons/favorite_selected.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/favorite_selected.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/favorite_selected.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--favorite-selected-2 {
-	content: url(../img/icons/favorite_selected_2.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/favorite_selected_2.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/favorite_selected_2.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--field {
-	content: url(../img/icons/field.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/field.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/field.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--flexibility {
-	content: url(../img/icons/flexibility.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/flexibility.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/flexibility.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--folder {
-	content: url(../img/icons/folder.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/folder.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/folder.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--folder-o {
-	content: url(../img/icons/folder-o.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/folder-o.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/folder-o.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--folder-2 {
-	content: url(../img/icons/folder-2.png);
+	content: url(../img/icons/svg/folder-2.svg);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/analytics.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/analytics.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--key {
-	content: url(../img/icons/key.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/key.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/key.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--like {
-	content: url(../img/icons/like.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/like.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/like.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--magnifying-glass {
-	content: url(../img/icons/magnifying-glass.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/magnifying-glass.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/magnifying-glass.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--note {
-	content: url(../img/icons/note.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/note.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/note.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--players {
-	content: url(../img/icons/players_ico.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/players_ico.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/players_ico.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--parents {
-	content: url(../img/icons/parents.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/parents.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/parents.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--plus {
-	content: url(../img/icons/plus.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/plus.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/plus.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--reset {
-	content: url(../img/icons/reset.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/reset.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/reset.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--settings {
-	content: url(../img/icons/settings.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/settings.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/settings.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--share {
-	content: url(../img/icons/share.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/share.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/share.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--sorting-arrows {
-	content: url(../img/icons/sorting-arrows.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/sorting-arrows.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/sorting-arrows.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--sorting-arrows-horizontal {
-	content: url(../img/icons/sorting-arrows-horizontal.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/sorting-arrows-horizontal.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/sorting-arrows-horizontal.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--speed {
-	content: url(../img/icons/speed.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/speed.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/speed.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--speed_strength {
-	content: url(../img/icons/speed_strength.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/speed_strength.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/speed_strength.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--stamina {
-	content: url(../img/icons/stamina.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/stamina.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/stamina.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--strength {
-	content: url(../img/icons/strength.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/strength.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/strength.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--trainer {
-	content: url(../img/icons/trainer.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/trainer.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/trainer.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--print {
-	content: url(../img/icons/image58.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image58.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image58.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--edit {
-	content: url(../img/icons/image9.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image9.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image9.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--cut {
-	content: url(../img/icons/image64.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image64.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image64.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--notification {
-	content: url(../img/icons/image77.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image77.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image77.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--save {
-	content: url(../img/icons/image10.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image10.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image10.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--trash {
-	content: url(../img/icons/image59.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/image59.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/image59.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 .icon--block_filter {
-	content: url(../img/icons/block_filter.png);
+	background-color: black; 
+	-webkit-mask: url(../img/icons/svg/block_filter.svg) no-repeat 50% 50%;
+	mask: url(../img/icons/svg/block_filter.svg) no-repeat 50% 50%;
+	-webkit-mask-size: cover;
+	mask-size: cover;
 }
 
 .select2-container--bootstrap4 .select2-results>.select2-results__options {
