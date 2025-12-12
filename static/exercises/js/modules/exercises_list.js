@@ -1057,6 +1057,10 @@ $(function() {
         CheckLastExs();
     });
 
+    $('#exerciseMarkerModal').on('hidden.bs.modal', (e) => {
+        $('.up-tabs-elem[data-id="toggle_marker_modal"]').removeClass('selected3');
+        $('.up-tabs-elem[data-id="toggle_marker_modal"]').attr('data-state', 0);
+    });
 
     // Toggle folders:
     $('#toggleFoldersViews').on('click', (e) => {

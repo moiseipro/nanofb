@@ -21,34 +21,34 @@
                                     <div class="row">
                                         {% if user.is_superuser %}
                                         <div class="col-12 p-0 btn-group btn-group-custom collapse mb-2" id="collapseAdminSectionSettings">
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:3%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsAdminOptions" title="Опции упражнениий" style="--w-max-x:3%;">
                                                 <i class="fa fa-cog" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsID" title="Скрыть / Показать ID" style="--w-max-x:3%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleExsID" title="Скрыть / Показать ID" style="--w-max-x:3%;">
                                                 ID
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:3%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="toggleExsLangName" title="Изменить название и описание упражнения на всех языках" style="--w-max-x:3%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button>
                                             <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x tgl-off-usrs-exs" id="changeAllExsLangInFolder" title="Сменить язык всем упражнениям из папки" style="--w-max-x:3%;">
                                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                             </button> -->
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExsNF" title="Скопировать упражнение в NF" style="--w-max-x:3%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom custom-blue0 w-100 mr-1 up-tabs-elem size-max-w-x" id="copyExsNF" title="Скопировать упражнение в NF" style="--w-max-x:3%;">
                                                 <i class="fa fa-clone" aria-hidden="true"></i>
                                                 NF
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="getExsDuplicates" title="Получить список дублированных упражнений по видео/анимации" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom custom-blue0 w-100 mr-1 up-tabs-elem size-max-w-x tgl-off-usrs-exs" id="getExsDuplicates" title="Получить список дублированных упражнений по видео/анимации" style="--w-max-x:4%;">
                                                 <i class="fa fa-video-camera" aria-hidden="true"></i>
                                                 |
                                                 <i class="fa fa-window-restore" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 up-tabs-elem size-max-w-x" id="toggleUsersExs" title="Скрыть / показать упражнения других пользователей" style="--w-max-x:4%;">
+                                            <button type="button" class="btn btn-primary2 btn-sm btn-custom custom-blue0 w-100 mr-1 up-tabs-elem size-max-w-x" id="toggleUsersExs" title="Скрыть / показать упражнения других пользователей" style="--w-max-x:4%;">
                                                 <i class="fa fa-user" aria-hidden="true"></i>
                                                 EXS
                                             </button>
                                             <div class="btn-group dropright mx-1">
                                                 <button type="button"
-                                                        class="btn btn-sm btn-secondary btn-custom btn-block up-tabs-elem"
+                                                        class="btn btn-sm btn-primary2 btn-custom btn-block up-tabs-elem"
                                                         data-id="set_description_language"
                                                         data-toggle="dropdown"
                                                         aria-haspopup="true"
@@ -84,7 +84,7 @@
                                         <div class="col-12 p-0 btn-group-custom">
                                             <div class="row mx-0">
                                                 <div class="col-04 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100" data-id="nfb_folders" title="Структура папок N.F." data-state="0">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100 txt-as-ico" data-id="nfb_folders" title="Структура папок N.F." data-state="0">
                                                         <span class="d-flex w-100 justify-content-between align-items-center px-2">
                                                             <span class="flex-grow-1 text-center">Nano-Football</span>
                                                             <span class="badge badge-dark exs_counter" title="Кол-во упражнений в папке" style="font-size: 0.8rem; color: #eaeaea;">...</span>
@@ -92,80 +92,74 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" data-state="0">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block elem-flex-center up-tabs-elem txt-as-ico" id="toggleCardInFolders" title="Свернуть / Развернуть карточку" data-state="0">
                                                         карточка
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem tgl-off-usrs-exs" id="copyExs" title="Скопировать упражнение">
+                                                    <button type="button" class="btn btn-primary2 btn-custom custom-blue0 w-100 mr-1 up-tabs-elem tgl-off-usrs-exs txt-as-ico" id="copyExs" title="Скопировать упражнение">
                                                         копировать
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue w-100 mr-1 up-tabs-elem" id="toggleExsEditPanel" title="Редактировать упражнение">
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom custom-blue0 w-100 mr-1 up-tabs-elem" id="toggleExsEditPanel" title="Редактировать упражнение">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: white;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="toggle_u_big" title="Категория U">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="toggle_u_big" title="Категория U">
                                                         U
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_favorite" title="Избранное">
-                                                        <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.2em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_favorite" title="Избранное">
+                                                        <span class="icon-custom ic-white icon--favorite" style="--i-w: 1.3em; --i-h: 1.2em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="ball" title="Мяч">
-                                                        <span class="icon-custom icon--ball-2" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="ball" title="Мяч">
+                                                        <span class="icon-custom ic-white icon--ball-2" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="goal" title="Ворота">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="goal" title="Ворота">
                                                         G.
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="e_type_main" title="Основная часть">
-                                                        <span class="icon-custom icon--stamina" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="e_type_main" title="Основная часть">
+                                                        <span class="icon-custom ic-white icon--stamina" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" data-id="toggle_new_folder" title="Новые упражнения (30 дн.)">
-                                                        <i class="fa fa-bell-o" aria-hidden="true"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem" data-id="toggle_new_folder" title="Новые упражнения (30 дн.)">
+                                                        <i class="fa fa-bell-o" aria-hidden="true" style="color: white;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem txt-as-ico" data-id="toggle_video" title="">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem txt-as-ico" data-id="toggle_video" title="">
                                                         V.
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem {% if user.is_superuser %}w-titles{% endif %}" data-id="toggle_trainers_exs" title="Упражнения тренеров">
-                                                        <span class="icon-custom icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem {% if user.is_superuser %}w-titles{% endif %}" data-id="toggle_trainers_exs" title="Упражнения тренеров">
+                                                        <span class="icon-custom ic-white icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="clear_filter" title="Очистить фильтры">
-                                                        <i class="fa fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: black;"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="clear_filter" title="Очистить фильтры">
+                                                        <i class="fa fa-flip-horizontal fa-repeat" aria-hidden="true" style="color: white;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    {% if user.is_superuser %}
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="change_icons_color" title="Сменить цвет иконок" data-value="black">
-                                                        <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_marker_modal" title="Маркер">
+                                                        <i class="fa fa-paint-brush" aria-hidden="true" style="color: white;"></i>
                                                     </button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
-                                                        &nbsp;
-                                                    </button>
-                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="row mx-0">
                                                 <div class="col-04 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100" data-id="team_folders" title="Структура папок выбранной команды" data-state="0">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block elem-flex-center up-tabs-elem folders-toggle w-100 txt-as-ico" data-id="team_folders" title="Структура папок выбранной команды" data-state="0">
                                                         <span class="d-flex w-100 justify-content-between align-items-center px-2">
                                                             <span class="team-name flex-grow-1 text-center">Team</span>
                                                             <span class="badge badge-dark exs_counter" title="Кол-во упражнений в папке" style="font-size: 0.8rem; color: #eaeaea;">...</span>
@@ -173,68 +167,68 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block elem-flex-center up-tabs-elem" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" data-state="0">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block elem-flex-center up-tabs-elem txt-as-ico" id="toggleDescriptionInFolders" title="Свернуть / Развернуть описание" data-state="0">
                                                         описание
                                                     </button>
                                                 </div>
                                                 <div class="col-02 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom custom-blue btn-block up-tabs-elem tgl-off-usrs-exs" id="copyExsNew" title="Скопировать упражнение / упражнения">
+                                                    <button type="button" class="btn btn-primary2 btn-custom custom-blue0 btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" id="copyExsNew" title="Скопировать упражнение / упражнения">
                                                         копировать 2
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem up-tab-custom tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" data-state="0">
-                                                        <i class="fa fa-folder-open-o" aria-hidden="true" style="color: black;"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem up-tab-custom tgl-off-usrs-exs" id="toggleFoldersViews" title="Свернуть / Развернуть папки" data-state="0">
+                                                        <i class="fa fa-folder-open-o" aria-hidden="true" style="color: white;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="toggle_pro" title="Категория PRO">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="toggle_pro" title="Категория PRO">
                                                         PRO
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_favorite_2" title="Избранное 2">
-                                                        <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.2em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_favorite_2" title="Избранное 2">
+                                                        <span class="icon-custom ic-white icon--favorite" style="--i-w: 1.3em; --i-h: 1.2em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="ball_no" title="Без Мяча">
-                                                        <span class="icon-custom icon--ball-2-x" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="ball_no" title="Без Мяча">
+                                                        <span class="icon-custom ic-white icon--ball-2-x" style="--i-w: 1.1em; --i-h: 1.1em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="goal_small" title="Ворота">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="goal_small" title="Ворота">
                                                         g.
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="e_type_stretch" title="Разминка">
-                                                        <span class="icon-custom icon--flexibility" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="e_type_stretch" title="Разминка">
+                                                        <span class="icon-custom ic-white icon--flexibility" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" data-id="toggle_new_exs_per_day" title="Новые упражнения (сегодня)">
-                                                        <span class="icon-custom icon--24hours" style="--i-w: 1.35em; --i-h: 1.35em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem" data-id="toggle_new_exs_per_day" title="Новые упражнения (сегодня)">
+                                                        <span class="icon-custom ic-white icon--24hours" style="--i-w: 1.35em; --i-h: 1.35em;"></span>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem txt-as-ico" data-id="toggle_animation" title="">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem txt-as-ico" data-id="toggle_animation" title="">
                                                         A.
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_user_exs" title="Упражнения тренера">
-                                                        <span class="icon-custom icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs txt-as-ico" data-id="toggle_user_exs" title="Упражнения тренера">
+                                                        <span class="icon-custom ic-white icon--trainer" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
                                                         K
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_hidden_folders" title="Скрыть папки">
-                                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem tgl-off-usrs-exs" data-id="toggle_hidden_folders" title="Скрыть папки">
+                                                        <i class="fa fa-check-square-o" aria-hidden="true" style="color: white;"></i>
                                                     </button>
                                                 </div>
                                                 <div class="col-01 px-0">
-                                                    <button type="button" class="btn btn-secondary btn-custom btn-block up-tabs-elem" disabled="">
+                                                    <button type="button" class="btn btn-primary2 btn-custom btn-block up-tabs-elem" disabled="">
                                                         &nbsp;
                                                     </button>
                                                 </div>

@@ -219,7 +219,7 @@
 
 .btn-custom {
     color: #5a6268 !important;
-    border: 2px solid rgb(100, 100, 100) !important;
+    border: 2px solid rgb(255, 255, 255) !important;
     border-left-width: 1px !important;
     border-right-width: 1px !important;
     border-radius: 5% !important;
@@ -245,8 +245,17 @@
     border-color: #6b92ff;
 }
 .btn-custom.btn-primary:hover {
-    background-color: #5574c9;
-    border-color: #5574c9;
+    background-color: #67798d;
+    border-color: #67798d;
+}
+.btn-custom.btn-primary2 {
+    color: whitesmoke !important;
+    background-color: #3e8de2;
+    border-color: #3e8de2;
+}
+.btn-custom.btn-primary2:hover {
+    background-color: #046bd8;
+    border-color: #046bd8;
 }
 .btn-custom.btn-success {
     color: whitesmoke !important;
@@ -393,13 +402,27 @@
     border-width: 2px;
 }
 
-.btn-custom.folders-toggle.selected {
-    border: 2px solid rgb(100, 100, 100) !important;
-    background-color: #f3aa51 !important;
+.btn-custom.btn-primary2.selected {
+    background-color: #c4720f !important;
+    border-color: white !important;
     font-weight: bold !important;
-    text-transform: uppercase !important;
-    color: #000000 !important;
     opacity: 0.9;
+}
+.btn-custom.btn-primary2.selected2 {
+    background-color: #c4720f !important;
+    border-color: white !important;
+    font-weight: bold !important;
+    opacity: 0.9;
+}
+.btn-custom.btn-primary2.selected3 {
+    background-color: #c4720f !important;
+    border-color: white !important;
+    font-weight: bold !important;
+    opacity: 0.9;
+}
+
+.btn-custom.folders-toggle.selected {
+    text-transform: uppercase !important;
 }
 .btn-custom.folders-toggle:disabled {
     opacity: 0.4 !important;
@@ -471,12 +494,28 @@ tr.bck-custom > td {
     border: 2px solid #7f8340 !important;
 }
 
+
+.folders_div > .list-group > .list-group-item {
+    color: black;
+    background-color: #a8c5e4;
+    border-color: #a8c5e4;
+    border-bottom: 2px solid #d3e8ff;
+}
 .folders_div >.list-group > .list-group-item:hover {
     cursor: pointer;
-    background-color: #efefef84;
-    color: #5a6268;
+    background-color: #6eaae9;
+}
+.folders_div > .list-group > .list-group-item.active {
+    background-color: #f3aa51;
+    border-color: #f3aa51;
+    border: 2px solid #f3aa51 !important;
+}
+.folders_div > .list-group > .list-group-item.root-elem {
+    font-weight: bold;
+    margin-top: .25rem !important;
 }
 
+/* 
 .folders_list > .list-group > .list-group-item {
     background-color: #fff;
     border-bottom: 1px solid rgb(170, 170, 170);
@@ -540,7 +579,7 @@ tr.bck-custom > td {
 }
 .folders_trainer_list > .list-group > .list-group-item.last-elem {
     border-bottom: 3px solid #a8c5e4;
-}
+} */
 
 .d-folders > .list-group-item:not(.team-elem):hover {
     background-color: #ececec;
@@ -1060,19 +1099,19 @@ li.marker--border_btm {
 
 .txt-as-ico {
     font-weight: bold !important;
-    color: black !important;
+    color: white !important;
 }
 
-.folder-color-A {
+.folder-color-A0 {
     background-color: #7cb3edcd !important;
 }
-.folder-color-B {
+.folder-color-B0 {
     background-color: #e7ed7ccd !important;
 }
-.folder-color-C {
+.folder-color-C0 {
     background-color: #7ced80cd !important;
 }
-.folder-color-D {
+.folder-color-D0 {
     background-color: #edaf7ccd !important;
 }
 
