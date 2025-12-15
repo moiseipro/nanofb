@@ -1,14 +1,14 @@
 <div class="folders_list folders_div selected mt-2 mx-2" data-id="team_folders">
     <ul class="list-group">
     {% for folder in folders %}
-        <li class="list-group-item px-1 py-0">
+        <li class="list-group-item px-0 py-0">
             <div class="folder-elem d-flex justify-content-between" 
                 data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                 data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0"
                 title="{{ folder.short_name }}. {{ folder.name }}">
                 <div class="pull-left">
                     <span class="folder-point pl-2">
-                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                        <span class="icon-custom icon--folder-x ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                     </span>
                     <span class="folder-short pr-2 mr-1 border-right border-dark">
                         {{ folder.short_name }}
@@ -60,14 +60,14 @@
     <div class="folders_nfb_list folders_div mt-2 mx-2 d-none" data-id="nfb_folders">
         <ul class="list-group">
         {% for folder in nfb_folders %}
-            <li class="list-group-item px-1 py-0">
+            <li class="list-group-item px-0 py-0">
                 <div class="folder-nfb-elem d-flex justify-content-between" 
                     data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                     data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0" 
                     title="{{ folder.short_name }}. {{ folder.name }}">
                     <div class="pull-left">
                         <span class="folder-point pl-2">
-                            <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                            <span class="icon-custom icon--folder-x ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                         </span>
                         <span class="folder-short pr-2 mr-1 border-right border-dark">
                             {{ folder.short_name }}
@@ -114,14 +114,14 @@
     <div class="folders_club_list folders_div mt-2 mx-2 d-none" data-id="club_folders">
         <ul class="list-group">
         {% for folder in club_folders %}
-            <li class="list-group-item px-1 py-0">
+            <li class="list-group-item px-0 py-0">
                 <div class="folder-club-elem d-flex justify-content-between" 
                     data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
                     data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0"
                     title="{{ folder.short_name }}. {{ folder.name }}">
                     <div class="pull-left">
                         <span class="folder-point pl-2">
-                            <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                            <span class="icon-custom icon--folder-x ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
                         </span>
                         <span class="folder-short pr-2 mr-1 border-right border-dark">
                             {{ folder.short_name }}

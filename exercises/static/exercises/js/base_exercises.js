@@ -862,6 +862,15 @@ function ToggleUpFilter(id, state) {
         case "toggle_marker_modal":
             $('#exerciseMarkerModal').modal('show');
             break;
+        case "toggle_panel_search":
+            $('.exs-panel-filtering').toggleClass('d-none', !state);
+            $('.exs-panel-filtering').toggleClass('d-flex', state);
+            break;
+        case "toggle_color_upper_panel":
+            $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').removeClass('selected3');
+            $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').attr('data-state', 0);
+            ChangeUpperPanelColor();
+            break;
         default:
             break;
     }
@@ -2116,6 +2125,18 @@ function ChangeIconsColor() {
     $('.up-tabs-elem').find('.icon-custom').addClass(`ic-${newColor}`);
     $('.up-tabs-elem').attr('style', `color: ${newColor} !important`);
     $('.up-tabs-elem').find('i.fa').attr('style', `color: ${newColor} !important`);
+}
+
+function ChangeUpperPanelColor() {
+    let state = $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').hasClass('set-old');
+    let color = !state ? "black" : "white";
+    removeClassesStartingWith($('.up-tabs-elem').find('.icon-custom'), 'ic-');
+    $('.up-tabs-elem').find('.icon-custom').addClass(`ic-${color}`);
+    $('.up-tabs-elem').attr('style', `color: ${color} !important`);
+    $('.up-tabs-elem').find('i.fa').attr('style', `color: ${color} !important`);
+    $('.up-tabs-elem').toggleClass('btn-primary2', state);
+    $('.up-tabs-elem').toggleClass('btn-secondary', !state);
+    $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').toggleClass('set-old', !state);
 }
 
 

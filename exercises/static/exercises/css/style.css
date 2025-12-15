@@ -38,9 +38,9 @@
 
 
 .col-01 {
-    -ms-flex: 0 0 4.85%;
-    flex: 0 0 4.85%;
-    max-width: 4.85%;
+    -ms-flex: 0 0 4.45%;
+    flex: 0 0 4.45%;
+    max-width: 4.45%;
 }
 .col-02 {
     -ms-flex: 0 0 12%;
@@ -416,6 +416,25 @@
 }
 .btn-custom.btn-primary2.selected3 {
     background-color: #c4720f !important;
+    border-color: white !important;
+    font-weight: bold !important;
+    opacity: 0.9;
+}
+
+.btn-custom.btn-secondary.selected {
+    background-color: #f3aa51 !important;
+    border-color: white !important;
+    font-weight: bold !important;
+    opacity: 0.9;
+}
+.btn-custom.btn-secondary.selected2 {
+    background-color: #f3aa51 !important;
+    border-color: white !important;
+    font-weight: bold !important;
+    opacity: 0.9;
+}
+.btn-custom.btn-secondary.selected3 {
+    background-color: #f3aa51 !important;
     border-color: white !important;
     font-weight: bold !important;
     opacity: 0.9;
@@ -1129,4 +1148,12 @@ li.marker--border_btm {
 .modal.loading {
     opacity: 0.65 !important;
     pointer-events: none !important;
+}
+
+
+.list-group-item > div > .pull-left > .folder-point, .folder-short {
+    background-color: #f8f9fa !important;
+}
+.list-group-item > div > .pull-right {
+    background-color: #f8f9fa !important;
 }
