@@ -30,7 +30,7 @@ class NotificationManagementView(PermissionRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         video_params = {}
         video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
-        v_folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('parent', 'order')
+        v_folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('order', 'parent')
         parent_ids = v_folders.values_list('parent', flat=True).distinct()
         letter_map = {}
         letter_ind = 0
