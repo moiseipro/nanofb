@@ -36,7 +36,23 @@ def helper_football(request):
         return redirect("users:profile")
     video_params = {}
     video_params['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
-    video_params['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
+    v_folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('parent', 'order')
+    parent_ids = v_folders.values_list('parent', flat=True).distinct()
+    letter_map = {}
+    letter_ind = 0
+    for parent_id in parent_ids:
+        if parent_id not in letter_map:
+            letter = chr(ord('A') + letter_ind)
+            letter_map[parent_id] = letter
+            letter_ind += 1
+    counter = {}
+    for folder in v_folders:
+        parent_id = folder.parent
+        letter = letter_map[parent_id]
+        counter[parent_id] = counter.get(parent_id, 0) + 1
+        number = counter[parent_id]
+        folder.short_name = f"{letter}{number}"
+    video_params['folders'] = v_folders
     video_params['tags'] = Tag.objects.all()
     return render(request, 'helper_football/base_helper_football.html', {
         'menu_helper_football': 'active',

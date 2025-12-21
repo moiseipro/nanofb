@@ -454,16 +454,17 @@ class VideoViewSet(viewsets.ModelViewSet):
             #     video.size = c_size
             #     video.save(update_fields=['size'])
             # return queryset
-            return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+            # return Video.objects.all()#.order_by('adminexercise__folder__parent', 'adminexercise__folder__order')
+            return Video.objects.all().order_by('-id')
         else:
             if self.request.user.club_id is not None:
-                return Video.objects.filter(club=self.request.user.club_id)
+                return Video.objects.filter(club=self.request.user.club_id).order_by('-id')
                 return Video.objects.filter(
                     Q(club=self.request.user.club_id) | 
                     Q(Q(club__isnull=True) & Q(user__isnull=True))
                 )
             else:
-                return Video.objects.filter(user=self.request.user)
+                return Video.objects.filter(user=self.request.user).order_by('-id')
                 return Video.objects.filter(
                     Q(user=self.request.user) | 
                     Q(Q(club__isnull=True) & Q(user__isnull=True))
@@ -544,7 +545,23 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
-        context['folders'] = AdminFolder.objects.exclude(parent=None).order_by('parent', 'order')
+        folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('parent', 'order')
+        parent_ids = folders.values_list('parent', flat=True).distinct()
+        letter_map = {}
+        letter_ind = 0
+        for parent_id in parent_ids:
+            if parent_id not in letter_map:
+                letter = chr(ord('A') + letter_ind)
+                letter_map[parent_id] = letter
+                letter_ind += 1
+        counter = {}
+        for folder in folders:
+            parent_id = folder.parent
+            letter = letter_map[parent_id]
+            counter[parent_id] = counter.get(parent_id, 0) + 1
+            number = counter[parent_id]
+            folder.short_name = f"{letter}{number}"
+        context['folders'] = folders
         context['tags'] = Tag.objects.all()
         context['ui_elements'] = get_ui_elements(self.request)
         # context['update_form'] = UpdateVideoForm()

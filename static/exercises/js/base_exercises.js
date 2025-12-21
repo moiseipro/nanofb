@@ -863,13 +863,25 @@ function ToggleUpFilter(id, state) {
             $('#exerciseMarkerModal').modal('show');
             break;
         case "toggle_panel_search":
+            if (!state) {
+                let flag = "_search" in window.exercisesFilter && window.exercisesFilter['_search'] != "" ||
+                "filter_players" in window.exercisesFilter && window.exercisesFilter['filter_players'] != "" ||
+                "tags" in window.exercisesFilter && window.exercisesFilter['tags'].length > 0 ||
+                "tags_folder" in window.exercisesFilter && window.exercisesFilter['tags_folder'].length > 0 ||
+                "tags_short_categories" in window.exercisesFilter && window.exercisesFilter['tags_short_categories'].length > 0;
+                if (flag) {
+                    $('.up-tabs-elem[data-id="toggle_panel_search"]').addClass('selected3');
+                    $('.up-tabs-elem[data-id="toggle_panel_search"]').attr('data-state', 1);
+                    break;
+                }
+            }
             $('.exs-panel-filtering').toggleClass('d-none', !state);
             $('.exs-panel-filtering').toggleClass('d-flex', state);
             break;
         case "toggle_color_upper_panel":
             $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').removeClass('selected3');
             $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').attr('data-state', 0);
-            ChangeUpperPanelColor();
+            ChangeUpperPanelColor(false);
             break;
         default:
             break;
@@ -2127,9 +2139,15 @@ function ChangeIconsColor() {
     $('.up-tabs-elem').find('i.fa').attr('style', `color: ${newColor} !important`);
 }
 
-function ChangeUpperPanelColor() {
-    let state = $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').hasClass('set-old');
-    let color = !state ? "black" : "white";
+function ChangeUpperPanelColor(isFirstRun=false) {
+    let color = null; let state = null;
+    if (isFirstRun) {
+        color = localStorage.getItem('upper_panel__color') || "white";
+        state = color == "white";
+    } else {
+        state = $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').hasClass('set-old');
+        color = !state ? "black" : "white";
+    }
     removeClassesStartingWith($('.up-tabs-elem').find('.icon-custom'), 'ic-');
     $('.up-tabs-elem').find('.icon-custom').addClass(`ic-${color}`);
     $('.up-tabs-elem').attr('style', `color: ${color} !important`);
@@ -2137,6 +2155,7 @@ function ChangeUpperPanelColor() {
     $('.up-tabs-elem').toggleClass('btn-primary2', state);
     $('.up-tabs-elem').toggleClass('btn-secondary', !state);
     $('.up-tabs-elem[data-id="toggle_color_upper_panel"]').toggleClass('set-old', !state);
+    localStorage.setItem('upper_panel__color', color);
 }
 
 
@@ -2244,7 +2263,6 @@ $(function() {
     let searchTmpVal = "";
     $('.exs-search').on('keyup', (e) => {
         let val = $(e.currentTarget).val();
-        console.log( val, window.exercisesFilter['_search'] )
         if ((window.exercisesFilter['_search'] && window.exercisesFilter['_search'] == val) || (!window.exercisesFilter['_search'] && val == "")) {
             return;
         }
@@ -3984,6 +4002,9 @@ $(function() {
             '_blank'
         ).focus();
     });
+
+    // Controlling upper buttons panel's color
+    ChangeUpperPanelColor(true);
 
     // Open editable panel for exercise
     if (sessionStorage.getItem("exercises__exs_edit_panel") !== null) {
