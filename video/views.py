@@ -545,7 +545,7 @@ class BaseVideoView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sources'] = VideoSource.objects.all().annotate(videos=Count('video')).order_by('-videos')
-        folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('parent', 'order')
+        folders = AdminFolder.objects.filter(visible=True).exclude(parent=None).order_by('order', 'parent')
         parent_ids = folders.values_list('parent', flat=True).distinct()
         letter_map = {}
         letter_ind = 0
