@@ -232,6 +232,18 @@
     </a>
 </li>
 {% endif %}
+{% if perms.testing.view_test or perms.testing.view_test %}
+<li class="{{ menu_testing }}">
+    <a href="{% url 'testing:testing' %}" class="nav-link" style="padding-left: 16px;">
+        {% if ui_elements.sidebar__testing %}
+            {{ ui_elements.sidebar__testing }}
+        {% else %}
+            <i class="fa fa-list-ol" aria-hidden="true"></i>
+        {% endif %}
+        <span class="pl-2">{% trans 'Testing' %}</span>
+    </a>
+</li>
+{% endif %}
 {% if perms.tournaments.view_userarticle or perms.tournaments.view_clubarticle %}
 <li class="{{ menu_tournaments }}">
     <a href="{% url 'tournaments:tournaments' %}" class="nav-link" style="padding-left: 16px;">

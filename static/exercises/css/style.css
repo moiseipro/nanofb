@@ -1157,3 +1157,7 @@ li.marker--border_btm {
 .list-group-item > div > .pull-right {
     background-color: #f8f9fa !important;
 }
+.list-group-item > div > .pull-left > .folder-short {
+    display: inline-block !important;
+    width: 40px !important;
+}

@@ -5452,3 +5452,6 @@ msgstr "Конспект"
 
 msgid "Send with"
 msgstr "Отправить через"
+
+msgid "Testing"
+msgstr "Тестирование"

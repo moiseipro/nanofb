@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     'drawer.apps.DrawerConfig',
     'notifications.apps.NotificationsConfig',
     'tournaments.apps.TournamentsConfig',
+    'testing.apps.TestingConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

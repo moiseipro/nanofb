@@ -1,0 +1,143 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Тестирование{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'testing/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body p-0 scrollable-block" style="--scroll:90vh;">
+                        <div class="up-block-content">
+                            <div class="row">
+                                <div class="col-12 btn-group">
+                                    <button type="button" class="btn btn-success btn-sm mr-1" id="createNewTest" style="max-width: 10vw;">
+                                        Создать тест
+                                    </button>
+                                    <select id="testSelected" class="form-control form-control-sm  mr-1" style="max-width: 20vw;">
+                                        <option value="" disabled="disabled" selected="selected">Выбрать существующий тест</option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary btn-sm  mr-1" id="editSelectedTest" style="max-width: 10vw;">
+                                        Изменить тест
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-sm  mr-1" id="createNewResult" style="max-width: 10vw;">
+                                        Добавить результат
+                                    </button>
+                                    <button type="button" class="btn btn-dark btn-sm  mr-1" disabled="disabled">
+                                        &nbsp;
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-sm  mr-1 elem-flex-center" id="printTableData" title="Печать" style="max-width:32px;">
+                                        <i class="icon-custom icon--print" style="--i-w: 1.25em; --i-h: 1.25em;"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-sm elem-flex-center" id="shareTableData" title="Поделиться" style="max-width:32px;">
+                                        <span class="icon-custom icon--share" style="--i-w: 1.25em; --i-h: 1.25em;"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tests-table-container mt-2">
+                            <div class="table-responsive-no-data text-center">
+                                <h5 class="font-weight-bold">Данных не найдено.</h5>
+                            </div>
+                            <div class="table-responsive h-100">
+                                <table id="tests" class="table table-sm table-bordered dataTable" style="width:100%;">
+                                    <thead>
+                                        <tr class="dates">
+                                            <th class="text-center" colspan="2"></th>
+                                        </tr>
+                                        <tr class="params">
+                                            <th class="text-center">ФИО</th>
+                                            <th class="text-center">ДР</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editTestModal" tabindex="-1" role="dialog" aria-labelledby="editTestModalLbl" aria-hidden="true" data-id="">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Добавление / изменение теста</h5>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-1">
+                            <input name="title" type="text" class="form-control form-control-sm" aria-describedby="" autocomplete="off" required="" placeholder="Название теста">
+                        </div>
+                        <div class="btns-control">
+                            <span>Параметры</span>
+                            <span class="badge badge-success col-add" title="Добавить элемент">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="content-container">
+                            <div class="row test-container mx-0">
+                                <div class="col-12 param-row row border border-secondary">
+                                    <input name="name_param" class="form-control form-control-sm" type="text" value="" placeholder="Название параметра" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-save">Сохранить</button>
+                        <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editTestResultModal" tabindex="-1" role="dialog" aria-labelledby="editTestResultModalLbl" aria-hidden="true" data-id="">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Добавление / изменение результата тестирования</h5>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="dateTestResult" class="col-3 col-form-label">Выберите дату тестирования</label>
+                            <div class="col-2">
+                                <input name="date" class="form-control form-control-sm" id="dateTestResult" type="date" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-7">&nbsp;</div>
+                        </div>
+                        <div class="table-responsive h-100">
+                            <table class="table table-sm table-bordered dataTable" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ФИО</th>
+                                        <th class="text-center">ДР</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-save">Сохранить</button>
+                        <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'testing/js/base_testing.js' %}"></script>
+{% endblock %}

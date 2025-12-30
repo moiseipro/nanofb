@@ -54,6 +54,7 @@ urlpatterns = [
     path('drawer/', include(('drawer.urls', 'drawer'), namespace='drawer')),
     path('notifications/', include(('notifications.urls', 'notifications'), namespace='notification')),
     path('tournaments/', include(('tournaments.urls', 'tournaments'), namespace='tournaments')),
+    path('testing/', include(('testing.urls', 'testing'), namespace='testing')),
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('schemeDrawer/', include(('schemeDrawer.urls', 'schemeDrawer'), namespace='schemeDrawer')),
