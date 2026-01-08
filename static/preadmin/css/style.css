@@ -4432,14 +4432,14 @@ table.table-inbox tbody tr.checked {
 	mask-size: cover;
 }
 .icon--favorite-selected {
-	background-color: black; 
+	background-color: rgb(215, 50, 50); 
 	-webkit-mask: url(../img/icons/svg/favorite_selected.svg) no-repeat 50% 50%;
 	mask: url(../img/icons/svg/favorite_selected.svg) no-repeat 50% 50%;
 	-webkit-mask-size: cover;
 	mask-size: cover;
 }
 .icon--favorite-selected-2 {
-	background-color: black; 
+	background-color: rgb(50, 215, 50); 
 	-webkit-mask: url(../img/icons/svg/favorite_selected_2.svg) no-repeat 50% 50%;
 	mask: url(../img/icons/svg/favorite_selected_2.svg) no-repeat 50% 50%;
 	-webkit-mask-size: cover;

@@ -5253,6 +5253,42 @@ def POST_change_order_folder(request, cur_user):
     return JsonResponse({"data": res_data}, status=200)
 
 
+def POST_toggle_active_folder(request, cur_user):
+    """
+    Return JSON Response as result on POST operation "Toggle active folder, only for NFB folders".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "status" (response code).
+    :rtype: JsonResponse[{"data": [obj]}, status=[int]]
+
+    """
+    c_id = -1
+    status = -1
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        status = int(request.POST.get("value", -1))
+    except:
+        pass
+    if not cur_user.is_superuser:
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_folder = AdminFolder.objects.filter(id=c_id).first()
+    res_data = {'type': "error", 'err': "Cant create or edit record."}
+    if found_folder and found_folder.id != None:
+        found_folder.active = status == 1
+        try:
+            found_folder.save()
+            res_data = {'id': found_folder.id, 'status': status == 1, 'type': "toggle_active"}
+        except Exception as e:
+            res_data = {'id': found_folder.id, 'type': "error", 'err': str(e)}
+    return JsonResponse({"data": res_data}, status=200)
+
+
 def POST_update_archived_exs(request, cur_user):
     """
     Return JSON Response as result on POST operation "Update archived exercises for user".

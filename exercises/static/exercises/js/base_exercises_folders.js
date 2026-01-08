@@ -193,6 +193,30 @@ $(function() {
         $('#folderDeleteModal').modal('show');
     });
 
+    $('.folders_div').on('change', '.folder-active-toggle', (e) => {
+        let cId = $(e.currentTarget).parent().parent().parent().attr('data-id');
+        let value = $(e.currentTarget).prop('checked');
+        $('.page-loader-wrapper').fadeIn();
+        $.ajax({
+            headers:{"X-CSRFToken": csrftoken},
+            data: {'toggle_active_folder': 1, 'id': cId, 'value': value ? 1 : 0},
+            type: 'POST', // GET или POST
+            dataType: 'json',
+            url: "folders_api",
+            success: function (res) {
+                if (res.data.type && res.data.type == "error") {
+                    swal(gettext("Error"), "Ошибка при изменении статуса", "error");
+                }
+            },
+            error: function (res) {
+                console.log(res.responseJSON.errors)
+            },
+            complete: function (res) {
+                $('.page-loader-wrapper').fadeOut();
+            }
+        });
+    });
+
     $('#folderChangeModal').on('show.bs.modal', (e) => {
         $(e.currentTarget).find('button.btn-submit').prop('disabled', false);
     });
@@ -209,7 +233,6 @@ $(function() {
             'edit': 1, 'id': cFolderIdToChange, 'parent_id': cParentIdToChange, 
             'name': name, 'short_name': shortName, 'f_type': cFolderType
         };
-        console.log(data['f_type'])
         $('.page-loader-wrapper').fadeIn();
         $.ajax({
             headers:{"X-CSRFToken": csrftoken},

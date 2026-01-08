@@ -23,7 +23,6 @@
             </select>
         </div>
     </div>
-    {% if not perms.players.change_userplayer and not perms.players.change_clubplayer %}
     <div class="form-group row mb-0">
         <label for="input_players" class="col-md-6 col-form-label">{% trans "Players" %}</label>
         <div class="col-md-6">
@@ -36,7 +35,6 @@
             <input type="number" name="goalkepeers" class="form-control" id="input_goalkepeers" placeholder="" required>
         </div>
     </div>
-    {% endif %}
     <div class="form-group row mb-0">
         <label for="input_field_size" class="col-md-6 col-form-label">{% trans "Field size" %}</label>
         <div class="col-md-6">

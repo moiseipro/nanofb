@@ -96,6 +96,9 @@
                         <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </span>
+                        <span class="badge badge-light folder-active mr-2" title="Скрыть / показать папку">
+                            <input class="folder-active-toggle" type="checkbox" value="" {% if folder.active %}checked="checked"{% endif %}>
+                        </span>
                     </div>
                     {% endif %}
                 </div>

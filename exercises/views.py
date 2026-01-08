@@ -731,6 +731,7 @@ def folders_api(request):
         edit_status = 0
         delete_status = 0
         change_order_status = 0
+        toggle_active_folder_status = 0
         try:
             c_id = int(request.POST.get("id", -1))
         except:
@@ -751,6 +752,10 @@ def folders_api(request):
             change_order_status = int(request.POST.get("change_order", 0))
         except:
             pass
+        try:
+            toggle_active_folder_status = int(request.POST.get("toggle_active_folder", 0))
+        except:
+            pass
         cur_user = User.objects.filter(email=request.user).only("id")
         if not cur_user.exists() or cur_user[0].id == None:
             return JsonResponse({"errors": "trouble_with_user"}, status=400)
@@ -760,6 +765,8 @@ def folders_api(request):
             return v_api.POST_delete_folder(request, cur_user[0], c_id)
         elif change_order_status == 1:
             return v_api.POST_change_order_folder(request, cur_user[0])
+        elif toggle_active_folder_status == 1:
+            return v_api.POST_toggle_active_folder(request, cur_user[0])
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         cur_team = -1

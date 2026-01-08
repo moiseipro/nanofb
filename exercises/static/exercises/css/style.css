@@ -531,7 +531,10 @@ tr.bck-custom > td {
 }
 .folders_div > .list-group > .list-group-item.root-elem {
     font-weight: bold;
-    margin-top: .25rem !important;
+    /* margin-top: .25rem !important; */
+}
+.folders_div > .list-group > .list-group-item.last-elem {
+    margin-bottom: .4rem !important;
 }
 
 /* 
@@ -621,7 +624,7 @@ tr.bck-custom > td {
     background-color: #a8c5e4;
     border-color: #a8c5e4;
     font-weight: bold;
-    margin-bottom: .25rem !important;
+    /* margin-bottom: .25rem !important; */
 }
 .d-folders > .list-group-item.last-elem {
     border-bottom: 3px solid #a8c5e4;
@@ -635,7 +638,7 @@ tr.bck-custom > td {
     background-color: #a8c5e4;
     border-color: #a8c5e4;
     font-weight: bold;
-    margin-bottom: .25rem !important;
+    /* margin-bottom: .25rem !important; */
 }
 .folders_club_list > .list-group > .list-group-item {
     background-color: #fff;
@@ -650,7 +653,7 @@ tr.bck-custom > td {
     background-color: #a8c5e4;
     border-color: #a8c5e4;
     font-weight: bold;
-    margin-bottom: .25rem !important;
+    /* margin-bottom: .25rem !important; */
 }
 .folders_club_list > .list-group > .list-group-item.last-elem {
     border-bottom: 3px solid #a8c5e4;
@@ -668,7 +671,7 @@ tr.bck-custom > td {
     background-color: #a8c5e4;
     border-color: #a8c5e4;
     font-weight: bold;
-    margin-bottom: .25rem !important;
+    /* margin-bottom: .25rem !important; */
 }
 
 
