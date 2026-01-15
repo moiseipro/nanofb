@@ -1,3 +1,56 @@
+let testsTableOptions = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
+    scrollY: "73vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    select: true,
+    drawCallback: function( settings ) {
+    },
+    initComplete: (settings, json) => {},
+    "columnDefs": [
+        {"width": "20%", "targets": 0},
+        {"width": "6%", "targets": 1},
+        {"width": "3%", "targets": [2, 3]},
+        {"className": "dt-vertical-center", "targets": "_all"}
+    ]
+};
+let testEditTableOptions = {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/'+get_cur_lang()+'.json'
+    },
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-12 col-md-5'><'col-sm-12 col-md-7'p>>",
+    scrollX: true,
+    scrollY: "73vh",
+    scrollCollapse: true,
+    serverSide: false,
+    processing: false,
+    paging: false,
+    searching: false,
+    ordering: false,
+    select: true,
+    autoWidth: false,
+    drawCallback: function( settings ) {
+    },
+    initComplete: (settings, json) => {},
+    "columnDefs": [
+        {"width": "20%", "targets": 0},
+        {"width": "6%", "targets": 1},
+        {"width": "3%", "targets": [2, 3]},
+        {"className": "dt-vertical-center", "targets": "_all"}
+    ]
+};
+
 function LoadTestsAll() {
     let dataSend = {'get_all_tests': 1, 'only_titles': 1};
     let dataResponse = null;
@@ -64,7 +117,6 @@ function LoadTestOne(id = "") {
 function RenderTestOne(id = "") {
     LoadTestOne(id)
     .then(data => {
-        console.log(data)
         $('#editTestModal').attr('data-id', data.id);
         $('#editTestModal').find('input[name="title"]').val(data.name);
         $('#editTestModal').find('.btn-delete').toggleClass('d-none', data.id == "");
@@ -234,16 +286,34 @@ function RenderTestsResultsAll(data) {
             let testId = $('#testSelected').val();
             LoadTestOne(testId)
             .then(test => {
-                $('table#tests').find('thead th.dynamic').remove();
-                $('table#tests').find('tbody tr').remove();
+                $('#tests_wrapper').html(`
+                    <table class="table table-sm table-bordered dataTable" style="width:100%;">
+                        <thead>
+                            <tr class="dates">
+                                <th class="text-center" colspan="4"></th>
+                            </tr>
+                            <tr class="params">
+                                <th class="text-center">ФИО</th>
+                                <th class="text-center">ДР</th>
+                                <th class="text-center">Рост</th>
+                                <th class="text-center">Вес</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>    
+                `);
                 for (let i = 0; i < uniqueDates.length; i++) {
                     let cDate = uniqueDates[i];
-                    let paramsLength = test.parameters.length;
+                    let paramsLength = test.parameters.length * 2;
                     for (let j = 0; j < test.parameters.length; j++) {
                         let param = test.parameters[j];
-                        $('table#tests').find('thead > tr.params').append(`<th class="text-center dynamic">${param}</th>`);
+                        let paramToTitle = param.length > 4 ? param.substring(0, 4) : param;
+                        let borderLeftClass = j == 0 ? "border-left" : "";
+                        let borderRightClass = j == test.parameters.length - 1 ? "border-right" : "";
+                        $('#tests_wrapper > table').find('thead > tr.params').append(`<th class="text-center dynamic ${borderLeftClass}" title="${param}">${paramToTitle}</th>`);
+                        $('#tests_wrapper > table').find('thead > tr.params').append(`<th class="text-center dynamic ${borderRightClass}" title="Балл">Б.</th>`);
                     }
-                    $('table#tests').find('thead > tr.dates').append(`<th class="text-center dynamic" colspan="${paramsLength}">${cDate}</th>`);
+                    $('#tests_wrapper > table').find('thead > tr.dates').append(`<th class="text-center dynamic header-date" colspan="${paramsLength}">${cDate}</th>`);
                 }
                 for (let i = 0; i < players.length; i++) {
                     let player = players[i];
@@ -252,8 +322,11 @@ function RenderTestsResultsAll(data) {
                         let cDate = uniqueDates[j];
                         for (let k = 0; k < test.parameters.length; k++) {
                             let param = test.parameters[k];
+                            let borderLeftClass = k == 0 ? "border-left" : "";
+                            let borderRightClass = k == test.parameters.length - 1 ? "border-right" : "";
                             paramsHtml += `
-                                <td class="text-center" data-date="${cDate}" data-key="${param}"></td>
+                                <td class="text-center ${borderLeftClass}" data-date="${cDate}" data-key="${param}" data-type="value"></td>
+                                <td class="text-center ${borderRightClass}" data-date="${cDate}" data-key="${param}" data-type="mark"></td>
                             `;
                         }
                     }
@@ -261,20 +334,24 @@ function RenderTestsResultsAll(data) {
                         <tr class="" data-player="${player.id}">
                             <td class="">${player.name}</td>
                             <td class="">${player.birthsday}</td>
+                            <td class="">${player.growth}</td>
+                            <td class="">${player.weight}</td>
                             ${paramsHtml}
                         </tr>
                     `;
-                    $('table#tests').find('tbody').append(tRow);
+                    $('#tests_wrapper > table').find('tbody').append(tRow);
                 }
                 for (let i = 0; i < data.length; i++) {
                     let result = data[i];
-                    let foundRow = $('table#tests').find(`tr[data-player="${result.player_id}"]`);
+                    let foundRow = $('#tests_wrapper > table').find(`tr[data-player="${result.player_id}"]`);
                     if (foundRow.length > 0) {
                         for (let key in result.values) {
-                            $(foundRow).find(`td[data-key="${key}"][data-date="${result.date}"]`).text(result.values[key]);
+                            $(foundRow).find(`td[data-key="${key}"][data-type="value"][data-date="${result.date}"]`).text(result.values[key]['value']);
+                            $(foundRow).find(`td[data-key="${key}"][data-type="mark"][data-date="${result.date}"]`).text(result.values[key]['mark']);
                         }
                     }
                 }
+                RenderTable($('#tests_wrapper > table'), testsTableOptions);
             })
             .catch(error => {console.error("Error:", error);});
         })
@@ -317,7 +394,8 @@ function RenderTestResultOne(data) {
             let foundRow = $('#editTestResultModal').find(`tr[data-player="${row.player_id}"]`);
             if (foundRow.length > 0) {
                 for (let key in row.values) {
-                    $(foundRow).find(`input[data-key="${key}"]`).val(row.values[key]);
+                    $(foundRow).find(`input[data-key="${key}"][data-type="value"]`).val(row.values[key]['value']);
+                    $(foundRow).find(`input[data-key="${key}"][data-type="mark"]`).val(row.values[key]['mark']);
                 }
             }
         }
@@ -332,8 +410,19 @@ function RenderTestResultModal() {
         LoadTestOne(testId)
         .then(test => {
             let setHeadersData = false;
-            $('#editTestResultModal').find('table thead th.dynamic').remove();
-            $('#editTestResultModal').find('table tbody tr').remove();
+            $('#editTestResultModal').find('.table-responsive').html(`
+                <table class="table table-sm table-bordered dataTable" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ФИО</th>
+                            <th class="text-center">ДР</th>
+                            <th class="text-center">Рост</th>
+                            <th class="text-center">Вес</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `);
             for (let i = 0; i < players.length; i++) {
                 let player = players[i];
                 let paramsHtml = "";
@@ -342,11 +431,15 @@ function RenderTestResultModal() {
                     if (!setHeadersData) {
                          $('#editTestResultModal').find('table > thead > tr').append(`
                             <th class="text-center dynamic">${param}</th>
+                            <th class="text-center dynamic">Балл</th>
                         `);
                     }
                     paramsHtml += `
                         <td class="text-center">
-                            <input name="" data-key="${param}" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
+                            <input name="" data-key="${param}" data-type="value" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
+                        </td>
+                        <td class="text-center">
+                            <input name="" data-key="${param}" data-type="mark" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
                         </td>
                     `;
                 }
@@ -355,10 +448,19 @@ function RenderTestResultModal() {
                     <tr class="" data-player="${player.id}">
                         <td class="">${player.name}</td>
                         <td class="">${player.birthsday}</td>
+                        <td class="">${player.growth}</td>
+                        <td class="">${player.weight}</td>
                         ${paramsHtml}
                     </tr>
                 `;
                 $('#editTestResultModal').find('table tbody').append(tRow);
+            }
+            RenderTable($('#editTestResultModal').find('table'), testEditTableOptions);
+            let selectedDateElem = $('#tests_wrapper').find('th.header-date.active');
+            if ($(selectedDateElem).length > 0) {
+                setTimeout(() => {
+                    $('#dateTestResult').val($(selectedDateElem).text()).trigger('change');
+                }, 500);
             }
         })
         .catch(error => {console.error("Error:", error);});
@@ -409,21 +511,29 @@ function EditTestResultOne(testId, date, parameters, toDelete=0) {
     });
 }
 
+function RenderTable(elem, options) {
+    if ($.fn.dataTable.isDataTable(elem)) {
+        $(elem).DataTable().destroy().clear();
+    }
+    setTimeout(() => {
+        $(elem).DataTable(options);
+        setTimeout(() => {
+            $(elem).DataTable().columns.adjust().draw();
+        }, 250);
+    }, 0);
+}
+
 
 
 $(function() {
     LoadTestsAll();
-    $('#createNewTest').on('click', (e) => {
-        $('#editTestModal').modal('show');
-        RenderTestOne();
-    });
+
     $('#editSelectedTest').on('click', (e) => {
         let cVal = $('#testSelected').val();
+        $('#editTestModal').modal('show');
         if (cVal == undefined || cVal == null || cVal == "") {
-            swal("Внимание", "Для редактирования выберите сначала тест!", "warning");
-            return;
+            RenderTestOne();
         } else {
-            $('#editTestModal').modal('show');
             RenderTestOne(cVal);
         }
     });
@@ -481,11 +591,16 @@ $(function() {
     $('#testSelected').on('change', (e) => {
         LoadTestsResultsAll();
     });
+    $('#tests_wrapper').on('click', 'th.header-date', (e) => {
+        let isActive = $(e.currentTarget).hasClass('active');
+        $('#tests_wrapper').find('th.header-date').removeClass('active');
+        $(e.currentTarget).toggleClass('active', !isActive);
+    });
 
     $('#createNewResult').on('click', (e) => {
         let cVal = $('#testSelected').val();
         if (cVal == undefined || cVal == null || cVal == "") {
-            swal("Внимание", "Для добавления результата выберите сначала тест!", "warning");
+            swal("Внимание", "Для настройки результатов выберите сначала тест!", "warning");
             return;
         } else {
             RenderTestResultModal();
@@ -507,8 +622,12 @@ $(function() {
             parameters[playerId] = {}
             $(elem).find('input[data-key]').each((j, elem2) => {
                 let key = $(elem2).attr('data-key');
+                let type = $(elem2).attr('data-type');
                 let val = $(elem2).val();
-                parameters[playerId][key] = val;
+                if (!(key in parameters[playerId])) {
+                    parameters[playerId][key] = {};
+                }
+                parameters[playerId][key][type] = val;
             });
         });
         EditTestResultOne(testId, date, parameters, 0);

@@ -224,7 +224,13 @@ def GET_get_players(request, cur_user, cur_team):
         players = UserPlayer.objects.filter(user=cur_user, team=cur_team)
     res_exs = []
     if players:
-        res_exs = [{'id': p.id, 'name': p.get_part_name(), 'birthsday': p.card.birthsday} for p in players]
+        for p in players:
+            res_exs.append({
+                'id': p.id, 'name': p.get_part_name(),
+                'birthsday': p.card.birthsday if p.card.birthsday else "",
+                'growth': p.card.growth if p.card.growth else "",
+                'weight': p.card.weight if p.card.weight else "",
+            })
     return JsonResponse({"data": res_exs, "success": True}, status=200)
 
 
