@@ -4,12 +4,15 @@ table.dataTable thead tr th {
 table.dataTable thead tr.dates th {
     border-right: 2px solid #959595 !important;
 }
-table.dataTable thead th.border-left, td.border-left {
+table.dataTable th.border-left, td.border-left {
     border-left: 2px solid #959595 !important;
 }
-table.dataTable thead th.border-right, td.border-right {
+table.dataTable th.border-right, td.border-right {
     border-right: 2px solid #959595 !important;
 }
 table.dataTable thead th.active {
     background-color: rgb(235, 235, 160) !important;
+}
+table.dataTable tfoot th {
+    background-color: rgb(225, 225, 225) !important;
 }

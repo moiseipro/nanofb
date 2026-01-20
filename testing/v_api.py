@@ -211,6 +211,14 @@ def GET_get_players(request, cur_user, cur_team):
     :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
 
     """
+    def calculate_age(birth_date):
+        if not isinstance(birth_date, datetime.date):
+            return None
+        today = datetime.date.today()
+        years = today.year - birth_date.year
+        if (today.month, today.day) < (birth_date.month, birth_date.day):
+            years -= 1
+        return years
     if not util_check_access(cur_user, {
         'perms_user': ["players.view_userplayer"], 
         'perms_club': ["players.view_clubplayer"]
@@ -225,9 +233,11 @@ def GET_get_players(request, cur_user, cur_team):
     res_exs = []
     if players:
         for p in players:
+            print(type(p.card.birthsday))
             res_exs.append({
                 'id': p.id, 'name': p.get_part_name(),
                 'birthsday': p.card.birthsday if p.card.birthsday else "",
+                'age': calculate_age(p.card.birthsday if p.card.birthsday else ""),
                 'growth': p.card.growth if p.card.growth else "",
                 'weight': p.card.weight if p.card.weight else "",
             })

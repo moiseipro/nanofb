@@ -276,6 +276,11 @@ function LoadTestsResultsAll() {
     });
 }
 
+function parseStringToFloatElseNull(str) {
+    const floatValue = Number(str);
+    return isNaN(floatValue) ? null : floatValue;
+}
+
 function RenderTestsResultsAll(data) {
     if (data && Array.isArray(data) && data.length > 0) {
         $('.tests-table-container').find('.table-responsive-no-data').addClass('d-none');
@@ -290,34 +295,45 @@ function RenderTestsResultsAll(data) {
                     <table class="table table-sm table-bordered dataTable" style="width:100%;">
                         <thead>
                             <tr class="dates">
-                                <th class="text-center" colspan="4"></th>
+                                <th class="text-center" colspan="5"></th>
                             </tr>
                             <tr class="params">
-                                <th class="text-center">ФИО</th>
-                                <th class="text-center">ДР</th>
-                                <th class="text-center">Рост</th>
-                                <th class="text-center">Вес</th>
+                                <th class="text-center" title="ФИО игрока">ФИО</th>
+                                <th class="text-center" title="День рождения игрока">ДР</th>
+                                <th class="text-center" title="Возраст игрока">В.</th>
+                                <th class="text-center" title="Рост игрока">Рост</th>
+                                <th class="text-center" title="Вес игрока">Вес</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr class="">
+                                <th class="text-center" title="Среднее" colspan="5">Среднее</th>
+                            </tr>
+                        </tfoot>
                     </table>    
                 `);
+                let activeMarks = localStorage.getItem("marks_view_status") || '1';
                 for (let i = 0; i < uniqueDates.length; i++) {
                     let cDate = uniqueDates[i];
-                    let paramsLength = test.parameters.length * 2;
+                    let paramsLength = activeMarks === '1' ? test.parameters.length * 2 : test.parameters.length;
                     for (let j = 0; j < test.parameters.length; j++) {
                         let param = test.parameters[j];
                         let paramToTitle = param.length > 4 ? param.substring(0, 4) : param;
                         let borderLeftClass = j == 0 ? "border-left" : "";
                         let borderRightClass = j == test.parameters.length - 1 ? "border-right" : "";
                         $('#tests_wrapper > table').find('thead > tr.params').append(`<th class="text-center dynamic ${borderLeftClass}" title="${param}">${paramToTitle}</th>`);
-                        $('#tests_wrapper > table').find('thead > tr.params').append(`<th class="text-center dynamic ${borderRightClass}" title="Балл">Б.</th>`);
+                        if (activeMarks === '1') {
+                            $('#tests_wrapper > table').find('thead > tr.params').append(`<th class="text-center dynamic ${borderRightClass}" title="Балл">Б.</th>`);
+                        }
                     }
                     $('#tests_wrapper > table').find('thead > tr.dates').append(`<th class="text-center dynamic header-date" colspan="${paramsLength}">${cDate}</th>`);
                 }
+                let footerCreated = false;
                 for (let i = 0; i < players.length; i++) {
                     let player = players[i];
                     let paramsHtml = "";
+                    let paramsFootHtml = "";
                     for (let j = 0; j < uniqueDates.length; j++) {
                         let cDate = uniqueDates[j];
                         for (let k = 0; k < test.parameters.length; k++) {
@@ -326,29 +342,66 @@ function RenderTestsResultsAll(data) {
                             let borderRightClass = k == test.parameters.length - 1 ? "border-right" : "";
                             paramsHtml += `
                                 <td class="text-center ${borderLeftClass}" data-date="${cDate}" data-key="${param}" data-type="value"></td>
-                                <td class="text-center ${borderRightClass}" data-date="${cDate}" data-key="${param}" data-type="mark"></td>
                             `;
+                            paramsFootHtml += `
+                                <th class="text-center ${borderLeftClass}" data-date="${cDate}" data-key="${param}" data-type="value"></th>
+                            `;
+                            if (activeMarks === '1') {
+                                paramsHtml += `
+                                    <td class="text-center ${borderRightClass}" data-date="${cDate}" data-key="${param}" data-type="mark"></td>
+                                `;
+                                paramsFootHtml += `
+                                    <th class="text-center ${borderRightClass}" data-date="${cDate}" data-key="${param}" data-type="mark"></th>
+                                `;
+                            }
                         }
                     }
                     let tRow = `
                         <tr class="" data-player="${player.id}">
                             <td class="">${player.name}</td>
                             <td class="">${player.birthsday}</td>
+                            <td class="">${player.age}</td>
                             <td class="">${player.growth}</td>
                             <td class="">${player.weight}</td>
                             ${paramsHtml}
                         </tr>
                     `;
                     $('#tests_wrapper > table').find('tbody').append(tRow);
+                    if (!footerCreated) {
+                        $('#tests_wrapper > table').find('tfoot > tr').append(paramsFootHtml);
+                        footerCreated = true;
+                    }
                 }
+                let sums = {};
                 for (let i = 0; i < data.length; i++) {
                     let result = data[i];
                     let foundRow = $('#tests_wrapper > table').find(`tr[data-player="${result.player_id}"]`);
                     if (foundRow.length > 0) {
                         for (let key in result.values) {
+                            let tKey = `${key}__${result.date}`;
+                            let tValue = parseStringToFloatElseNull(result.values[key]['value']);
+                            if (!(tKey in sums)) {
+                                sums[tKey] = {
+                                    'key': key,
+                                    'date': result.date,
+                                    'sum': 0.0,
+                                    'count': 0,
+                                };
+                            }
+                            if (tValue) {
+                                sums[tKey]['sum'] += tValue;
+                                sums[tKey]['count'] += 1;
+                            }
                             $(foundRow).find(`td[data-key="${key}"][data-type="value"][data-date="${result.date}"]`).text(result.values[key]['value']);
                             $(foundRow).find(`td[data-key="${key}"][data-type="mark"][data-date="${result.date}"]`).text(result.values[key]['mark']);
                         }
+                    }
+                }
+                for (key in sums) {
+                    let elem = sums[key];
+                    if (elem['count'] > 0) {
+                        let valAvg = elem['sum'] / elem['count'];
+                        $('#tests_wrapper > table').find('tfoot').find(`th[data-key="${elem['key']}"][data-type="value"][data-date="${elem['date']}"]`).text(valAvg.toFixed(2));
                     }
                 }
                 RenderTable($('#tests_wrapper > table'), testsTableOptions);
@@ -410,14 +463,16 @@ function RenderTestResultModal() {
         LoadTestOne(testId)
         .then(test => {
             let setHeadersData = false;
+            let activeMarks = localStorage.getItem("marks_view_status") || '1';
             $('#editTestResultModal').find('.table-responsive').html(`
                 <table class="table table-sm table-bordered dataTable" style="width:100%;">
                     <thead>
                         <tr>
-                            <th class="text-center">ФИО</th>
-                            <th class="text-center">ДР</th>
-                            <th class="text-center">Рост</th>
-                            <th class="text-center">Вес</th>
+                            <th class="text-center" title="ФИО игрока">ФИО</th>
+                            <th class="text-center" title="День рождения игрока">ДР</th>
+                            <th class="text-center" title="Возраст игрока">В.</th>
+                            <th class="text-center" title="Рост игрока">Рост</th>
+                            <th class="text-center" title="Вес игрока">Вес</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -429,25 +484,34 @@ function RenderTestResultModal() {
                 for (let j = 0; j < test.parameters.length; j++) {
                     let param = test.parameters[j];
                     if (!setHeadersData) {
-                         $('#editTestResultModal').find('table > thead > tr').append(`
+                        $('#editTestResultModal').find('table > thead > tr').append(`
                             <th class="text-center dynamic">${param}</th>
-                            <th class="text-center dynamic">Балл</th>
                         `);
+                        if (activeMarks === '1') {
+                            $('#editTestResultModal').find('table > thead > tr').append(`
+                                <th class="text-center dynamic">Балл</th>
+                            `);
+                        }
                     }
                     paramsHtml += `
                         <td class="text-center">
                             <input name="" data-key="${param}" data-type="value" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
                         </td>
-                        <td class="text-center">
-                            <input name="" data-key="${param}" data-type="mark" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
-                        </td>
                     `;
+                    if (activeMarks === '1') {
+                        paramsHtml += `
+                            <td class="text-center">
+                                <input name="" data-key="${param}" data-type="mark" class="form-control form-control-sm text-center" type="text" value="" placeholder="" autocomplete="off">
+                            </td>
+                        `;
+                    }
                 }
                 setHeadersData = true;
                 let tRow = `
                     <tr class="" data-player="${player.id}">
                         <td class="">${player.name}</td>
                         <td class="">${player.birthsday}</td>
+                        <td class="">${player.age}</td>
                         <td class="">${player.growth}</td>
                         <td class="">${player.weight}</td>
                         ${paramsHtml}
@@ -521,6 +585,16 @@ function RenderTable(elem, options) {
             $(elem).DataTable().columns.adjust().draw();
         }, 250);
     }, 0);
+}
+
+function ToggleMarksView(toSwitch=false) {
+    let activeMarks = localStorage.getItem("marks_view_status") || '1';
+    if (toSwitch) {
+        activeMarks = activeMarks === '1' ? '0' : '1';
+        LoadTestsResultsAll();
+    }
+    $('#toggleMarksView').find('input').prop('checked', activeMarks === '1');
+    localStorage.setItem("marks_view_status", activeMarks);
 }
 
 
@@ -641,6 +715,11 @@ $(function() {
             parameters[playerId] = {}
         });
         EditTestResultOne(testId, date, parameters, 1);
+    });
+
+    ToggleMarksView();
+    $('#toggleMarksView').on('click', (e) => {
+        ToggleMarksView(true);
     });
 
     $('#printTableData').on('click', (e) => {
