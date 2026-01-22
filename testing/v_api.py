@@ -2,9 +2,10 @@ import datetime
 import json
 from django.http import JsonResponse
 from django.db.models import Sum, Q
+from django.contrib.contenttypes.models import ContentType
 from django.forms.models import model_to_dict
 from users.models import User
-from testing.models import Test, UserPlayerResult, ClubPlayerResult
+from testing.models import Test, UserPlayerResult, ClubPlayerResult, UserTestResultMarker
 from players.models import UserPlayer, ClubPlayer
 from nanofootball.views import util_check_access
 import nanofootball.utils as utils
@@ -136,6 +137,51 @@ def POST_edit_test_result_one(request, cur_user, cur_team):
     return JsonResponse({"success": status, 'stats': f"{all_players_saved} / {all_players}"}, status=200)
 
 
+def POST_edit_test_result_markers_one(request, cur_user, cur_team):
+    status = False
+    c_id = -1
+    c_parameters = {}
+    try:
+        c_id = int(request.POST.get("id", -1))
+    except:
+        pass
+    try:
+        c_parameters = json.loads(request.POST.get("parameters", ""))
+    except:
+        pass
+    if not util_check_access(cur_user, {
+        'perms_user': ["testing.change_test"], 
+        'perms_club': ["testing.change_test"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False, "status": "access_denied"}, status=400)
+    c_test_result = None
+    if request.user.club_id is not None:
+        c_test_result = ClubPlayerResult.objects.filter(id=c_id).first()
+    else:
+        c_test_result = UserPlayerResult.objects.filter(id=c_id).first()
+    if not c_test_result:
+        return JsonResponse({"err": "Cant find test result with this ID.", "success": False, "status": "bad_test_id"}, status=400)
+    c_test_result_marker = UserTestResultMarker.objects.filter(
+        content_type=ContentType.objects.get_for_model(c_test_result),
+        object_id=c_test_result.id,                                     
+        user=cur_user).first()
+    key, value = next(iter(c_parameters.items()))
+    if c_test_result_marker:
+        c_test_result_marker.values[key] = value
+    else:
+        c_test_result_marker = UserTestResultMarker(
+            content_type=ContentType.objects.get_for_model(c_test_result),
+            object_id=c_test_result.id, 
+            user=cur_user, values={key: value}
+        )
+    try:
+        c_test_result_marker.save()
+        status = True
+    except Exception as e:
+        pass
+    return JsonResponse({"success": status}, status=200)
+
+
 
 def GET_get_tests_all(request, cur_user, cur_team):
     """
@@ -224,7 +270,6 @@ def GET_get_players(request, cur_user, cur_team):
         'perms_club': ["players.view_clubplayer"]
     }):
         return JsonResponse({"err": "Access denied.", "success": False}, status=400)
-    
     players = None
     if request.user.club_id is not None:
         players = ClubPlayer.objects.filter(team=cur_team)
@@ -316,4 +361,48 @@ def GET_get_test_result_one(request, cur_user, cur_team):
         found_results = UserPlayerResult.objects.filter(test=found_test, player__team=cur_team, date=c_date)
     if found_results:
         res_exs = list(found_results.values())
+    return JsonResponse({"data": res_exs, "success": True}, status=200)
+
+
+def GET_get_test_results_markers(request, cur_user, cur_team):
+    """
+    Return JSON Response as result on GET operation "Get one test result markers".
+
+    :param request: Django HttpRequest.
+    :type request: [HttpRequest]
+    :param cur_user: The current user of the system, who is currently authorized.
+    :type cur_user: Model.object[User]
+    :return: JsonResponse with "data", "success" flag (True or False) and "status" (response code).
+    :rtype: JsonResponse[{"data": [obj], "success": [bool]}, status=[int]]
+
+    """
+    c_id = -1
+    try:
+        c_id = int(request.GET.get("id", -1))
+    except:
+        pass
+    if not util_check_access(cur_user, {
+        'perms_user': ["testing.view_test"], 
+        'perms_club': ["testing.view_test"]
+    }):
+        return JsonResponse({"err": "Access denied.", "success": False}, status=400)
+    found_test = Test.objects.filter(id=c_id, created_by=cur_user).first()
+    if not found_test:
+        return JsonResponse({"err": "Cant find test with current ID.", "success": False}, status=400)
+    res_exs = []
+    found_results = None
+    if request.user.club_id is not None:
+        found_results = ClubPlayerResult.objects.filter(test=found_test, player__team=cur_team).order_by('date')
+    else:
+        found_results = UserPlayerResult.objects.filter(test=found_test, player__team=cur_team).order_by('date')
+    if found_results and len(found_results) > 0:
+        content_type = ContentType.objects.get_for_model(found_results[0])
+        results_ids = list(found_results.values_list('id', flat=True))
+        found_markers = UserTestResultMarker.objects.filter(
+            content_type=content_type,
+            object_id__in=results_ids,                                     
+            user=cur_user
+        )
+        if found_markers:
+            res_exs = list(found_markers.values('object_id', 'values'))
     return JsonResponse({"data": res_exs, "success": True}, status=200)

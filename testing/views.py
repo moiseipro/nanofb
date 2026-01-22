@@ -63,6 +63,7 @@ def testing_api(request):
     if request.method == "POST" and is_ajax:
         edit_test_one_status = 0
         edit_test_result_one_status = 0
+        edit_test_result_markers_one_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -79,10 +80,16 @@ def testing_api(request):
             edit_test_result_one_status = int(request.POST.get("edit_test_result_one", 0))
         except:
             pass
+        try:
+            edit_test_result_markers_one_status = int(request.POST.get("edit_test_result_markers_one", 0))
+        except:
+            pass
         if edit_test_one_status == 1:
             return v_api.POST_edit_test_one(request, cur_user[0], cur_team)
         elif edit_test_result_one_status == 1:
             return v_api.POST_edit_test_result_one(request, cur_user[0], cur_team)
+        elif edit_test_result_markers_one_status == 1:
+            return v_api.POST_edit_test_result_markers_one(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     elif request.method == "GET" and is_ajax:
         get_all_tests_status = 0
@@ -90,6 +97,7 @@ def testing_api(request):
         get_players_status = 0
         get_all_tests_results_status = 0
         get_test_result_one_status = 0
+        get_test_results_markers_status = 0
         cur_user = User.objects.filter(email=request.user).only("id")
         cur_team = -1
         try:
@@ -118,6 +126,10 @@ def testing_api(request):
             get_test_result_one_status = int(request.GET.get("get_test_result_one", 0))
         except:
             pass
+        try:
+            get_test_results_markers_status = int(request.GET.get("get_test_results_markers", 0))
+        except:
+            pass
         if get_all_tests_status == 1:
             return v_api.GET_get_tests_all(request, cur_user[0], cur_team)
         elif get_test_one_status == 1:
@@ -128,6 +140,8 @@ def testing_api(request):
             return v_api.GET_get_all_tests_results(request, cur_user[0], cur_team)
         elif get_test_result_one_status == 1:
             return v_api.GET_get_test_result_one(request, cur_user[0], cur_team)
+        elif get_test_results_markers_status == 1:
+            return v_api.GET_get_test_results_markers(request, cur_user[0], cur_team)
         return JsonResponse({"errors": "access_error"}, status=400)
     else:
         return JsonResponse({"errors": "access_error"}, status=400)

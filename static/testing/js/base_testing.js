@@ -394,6 +394,8 @@ function RenderTestsResultsAll(data) {
                             }
                             $(foundRow).find(`td[data-key="${key}"][data-type="value"][data-date="${result.date}"]`).text(result.values[key]['value']);
                             $(foundRow).find(`td[data-key="${key}"][data-type="mark"][data-date="${result.date}"]`).text(result.values[key]['mark']);
+                            $(foundRow).find(`td[data-key="${key}"][data-type="value"][data-date="${result.date}"]`).attr('data-result', result.id);
+                            $(foundRow).find(`td[data-key="${key}"][data-type="mark"][data-date="${result.date}"]`).attr('data-result', result.id);
                         }
                     }
                 }
@@ -405,6 +407,7 @@ function RenderTestsResultsAll(data) {
                     }
                 }
                 RenderTable($('#tests_wrapper > table'), testsTableOptions);
+                LoadTestsResultsMarkers();
             })
             .catch(error => {console.error("Error:", error);});
         })
@@ -597,6 +600,93 @@ function ToggleMarksView(toSwitch=false) {
     localStorage.setItem("marks_view_status", activeMarks);
 }
 
+function EditTestResultMarkerOne(resultID, parameters) {
+    let dataSend = {'edit_test_result_markers_one': 1, 'id': resultID,
+        'parameters': JSON.stringify(parameters)};
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataSend,
+        type: 'POST', // GET или POST
+        dataType: 'json',
+        url: "/testing/testing_api",
+        success: function (res) {
+            if (res.success) {
+                LoadTestsResultsMarkers();
+            } else {
+                swal("Ошибка", "Не удалось создать / изменить / удалить маркер!", "error");
+            }
+        },
+        error: function (res) {
+            let status = "";
+            try {
+                status = res.responseJSON.status;
+            } catch (error) {}
+            let errorText = "";
+            if (status == "access_denied") {
+                errorText = "Нет доступа";
+            } else if (status == "bad_test_id") {
+                errorText = "Некорректный ИД теста";
+            }
+            swal("Ошибка", `Не удалось создать / изменить / удалить результат теста! (${errorText})`, "error");
+        },
+        complete: function (res) {
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function LoadTestsResultsMarkers() {
+    let cID = $('#testSelected').val();
+    let dataSend = {'get_test_results_markers': 1, 'id': cID};
+    let dataResponse = null;
+    $('.page-loader-wrapper').fadeIn();
+    $.ajax({
+        headers:{"X-CSRFToken": csrftoken},
+        data: dataSend,
+        type: 'GET', // GET или POST
+        dataType: 'json',
+        url: "/testing/testing_api",
+        success: function (res) {
+            if (res.success) {
+                dataResponse = res.data;
+            }
+        },
+        error: function (res) {},
+        complete: function (res) {
+            RenderTestsResultsMarkers(dataResponse);
+            $('.page-loader-wrapper').fadeOut();
+        }
+    });
+}
+
+function RenderTestsResultsMarkers(data) {
+    $('#tests_wrapper').find('td[data-date]').removeClass('marker--f_color marker--border');
+    if (data && Array.isArray(data) && data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+            let marker = data[i];
+            for (let key in marker.values) {
+                if (marker.values.hasOwnProperty(key)) {
+                    let mVal = marker.values[key];
+                    let foundCell = $('#tests_wrapper').find(`td[data-key="${mVal['key']}"][data-type="${mVal['type']}"][data-result="${marker['object_id']}"]`);
+                    if (mVal['f_color'] != '') {
+                        if (foundCell.length > 0) {
+                            $(foundCell).addClass('marker--f_color');
+                            $(foundCell).css('--f_color-value', mVal['f_color']);
+                        }
+                    }
+                    if (mVal['border'] != '') {
+                        if (foundCell.length > 0) {
+                            $(foundCell).addClass('marker--border');
+                            $(foundCell).css('--border-value', mVal['border']);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 $(function() {
@@ -721,6 +811,26 @@ $(function() {
     $('#toggleMarksView').on('click', (e) => {
         ToggleMarksView(true);
     });
+
+    $('#toggleMarkerModal').on('click', (e) => {
+        $('#testingMarkerModal').modal('show');
+    });
+    $('#tests_wrapper').on('contextmenu', 'td[data-date]', (e) => {
+        e.preventDefault();
+        let cID = $(e.currentTarget).attr('data-result');
+        let cKey = $(e.currentTarget).attr('data-key');
+        let cType = $(e.currentTarget).attr('data-type');
+        let currentMarker = {
+            'key': cKey,
+            'type': cType,
+            'f_color': $('#testingMarkerModal').find('input[name="f_color"]:checked').val(),
+            'border': $('#testingMarkerModal').find('input[name="border"]:checked').val(),
+        };
+        let paramKey = `${cKey}__${cType}`; let result = {};
+        result[paramKey] = currentMarker;
+        EditTestResultMarkerOne(cID, result);
+    });
+
 
     $('#printTableData').on('click', (e) => {
         let teamName = $('#select-team').find(`option[value="${$('#select-team').val()}"]`).text();

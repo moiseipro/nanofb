@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as _p
 from users.models import User
@@ -39,6 +41,11 @@ class AbstractPlayerResult(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = models.Manager()
+    markers = GenericRelation(
+        'UserTestResultMarker', 
+        content_type_field='content_type', 
+        object_id_field='object_id'
+    )
     class Meta:
         abstract = True
         ordering = ['date']
@@ -56,3 +63,22 @@ class ClubPlayerResult(AbstractPlayerResult):
     class Meta:
         unique_together = [['test', 'player', 'date']]
         abstract = False
+
+
+class UserTestResultMarker(models.Model):
+    content_type = models.ForeignKey(
+        ContentType, 
+        on_delete=models.CASCADE, 
+        verbose_name="Тип результата"
+    )
+    object_id = models.PositiveIntegerField(verbose_name="ID результата")
+    result = GenericForeignKey('content_type', 'object_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    values = models.JSONField(default=dict)
+
+    objects = models.Manager()
+    class Meta:
+        abstract = False
+        indexes = [
+            models.Index(fields=['content_type', 'object_id']),
+        ]

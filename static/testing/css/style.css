@@ -16,3 +16,11 @@ table.dataTable thead th.active {
 table.dataTable tfoot th {
     background-color: rgb(225, 225, 225) !important;
 }
+
+table.dataTable td.marker--f_color {
+    color: var(--f_color-value);
+    font-weight: bolder !important;
+}
+table.dataTable td.marker--border {
+    border: 3px solid var(--border-value) !important;
+}

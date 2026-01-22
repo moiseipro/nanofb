@@ -31,11 +31,14 @@
                                     <button type="button" class="btn btn-dark btn-sm mr-1" disabled="disabled">
                                         &nbsp;
                                     </button>
+                                    <button type="button" class="btn btn-info btn-sm mr-1 elem-flex-center" id="toggleMarkerModal" title="Маркер" style="max-width:32px;">
+                                        <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                                    </button>
                                     <button type="button" class="btn btn-info btn-sm mr-1 elem-flex-center" id="printTableData" title="Печать" style="max-width:32px;">
-                                        <i class="icon-custom icon--print" style="--i-w: 1.25em; --i-h: 1.25em;"></i>
+                                        <i class="fa fa-print" aria-hidden="true"></i>
                                     </button>
                                     <button type="button" class="btn btn-info btn-sm elem-flex-center" id="shareTableData" title="Поделиться" style="max-width:32px;">
-                                        <span class="icon-custom icon--share" style="--i-w: 1.25em; --i-h: 1.25em;"></span>
+                                        <i class="fa fa-share" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -105,6 +108,71 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-save">Сохранить</button>
                         <button type="submit" class="btn btn-danger btn-delete">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="testingMarkerModal" tabindex="-1" role="dialog" aria-labelledby="testingMarkerModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Настройка маркера</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                Цвет шрифта:
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_color" id="f_color1" value="" checked>
+                                    <label class="form-check-label" for="f_color1">нет</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_color" id="f_color3" value="#059900">
+                                    <label class="form-check-label" for="f_color3">зелёный</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="f_color" id="f_color5" value="#ca0000">
+                                    <label class="form-check-label" for="f_color5">красный</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-12">
+                                Граница / контур:
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="border" id="border1" value="" checked>
+                                    <label class="form-check-label" for="border1">нет</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="border" id="border3" value="#08ff004f">
+                                    <label class="form-check-label" for="border3">зелёный</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="border" id="border5" value="#ff00004f">
+                                    <label class="form-check-label" for="border5">красный</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h6>
+                            <span class="badge badge-danger">Внимание</span>
+                            <span>
+                                Настройки маркера сбрасываются после обновления страницы.
+                            </span>
+                        </h6>
+                        <h6>
+                            <span class="badge badge-danger">Внимание</span>
+                            <span>
+                                После выбора определенных опций нажмите правую кнопку мыши на ячейку, чтобы установить маркер.
+                            </span>
+                        </h6>
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </div>
